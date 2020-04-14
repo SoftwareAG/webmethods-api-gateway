@@ -8,7 +8,7 @@ API Gateway High Availability and Sizing
 
 API Gateway can be setup for high availability and there are multiple deployment options. 
 
-For versions <=10.4, **[Read on](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Handling+of+clear+text+passwords+in+external+components+of+API+Gateway)...**
+For versions <=10.4, **[Read on](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/API+Gateway+High+Availability+and+Sizing)...**
 
 For versions >= 10.5, **[Read on..](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/API%20Gateway%20High%20Availability%20and%20Sizing%20for%2010.5).**
 
