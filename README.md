@@ -1,11 +1,6 @@
 webMethods API Gateway
 ==============================================
 
-[TOC]
-
-About API Gateway
------------------
-
 webMethods API Gateway is the core run time component in [webMethods API Management platform](https://www.softwareag.com/corporate/products/api/default.html) and it enables organizations to secure, manage and monitor their API programs. It allows providers to securely expose APIs to external developers, partners, and other consumers.  API Gateway provides a dedicated, web-based user interface to perform all the administration and API related tasks such as creating APIs, defining and activating policies, creating applications, and consuming APIs. API Gateway gives you rich dashboard capabilities for API Analytics. 
 
 APIs created in API Gateway can also be published to API Portal for external facing developers’ consumption. 
@@ -69,7 +64,7 @@ API Gateway offers a wide range of capabilities. 
 
 ### Deployment and Architecture
 
-[**Read on**](https://iwiki.eur.ad.sag/display/RNDWMGDM/Topics+on+Deployment+and+Architecture) topics related to deployment and architecture topics such as high availability, sizing, deployment best practices, 
+[**Read on**](docs/articles/architecture) topics related to deployment and architecture topics such as high availability, sizing, deployment best practices, 
 
 ### Maintenance and Operations
 
