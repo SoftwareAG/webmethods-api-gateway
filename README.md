@@ -68,19 +68,19 @@ API Gateway offers a wide range of capabilities. 
 
 ### Maintenance and Operations
 
-**[Read on](https://iwiki.eur.ad.sag/display/RNDWMGDM/Topics+on+Maintenance+and+Operations)** topics related to maintenance, upgrade and operations.
+**[Read on](docs/articles/operations)** topics related to maintenance, upgrade and operations.
 
 ### Policies in API Gateway
 
-[**Read on**](https://iwiki.eur.ad.sag/display/RNDWMGDM/Topics+on+Policies+in+API+Gateway) topics related to different policies supported in API Gateway
+[**Read on**](docs/articles/policies) topics related to different policies supported in API Gateway
 
 ### Key features
 
-**[Read on](https://iwiki.eur.ad.sag/display/RNDWMGDM/Topics+on+key+features+in+API+Gateway)** topics related to key features such as Teams support, SOAP to REST etc
+**[Read on](docs/articles/features)** topics related to key features such as Teams support, SOAP to REST etc
 
 ### Troubleshooting & Diagnostics
 
-[**Read on**](https://iwiki.eur.ad.sag/pages/viewpage.action?pageId=651660921) topics related to troubleshooting, diagnostics etc 
+[**Read on**](docs/articles/diagnostics) topics related to troubleshooting, diagnostics etc 
 
 References
 ----------
