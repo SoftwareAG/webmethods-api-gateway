@@ -85,9 +85,7 @@ API Gateway offers a wide range of capabilities. 
 References
 ----------
 
-*   API Management Home 
-*   API Portal Home 
-*   Microgateway Home 
+*   [API Management Home](https://github.com/SoftwareAG/API-Management) 
 *   [DevOps Templates](https://github.com/SoftwareAG/sagdevops-templates) 
 *   [Product Documentation](https://docs.webmethods.io/) 
 *   [Tech community](http://techcommunity.softwareag.com/pwiki/-/wiki/tag/api-gateway) 
