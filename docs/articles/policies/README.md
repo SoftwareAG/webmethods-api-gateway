@@ -33,6 +33,15 @@ JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and s
 
 For 10.3 and above versions, **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Securing%20APIs%20using%20JSON%20Web%20Token%20in%20API%20Gateway)**
 
+Securing APIs using OpenID Connect in API Gateway
+------------------------------------------
+
+OpenID Connect is a simple identity layer on top of the OAuth 2.0 protocol. OpenID Connect protocol clearly separates the Identification and Authorization responsibilities. When using OpenID Connect's ID Tokens, the external authorization server just owns the responsibility of Identification to validate if the request comes from a valid user or not. Another system (in this case API Gateway) takes the responsibility of the Authorization part  - which APIs can be accessed for this ID token. This allows the API Gateway user, to define access permissions in only one place i.e in the API Gateway. These permissions can be modified in the API Gateway as and when needed without making any further updates in the Authorization server. 
+
+For 10.3 and above versions, **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Securing%20APIs%20using%20OpenID%20Connect%20in%20API%20Gateway%2010.3)**
+
+For 10.2 and below versions, [**Read on...**](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Securing%20APIs%20using%20OpenID%20Connect%20in%20API%20Gateway)
+
 Securing API using Kerberos at the Message Level
 ------------------------------------------------
 
