@@ -16,65 +16,147 @@
 #   limitations under the License.
 #
 ###############################################################################
-alias: sag-apigateway-server
-description: API Gateway Server provisioning and configuration
 
+##Template 
+alias: sag-apigateway-config
+description: External Elasticsearch, Kibana, Port, Clustering, Logging configuration update
 environments:
   default:
-    agw.YAI.license.key:               "*_YAIAA_10.*_*_*"                                  
-    agw.instance.name:                 apigateway                                                        
-    is.instance.type:                  integrationServer
-    agw.primary.port:                  5555                                                              
-    agw.diagnostic.port:               9999                                                                  
-    agw.jmx.port:                      5559
-    agw.memory.init:                   128                                                               
-    agw.memory.max:                    256                                                               
-    agw.install.service:               false
-    agw.fixes:                         ALL   
-
+    is.tenant:               apigateway
+    es.ssl.user:             ${}
+    es.ssl.password:         ${}
+    es.hostname:             ${}
+    es.port:                 9202
+    
+    kibana.host:             ${}
+    kibana.port:             8492
+    
+    port.name:               ${}
+    port.number:             ${}
+    port.type:               HTTPListener@${port.number}
+    port.description:        "http port on ${port.number}"
+    
+    cluster.name:            ${}
+    cluster.terracottaurl:   ${}
+    
+    logger.mode:             Debug
 layers:
   runtime:
-    productRepo: ${repo.product}
-    fixRepo:     ${repo.fix}
-    templates:   agw-server
+    templates:
+      - sag-apigateway-config
 
 templates:
-  agw-server:
-    licenses:
-      "IntegrationServer/config/APIGatewayLicenseKey.xml": ${agw.YAI.license.key} 
-    fixes: ${agw.fixes}
+  sag-apigateway-config:
     products:
-      YAI:
-      ${is.instance.type}:
-        ${agw.instance.name}: 
-          primary.port:    ${agw.primary.port}
-          diagnostic.port: ${agw.diagnostic.port}
-          jmx.port:        ${agw.jmx.port}
-          license.file:    IntegrationServer/config/APIGatewayLicenseKey.xml
-          install.service: ${agw.install.service}
-          package.list:    WmAPIGateway
+      integrationServer:
+        default:
           configuration:
-            OSGI-IS_${instance.name}:
-              COMMON-MEMORY:
-                COMMON-MEMORY:
-                  InitSize: ${agw.memory.init}
-                  MaxSize:  ${agw.memory.max}
-              COMMON-JVM-OPTIONS:                             
-                COMMON-JVM-OPTIONS:                          
-                    option: 
-                      - "-Xbootclasspath/a:\"%JAVA_BOOT_CLASSPATH%\""
-                      - "-server"
-                      - "-verbose:gc"
-                      - "-XX:+PrintGC"
-                      - "-XX:+PrintGCDetails"
-                      - "-XX:+PrintGCTimeStamps"
-                      - "-XX:+PrintTenuringDistribution"
-                      - "-XX:+PrintGCCause"
-                      - "-XX:+PrintAdaptiveSizePolicy"
-                      - "-XX:+UseGCLogFileRotation"
-                      - "-XX:NumberOfGCLogFiles=5"
-                      - "-XX:GCLogFileSize=10M"
-                      - "-Xloggc:%OSGI_INSTALL_AREA%/logs/gc_agw.log"             
+            OSGI-IS_apigateway-WmAPIGateway:
+              APIGATEWAY-ELASTICSEARCH:
+                APIGATEWAY-ELASTICSEARCH:
+                  '@alias': Elasticsearch
+                  autostart: 'false'
+                  tenantId: ${is.tenant}
+                  Auth:
+                    '@type': SSL
+                    User: ${es.ssl.user}
+                    Password: ${es.ssl.password}
+                  Transport:
+                    Host: ${es.hostname}
+                    Port: ${es.port}
+                  SSL:
+                    Enable: 'false'
+                    HostnameVerification: 'false'                    
+                  ExtendedProperties:
+                    Property:
+                      - '@name': clientHttpResponseSize
+                        $: '1024'
+                      - '@name': connectionTimeout
+                        $: '10000'
+                      - '@name': keepalive
+                        $: '10'
+                      - '@name': keepAliveConnectionsPerRoute
+                        $: '1000'
+                      - '@name': maxRetry
+                        $: '10000'
+                      - '@name': socketTimeout
+                        $: '10000'
+                      - '@name': sniffEnabled
+                        $: 'true'
+                      - '@name': sniffTimeInterval
+                        $: '5000'
+              APIGATEWAY-KIBANA:
+                APIGATEWAY-KIBANA:
+                  '@alias': Kibana
+                  autostart: 'false'
+                  Transport:
+                    Host: ${kibana.host}
+                    Port: ${kibana.port}
+              COMMON-PORTS:
+                COMMON_PORTS_httpPort:
+                  Port:
+                    '@primary': 'false'
+                    '@alias': ${port.name}
+                    Enabled: 'true'
+                    CustomType: ${port.type}
+                    Number: ${port.number}
+                    Protocol: HTTP
+                    Backlog: '200'
+                    KeepAliveTimeout: '20000'
+                    ThreadPool:
+                    ExtendedProperties:
+                      Property:
+                        - '@name': DIS_PORT
+                          $: ${port.number}
+                        - '@name': DIS_PORT_ALIAS
+                          $: ${port.name}
+                        - '@name': DIS_PROTOCOL
+                          $: HTTP
+                        - '@name': DIS_ENABLE
+                          $: 'true'
+                        - '@name': DIS_PRIMARY
+                          $: 'false'
+                        - '@name': UseJSSE
+                        - '@name': listenerType
+                          $: Regular
+                        - '@name': Type
+                          $: Regular
+                        - '@name': DIS_TYPE
+                          $: Regular
+                        - '@name': PortType
+                          $: HTTP
+                        - '@name': PortDescription
+                          $: ${port.description}
+                        - '@name': ClientAuth
+                          $: none
+                        - '@name': IdleTimeout
+                        - '@name': MaxConnections
+                        - '@name': ProxyHost
+                        - '@name': Username
+                        - '@name': Password
+                        - '@name': pkg
+                          $: WmRoot
+              COMMON-CLUSTER:
+                COMMON-CLUSTER:
+                  Enabled: 'true'
+                  Name: ${cluster.name}
+                  Servers:
+                    Server:
+                      URL: ${cluster.terracottaurl}
+                  ExtendedProperties:
+                    Property:
+                    - '@name': SessionTimeout
+                      $: '60'
+                    - '@name': ActionOnStartupError
+                      $: standalone          
+              COMMON-LOGGERS:
+                COMMON_LOGGERS_apigatewayLogger:
+                  Logger:
+                    '@alias': apigatewayLogger
+                    Name: API Gateway
+                    Mode: ${logger.mode}
+                    Destination: API Gateway UI and server logs.      
+                      
 provision:
   default:
     runtime: ${nodes}

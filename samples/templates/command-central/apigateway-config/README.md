@@ -15,59 +15,43 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
+# API Gateway server configuration
 
-# API Gateway server
-
-Use this template to provision and maintain API Gateway server.
+Use this template to configure API Gateway instance with external Elasticsearch, Kibana, Ports, Clustering and Logging configuration.
 
 ## Requirements and limitations
 
-There should not be any other packages installed on the Integration Server or Microservices Runtime instance where API Gateway is running.
- 
-This template provisions Internal Data Store. You must prepare your environment for Internal Data Store installation by completing the required steps, provided in the [Installing Software AG Products](https://documentation.softwareag.com/webmethods/wmsuites/wmsuite10-3/SysReqs_Installation_and_Upgrade/compendium/index.html#page/install-upgrade-webhelp%2Fto-prepare_machines_10.html%23wwconnect_header) 
-help on Empower. 
+This template configures a single API Gateway server instance along with its other components. Before running this template, you should provision the required API Gateway instance. To provision an API Gateway server, you can use the [sag-apigateway-server](apigateway-server/) template. To provision an API Gateway cluster, you can use the [sag-apigateway-cluster](apigateway-cluster/) template.
 
 ### Supported Software AG releases
 
-* Command Central 10.3 and higher
-* API Gateway with Integration Server 10.1 and higher
-* API Gateway with Microservices Runtime 10.1 to 10.3
-> NOTE: This template is not supported for Microservices Runtime version 10.4.
+* Command Central 10.5 and higher
+* API Gateway with Integration Server 10.5 and higher
 
 ### Supported platforms
 
 All supported Windows and UNIX platforms.
 
 ### Supported use cases
-
-* Provisioning a new Integration Server or Microservices Runtime instance with API Gateway 10.1 and higher
-* Installing latest fixes
 * Configuration of:
-  * License
-  * JVM memory
-  * Primary, diagnostics, and JMX ports for Integration Server or Microservices Runtime
-
-## Using the template to provisioning a new API Gateway server instance
+  * External elastic search
+  * Kibana
+  * HTTP port
+  * Cluster
+  * Logging
+  
+### Using the template to configure an existing API Gateway instance
 
 For information about applying templates, see [Applying template using Command Central CLI](https://github.com/SoftwareAG/sagdevops-templates/wiki/Using-default-templates#applying-template-using-command-central-cli).
 
-To provision a new Integration Server instance named "apigateway" with API Gateway 10.3 and all latest fixes:
-
+To apply configurations to the API Gateway 10.5 instance installed on the `local` node:
 ```bash
-sagcc exec templates composite apply sag-apigateway-server nodes=node \
-  agw.memory.max=512 \
-  repo.product=products-10.3 \
-  repo.fix=fixes-10.3 \
-  --sync-job --wait 360
-```
-
-To provision a new Microservices Runtime instance named "apigateway" with API Gateway 10.3 and all latest fixes:
-
-```bash
-
-sagcc exec templates composite apply sag-apigateway-server nodes=node \
-  is.instance.type=MSC \
-  repo.product=products-10.3 \
-  repo.fix=fixes-10.3 \
+sagcc exec templates composite apply sag-apigateway-config nodes=local \
+  is.tenant=apigateway \
+  es.ssl.user=admin es.ssl.password=admin es.hostname=daeyaimig102 es.port=9202 \
+  kibana.host=vmyaibvt092 kibana.port=8492 \
+  port.name="httpPort2" port.type=HTTPListener@6792 port.number=6792 port.description="Http Port on 6792" \
+  cluster.name="APIGateway Cluster" cluster.terracottaurl=daeirnd33902:9612 \
+  logger.mode=Debug \
   --sync-job --wait 360
 ```
