@@ -15,7 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-# API Gateway server configuration
+# API Gateway configuration
 
 Use this template to configure API Gateway instance with external Elasticsearch, Kibana, Ports, Clustering and Logging configuration.
 
