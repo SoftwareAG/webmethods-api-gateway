@@ -1,0 +1,80 @@
+###############################################################################
+# Copyright (c) 2011-2019 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+###############################################################################
+alias: sag-apigateway-server
+description: API Gateway Server provisioning and configuration
+
+environments:
+  default:
+    agw.YAI.license.key:               "*_YAIAA_10.*_*_*"                                  
+    agw.instance.name:                 apigateway                                                        
+    is.instance.type:                  integrationServer
+    agw.primary.port:                  5555                                                              
+    agw.diagnostic.port:               9999                                                                  
+    agw.jmx.port:                      5559
+    agw.memory.init:                   128                                                               
+    agw.memory.max:                    256                                                               
+    agw.install.service:               false
+    agw.fixes:                         ALL   
+
+layers:
+  runtime:
+    productRepo: ${repo.product}
+    fixRepo:     ${repo.fix}
+    templates:   agw-server
+
+templates:
+  agw-server:
+    licenses:
+      "IntegrationServer/config/APIGatewayLicenseKey.xml": ${agw.YAI.license.key} 
+    fixes: ${agw.fixes}
+    products:
+      YAI:
+      ${is.instance.type}:
+        ${agw.instance.name}: 
+          primary.port:    ${agw.primary.port}
+          diagnostic.port: ${agw.diagnostic.port}
+          jmx.port:        ${agw.jmx.port}
+          license.file:    IntegrationServer/config/APIGatewayLicenseKey.xml
+          install.service: ${agw.install.service}
+          package.list:    WmAPIGateway
+          configuration:
+            OSGI-IS_${instance.name}:
+              COMMON-MEMORY:
+                COMMON-MEMORY:
+                  InitSize: ${agw.memory.init}
+                  MaxSize:  ${agw.memory.max}
+              COMMON-JVM-OPTIONS:                             
+                COMMON-JVM-OPTIONS:                          
+                    option: 
+                      - "-Xbootclasspath/a:\"%JAVA_BOOT_CLASSPATH%\""
+                      - "-server"
+                      - "-verbose:gc"
+                      - "-XX:+PrintGC"
+                      - "-XX:+PrintGCDetails"
+                      - "-XX:+PrintGCTimeStamps"
+                      - "-XX:+PrintTenuringDistribution"
+                      - "-XX:+PrintGCCause"
+                      - "-XX:+PrintAdaptiveSizePolicy"
+                      - "-XX:+UseGCLogFileRotation"
+                      - "-XX:NumberOfGCLogFiles=5"
+                      - "-XX:GCLogFileSize=10M"
+                      - "-Xloggc:%OSGI_INSTALL_AREA%/logs/gc_agw.log"             
+provision:
+  default:
+    runtime: ${nodes}

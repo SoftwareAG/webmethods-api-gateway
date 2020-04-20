@@ -1,0 +1,79 @@
+alias: sag-apigateway-cluster
+description: API Gateway provisioning and cluster configuration
+
+environments:
+  default:
+    release.major:                     10                                                   
+    os.platform:                       lnxamd64   
+    is.instance.type:                  integrationServer           # IS instance type: integrationServer (for all versions) or MSC (for 10.3 and lower)
+    agw.key.license:                   "*_YAIAA_10.*_*_*"      
+    tsa.key.license:                   "*Terracotta.key"
+    agw.tsa.url:                       "dev1:9010"
+    agw.instance.name:                 apigateway                             
+    agw.primary.port:                  5555                             
+    agw.diagnostic.port:               9999                             
+    agw.jmx.port:                      5559                             
+    agw.memory.init:                   128                             
+    agw.memory.max:                    256                             
+    agw.install.service:               false
+    agw.fixes:                         ALL 
+
+layers:
+  runtime:
+    productRepo: ${repo.product}
+    fixRepo:     ${repo.fix}
+    templates:   agw-cluster
+
+templates:
+  agw-cluster:
+    licenses:
+      "IntegrationServer/config/APIGatewayLicenseKey.xml": ${agw.key.license} 
+      "common/conf/terracotta-license.key": ${tsa.key.license} 
+    fixes: ${agw.fixes}
+    products:
+      YAI:
+      ${is.instance.type}:
+        ${agw.instance.name}: 
+          primary.port:    ${agw.primary.port}
+          diagnostic.port: ${agw.diagnostic.port}
+          jmx.port:        ${agw.jmx.port}
+          license.file:    IntegrationServer/config/APIGatewayLicenseKey.xml
+          install.service: ${agw.install.service}
+          package.list:    WmAPIGateway
+          configuration:
+            OSGI-IS_${instance.name}:
+              COMMON-MEMORY:
+                COMMON-MEMORY:
+                  InitSize: ${agw.memory.init}
+                  MaxSize:  ${agw.memory.max}
+              COMMON-JVM-OPTIONS:                             
+                COMMON-JVM-OPTIONS:                          
+                    option: 
+                      - "-Xbootclasspath/a:\"%JAVA_BOOT_CLASSPATH%\""
+                      - "-server"
+                      - "-verbose:gc"
+                      - "-XX:+PrintGC"
+                      - "-XX:+PrintGCDetails"
+                      - "-XX:+PrintGCTimeStamps"
+                      - "-XX:+PrintTenuringDistribution"
+                      - "-XX:+PrintGCCause"
+                      - "-XX:+PrintAdaptiveSizePolicy"
+                      - "-XX:+UseGCLogFileRotation"
+                      - "-XX:NumberOfGCLogFiles=5"
+                      - "-XX:GCLogFileSize=10M"
+                      - "-Xloggc:%OSGI_INSTALL_AREA%/logs/gc_agw.log"
+              COMMON-JAVASYSPROPS:
+                COMMON-JAVASYSPROPS: |
+                  test.cluster.withDerby=true
+            integrationServer-${instance.name}:              
+              COMMON-CLUSTER:
+                COMMON-CLUSTER:
+                  Name: APIGatewayTSAcluster
+                  Enabled: true
+                  Servers:
+                    Server: 
+                      - 
+                       URL: ${agw.tsa.url}  
+provision:
+  default:
+    runtime: ${nodes}
