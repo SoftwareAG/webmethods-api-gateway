@@ -1951,6 +1951,184 @@
 					"_postman_isSubFolder": true
 				},
 				{
+					"name": "Custom Extension",
+					"item": [
+						{
+							"name": "Create External Callout Policy Action",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"policyAction\": {\n        \"names\": [\n            {\n                \"value\": \"Custom Extension\",\n                \"locale\": \"en\"\n            }\n        ],\n\t\t\"templateKey\": \"customPolicy\",\n\t\t\"parameters\": [\n\t\t\t{\n\t\t\t\t\"templateKey\": \"customExtensionType\",\n\t\t\t\t\"values\": [\n\t\t\t\t\t\"externalCallout\"\n\t\t\t\t]\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"templateKey\": \"externalEndpoint\",\n\t\t\t\t\"parameters\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"endpointUri\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\"${EndpointAlias}/rest/service/jsonTransformation/{pathParam}\"\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"externalEndpointMethod\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\"CUSTOM\"\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"endpointSSLConfig\",\n\t\t\t\t\t\t\"parameters\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"keyStoreAlias\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"DEFAULT_IS_KEYSTORE\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"keyAlias\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"ssos\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"truststoreAlias\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"DEFAULT_IS_TRUSTSTORE\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"connectTimeout\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\"30\"\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"readTimeout\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\"30\"\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"mashupPathParamTransformation\",\n\t\t\t\t\t\t\"parameters\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"mashupPathParams\",\n\t\t\t\t\t\t\t\t\"parameters\": [\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\"templateKey\": \"mashupPathParamName\",\n\t\t\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\t\t\"pathParam\"\n\t\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\"templateKey\": \"mashupPathParamValue\",\n\t\t\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\t\t\"pathValue\"\n\t\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"templateKey\": \"customExtensionRequestProcessing\",\n\t\t\t\t\"parameters\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"requestPayload\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\"${request.payload}\"\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"templateKey\": \"mashupHeaderTransformation\",\n\t\t\t\t\"parameters\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"useIncomingHeaders\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\ttrue\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"customHeaders\",\n\t\t\t\t\t\t\"parameters\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"headerName\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"Accept\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"headerValue\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"application/json\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"templateKey\": \"mashupQueryParamsTransformation\",\n\t\t\t\t\"parameters\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"mashupQueryParams\",\n\t\t\t\t\t\t\"parameters\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"mashupQueryParamName\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"queryParam\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"mashupQueryParamValue\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"queryValue\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"templateKey\": \"customExtensionResponseProcessing\",\n\t\t\t\t\"parameters\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"copyEntireResponse\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\ttrue\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"abortInCaseOfFailure\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\ttrue\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t]\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/policyActions",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"policyActions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create webMethods IS Service Policy Action",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"policyAction\": {\n        \"names\": [\n            {\n                \"value\": \"Custom Extension\",\n                \"locale\": \"en\"\n            }\n        ],\n        \"templateKey\": \"customPolicy\",\n        \"parameters\": [\n            {\n                \"templateKey\": \"customExtensionType\",\n                \"values\": [\n                    \"invokeESB\"\n                ]\n            },\n            {\n                \"templateKey\": \"esbServices\",\n                \"parameters\": [\n                    {\n                        \"templateKey\": \"esbAlias\",\n                        \"values\": [\n                            \"WmAPIGatewayESB\"\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/policyActions",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"policyActions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create AWS Lambda Policy Action",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"policyAction\": {\n        \"names\": [\n            {\n                \"value\": \"Custom Extension\",\n                \"locale\": \"en\"\n            }\n        ],\n\t\t\"templateKey\": \"customPolicy\",\n\t\t\"parameters\": [\n\t\t\t{\n\t\t\t\t\"templateKey\": \"customExtensionType\",\n\t\t\t\t\"values\": [\n\t\t\t\t\t\"awsLambda\"\n\t\t\t\t]\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"templateKey\": \"customExtensionRequestProcessing\",\n\t\t\t\t\"parameters\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"requestPayload\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\"${request.payload}\"\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"templateKey\": \"mashupHeaderTransformation\",\n\t\t\t\t\"parameters\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"useIncomingHeaders\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\ttrue\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"customHeaders\",\n\t\t\t\t\t\t\"parameters\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"headerName\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"Content-type\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"headerValue\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"application/json\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"templateKey\": \"mashupQueryParamsTransformation\",\n\t\t\t\t\"parameters\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"mashupQueryParams\",\n\t\t\t\t\t\t\"parameters\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"mashupQueryParamName\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"queryParam\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"mashupQueryParamValue\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"queryValue\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"templateKey\": \"customExtensionResponseProcessing\",\n\t\t\t\t\"parameters\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"copyEntireResponse\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\ttrue\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"abortInCaseOfFailure\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\ttrue\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"responsePayloadMap\",\n\t\t\t\t\t\t\"parameters\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"responseFromCustomPolicyExpression\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"${request.headers.APIKey}\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"targetPayloadExpression\",\n\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\"${response.payload.apiKey}\"\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"templateKey\": \"awsLambda\",\n\t\t\t\t\"parameters\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"functionName\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\"JsonTransformation\"\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"invocationType\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\"RequestResponse\"\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"awsAlias\",\n\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\"${NECROLAX}\"\n\t\t\t\t\t\t]\n\t\t\t\t\t},\n\t\t\t\t\t{\n\t\t\t\t\t\t\"templateKey\": \"awsClientConfig\",\n\t\t\t\t\t\t\"parameters\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"clientConfiguration\",\n\t\t\t\t\t\t\t\t\"parameters\": [\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\"templateKey\": \"awsClientConfigName\",\n\t\t\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\t\t\"connectionTimeout\"\n\t\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\"templateKey\": \"awsClientConfigValue\",\n\t\t\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\t\t\"3000\"\n\t\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"templateKey\": \"clientConfiguration\",\n\t\t\t\t\t\t\t\t\"parameters\": [\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\"templateKey\": \"awsClientConfigName\",\n\t\t\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\t\t\"requestTimeout\"\n\t\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\t\"templateKey\": \"awsClientConfigValue\",\n\t\t\t\t\t\t\t\t\t\t\"values\": [\n\t\t\t\t\t\t\t\t\t\t\t\"3000\"\n\t\t\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t]\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t]\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/policyActions",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"policyActions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Messaging Policy Action",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"policyAction\": {\n        \"names\": [\n            {\n                \"value\": \"Custom Extension\",\n                \"locale\": \"en\"\n            }\n        ],\n        \"templateKey\": \"customPolicy\",\n        \"parameters\": [\n            {\n                \"templateKey\": \"customExtensionType\",\n                \"values\": [\n                    \"messaging\"\n                ]\n            },\n            {\n                \"templateKey\": \"customExtensionRequestProcessing\",\n                \"parameters\": [\n                    {\n                        \"templateKey\": \"requestPayload\",\n                        \"values\": [\n                            \"{\\n\\\"echoAMQP\\\" : ${request.payload}\\n}\"\n                        ]\n                    }\n                ]\n            },\n            {\n                \"templateKey\": \"mashupHeaderTransformation\",\n                \"parameters\": [\n                    {\n                        \"templateKey\": \"useIncomingHeaders\",\n                        \"values\": [\n                            \"false\"\n                        ]\n                    }\n                ]\n            },\n            {\n                \"templateKey\": \"customExtensionResponseProcessing\",\n                \"parameters\": [\n                    {\n                        \"templateKey\": \"copyEntireResponse\",\n                        \"values\": [\n                            \"true\"\n                        ]\n                    },\n                    {\n                        \"templateKey\": \"abortInCaseOfFailure\",\n                        \"values\": [\n                            \"true\"\n                        ]\n                    },\n                    {\n                        \"templateKey\": \"mashupHeaderTransformation\",\n                        \"parameters\": [\n                            {\n                                \"templateKey\": \"useIncomingHeaders\",\n                                \"values\": [\n                                    \"false\"\n                                ]\n                            }\n                        ]\n                    }\n                ]\n            },\n            {\n                \"templateKey\": \"messaging\",\n                \"parameters\": [\n                    {\n                        \"templateKey\": \"connectionAlias\",\n                        \"values\": [\n                            \"AMQP_CON\"\n                        ]\n                    },\n                    {\n                        \"templateKey\": \"destinationQueueOrTopicName\",\n                        \"values\": [\n                            \"amqpCPQueue\"\n                        ]\n                    },\n                    {\n                        \"templateKey\": \"destinationQueueOrTopicType\",\n                        \"values\": [\n                            \"QUEUE\"\n                        ]\n                    },\n                    {\n                        \"templateKey\": \"replyToQueueOrTopicName\",\n                        \"values\": [\n                            \"amqpCPReplyQueue\"\n                        ]\n                    },\n                    {\n                        \"templateKey\": \"replyToQueueOrTopicType\",\n                        \"values\": [\n                            \"QUEUE\"\n                        ]\n                    },\n                    {\n                        \"templateKey\": \"timeToLive\",\n                        \"values\": [\n                            \"20000\"\n                        ]\n                    },\n                    {\n                        \"templateKey\": \"timeToWait\",\n                        \"values\": [\n                            \"30000\"\n                        ]\n                    },\n                    {\n                        \"templateKey\": \"deliveryMode\",\n                        \"values\": [\n                            \"NON_PERSISTENT\"\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/policyActions",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"policyActions"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Custom Extension:\n\nTo know more about Custom Extension please refer below techcommunity article.\n\nTECHCommunity Article:\nhttp://techcommunity.softwareag.com/pwiki/-/wiki/Main/Custom%20Extension%20policy%20in%20API%20Gateway\n\nCustom Extension is supported in 5 stages of API Invoke flow. They are\n\n1. Identify & Access - IAM\n2. Request Processing - requestPayloadProcessing\n3. Routing - routing\n4. Response Processing - responseProcessing\n5. Error Handling - responseFaultProcessing",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "6763e619-b0f0-4d5f-94b7-122d1ddd04a1",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "834848ac-b748-49df-b1ce-8f13e35a4e4c",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "Get PolicyAction by PolicyAction ID",
 					"request": {
 						"method": "GET",
@@ -2020,7 +2198,7 @@
 							"variable": [
 								{
 									"key": "policyActionId",
-									"value": "2d188d78-7ea5-49df-9a55-fe5da527cbdf"
+									"value": "a1c8b26a-2fd1-4877-980d-3dd1c2c9caab"
 								}
 							]
 						}
@@ -3515,7 +3693,7 @@
 	],
 	"variable": [
 		{
-			"id": "ed51c10f-c89c-4274-955e-32dd3e2024d6",
+			"id": "6dda0829-95d3-49ab-883b-20bf647dca6e",
 			"key": "baseURL",
 			"value": "http://localhost:5555/rest/apigateway",
 			"type": "string"
