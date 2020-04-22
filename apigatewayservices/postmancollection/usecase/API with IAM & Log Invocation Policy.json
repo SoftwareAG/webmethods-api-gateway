@@ -1,7 +1,8 @@
 {
 	"info": {
-		"_postman_id": "18434e61-cf95-42a4-a02c-b8af608a2dc8",
+		"_postman_id": "46ad81cb-4b1d-4212-8a92-1c4562e412d8",
 		"name": "API with IAM & Log Invocation Policy",
+		"description": "Explanation:\r\n\r\nThis postman collection contains API Gateway REST service to create an API with IAM and LMT policy and application associated with it.\r\n\r\nStep 1:\r\nCreate API using file\r\n\r\nStep 2:\r\nCreate IAM Policy Action\r\n\r\nStep 3:\r\nCreate Log Invocation LMT Policy Action\r\n\r\nStep 4:\r\nGet Policy details by policyID\r\n\r\nStep 5:\r\nAssociate the created policy action with it\r\n\r\nStep 6:\r\nCreate Application with username identifier\r\n\r\nStep 7:\r\nAssociate created application with API\r\n\r\nStep 8:\r\nActivate the API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -46,9 +47,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/apis",
+					"raw": "{{baseURL}}/apis",
 					"host": [
-						"{{baseUrl}}"
+						"{{baseURL}}"
 					],
 					"path": [
 						"apis"
@@ -97,9 +98,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/policyActions",
+					"raw": "{{baseURL}}/policyActions",
 					"host": [
-						"{{baseUrl}}"
+						"{{baseURL}}"
 					],
 					"path": [
 						"policyActions"
@@ -148,9 +149,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/policyActions",
+					"raw": "{{baseURL}}/policyActions",
 					"host": [
-						"{{baseUrl}}"
+						"{{baseURL}}"
 					],
 					"path": [
 						"policyActions"
@@ -197,9 +198,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{baseUrl}}/policies/{{policyID}}",
+					"raw": "{{baseURL}}/policies/{{policyID}}",
 					"host": [
-						"{{baseUrl}}"
+						"{{baseURL}}"
 					],
 					"path": [
 						"policies",
@@ -236,9 +237,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/policies/{{policyID}}",
+					"raw": "{{baseURL}}/policies/{{policyID}}",
 					"host": [
-						"{{baseUrl}}"
+						"{{baseURL}}"
 					],
 					"path": [
 						"policies",
@@ -288,9 +289,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/applications",
+					"raw": "{{baseURL}}/applications",
 					"host": [
-						"{{baseUrl}}"
+						"{{baseURL}}"
 					],
 					"path": [
 						"applications"
@@ -326,9 +327,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/applications/{{applicationID}}/apis",
+					"raw": "{{baseURL}}/applications/{{applicationID}}/apis",
 					"host": [
-						"{{baseUrl}}"
+						"{{baseURL}}"
 					],
 					"path": [
 						"applications",
@@ -366,9 +367,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/apis/{{apiID}}/activate",
+					"raw": "{{baseURL}}/apis/{{apiID}}/activate",
 					"host": [
-						"{{baseUrl}}"
+						"{{baseURL}}"
 					],
 					"path": [
 						"apis",
@@ -395,10 +396,32 @@
 			}
 		]
 	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "8da739b2-c4da-47a8-90c5-a803018fcf24",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3da8a862-4ee1-48e3-af72-6932d8c6738d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
-			"id": "793a19f6-9bfb-4113-9780-a1262b930d6b",
-			"key": "baseUrl",
+			"id": "fbd2301c-c91c-4aec-bbcf-8ecb5ffc950f",
+			"key": "baseURL",
 			"value": "http://localhost:5555/rest/apigateway",
 			"type": "string"
 		}
