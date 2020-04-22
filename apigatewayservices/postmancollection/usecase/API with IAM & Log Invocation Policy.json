@@ -1,0 +1,407 @@
+{
+	"info": {
+		"_postman_id": "18434e61-cf95-42a4-a02c-b8af608a2dc8",
+		"name": "API with IAM & Log Invocation Policy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create API from URL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "858e32ce-f350-4025-b25a-bab6b15e03d2",
+						"exec": [
+							"let apiResponse=JSON.parse(responseBody);",
+							"pm.environment.set(\"apiID\", apiResponse.apiResponse.api.id);",
+							"pm.environment.set(\"policyID\", apiResponse.apiResponse.api.policies[0]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"apiVersion\": \"1.0\",\r\n    \"type\": \"swagger\",\r\n    \"url\": \"http://petstore.swagger.io/v2/swagger.json\",\r\n    \"apiName\": \"API_with_IAM_LMT_Policy\",\r\n    \"apiDescription\": \"Petstore API with IAM basic authentication policy and Log Invocation Traffic Monitoring Policy\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/apis",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"apis"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create IAM Policy Action",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6e33a367-5d15-43a5-ad57-d6bae7c1b4df",
+						"exec": [
+							"let policyActionResponse=JSON.parse(responseBody);",
+							"pm.environment.set(\"iamPolicyActionID\", policyActionResponse.policyAction.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"policyAction\": {\r\n        \"names\": [\r\n            {\r\n                \"value\": \"Identify & Authorize Application\",\r\n                \"locale\": \"en\"\r\n            }\r\n        ],\r\n        \"templateKey\": \"evaluatePolicy\",\r\n        \"parameters\": [\r\n            {\r\n                \"templateKey\": \"logicalConnector\",\r\n                \"values\": [\r\n                    \"OR\"\r\n                ]\r\n            },\r\n            {\r\n                \"templateKey\": \"allowAnonymous\",\r\n                \"values\": [\r\n                    \"false\"\r\n                ]\r\n            },\r\n            {\r\n                \"templateKey\": \"IdentificationRule\",\r\n                \"parameters\": [\r\n                    {\r\n                        \"templateKey\": \"identificationType\",\r\n                        \"values\": [\r\n                            \"apiKey\"\r\n                        ]\r\n                    }\r\n                ]\r\n            }\r\n        ],\r\n        \"active\": \"false\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/policyActions",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"policyActions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Log Invocation Policy Action",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e4eb9229-e026-4e22-a4e5-a9cd9341dde4",
+						"exec": [
+							"let policyActionResponse=JSON.parse(responseBody);",
+							"pm.environment.set(\"logInvocationPolicyActionID\", policyActionResponse.policyAction.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"policyAction\": {\r\n        \"names\": [\r\n            {\r\n                \"value\": \"Log Invocation\",\r\n                \"locale\": \"en\"\r\n            }\r\n        ],\r\n        \"templateKey\": \"logInvocation\",\r\n        \"parameters\": [\r\n            {\r\n                \"templateKey\": \"storeRequestPayload\",\r\n                \"values\": [\r\n                    \"true\"\r\n                ]\r\n            },\r\n            {\r\n                \"templateKey\": \"storeResponsePayload\",\r\n                \"values\": [\r\n                    \"true\"\r\n                ]\r\n            },\r\n            {\r\n                \"templateKey\": \"storeAsZip\",\r\n                \"values\": [\r\n                    \"false\"\r\n                ]\r\n            },\r\n            {\r\n                \"templateKey\": \"logGenerationFrequency\",\r\n                \"values\": [\r\n                    \"Always\"\r\n                ]\r\n            },\r\n            {\r\n                \"templateKey\": \"destination\",\r\n                \"parameters\": [\r\n                    {\r\n                        \"templateKey\": \"destinationType\",\r\n                        \"values\": [\r\n                            \"GATEWAY\"\r\n                        ]\r\n                    }\r\n                ]\r\n            }\r\n        ],\r\n        \"active\": false\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/policyActions",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"policyActions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Policy by PolicyID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c655eb60-16ab-43c2-9876-ec888a5bb262",
+						"exec": [
+							"let policyResponse=JSON.parse(responseBody);",
+							"pm.environment.set()",
+							"pm.environment.set(\"policyName\",\"\"+policyResponse.policy.names[0].value);",
+							"pm.environment.set(\"policyDescription\",policyResponse.policy.descriptions[0].value);",
+							"    ",
+							"let policyEnforcements=policyResponse.policy.policyEnforcements;",
+							"for(var i=0;i<policyEnforcements.length;i++){",
+							"    if(policyEnforcements[i].stageKey==\"routing\"){",
+							"        pm.environment.set(\"routingPolicyActionID\",policyEnforcements[i].enforcements[0].enforcementObjectId);",
+							"    }",
+							"    if(policyEnforcements[i].stageKey==\"transport\"){",
+							"        pm.environment.set(\"transportPolicyActionID\",policyEnforcements[i].enforcements[0].enforcementObjectId);",
+							"    }",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/policies/{{policyID}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"policies",
+						"{{policyID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate created Policy Actions with API Policy",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"policy\": {\r\n        \"names\": [\r\n            {\r\n                \"value\": \"{{policyName}}\",\r\n                \"locale\": \"English\"\r\n            }\r\n        ],\r\n        \"descriptions\": [\r\n            {\r\n                \"value\": \"{{policyDescription}}\",\r\n                \"locale\": \"English\"\r\n            }\r\n        ],\r\n        \"scope\": {\r\n            \"scopeConditions\": []\r\n        },\r\n        \"policyEnforcements\": [\r\n            {\r\n                \"enforcements\": [\r\n                    {\r\n                        \"enforcementObjectId\": \"{{routingPolicyActionID}}\",\r\n                        \"order\": null\r\n                    }\r\n                ],\r\n                \"stageKey\": \"routing\"\r\n            },\r\n            {\r\n                \"enforcements\": [\r\n                    {\r\n                        \"enforcementObjectId\": \"{{transportPolicyActionID}}\",\r\n                        \"order\": null\r\n                    }\r\n                ],\r\n                \"stageKey\": \"transport\"\r\n            },\r\n            {\r\n                \"enforcements\": [\r\n                    {\r\n                        \"enforcementObjectId\": \"{{iamPolicyActionID}}\",\r\n                        \"order\": null\r\n                    }\r\n                ],\r\n                \"stageKey\": \"IAM\"\r\n            },\r\n            {\r\n                \"enforcements\": [\r\n                    {\r\n                        \"enforcementObjectId\": \"{{logInvocationPolicyActionID}}\",\r\n                        \"order\": null\r\n                    }\r\n                ],\r\n                \"stageKey\": \"LMT\"\r\n            }\r\n        ],\r\n        \"policyScope\": \"SERVICE\",\r\n        \"global\": false,\r\n        \"active\": false,\r\n        \"systemPolicy\": false\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/policies/{{policyID}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"policies",
+						"{{policyID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Application with Username Identifier",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ccfa3924-1902-457c-988f-402da1142efc",
+						"exec": [
+							"let applicatonResponse=JSON.parse(responseBody);",
+							"pm.environment.set(\"applicationID\", applicatonResponse.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"API Key Application\",\r\n    \"description\": \"This application contains Username identifier\",\r\n    \"version\": \"1.0\",\r\n    \"contactEmails\": [],\r\n    \"siteURLs\": [],\r\n    \"identifiers\": [\r\n        {\r\n            \"value\": [\r\n                \"Administrator\"\r\n            ],\r\n            \"name\": \"Username\",\r\n            \"key\": \"httpBasicAuth\"\r\n        }\r\n    ],\r\n    \"consumingAPIs\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/applications",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"applications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Associate Application with API",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"apiIDs\": [\r\n        \"{{apiID}}\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/applications/{{applicationID}}/apis",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"applications",
+						"{{applicationID}}",
+						"apis"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activate API",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/apis/{{apiID}}/activate",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"apis",
+						"{{apiID}}",
+						"activate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "manage",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Administrator",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"id": "793a19f6-9bfb-4113-9780-a1262b930d6b",
+			"key": "baseUrl",
+			"value": "http://localhost:5555/rest/apigateway",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

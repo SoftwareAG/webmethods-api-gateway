@@ -1,0 +1,1378 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API Gateway Application Management Service allows you to manage the Applications in API Gateway. Any user with the 'Manage applications' functional privilege can manage the APIs in the API Gateway. By default, the users who are part of either API-Gateway-Providers or API-Gateway-Administrators groups will have this privilege.\n\n An application defines the precise identifiers by which messages from a particular consumer application is recognized at run time. The identifiers can be, for example, user name in HTTP headers, a range of IP addresses, such that API Gateway can identify or authenticate the consumers that are requesting an API.\n\n. The ability of API Gateway to relate a request to a specific consumer application enables it to:\n\n 1. Control access to an API at run time (that is, allow only authorized consumer applications to invoke an API).\n\n 2. Monitor an API for violations of a Service-Level Agreement (SLA) for a specified application.\n\n 3. Indicate the consumer application to which a logged transaction event belongs.\n\n\n\n An application has the following attributes for specifying the identifiers:\n\n 1. IP address, which specifies one or more IP addresses that identify requests from a particular consumer application. Example: 192.168.0.10\n\n This attribute is queried when the Identify and Authorize Application policy is configured to identify consumer applications by IP address.\n\n 2. JWT claims set, which specifies one or more claims that identify requests from a particular consumer application. The claims are a set of name-value pairs that provide sufficient information about the application. Example: sub = Administrator.\n\n This attribute is queried when the Identify and Authorize Application policy is configured to identify consumer applications by JSON Web Token (JWT).\n\n 3. Consumer certificate, which specifies the X.509 certificates that identify requests from a particular consumer.\n\n This attribute is queried when the Identify and authenticate consumer policy is configured to identify the consumer applications by a consumer certificate.\n\n 4. Identification token, which specifies the host names, user names or other distinguishing strings that identify requests from a particular consumer application.\n\n This attribute is queried when the Identify and authenticate consumer policy action is configured to identify consumer applications by host name, HTTP user name, and WSS user name.\n\n \n\n As an API provider or an API Gateway Administrator you can create and manage applications, and register applications with the APIs.\n\n These are the high level stages of managing and using an application:\n\n 1. API developers request the API Gateway administrators to create an application for access as per the required identification criteria.\n\n 2. API Gateway provider or administrator validates the request and creates a new application, there by provisioning the application specific access tokens (API access key and OAuth credentials).\n\n 3. API Developer, upon finding a suitable API, sends a request to API Gateway for consumption by providing the application details.\n\n 4. After validating the request, API Gateway provider or administrator associates the application with the API. Keys are generated for applications and not for every API that the application consumes. \n\n Note:  The approval process, if any, is handled by the requesting application and not handled by API Gateway.\n\n 5. The API developer can then use the application with the proper identifier (such as the access key or identifier) to access the API. \n\n Strategies: \n\n A strategy is a way to authenticate the incoming request and provides multiple authentication mechanisms or multiple authorization servers for a single authentication scheme. API Gateway identifies the application and validates the token submitted through the strategy configured in the application. You can create multiple strategies authorized by an API for an application. For example, in case of OAuth authentication scheme, you want the application to support both OKTA and PINGFederate or OKTA with multiple tenants. This can be configured as OAuth strategy for the application.",
+    "version" : "10.5",
+    "title" : "API Gateway Application Management Service"
+  },
+  "host" : "localhost:5555",
+  "basePath" : "/rest/apigateway",
+  "schemes" : [ "http" ],
+  "consumes" : [ "plain/text" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/applications" : {
+      "get" : {
+        "description" : "The method retrieves a list of available applications in API Gateway.",
+        "operationId" : "getApplications",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that a list of the available applications is retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n    \"applications\": [\n        {\n            \"name\": \"TestSampleApp\",\n            \"description\": null,\n            \"contactEmails\": [],\n            \"identifiers\": [\n                {\n                    \"id\": \"3ce6f4df-e773-4fdb-bed3-3d63b5cb520c\",\n                    \"name\": \"Username\",\n                    \"key\": \"httpBasicAuth\",\n                    \"value\": [\n                        \"Administrator\"\n                    ]\n                }\n            ],\n            \"siteURLs\": [],\n            \"jsOrigins\": [],\n            \"authStrategyIds\": [\n                \"81df9682-6a28-4ebc-92fd-2c486d3f75c2\"\n            ],\n            \"version\": \"1.0\",\n            \"id\": \"803b7f16-45c6-4b1c-be26-4da053d40640\",\n            \"created\": \"2018-12-04 05:27:56 GMT\",\n            \"lastupdated\": null,\n            \"owner\": \"Administrator\",\n            \"consumingAPIs\": [],\n            \"accessTokens\": {\n                \"apiAccessKey_credentials\": {\n                    \"apiAccessKey\": \"f293cbb5cb0f1367ecc55b4c5b1717dad4073f77d2bde869cf8ee0162cc08f38\",\n                    \"expirationInterval\": null,\n                    \"expirationDate\": null,\n                    \"expired\": false\n                },\n                \"oauth_credentials\": {\n                    \"clientID\": null,\n                    \"clientSecret\": null,\n                    \"clientName\": null,\n                    \"scopes\": null,\n                    \"token_lifetime\": null,\n                    \"token_refresh_limit\": null,\n                    \"redirect_uris\": [],\n                    \"Type\": \"confidential\"\n                }\n            }\n        ,\r\n\t\t\t\"teams\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"id\": \"Administrators\",\r\n\t\t\t\t\t\"name\": \"Administrators\",\r\n\t\t\t\t\t\"canDelete\": \"false\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"id\": \"Default\",\r\n\t\t\t\t\t\"name\": \"Default\",\r\n\t\t\t\t\t\"canDelete\": \"true\"\r\n\t\t\t\t}\r\n\t\t\t]    }\n    ]\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "The method creates an application in API Gateway.",
+        "operationId" : "createApplication",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of an application that is to be created in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Application"
+          },
+          "x-examples" : {
+            "application/json" : "{\"id\":\"\",\"name\":\"TestApp\",\"description\":null,\"version\":\"1.0\",\"contactEmails\":[],\"siteURLs\":[],\"identifiers\":[{\"value\":[\"admin\"],\"name\":\"Username\",\"key\":\"httpBasicAuth\"}],\"consumingAPIs\":[],\"owner\":null,\r\n\t\"teams\": [\r\n\t\t{\r\n\t\t\t\"id\": \"Default\"\r\n\t\t}\r\n\t]\r\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the application has been successfully created in API Gateway.",
+            "examples" : {
+              "application/json" : "{\n    \"name\": \"TestApp\",\n    \"description\": null,\n    \"contactEmails\": [],\n    \"identifiers\": [\n        {\n            \"id\": \"820332c8-7467-4340-bef8-dae595c69f7b\",\n            \"name\": \"Username\",\n            \"key\": \"httpBasicAuth\",\n            \"value\": [\n                \"admin\"\n            ]\n        }\n    ],\n    \"siteURLs\": [],\n    \"jsOrigins\": [],\n    \"authStrategyIds\": [],\n    \"version\": \"1.0\",\n    \"id\": \"79251257-1ea5-4df7-a8bf-a345ea835592\",\n    \"created\": \"2018-12-04 05:33:20 GMT\",\n    \"lastupdated\": null,\n    \"owner\": \"Administrator\",\n    \"consumingAPIs\": [],\n    \"accessTokens\": {\n        \"apiAccessKey_credentials\": {\n            \"apiAccessKey\": \"dad584e3b45f90db5baab4d52a24c2ff9201e5a5e48eaea0740bb4acf19fa937\",\n            \"expirationInterval\": null,\n            \"expirationDate\": null,\n            \"expired\": false\n        },\n        \"oauth_credentials\": {\n            \"clientID\": null,\n            \"clientSecret\": null,\n            \"clientName\": null,\n            \"scopes\": null,\n            \"token_lifetime\": null,\n            \"token_refresh_limit\": null,\n            \"redirect_uris\": [],\n            \"Type\": \"confidential\"\n        }\n    }\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that an application with the given ID already exists in API Gateway"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "The method deletes the specified application in API Gateway.",
+        "operationId" : "deleteApplications",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ids",
+          "in" : "query",
+          "description" : "This parameter specifies the ID of an application that is to be deleted in API Gateway.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "204" : {
+            "description" : "This status code indicates that the specified application has been successfully deleted from API Gateway."
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/applications/{applicationId}/apis" : {
+      "get" : {
+        "description" : "The method retrieves a list of registered APIs for the specified application in API Gateway.",
+        "operationId" : "getRegisteredApis",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application whose registered APIs are to be retrieved in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that a list of registered APIs for the application is retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n  \"apiIDs\": [\n    \"2aa651f4-2696-425b-96c4-440ad78b0305\"\n  ]\n}"
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "This HTTP request registers the APIs with the specified application in API Gateway.",
+        "operationId" : "registerApis",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter specifies the IDs of the APIs for registering in an application in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "x-examples" : {
+            "application/json" : "{\"apiIDs\":[\"3de85431-d45b-418d-b5aa-0be5c3b5714d\"]}"
+          }
+        }, {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application for registering APIs in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the given APIs have been successfully registered with the specified application in API Gateway.",
+            "examples" : {
+              "application/json" : "{}"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "This HTTP request updates the registered APIs of the specified application.",
+        "operationId" : "updateRegisteredApis",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter specifies the ID of a registered API that is to be updated in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "x-examples" : {
+            "application/json" : "{\"apiIDs\":[\"3de85431-d45b-418d-b5aa-0be5c3b5714d\"]}"
+          }
+        }, {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application for updating the details of the registered APIs in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the registered API has been successfully updated in API Gateway."
+          },
+          "400" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "The method unregisters the APIs from the specified application in API Gateway.",
+        "operationId" : "unregisterApis",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiIDs",
+          "in" : "query",
+          "description" : "This parameter specifies the IDs of APIs that are to be unregistered from the specified application in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application for unregistering the associated APIs in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "204" : {
+            "description" : "This status code indicates that APIs are successfully unregistered from the specified application in API Gateway."
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/applications/{applicationId}/accessTokens" : {
+      "get" : {
+        "description" : "The method retrieves a map of access token endpoints for all the authorization servers configured",
+        "operationId" : "getAccessTokenEndpoints",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application whose access token endpoints are to be retrieved from API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that a list of access token endpoints for the application are retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n    \"local\": {\n        \"uris\": {\n            \"authorizeUrl\": \"http://vm:5555/invoke/pub.apigateway.oauth2/authorize\",\n            \"accessTokenUrl\": \"http://vm:5555/invoke/pub.apigateway.oauth2/getAccessToken\",\n            \"refreshTokenUrl\": \"http://vm:5555/invoke/pub.oauth/refreshAccessToken\"\n        }\n    }\n}"
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "The method regenarates the access tokens of an application",
+        "operationId" : "regenerateAccessTokens",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application for generating the access Tokens in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter specifies the type of token to be regenerated.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the access tokens are successfully regenerated for the application in API Gateway."
+          },
+          "400" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "operationId" : "updateAccessTokens",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application for updating the access tokens.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates access tokens are successfully updated in API Gateway."
+          },
+          "400" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "The method clears the access tokens from the specified application in API Gateway.",
+        "operationId" : "clearAccessTokens",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application for which the access tokesn needs to cleared",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "204" : {
+            "description" : "This status code indicates that APIs are successfully unregistered from the specified application in API Gateway."
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/applications/{applicationId}" : {
+      "get" : {
+        "description" : "The method retrieves the details of a specified application in API Gateway",
+        "operationId" : "getApplication",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application whose details are to be retrieved in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the details of the specified application are retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n    \"applications\": [\n        {\n            \"name\": \"TestApp\",\n            \"description\": null,\n            \"contactEmails\": [],\n            \"identifiers\": [\n                {\n                    \"id\": \"820332c8-7467-4340-bef8-dae595c69f7b\",\n                    \"name\": \"Username\",\n                    \"key\": \"httpBasicAuth\",\n                    \"value\": [\n                        \"admin\"\n                    ]\n                }\n            ],\n            \"siteURLs\": [],\n            \"jsOrigins\": [],\n            \"authStrategyIds\": [],\n            \"version\": \"1.0\",\n            \"id\": \"79251257-1ea5-4df7-a8bf-a345ea835592\",\n            \"created\": \"2018-12-04 05:33:20 GMT\",\n            \"lastupdated\": null,\n            \"owner\": \"Administrator\",\n            \"consumingAPIs\": [],\n            \"accessTokens\": {\n                \"apiAccessKey_credentials\": {\n                    \"apiAccessKey\": \"eb3fcb16-89bd-4d0b-b45b-c1257686e4d6\",\n                    \"expirationInterval\": null,\n                    \"expirationDate\": null,\n                    \"expired\": false\n                },\n                \"oauth_credentials\": {\n                    \"clientID\": null,\n                    \"clientSecret\": null,\n                    \"clientName\": null,\n                    \"scopes\": null,\n                    \"token_lifetime\": null,\n                    \"token_refresh_limit\": null,\n                    \"redirect_uris\": [],\n                    \"Type\": \"confidential\"\n                }\n            }\n        }\n    ]\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "This HTTP request updates a specified application in API Gateway.",
+        "operationId" : "updateApplication",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of an application that is to be updated in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Application"
+          },
+          "x-examples" : {
+            "application/json" : "{\"id\":\"221aa46e-501d-4ae8-911f-34458e062e63\",\"name\":\"TestApp\",\"description\":null,\"version\":\"1.0\",\"contactEmails\":[],\"siteURLs\":[],\"identifiers\":[{\"value\":[\"admin\"],\"name\":\"Username\",\"key\":\"httpBasicAuth\"}],\"consumingAPIs\":[],\"owner\":null,\"accessTokens\":{\"apiAccessKey_credentials\":{\"apiAccessKey\":\"a6e43495-f981-43da-8f6a-ff8cb5689864\",\"expirationInterval\":null},\"oauth_credentials\":{\"Type\":\"confidential\",\"clientID\":\"a8271b2d-d903-4869-b571-c21088ac4b8d\",\"clientSecret\":\"13e2b1ca-befb-4fe3-909e-ed9fdb0a6748\",\"clientName\":\"TestApp-a1f3b232-4018-44c9-a086-77804fd55dd9\",\"scopes\":[\"dd5b733f-b31e-4f1d-86be-97364865c70b\",\"3de85431-d45b-418d-b5aa-0be5c3b5714d\"],\"redirect_uris\":[\"https://placeholder_redirect_uri\"],\"token_lifetime\":\"3600\",\"token_refresh_limit\":\"100\",\"accessTokenRequestURI\":null}}}"
+          }
+        }, {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application that is to be updated in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the specified application has been successfully updated in API Gateway.",
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the specified application could not be updated"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "patch" : {
+        "description" : "This HTTP PATCH request suspends the specified application in API Gateway.",
+        "operationId" : "patchApplication",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of an application that is to be updated in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Application"
+          },
+          "x-examples" : {
+            "application/json" : "{\"isSuspended\":\"true\"}"
+          }
+        }, {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application that is to be updated in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the specified application has been successfully updated in API Gateway.",
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the specified application could not be updated"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/applications/_search" : {
+      "get" : {
+        "description" : "The method retrieves a list of available applications in API Gateway based on the search query parameters.",
+        "operationId" : "searchApplications",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ids",
+          "in" : "query",
+          "description" : "This parameter specifies the IDs of applications whose details are to be retrieved in API Gateway.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "idsToExclude",
+          "in" : "query",
+          "description" : "This parameter specifies the IDs of applications whose details are to be removed while retrieving other applications in API Gateway.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "description" : "This parameter specifies the last updated date in milliseconds. The applications whose last updated date greater than or equal to this are to be retrieved in API Gateway.",
+          "required" : false,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the details of the specified applications are retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given search parameters could not be found in API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/strategies" : {
+      "get" : {
+        "description" : "The method retrieves a list of all strategies in API Gateway.",
+        "operationId" : "getStrategies",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the list of strategies is successfully retrieved.",
+            "examples" : {
+              "application/json" : "{\n    \"strategies\": [\n        {\n            \"id\": \"e1f151e1-3210-4283-992b-b3f1d1cf6a92\",\n            \"type\": \"OAUTH2\",\n            \"authServerAlias\": \"local\",\n            \"name\": \"test-oauth2-strategy\",\n            \"description\": \"\",\n            \"clientId\": \"e65b0fe2-d73d-4ea7-a92a-20c949e08235\",\n            \"dcrConfig\": {\n                \"allowedGrantTypes\": [\n                    \"authorization_code\",\n                    \"password\"\n                ],\n                \"applicationType\": \"WEB\",\n                \"clientType\": \"PUBLIC\",\n                \"clientName\": \"test-oauth2-strategy\",\n                \"clientVersion\": \"1.0\",\n                \"expirationInterval\": \"3600\",\n                \"refreshCount\": \"0\",\n                \"redirectUris\": [\n                    \"https://redirect.uri\"\n                ]\n            },\n            \"clientRegistration\": {\n                \"clientId\": \"e65b0fe2-d73d-4ea7-a92a-20c949e08235\",\n                \"name\": \"test-oauth2-strategy\",\n                \"version\": \"1.0\",\n                \"type\": \"public\",\n                \"tokenLifetime\": 3600,\n                \"tokenRefreshLimit\": 0,\n                \"clientSecret\": \"f3d2edb1-0bf4-47a8-9e34-775c1a943e70\",\n                \"enabled\": true,\n                \"redirectUris\": [\n                    \"https://redirect.uri\"\n                ],\n                \"clScopes\": [],\n                \"authCodeAllowed\": true,\n                \"implicitAllowed\": false,\n                \"clientCredentialsAllowed\": false,\n                \"resourceOwnerAllowed\": true\n            }\n        }\n    ]\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/OneOfStrategyModel"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "The method creates a strategy in API Gateway. The API request body must contain the payload for the strategy",
+        "operationId" : "createStrategy",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of a strategy that is to be created in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/OneOfStrategyModel"
+          },
+          "x-examples" : {
+            "application/json" : "{\n\"name\": \"Test\",\n\"description\": \"\",\n\"authServerAlias\": \"local\",\n\"type\": \"OAUTH2\",\n\"dcrConfig\": {\n\"allowedGrantTypes\": [\"authorization_code\",\n\"password\",\n\"implicit\"],\n\"scopes\": [],\n\"redirectUris\": [\"http://vm:5555/redirect\"],\n\"authServer\": \"local\",\n\"applicationType\": \"WEB\",\n\"clientType\": \"PUBLIC\",\n\"expirationInterval\": 3600,\n\"refreshCount\": \"0\"\n}\n} "
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The method creates a strategy in API Gateway. The API request body must contain the payload for the strategy",
+            "examples" : {
+              "application/json" : "{\n    \"strategy\": {\n        \"id\": \"370f88ca-205e-45df-8e16-998088f32dc2\",\n        \"type\": \"OAUTH2\",\n        \"authServerAlias\": \"local\",\n        \"name\": \"Test\",\n        \"description\": \"\",\n        \"clientId\": \"2b54de1c-a8fa-4965-a832-cacf6b656012\",\n        \"dcrConfig\": {\n            \"allowedGrantTypes\": [\n                \"authorization_code\",\n                \"password\",\n                \"implicit\"\n            ],\n            \"applicationType\": \"WEB\",\n            \"clientType\": \"PUBLIC\",\n            \"clientName\": \"Test\",\n            \"clientVersion\": \"1.0\",\n            \"expirationInterval\": \"3600\",\n            \"refreshCount\": \"0\",\n            \"redirectUris\": [\n                \"http://vm:5555/redirect\"\n            ]\n        },\n        \"clientRegistration\": {\n            \"clientId\": \"2b54de1c-a8fa-4965-a832-cacf6b656012\",\n            \"name\": \"Test\",\n            \"version\": \"1.0\",\n            \"type\": \"public\",\n            \"tokenLifetime\": 3600,\n            \"tokenRefreshLimit\": 0,\n            \"clientSecret\": \"6a3d98c3-e5b0-47fc-9acf-b454401cd87d\",\n            \"enabled\": true,\n            \"redirectUris\": [\n                \"http://vm:5555/redirect\"\n            ],\n            \"clScopes\": [],\n            \"authCodeAllowed\": true,\n            \"implicitAllowed\": true,\n            \"clientCredentialsAllowed\": false,\n            \"resourceOwnerAllowed\": true\n        }\n    }\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/OneOfStrategyModel"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that a strategy with the given ID already exists in API Gateway"
+          },
+          "401" : {
+            "description" : "This status code indicates that either the user didn't provide right credentials or the user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "The method deletes the specified strategy in API Gateway.",
+        "operationId" : "deleteStrategy",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ids",
+          "in" : "query",
+          "description" : "This parameter specifies the ID of a strategy that is to be deleted in API Gateway.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "This status code indicates that either the user didn't provide right credentials or the user doesn't have required privileges to access this API."
+          },
+          "204" : {
+            "description" : "This status code indicates that the specified strategy has been successfully deleted from API Gateway."
+          },
+          "404" : {
+            "description" : "This status code indicates that a strategy with the given ID could not be found in API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/strategies/{strategyId}" : {
+      "get" : {
+        "description" : "The method retrieves the details of a specified strategy in API Gateway",
+        "operationId" : "getStrategy",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "strategyId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of a strategy whose details are to be retrieved in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the details of the specified strategy are retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n    \"strategy\": {\n        \"id\": \"a2641013-701c-420d-9eba-30cd9da1f0f5\",\n        \"type\": \"OAUTH2\",\n        \"authServerAlias\": \"local\",\n        \"name\": \"testapp-$sys-default-oauth\",\n        \"clientId\": \"5b5e2fee-b786-4abe-9fd4-584c265d260a\",\n        \"dcrConfig\": {\n            \"allowedGrantTypes\": [\n                \"implicit\",\n                \"client_credentials\",\n                \"authorization_code\"\n            ],\n            \"clientType\": \"CONFIDENTIAL\",\n            \"clientName\": \"4425af88-a80d-4f6c-b6e0-84008c720889\",\n            \"clientVersion\": \"1.0\",\n            \"expirationInterval\": \"3600\",\n            \"redirectUris\": []\n        },\n        \"clientRegistration\": {\n            \"clientId\": \"5b5e2fee-b786-4abe-9fd4-584c265d260a\",\n            \"name\": \"4425af88-a80d-4f6c-b6e0-84008c720889\",\n            \"version\": \"1.0\",\n            \"type\": \"confidential\",\n            \"tokenLifetime\": 3600,\n            \"tokenRefreshLimit\": 0,\n            \"clientSecret\": \"1bd1bcd0-7eb2-4aa9-a50a-41c038ad92b2\",\n            \"enabled\": true,\n            \"redirectUris\": [\n                \"https://placeholder_redirect_uri\"\n            ],\n            \"clScopes\": [],\n            \"authCodeAllowed\": true,\n            \"implicitAllowed\": true,\n            \"clientCredentialsAllowed\": true,\n            \"resourceOwnerAllowed\": false\n        }\n    }\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/OneOfStrategyModel"
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that a strategy with the given ID could not be found in API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "This REST operation is used to update a strategy",
+        "operationId" : "updateStrategy",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of a strategy that is to be updated in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/OneOfStrategyModel"
+          },
+          "x-examples" : {
+            "application/json" : " {\n        \"type\": \"OAUTH2\",\n        \"authServerAlias\": \"local\",\n        \"name\": \"testapp-$sys-default-oauth\",\n        \"clientId\": \"5b5e2fee-b786-4abe-9fd4-584c265d260a\",\n        \"dcrConfig\": {\n            \"allowedGrantTypes\": [\n                \"implicit\",\n                \"client_credentials\",\n                \"authorization_code\"\n            ],\n            \"clientType\": \"CONFIDENTIAL\",\n            \"clientName\": \"4425af88-a80d-4f6c-b6e0-84008c720889\",\n            \"clientVersion\": \"1.0\",\n            \"expirationInterval\": \"3600\",\n            \"redirectUris\": []\n        },\n        \"clientRegistration\": {\n            \"clientId\": \"5b5e2fee-b786-4abe-9fd4-584c265d260a\",\n            \"name\": \"4425af88-a80d-4f6c-b6e0-84008c720889\",\n            \"version\": \"1.0\",\n            \"type\": \"confidential\",\n            \"tokenLifetime\": 3600,\n            \"tokenRefreshLimit\": 0,\n            \"clientSecret\": \"1bd1bcd0-7eb2-4aa9-a50a-41c038ad92b2\",\n            \"enabled\": true,\n            \"redirectUris\": [\n                \"https://placeholder_redirect_uri\"\n            ],\n            \"clScopes\": [],\n            \"authCodeAllowed\": true,\n            \"implicitAllowed\": true,\n            \"clientCredentialsAllowed\": true,\n            \"resourceOwnerAllowed\": false\n        }\n    }\n"
+          }
+        }, {
+          "name" : "strategyId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of a strategy that is to be updated in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the specified strategy has been successfully updated in API Gateway.",
+            "examples" : {
+              "application/json" : "{\n    \"strategy\": {\n        \"id\": \"a2641013-701c-420d-9eba-30cd9da1f0f5\",\n        \"type\": \"OAUTH2\",\n        \"authServerAlias\": \"local\",\n        \"name\": \"testapp-$sys-default-oauth\",\n        \"clientId\": \"5b5e2fee-b786-4abe-9fd4-584c265d260a\",\n        \"dcrConfig\": {\n            \"allowedGrantTypes\": [\n                \"implicit\",\n                \"client_credentials\",\n                \"authorization_code\"\n            ],\n            \"clientType\": \"CONFIDENTIAL\",\n            \"clientName\": \"4425af88-a80d-4f6c-b6e0-84008c720889\",\n            \"clientVersion\": \"1.0\",\n            \"expirationInterval\": \"3600\",\n            \"redirectUris\": []\n        },\n        \"clientRegistration\": {\n            \"clientId\": \"5b5e2fee-b786-4abe-9fd4-584c265d260a\",\n            \"name\": \"4425af88-a80d-4f6c-b6e0-84008c720889\",\n            \"version\": \"1.0\",\n            \"type\": \"confidential\",\n            \"tokenLifetime\": 3600,\n            \"tokenRefreshLimit\": 0,\n            \"clientSecret\": \"1bd1bcd0-7eb2-4aa9-a50a-41c038ad92b2\",\n            \"enabled\": true,\n            \"redirectUris\": [],\n            \"clScopes\": [],\n            \"authCodeAllowed\": true,\n            \"implicitAllowed\": true,\n            \"clientCredentialsAllowed\": true,\n            \"resourceOwnerAllowed\": false\n        }\n    }\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/OneOfStrategyModel"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the specified strategy could not be updated"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/strategies/{strategyId}/refreshCredentials" : {
+      "put" : {
+        "description" : "The method refreshes the credentials of a strategy in API Gateway.",
+        "operationId" : "refreshCredentials",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "strategyId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of a strategy that is to be updated in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the specified strategy has been successfully updated in API Gateway.",
+            "schema" : {
+              "$ref" : "#/definitions/OneOfStrategyModel"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the specified strategy could not be updated"
+          },
+          "401" : {
+            "description" : "This status code indicates that either the user didn't provide right credentials or the user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Basic" : {
+      "description" : "API Gateway Administrator and API Gateway provider",
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "APIAccessKey" : {
+      "type" : "object",
+      "properties" : {
+        "apiAccessKey" : {
+          "type" : "string",
+          "description" : "API access key"
+        },
+        "expirationInterval" : {
+          "type" : "string",
+          "description" : "expiration interval of the api key"
+        },
+        "expirationDate" : {
+          "type" : "string",
+          "description" : "expiration date of the api key"
+        }
+      }
+    },
+    "Application" : {
+      "type" : "object",
+      "properties" : {
+        "applicationID" : {
+          "type" : "string",
+          "description" : "unique identifier of an application"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "name of the application"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "description of the application"
+        },
+        "owner" : {
+          "type" : "string",
+          "description" : "owner of the application"
+        },
+        "identifiers" : {
+          "type" : "array",
+          "description" : "list of all application identifiers",
+          "items" : {
+            "$ref" : "#/definitions/ApplicationIdentifier"
+          }
+        },
+        "contactEmails" : {
+          "type" : "array",
+          "description" : "list of email contacts",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "iconbyteArray" : {
+          "type" : "string",
+          "description" : "application icon byte array"
+        },
+        "accessTokens" : {
+          "$ref" : "#/definitions/ApplicationToken"
+        },
+        "creationDate" : {
+          "type" : "string",
+          "description" : "application creation time"
+        },
+        "lastModified" : {
+          "type" : "string",
+          "description" : "last modified time of the application"
+        },
+        "lastUpdated" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "last modified time of the application in milliseconds"
+        },
+        "siteURLs" : {
+          "type" : "array",
+          "description" : "list of all site URLs",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "jsOrigins" : {
+          "type" : "array",
+          "description" : "list of all javascript origins",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "version" : {
+          "type" : "string"
+        },
+        "isSuspended" : {
+          "type" : "boolean",
+          "description" : "holds the suspended state of an application"
+        },
+        "authStrategyIds" : {
+          "type" : "array",
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "subscription" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "ApplicationIdentifier" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "unique identifier of the application identifier"
+        },
+        "key" : {
+          "type" : "string",
+          "description" : "identifier type"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "name of the identifier"
+        },
+        "value" : {
+          "type" : "array",
+          "description" : "list of identifier values",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "ApplicationToken" : {
+      "type" : "object",
+      "properties" : {
+        "apiAccessKey" : {
+          "$ref" : "#/definitions/APIAccessKey"
+        },
+        "oauth2Token" : {
+          "$ref" : "#/definitions/OAuth2Token"
+        }
+      }
+    },
+    "OAuth2Token" : {
+      "type" : "object",
+      "properties" : {
+        "type" : {
+          "type" : "string",
+          "description" : "type of the oauth2 client"
+        },
+        "clientId" : {
+          "type" : "string",
+          "description" : "unique identifier of the oauth2 client"
+        },
+        "clientSecret" : {
+          "type" : "string",
+          "description" : "the client secret"
+        },
+        "clientName" : {
+          "type" : "string",
+          "description" : "the name of the client"
+        },
+        "scopes" : {
+          "type" : "array",
+          "description" : "the scopes associated with the client",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "expirationInterval" : {
+          "type" : "string",
+          "description" : "the expiration interval"
+        },
+        "refreshCount" : {
+          "type" : "string",
+          "description" : "number of times an access token can be refreshed"
+        },
+        "redirectUris" : {
+          "type" : "array",
+          "description" : "list of redirect uris",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "ClientRegistration" : {
+      "type" : "object",
+      "properties" : {
+        "clientId" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "version" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "tokenLifetime" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "tokenRefreshLimit" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "clientSecret" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "notes" : {
+          "type" : "string"
+        },
+        "redirectUris" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "clScopes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "authCodeAllowed" : {
+          "type" : "boolean"
+        },
+        "implicitAllowed" : {
+          "type" : "boolean"
+        },
+        "clientCredentialsAllowed" : {
+          "type" : "boolean"
+        },
+        "resourceOwnerAllowed" : {
+          "type" : "boolean"
+        },
+        "approvalpgTitle" : {
+          "type" : "string"
+        },
+        "approvalpgHeading" : {
+          "type" : "string"
+        },
+        "approvalpgLogoFilename" : {
+          "type" : "string"
+        },
+        "approvalpgFooter" : {
+          "type" : "string"
+        },
+        "approvalpgFilename" : {
+          "type" : "string"
+        }
+      }
+    },
+    "DynamicClientRegistrationConfig" : {
+      "type" : "object",
+      "properties" : {
+        "allowedGrantTypes" : {
+          "type" : "array",
+          "description" : "grant types to be allowed for this client",
+          "items" : {
+            "type" : "string",
+            "enum" : [ "authorization_code", "password", "client_credentials", "refresh_token", "implicit" ]
+          }
+        },
+        "applicationType" : {
+          "type" : "string",
+          "description" : "type of the application",
+          "enum" : [ "WEB", "NATIVE", "USER_AGENT_BASED" ]
+        },
+        "clientType" : {
+          "type" : "string",
+          "description" : "specifies whether the client is either public or confidential client",
+          "enum" : [ "PUBLIC", "CONFIDENTIAL" ]
+        },
+        "clientId" : {
+          "type" : "string",
+          "description" : "The client id"
+        },
+        "clientSecret" : {
+          "type" : "string",
+          "description" : "The client secret"
+        },
+        "clientName" : {
+          "type" : "string",
+          "description" : "The client name"
+        },
+        "clientVersion" : {
+          "type" : "string",
+          "description" : "The client version"
+        },
+        "expirationInterval" : {
+          "type" : "string",
+          "description" : "Token expiry time"
+        },
+        "refreshCount" : {
+          "type" : "string",
+          "description" : "The number of times token can be refreshed"
+        },
+        "scopes" : {
+          "type" : "array",
+          "description" : "The scopes associated with this client",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "redirectUris" : {
+          "type" : "array",
+          "description" : "The redirect uris",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "GatewaySecret" : {
+      "type" : "object"
+    },
+    "JWTAuthStrategy" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique ID for the strategy",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the strategy",
+          "enum" : [ "JWT_RSA", "JWT_HSA", "OPENID_CONNECT_RSA", "OPENID_CONNECT_HSA", "OAUTH2", "OAUTH2_LOCAL_RSA", "OAUTH2_LOCAL_HSA", "COMPOSITE" ]
+        },
+        "authServerAlias" : {
+          "type" : "string",
+          "description" : "The name of the authorization server alias"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "The name of the strategy"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "audience" : {
+          "type" : "string"
+        }
+      }
+    },
+    "JWTHSAuthStrategy" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique ID for the strategy",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the strategy",
+          "enum" : [ "JWT_RSA", "JWT_HSA", "OPENID_CONNECT_RSA", "OPENID_CONNECT_HSA", "OAUTH2", "OAUTH2_LOCAL_RSA", "OAUTH2_LOCAL_HSA", "COMPOSITE" ]
+        },
+        "authServerAlias" : {
+          "type" : "string",
+          "description" : "The name of the authorization server alias"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "The name of the strategy"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "audience" : {
+          "type" : "string"
+        },
+        "secret" : {
+          "$ref" : "#/definitions/GatewaySecret"
+        }
+      }
+    },
+    "JWTRSAuthStrategy" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique ID for the strategy",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the strategy",
+          "enum" : [ "JWT_RSA", "JWT_HSA", "OPENID_CONNECT_RSA", "OPENID_CONNECT_HSA", "OAUTH2", "OAUTH2_LOCAL_RSA", "OAUTH2_LOCAL_HSA", "COMPOSITE" ]
+        },
+        "authServerAlias" : {
+          "type" : "string",
+          "description" : "The name of the authorization server alias"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "The name of the strategy"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "audience" : {
+          "type" : "string"
+        }
+      }
+    },
+    "OAuth2LocalHSIntrospectionStrategy" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique ID for the strategy",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the strategy",
+          "enum" : [ "JWT_RSA", "JWT_HSA", "OPENID_CONNECT_RSA", "OPENID_CONNECT_HSA", "OAUTH2", "OAUTH2_LOCAL_RSA", "OAUTH2_LOCAL_HSA", "COMPOSITE" ]
+        },
+        "authServerAlias" : {
+          "type" : "string",
+          "description" : "The name of the authorization server alias"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "The name of the strategy"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "clientId" : {
+          "type" : "string"
+        },
+        "dcrConfig" : {
+          "$ref" : "#/definitions/DynamicClientRegistrationConfig"
+        },
+        "clientRegistration" : {
+          "$ref" : "#/definitions/ClientRegistration"
+        },
+        "jwtAuthStrategy" : {
+          "$ref" : "#/definitions/JWTAuthStrategy"
+        },
+        "secret" : {
+          "$ref" : "#/definitions/GatewaySecret"
+        },
+        "audience" : {
+          "type" : "string"
+        }
+      }
+    },
+    "OAuth2LocalRSIntrospectionStrategy" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique ID for the strategy",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the strategy",
+          "enum" : [ "JWT_RSA", "JWT_HSA", "OPENID_CONNECT_RSA", "OPENID_CONNECT_HSA", "OAUTH2", "OAUTH2_LOCAL_RSA", "OAUTH2_LOCAL_HSA", "COMPOSITE" ]
+        },
+        "authServerAlias" : {
+          "type" : "string",
+          "description" : "The name of the authorization server alias"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "The name of the strategy"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "clientId" : {
+          "type" : "string"
+        },
+        "dcrConfig" : {
+          "$ref" : "#/definitions/DynamicClientRegistrationConfig"
+        },
+        "clientRegistration" : {
+          "$ref" : "#/definitions/ClientRegistration"
+        },
+        "jwtAuthStrategy" : {
+          "$ref" : "#/definitions/JWTAuthStrategy"
+        },
+        "audience" : {
+          "type" : "string"
+        }
+      }
+    },
+    "OAuth2RemoteIntrospectionAuthStrategy" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique ID for the strategy",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the strategy",
+          "enum" : [ "JWT_RSA", "JWT_HSA", "OPENID_CONNECT_RSA", "OPENID_CONNECT_HSA", "OAUTH2", "OAUTH2_LOCAL_RSA", "OAUTH2_LOCAL_HSA", "COMPOSITE" ]
+        },
+        "authServerAlias" : {
+          "type" : "string",
+          "description" : "The name of the authorization server alias"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "The name of the strategy"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "clientId" : {
+          "type" : "string"
+        },
+        "dcrConfig" : {
+          "$ref" : "#/definitions/DynamicClientRegistrationConfig"
+        },
+        "clientRegistration" : {
+          "$ref" : "#/definitions/ClientRegistration"
+        },
+        "audience" : {
+          "type" : "string"
+        }
+      }
+    },
+    "OneOfStrategyModel" : {
+      "type" : "object",
+      "properties" : {
+        "JWT_HSA" : {
+          "$ref" : "#/definitions/JWTHSAuthStrategy"
+        },
+        "JWT_RSA" : {
+          "$ref" : "#/definitions/JWTRSAuthStrategy"
+        },
+        "OPENID_CONNECT_HSA" : {
+          "$ref" : "#/definitions/OAuth2LocalHSIntrospectionStrategy"
+        },
+        "OPENID_CONNECT_RSA" : {
+          "$ref" : "#/definitions/OAuth2LocalRSIntrospectionStrategy"
+        },
+        "OAUTH2" : {
+          "$ref" : "#/definitions/OAuth2RemoteIntrospectionAuthStrategy"
+        },
+        "OAUTH2_LOCAL_RSA" : {
+          "$ref" : "#/definitions/OpenIDConnectRSAuthStrategy"
+        },
+        "OAUTH2_LOCAL_HSA" : {
+          "$ref" : "#/definitions/OpenIDConnectHSAuthStrategy"
+        }
+      }
+    },
+    "OpenIDConnectHSAuthStrategy" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique ID for the strategy",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the strategy",
+          "enum" : [ "JWT_RSA", "JWT_HSA", "OPENID_CONNECT_RSA", "OPENID_CONNECT_HSA", "OAUTH2", "OAUTH2_LOCAL_RSA", "OAUTH2_LOCAL_HSA", "COMPOSITE" ]
+        },
+        "authServerAlias" : {
+          "type" : "string",
+          "description" : "The name of the authorization server alias"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "The name of the strategy"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "clientId" : {
+          "type" : "string"
+        },
+        "dcrConfig" : {
+          "$ref" : "#/definitions/DynamicClientRegistrationConfig"
+        },
+        "clientRegistration" : {
+          "$ref" : "#/definitions/ClientRegistration"
+        },
+        "jwtAuthStrategy" : {
+          "$ref" : "#/definitions/JWTAuthStrategy"
+        },
+        "secret" : {
+          "$ref" : "#/definitions/GatewaySecret"
+        },
+        "audience" : {
+          "type" : "string"
+        }
+      }
+    },
+    "OpenIDConnectRSAuthStrategy" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "A unique ID for the strategy",
+          "readOnly" : true
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the strategy",
+          "enum" : [ "JWT_RSA", "JWT_HSA", "OPENID_CONNECT_RSA", "OPENID_CONNECT_HSA", "OAUTH2", "OAUTH2_LOCAL_RSA", "OAUTH2_LOCAL_HSA", "COMPOSITE" ]
+        },
+        "authServerAlias" : {
+          "type" : "string",
+          "description" : "The name of the authorization server alias"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "The name of the strategy"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "clientId" : {
+          "type" : "string"
+        },
+        "dcrConfig" : {
+          "$ref" : "#/definitions/DynamicClientRegistrationConfig"
+        },
+        "clientRegistration" : {
+          "$ref" : "#/definitions/ClientRegistration"
+        },
+        "jwtAuthStrategy" : {
+          "$ref" : "#/definitions/JWTAuthStrategy"
+        },
+        "audience" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

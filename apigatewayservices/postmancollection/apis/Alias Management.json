@@ -1,0 +1,701 @@
+{
+	"info": {
+		"_postman_id": "1e329695-a79f-4fc5-8c82-ed152ece82ed",
+		"name": "Alias Management",
+		"description": "Explanation:\r\nThis postman collection contains API Gateway REST service to manage aliases. With this postman collection one can create, update, delete and get the different types of aliases supported in API Gateway.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Simple Alias",
+			"item": [
+				{
+					"name": "Create Simple Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"SimpleAlias\",\n    \"type\": \"simple\",\n    \"description\": \"description flows here\",\n    \"value\": \"softwareag\",\n    \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Endpoint Alias",
+			"item": [
+				{
+					"name": "Create Endpoint Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"endPointURI\": \"http://localhost:5555\",\r\n\t\"connectionTimeout\": \"30\",\r\n\t\"optimizationTechnique\": \"None\",  \r\n\t\"readTimeout\": \"30\",\r\n\t\"passSecurityHeaders\": false,\r\n\t\"keystoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\"keyAlias\": \"ssos\",\r\n\t\"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\",  \r\n\t\"name\": \"Endpoint Alias\",\r\n\t\"description\": \"description flows here\",\r\n\t\"type\": \"endpoint\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						},
+						"description": "Endpoint Alias:\r\n\r\nOptimization Techniques applicable values are \r\n1. None\r\n2. MTOM\r\n3. SwA"
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bb169619-5717-4b19-8555-52b364ceab43",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "de3065a1-037a-48dc-9390-61dabdd72434",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HTTP Transport Security Alias",
+			"item": [
+				{
+					"name": "Create Basic HTTP Transport Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"name\": \"BasicHTTPTransportSecurityAlias\",\r\n        \"type\": \"httpTransportSecurityAlias\",\r\n        \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\",\r\n        \"authType\": \"HTTP_BASIC\",\r\n        \"authMode\": \"NEW\",                       \r\n        \"httpAuthCredentials\": {\r\n            \"userName\": \"Administrator\",\r\n            \"password\": \"manage\",\r\n            \"domain\": \"localhost\"\r\n        }\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						},
+						"description": "Basic HTTP Transport Alias:\r\n\r\nAuth mode available values \r\n1. INCOMING_HTTP_BASIC_AUTH\r\n2. NEW"
+					},
+					"response": []
+				},
+				{
+					"name": "Create JWT HTTP Transport Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"JWTHTTPTransportAlias\",\n    \"type\": \"httpTransportSecurityAlias\",\n    \"description\": \"description flows here\",\n    \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\",\n    \"authType\": \"JWT\",\n    \"authMode\": \"INCOMING_JWT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Kerberos HTTP Transport Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"KerberosHTTPTransportAlias\",\n    \"type\": \"httpTransportSecurityAlias\",\n    \"description\": \"description flows here\",\n    \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\",\n    \"authType\": \"KERBEROS\",\n    \"authMode\": \"NEW\",\n    \"kerberosCredentials\": {\n        \"clientPrincipal\": \"Administrator\",\n        \"clientPassword\": \"manage\",\n        \"servicePrincipal\": \"https://softwareag.com\",\n        \"servicePrincipalNameForm\": \"username\",\n        \"requestDelegateToken\": false\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						},
+						"description": "Kerberos HTTP Transport Alias:\r\n\r\nAuth mode available values are \r\n1. NEW\r\n2. DELEGATE_INCOMING\r\n3. INCOMING_HTTP_BASIC_AUTH\r\n4. INCOMING_KERBEROS\r\n\r\nService principal name form available values are \r\n1. hostbased\r\n2. username"
+					},
+					"response": []
+				},
+				{
+					"name": "Create NTLM HTTP Transport Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"NTLMHTTPTransportAlias\",\n    \"type\": \"httpTransportSecurityAlias\",\n    \"description\": \"description flows here\",\n    \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\",\n    \"authType\": \"NTLM\",\n    \"authMode\": \"NEW\",\n    \"httpAuthCredentials\": {\n        \"userName\": \"Administrator\",\n        \"password\": \"manage\",\n        \"domain\": \"localhost\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						},
+						"description": "NTLM HTTP Transport Security Alias:\r\n\r\nAuth mode available values are \r\n1. NEW\r\n2. INCOMING_HTTP_BASIC_AUTH\r\n3. TRANSPARENT"
+					},
+					"response": []
+				},
+				{
+					"name": "Create OAuth2 HTTP Transport Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"OAuth2HTTPTransportAlias\",\n    \"type\": \"httpTransportSecurityAlias\",\n    \"description\": \"description flows here\",\n    \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\",\n    \"authType\": \"OAUTH2\",\n    \"authMode\": \"NEW\",\n    \"oauth2Token\": \"f8928b26ce804d9f8d221ee7faff3898\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						},
+						"description": "OAuth2 HTTP Transport Security Alias:\r\n\r\nAuth mode available values are \r\n1. NEW\r\n2. INCOMING_OAUTH_TOKEN"
+					},
+					"response": []
+				}
+			],
+			"description": "\r\n\r\n\r\n\r\n\r\n\r\n",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d2830681-5286-413e-b6f0-8d94aabcf873",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f0fafebd-7f6a-49c9-9dc0-9656c02dd64b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Soap Message Security Alias",
+			"item": [
+				{
+					"name": "Create Kerberos Soap Message Security Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"KerberosSoapMessageAlias\",\n    \"type\": \"soapMessageSecurityAlias\",\n    \"description\": \"description flows here\",\n    \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\",\n    \"authType\": \"KERBEROS\",\n    \"authMode\": \"NEW\",\n    \"kerberosCredentials\": {\n        \"clientPrincipal\": \"Administrator\",\n        \"clientPassword\": \"manage\",\n        \"servicePrincipal\": \"https://softwareag.com\",\n        \"servicePrincipalNameForm\": \"username\",\n        \"requestDelegateToken\": false\n    },\n    \"signAndEncryptConfig\": {\n        \"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\n        \"keyAlias\": \"ssos\",\n        \"certificateAlias\": \"ssos\",\n        \"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						},
+						"description": "Kerberos Soap Message Alias:\n\nAuth mode applicable values are \n1. NEW\n2. DELEGATE_INCOMING\n3. INCOMING_HTTP_BASIC_AUTH\n4. INCOMING_KERBEROS\n \nService principal name form applicable values are \n1. hostbased\n2. username"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Soap Message Security Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"SoapMessageSecurityAlias\",\n    \"type\": \"soapMessageSecurityAlias\",\n    \"description\": \"description flows here\",\n    \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\",\n    \"authType\": \"NONE\",\n    \"signAndEncryptConfig\": {\n        \"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\n        \"keyAlias\": \"ssos\",\n        \"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\",\n        \"certificateAlias\": \"ssos\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create SAML Soap Message Security Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"SAMLSoapMessageSecurityAlias\",\n    \"type\": \"soapMessageSecurityAlias\",\n    \"description\": \"description flows here\",\n    \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\",\n    \"authType\": \"SAML\",\n    \"samlIssuerConfig\": \"${SAMLIssuerConfig}\",\n    \"signAndEncryptConfig\": {\n        \"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\n        \"keyAlias\": \"ssos\",\n        \"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\",\n        \"certificateAlias\": \"ssos\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create WSS Username Soap Message Security Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"WSSUsernameSoapMessageSecurityAlias\",\n    \"type\": \"soapMessageSecurityAlias\",\n    \"description\": \"description flows here\",\n    \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\",\n    \"authType\": \"WSS_USERNAME\",\n    \"authMode\": \"NEW\",\n    \"wssCredentials\": {\n        \"userName\": \"Administrator\",\n        \"password\": \"manage\"\n    },\n    \"signAndEncryptConfig\": {\n        \"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\n        \"keyAlias\": \"ssos\",\n        \"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\",\n        \"certificateAlias\": \"ssos\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "57c0448c-7a1b-4370-b860-e0b03b21e5c4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "80bb829b-91f5-4119-ba19-b1d05f42fbf9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "webMethods IS Service Alias",
+			"item": [
+				{
+					"name": "Create webMethods IS Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"serviceName\": \"webMethods.ISService:serviceName\",\n    \"runAsUser\": \"Administrator\",\n    \"complyToISSpec\": true,\n    \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\",\n    \"name\": \"webMethodISServiceAlias\",\n    \"description\": \"test\",\n    \"type\": \"webmethodsAlias\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "XSLT Transformation Alias",
+			"item": [
+				{
+					"name": "Create XSLT Transformation Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fileName\": \"XSLTransformation.xsl\",\n    \"content\": \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\\r\\n\\r\\n<xsl:stylesheet version=\\\"1.0\\\"\\r\\nxmlns:xsl=\\\"http://www.w3.org/1999/XSL/Transform\\\">\\r\\n\\r\\n<xsl:template match=\\\"/\\\">\\r\\n  <html>\\r\\n  <body>\\r\\n  <h2>XSLT Transformation</h2>\\r\\n  <table border=\\\"1\\\">\\r\\n    <tr bgcolor=\\\"#9acd32\\\">\\r\\n      <th>Title</th>\\r\\n      <th>Artist</th>\\r\\n    </tr>\\r\\n    <xsl:for-each select=\\\"title/artists\\\">\\r\\n    <tr>\\r\\n      <td><xsl:value-of select=\\\"title\\\"/></td>\\r\\n      <td><xsl:value-of select=\\\"artist\\\"/></td>\\r\\n    </tr>\\r\\n    </xsl:for-each>\\r\\n  </table>\\r\\n  </body>\\r\\n  </html>\\r\\n</xsl:template>\\r\\n\\r\\n</xsl:stylesheet> \",\n    \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\",\n    \"name\": \"XSLTTransformationAlias\",\n    \"description\": \"description flows here\",\n    \"type\": \"transformationAlias\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/alias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"alias"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Get All Aliases",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/alias",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"alias"
+					]
+				},
+				"description": "Get all the aliases available in API Gateway."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Alias by ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/alias/:aliasId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"alias",
+						":aliasId"
+					],
+					"variable": [
+						{
+							"key": "aliasId",
+							"value": "14715025-f439-46a2-b242-427af8edb3ad"
+						}
+					]
+				},
+				"description": "Get the details of a Alias."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Alias by AliasID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/alias/:aliasId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"alias",
+						":aliasId"
+					],
+					"variable": [
+						{
+							"key": "aliasId",
+							"value": "15044487-14c6-4ea1-9ff6-e51610e11491"
+						}
+					]
+				},
+				"description": "Delete alias with the given AliasID."
+			},
+			"response": []
+		},
+		{
+			"name": "Update Alias",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"SimpleAlias\",\n    \"type\": \"simple\",\n    \"description\": \"description flows here\",\n    \"value\": \"softwareag\",\n    \"stage\": \"f8928b26-ce80-4d9f-8d22-1ee7faff3898\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/alias/:aliasId",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"alias",
+						":aliasId"
+					],
+					"variable": [
+						{
+							"key": "aliasId",
+							"value": "b29686e9-287a-4538-b8cf-2ff91fa31a20"
+						}
+					]
+				},
+				"description": "Delete alias with the given AliasID."
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "manage",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Administrator",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a43d63a5-bc4f-4179-b7d1-4403addb0ecf",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "35be5304-c14f-4600-aa20-5f402c4966fb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "40613e3e-f1bc-42ca-90ae-f6cc71d4af4a",
+			"key": "baseURL",
+			"value": "http://localhost:5555/rest/apigateway",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
