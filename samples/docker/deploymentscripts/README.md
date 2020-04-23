@@ -12,9 +12,9 @@ All supported Windows and UNIX platforms.
 * Deployment of
     * API Gateway standalone - single container
     * API Gateway cluster with three containers
-    * elastic search standalone - single container
-    * elastic search cluster with three containers
-    * External Kibana container
+    * Elasticsearch standalone - single container
+    * Elasticsearch cluster with three containers
+    * External kibana container
     * Terracotta container
 
 ### Usage of the deployment scripts
