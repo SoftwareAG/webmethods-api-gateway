@@ -1,14 +1,14 @@
 # API Gateway docker deployment scripts
 
-Use these deployment scripts (docker-compose) to deploy various flavors of API Gateway (standalone or cluster) and the dependent components like Elasticsearch, Kibana, Terracotta.
+Use these deployment scripts (docker-compose) to deploy various flavors of API Gateway (standalone or cluster) and the dependent components like Elasticsearch, Kibana, Terracotta in docker
 
 ### Supported Software AG releases
-* API Gateway 10.3 and above
+* API Gateway 10.5 and above
 
 ### Supported platforms
 All supported Windows and UNIX platforms.
 
-### Supported use cases
+### Sample use cases given
 * Deployment of
     * API Gateway standalone - single container
     * API Gateway cluster with three containers
