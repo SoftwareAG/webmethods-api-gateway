@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "The API Gateway archive service exposes the interface to the API Gateway export archives. An API Gateway export archive is a ZIP file that contains APIs, policies, global policies, users, groups, access profiles, aliases, keystores, trustores, ports, JMS connections, JMS providers, JMS triggers, service registries, various administrative configurations like approval configurations, keystore/trustore configurations, cache configurations, log configurations, LDAP configurations, user account settings and all the other assets in API Gateway. You can use this service to export/import all type of assets into API Gateway. \n\n In general, for any asset being exported, all the dependent assets are automatically exported. For example, when exporting APIs,  the export archive contains the APIs, the API level policies, the policy actions associated with the API level policies, and the aliases referenced by the policy actions. Additionally, the archive may also contain the applications registered to the exported APIs.\n When exporting global policy the archive contains the global policies, the policy actions associated with the global policies, and the aliases referenced to the policy actions.\n When exporting approval configuration the archive contains the approval configuration and the access profile associated with the approval configuration. \n When exporting port the archive contains the port, the keystore and trustore associated with the port. \n When exporting LDAP configuration the archive contains the LDAP configuration, the group associated with the LDAP configuration. \n\nEach artifact in an archive is associated with a universally unique identifier (UUID) across all API Gateway installations. When importing an archive, the UUID helps in determining whether the corresponding artifact is already available in API Gateway. In such a situation, you can specify whether to overwrite an already existing artifact during the import process. \n\n Any user with the 'Export assets' functional privilege can export  archives in API Gateway and any user with the 'Import assets' privilege can import the archives. By default, the users who are part of API-Gateway-Administrators group will have these privileges.",
-    "version" : "10.5",
+    "version" : "10.7",
     "title" : "API Gateway Archive Service"
   },
   "host" : "localhost:5555",
@@ -284,7 +284,7 @@
             "description" : "This response indicates that invalid credentials have been provided for the request."
           },
           "400" : {
-            "description" : "This response indicates that a request is incorrect. This can be due to identifiers that cannot be resolved."
+            "description" : "This response indicates that a request is incorrect. This can be due to the API or Policy identifiers that cannot be resolved."
           },
           "500" : {
             "description" : "This response indicates that the server has encountered an error while exporting API Gateway Asset"
@@ -306,6 +306,12 @@
           "required" : false,
           "type" : "string",
           "enum" : [ "apis", "policies", "policyactions", "applications", "aliases", "plans", "packages", "subscriptions", "administrator_settings", "portal_gateway", "assertions", "configurations", "outboundProxies", "urlAliases", "keyStores", "trustStores", "JNDIProviderAliases", "JMSConnectionAliases", "JMSTriggers", "webserviceEndpointAliases", "users", "groups", "accessProfiles", "kerberosSetting", "*" ]
+        }, {
+          "name" : "fixingMissingVersions",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "true", "false" ]
         }, {
           "name" : "preserveAssetState",
           "in" : "query",
@@ -358,7 +364,7 @@
             "description" : "This response indicates that the server has encountered an error while exporting or importing  API Gateway Asset"
           },
           "400" : {
-            "description" : "This response indicates that the request payload is invalid or that no objects with the specified search parameters were found"
+            "description" : "This response indicates that the request is invalid or faulty, for example, the request body may contain an invalid archive."
           }
         },
         "security" : [ {
@@ -381,7 +387,7 @@
         "types" : {
           "type" : "string",
           "description" : "List of allowed types that can be searched across API Gateway.",
-          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS" ]
+          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS", "GATEWAY_SCOPE" ]
         },
         "scope" : {
           "$ref" : "#/definitions/SearchField"
@@ -461,13 +467,13 @@
           "type" : "boolean",
           "description" : "Include subscriptions for the asset type specified if applicable"
         },
-        "includeAccessProfiles" : {
+        "promotion" : {
           "type" : "boolean"
         },
         "includeTruststores" : {
           "type" : "boolean"
         },
-        "promotion" : {
+        "includeAccessProfiles" : {
           "type" : "boolean"
         }
       },

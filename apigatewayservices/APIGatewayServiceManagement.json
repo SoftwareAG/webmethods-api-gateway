@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway Service Management Service allows you to manage the APIs in the API Gateway. Any user with the 'Manage APIs' functional privilege can manage the APIs in the API Gateway. By default, the users who are part of either API-Gateway-Providers or API-Gateway-Administrators groups will have this privilege.\n\nAPI Gateway supports four types of APIs - REST APIs, SOAP APIs, WebSocket APIs and OData APIs. REST APIs can be created by providing the swagger (file/url), openAPI (file/url), raml (file/url) or can be created from scratch. SOAP APIs can be created using the WSDL (file/url). If the API definitions has reference schemas, then an archive containing all the definitions can be provided as an input. WebSocket APIs can be created from scratch. OData APIs can be created using their service document or metadata document url.\n\nThis service provides you with the options to create, update, read and delete of all the above API types.\n\nAn API can either be in an Active or an InActive state. An Active state indicates that the API is available for consumers. The users can use this service to activate or deactivate the API. Post activation, API Gateway generates 'Gateway Endpoints' which can be used by the API consumers to access the API.  Generally API consumers use their applications to consume the APIs.\n\nThis service can also be used to manage the API Scopes. An API Scope is a collection of resources or operations in the API. Users can create multiple scopes for a single API.\n\nOnce the API is created, users can enforce the access restrictions and other rules on the API by add the policies to the API. Policies can be attached to REST, SOAP and OData APIs.  Refer to the Policy Management API documentation for more details on the policies. Refer to the Document Management API documentation for more details on attaching documents to an API.\n\nThis service can also be used to publish/unpublish the APIs to/from a service registry.  An API in an active state can be registered (published) to one or more service registries.",
-    "version" : "10.5",
+    "version" : "10.7",
     "title" : "API Gateway Service Management Service"
   },
   "host" : "localhost:5555",
@@ -11,6 +11,42 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
+    "/serviceRegistry/unpublish" : {
+      "put" : {
+        "description" : "Unpublish one or more APIs from one or more service registries",
+        "operationId" : "unpublishFromServiceRegistry",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Service registry unpublish payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/InputServiceRegistryUnpublish"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n  \"unpublishInfo\": {\r\n    \"serviceRegistryIds\": [\r\n      \"aec973cd-1e4c-4a93-93a4-950e32d39156\"\r\n    ],\r\n    \"apiId\": \"afe8b72e-e1a5-47c6-9b43-e7f12858c091\"\r\n  },\r\n  \"forceUnpublish\": false\r\n}ds"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the service registry unpublish response",
+            "examples" : {
+              "application/json" : "{\r\n  \"unpublishResponse\": {\r\n    \"apiId\": \"afe8b72e-e1a5-47c6-9b43-e7f12858c091\",\r\n    \"apiName\": \"CalcService\",\r\n    \"apiVersion\": \"10.3\",\r\n    \"serviceRegistryUnpublishResponses\": [\r\n      {\r\n        \"serviceRegistryId\": \"aec973cd-1e4c-4a93-93a4-950e32d39156\",\r\n        \"serviceRegistryName\": \"MyServiceConsul\",\r\n        \"success\": true,\r\n        \"description\": \" Unpublish successful\"\r\n      }\r\n    ]\r\n  }\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/ServiceRegistryUnpublishPutResponse"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
     "/apis" : {
       "get" : {
         "description" : "Get all APIs or subset of APIs",
@@ -449,6 +485,243 @@
         } ]
       }
     },
+    "/apis/{apiId}/applications" : {
+      "get" : {
+        "description" : "Retrieves the list of registered applications of an API",
+        "operationId" : "getApplications",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiId",
+          "in" : "path",
+          "description" : "API Id for the API to find the associated applications",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of associated applications",
+            "examples" : {
+              "application/json" : "{\r\n  \"applications\": [\r\n    {\r\n      \"name\": \"app1\",\r\n      \"description\": null,\r\n      \"contactEmails\": [],\r\n      \"identifiers\": [],\r\n      \"siteURLs\": [],\r\n      \"version\": \"1.0\",\r\n      \"id\": \"ae48cd69-421e-4bdf-a4d0-e86996a78f68\",\r\n      \"created\": \"2017-03-13 13:12:03 GMT\",\r\n      \"lastupdated\": null,\r\n      \"consumingAPIs\": [\r\n        \"25fb937a-8360-41ab-8be5-987b14fe631d\"\r\n      ],\r\n      \"accessTokens\": {\r\n        \"apiAccessKey_credentials\": {\r\n          \"apiAccessKey\": \"cec4b46b-3569-4f73-a561-172dd67c182a\",\r\n          \"expirationInterval\": null\r\n        },\r\n        \"oauth_credentials\": {\r\n          \"clientID\": \"40b78ed3-d171-4bd3-99db-51dd2fa71753\",\r\n          \"clientSecret\": \"024b9525-6526-45c8-a66c-d192442064e1\",\r\n          \"clientName\": \"app1-6b753c2a-0567-462d-a4ea-1b143ab7a381\",\r\n          \"scopes\": [\r\n            \"25fb937a-8360-41ab-8be5-987b14fe631d\"\r\n          ],\r\n          \"token_lifetime\": \"3600\",\r\n          \"token_refresh_limit\": \"0\",\r\n          \"redirect_uris\": [\r\n            \"https://placeholder_redirect_uri\"\r\n          ],\r\n          \"Type\": \"confidential\"\r\n        }\r\n      }\r\n    }\r\n  ]\r\n}"
+            },
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Application"
+              }
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that the apiId specified is not found in the API Gateway"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/apis/{apiId}/source" : {
+      "get" : {
+        "description" : "Download the API definition that was used to create the API. This is applicable only for SOAP APIs.",
+        "operationId" : "getSource",
+        "produces" : [ "multipart/mixed" ],
+        "parameters" : [ {
+          "name" : "apiId",
+          "in" : "path",
+          "description" : "API Id for the API to download the source content",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the source files along with the root file name",
+            "examples" : {
+              "multipart/mixed" : "Message-ID: <296841806.5.1489555643275.JavaMail.MRIZ@MCMRIZ01>\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; \r\n\tboundary=\"----=_Part_4_1098332532.1489555643274\"\r\n\r\n------=_Part_4_1098332532.1489555643274\r\ncontent-type: application/zip\r\nContent-Disposition: attachment; filename=\"echoService.zip\"\r\n\r\nfile content in zip format\r\n------=_Part_4_1098332532.1489555643274\r\ncontent-type: text/plain\r\nContent-Disposition: inline; name=\"rootFileName\"\r\n\r\necho.wsdl\r\n------=_Part_4_1098332532.1489555643274--"
+            },
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Multipart"
+              }
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that the apiId specified is not found in the API Gateway"
+          },
+          "400" : {
+            "description" : "This status code returns when the specified API is not a SOAP API"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/apis/{apiId}/globalPolicies" : {
+      "get" : {
+        "description" : "Retrieves the list of active global policies applicable to this API",
+        "operationId" : "getAssociatedGlobalPolicies",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiId",
+          "in" : "path",
+          "description" : "API Id for the API to find the list of applicable global policies",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of global policy names",
+            "examples" : {
+              "application/json" : "{\r\n  \"globalPolicies\": [\r\n    \"GlobalLogInvocationPolicy\"\r\n  ]\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/APIResponseGetGlobalPolicies"
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that the apiId specified is not found in the API Gateway"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/apis/{apiId}/scopes" : {
+      "get" : {
+        "description" : "An API Scope is a collection of resources or operations in an API. Users can create multiple scopes for a single API. Policies can be attached to an API level or scope level. This method retrieves the scopes of an API.\n\nYou can create, modify or delete the scopes in the update API operation using PUT /api/{apiId}",
+        "operationId" : "getScopes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiId",
+          "in" : "path",
+          "description" : "API Id for the API to retrieve the versions",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns API scopes",
+            "examples" : {
+              "application/json" : "{\r\n  \"scopeReferences\": [\r\n    {\r\n      \"references\": [\r\n        {\r\n          \"resourcePath\": \"/random\",\r\n          \"supportedOperations\": []\r\n        }\r\n      ],\r\n      \"scope\": {\r\n        \"name\": \"Get_Scopes\",\r\n        \"description\": \"Dummy description of the scope\",\r\n        \"policies\": [\r\n          \"db1a42f4-e038-4a1b-82f4-8fee6fbd5687\"\r\n        ]\r\n      }\r\n    }\r\n  ]\r\n}"
+            },
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ScopeResourceIndex"
+              }
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that the apiId specified is not found in the API Gateway"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/apis/{apiId}/scopes/{scopeName}" : {
+      "get" : {
+        "description" : "Retrieve scopes of an API based on the scope name",
+        "operationId" : "getScopeByScopeName",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiId",
+          "in" : "path",
+          "description" : "API Id for the API to retrieve the versions",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        }, {
+          "name" : "scopeName",
+          "in" : "path",
+          "description" : "Name of the scope",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "getScope"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns API scopes",
+            "examples" : {
+              "application/json" : "{\r\n  \"scopeReferences\": [\r\n    {\r\n      \"references\": [\r\n        {\r\n          \"resourcePath\": \"/random\",\r\n          \"supportedOperations\": []\r\n        }\r\n      ],\r\n      \"scope\": {\r\n        \"name\": \"Get_Scopes\",\r\n        \"description\": \"Dummy description of the scope\",\r\n        \"policies\": [\r\n          \"db1a42f4-e038-4a1b-82f4-8fee6fbd5687\"\r\n        ]\r\n      }\r\n    }\r\n  ]\r\n}"
+            },
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ScopeResourceIndex"
+              }
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that the apiId specified is not found in the API Gateway or scopeName is not found in the list of scopes"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/apis/{apiId}/providerspecification" : {
+      "get" : {
+        "description" : "Downloads the provider specification of REST and SOAP based APIs. Provider specification is nothing but, the specification file (in swagger or wsdl format) with out the concrete API Gateway endpoint and contains all resources/methods/operation irrespective of whether they are exposed to consumer",
+        "operationId" : "downloadProviderSpecification",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiId",
+          "in" : "path",
+          "description" : "API Id for the API to retrieve the versions",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        }, {
+          "name" : "format",
+          "in" : "query",
+          "description" : "Output format of the API specification. For REST APIs the value is 'swagger'; for SOAP APIs use the value as 'wsdl'",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "swagger",
+          "enum" : [ "swagger", "wsdl" ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "If the format is swagger, returns the swagger content in json. If the format is wsdl, returns the wsdl content in xml.",
+            "schema" : {
+              "$ref" : "#/definitions/APIResponseGetAPI"
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that the apiId specified is not found in the API Gateway"
+          },
+          "401" : {
+            "description" : ""
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
     "/apis/{apiId}/activate" : {
       "put" : {
         "description" : "Activate an API so that API is exposed to consumers",
@@ -699,7 +972,7 @@
     },
     "/apis/{apiId}/implementation" : {
       "put" : {
-        "description" : "An API Provider tool can use this operation to update the API in APIGateway after completion of its implementation in their end",
+        "description" : "This operation can be used to update an API with its implementation endpoints details and optionally the corresponding maturity state after the implementation has been completed",
         "operationId" : "notifyAPIImplementation",
         "consumes" : [ "multipart/form-data" ],
         "produces" : [ "application/json" ],
@@ -711,26 +984,16 @@
           "type" : "string",
           "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
         }, {
-          "name" : "nativeBaseURL",
-          "in" : "query",
-          "description" : "Base URL of the native API",
-          "required" : false,
-          "type" : "string",
-          "x-example" : "http://localhost:8080/myservice/v1"
-        }, {
-          "name" : "overwriteAlias",
-          "in" : "query",
-          "description" : "Flag to replace the endpoint alias that is used in the routing policy of the API with the given value of 'nativeBaseURL' parameter.",
-          "required" : false,
-          "type" : "boolean",
-          "x-example" : true
-        }, {
-          "name" : "maturityState",
-          "in" : "query",
-          "description" : "Value of the 'maturity state' attribute of the API. The 'maturity state' of the API can be set to its one of possible value (from its defines values in extended settings configuration) to depict the completion its implementation",
-          "required" : false,
-          "type" : "string",
-          "x-example" : "Production"
+          "in" : "body",
+          "name" : "body",
+          "description" : "API publish request payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/InputAPIImplementation"
+          },
+          "x-examples" : {
+            "application/json" : "{           \r\n\t\"nativeBaseURLs\" :     [\"https://localhost:5556/restv2/calc/v1\",       \"http://localhost:5555/restv2/calc/v1\"],                               \r\n\t\"maturityState\" : \"Implemented\"\r\n}"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -747,279 +1010,6 @@
           },
           "401" : {
             "description" : ""
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/apis/{apiId}/applications" : {
-      "get" : {
-        "description" : "Retrieves the list of registered applications of an API",
-        "operationId" : "getApplications",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "apiId",
-          "in" : "path",
-          "description" : "API Id for the API to find the associated applications",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Returns the list of associated applications",
-            "examples" : {
-              "application/json" : "{\r\n  \"applications\": [\r\n    {\r\n      \"name\": \"app1\",\r\n      \"description\": null,\r\n      \"contactEmails\": [],\r\n      \"identifiers\": [],\r\n      \"siteURLs\": [],\r\n      \"version\": \"1.0\",\r\n      \"id\": \"ae48cd69-421e-4bdf-a4d0-e86996a78f68\",\r\n      \"created\": \"2017-03-13 13:12:03 GMT\",\r\n      \"lastupdated\": null,\r\n      \"consumingAPIs\": [\r\n        \"25fb937a-8360-41ab-8be5-987b14fe631d\"\r\n      ],\r\n      \"accessTokens\": {\r\n        \"apiAccessKey_credentials\": {\r\n          \"apiAccessKey\": \"cec4b46b-3569-4f73-a561-172dd67c182a\",\r\n          \"expirationInterval\": null\r\n        },\r\n        \"oauth_credentials\": {\r\n          \"clientID\": \"40b78ed3-d171-4bd3-99db-51dd2fa71753\",\r\n          \"clientSecret\": \"024b9525-6526-45c8-a66c-d192442064e1\",\r\n          \"clientName\": \"app1-6b753c2a-0567-462d-a4ea-1b143ab7a381\",\r\n          \"scopes\": [\r\n            \"25fb937a-8360-41ab-8be5-987b14fe631d\"\r\n          ],\r\n          \"token_lifetime\": \"3600\",\r\n          \"token_refresh_limit\": \"0\",\r\n          \"redirect_uris\": [\r\n            \"https://placeholder_redirect_uri\"\r\n          ],\r\n          \"Type\": \"confidential\"\r\n        }\r\n      }\r\n    }\r\n  ]\r\n}"
-            },
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Application"
-              }
-            }
-          },
-          "404" : {
-            "description" : "This status code indicates that the apiId specified is not found in the API Gateway"
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/apis/{apiId}/source" : {
-      "get" : {
-        "description" : "Download the API definition that was used to create the API. This is applicable only for SOAP APIs.",
-        "operationId" : "getSource",
-        "produces" : [ "multipart/mixed" ],
-        "parameters" : [ {
-          "name" : "apiId",
-          "in" : "path",
-          "description" : "API Id for the API to download the source content",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Returns the source files along with the root file name",
-            "examples" : {
-              "multipart/mixed" : "Message-ID: <296841806.5.1489555643275.JavaMail.MRIZ@MCMRIZ01>\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; \r\n\tboundary=\"----=_Part_4_1098332532.1489555643274\"\r\n\r\n------=_Part_4_1098332532.1489555643274\r\ncontent-type: application/zip\r\nContent-Disposition: attachment; filename=\"echoService.zip\"\r\n\r\nfile content in zip format\r\n------=_Part_4_1098332532.1489555643274\r\ncontent-type: text/plain\r\nContent-Disposition: inline; name=\"rootFileName\"\r\n\r\necho.wsdl\r\n------=_Part_4_1098332532.1489555643274--"
-            },
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Multipart"
-              }
-            }
-          },
-          "404" : {
-            "description" : "This status code indicates that the apiId specified is not found in the API Gateway"
-          },
-          "400" : {
-            "description" : "This status code returns when the specified API is not a SOAP API"
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/apis/{apiId}/globalPolicies" : {
-      "get" : {
-        "description" : "Retrieves the list of active global policies applicable to this API",
-        "operationId" : "getAssociatedGlobalPolicies",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "apiId",
-          "in" : "path",
-          "description" : "API Id for the API to find the list of applicable global policies",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Returns the list of global policy names",
-            "examples" : {
-              "application/json" : "{\r\n  \"globalPolicies\": [\r\n    \"GlobalLogInvocationPolicy\"\r\n  ]\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/APIResponseGetGlobalPolicies"
-            }
-          },
-          "404" : {
-            "description" : "This status code indicates that the apiId specified is not found in the API Gateway"
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/apis/{apiId}/scopes" : {
-      "get" : {
-        "description" : "An API Scope is a collection of resources or operations in an API. Users can create multiple scopes for a single API. Policies can be attached to an API level or scope level. This method retrieves the scopes of an API.\n\nYou can create, modify or delete the scopes in the update API operation using PUT /api/{apiId}",
-        "operationId" : "getScopes",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "apiId",
-          "in" : "path",
-          "description" : "API Id for the API to retrieve the versions",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Returns API scopes",
-            "examples" : {
-              "application/json" : "{\r\n  \"scopeReferences\": [\r\n    {\r\n      \"references\": [\r\n        {\r\n          \"resourcePath\": \"/random\",\r\n          \"supportedOperations\": []\r\n        }\r\n      ],\r\n      \"scope\": {\r\n        \"name\": \"Get_Scopes\",\r\n        \"description\": \"Dummy description of the scope\",\r\n        \"policies\": [\r\n          \"db1a42f4-e038-4a1b-82f4-8fee6fbd5687\"\r\n        ]\r\n      }\r\n    }\r\n  ]\r\n}"
-            },
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/ScopeResourceIndex"
-              }
-            }
-          },
-          "404" : {
-            "description" : "This status code indicates that the apiId specified is not found in the API Gateway"
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/apis/{apiId}/scopes/{scopeName}" : {
-      "get" : {
-        "description" : "Retrieve scopes of an API based on the scope name",
-        "operationId" : "getScopeByScopeName",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "apiId",
-          "in" : "path",
-          "description" : "API Id for the API to retrieve the versions",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
-        }, {
-          "name" : "scopeName",
-          "in" : "path",
-          "description" : "Name of the scope",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "getScope"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Returns API scopes",
-            "examples" : {
-              "application/json" : "{\r\n  \"scopeReferences\": [\r\n    {\r\n      \"references\": [\r\n        {\r\n          \"resourcePath\": \"/random\",\r\n          \"supportedOperations\": []\r\n        }\r\n      ],\r\n      \"scope\": {\r\n        \"name\": \"Get_Scopes\",\r\n        \"description\": \"Dummy description of the scope\",\r\n        \"policies\": [\r\n          \"db1a42f4-e038-4a1b-82f4-8fee6fbd5687\"\r\n        ]\r\n      }\r\n    }\r\n  ]\r\n}"
-            },
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/ScopeResourceIndex"
-              }
-            }
-          },
-          "404" : {
-            "description" : "This status code indicates that the apiId specified is not found in the API Gateway or scopeName is not found in the list of scopes"
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/apis/{apiId}/providerspecification" : {
-      "get" : {
-        "description" : "Downloads the provider specification of REST and SOAP based APIs. Provider specification is nothing but, the specification file (in swagger or wsdl format) with out the concrete API Gateway endpoint and contains all resources/methods/operation irrespective of whether they are exposed to consumer",
-        "operationId" : "downloadProviderSpecification",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "apiId",
-          "in" : "path",
-          "description" : "API Id for the API to retrieve the versions",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
-        }, {
-          "name" : "format",
-          "in" : "query",
-          "description" : "Output format of the API specification. For REST APIs the value is 'swagger'; for SOAP APIs use the value as 'wsdl'",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "swagger",
-          "enum" : [ "swagger", "wsdl" ]
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "If the format is swagger, returns the swagger content in json. If the format is wsdl, returns the wsdl content in xml.",
-            "schema" : {
-              "$ref" : "#/definitions/APIResponseGetAPI"
-            }
-          },
-          "404" : {
-            "description" : "This status code indicates that the apiId specified is not found in the API Gateway"
-          },
-          "401" : {
-            "description" : ""
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/serviceRegistry/unpublish" : {
-      "put" : {
-        "description" : "Unpublish one or more APIs from one or more service registries",
-        "operationId" : "unpublishFromServiceRegistry",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "Service registry unpublish payload",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/InputServiceRegistryUnpublish"
-          },
-          "x-examples" : {
-            "application/json" : "{\r\n  \"unpublishInfo\": {\r\n    \"serviceRegistryIds\": [\r\n      \"aec973cd-1e4c-4a93-93a4-950e32d39156\"\r\n    ],\r\n    \"apiId\": \"afe8b72e-e1a5-47c6-9b43-e7f12858c091\"\r\n  },\r\n  \"forceUnpublish\": false\r\n}ds"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Returns the service registry unpublish response",
-            "examples" : {
-              "application/json" : "{\r\n  \"unpublishResponse\": {\r\n    \"apiId\": \"afe8b72e-e1a5-47c6-9b43-e7f12858c091\",\r\n    \"apiName\": \"CalcService\",\r\n    \"apiVersion\": \"10.3\",\r\n    \"serviceRegistryUnpublishResponses\": [\r\n      {\r\n        \"serviceRegistryId\": \"aec973cd-1e4c-4a93-93a4-950e32d39156\",\r\n        \"serviceRegistryName\": \"MyServiceConsul\",\r\n        \"success\": true,\r\n        \"description\": \" Unpublish successful\"\r\n      }\r\n    ]\r\n  }\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/ServiceRegistryUnpublishPutResponse"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
         "security" : [ {
@@ -1176,6 +1166,101 @@
     }
   },
   "definitions" : {
+    "InputServiceRegistryUnpublish" : {
+      "type" : "object",
+      "properties" : {
+        "unpublishInfo" : {
+          "$ref" : "#/definitions/UnpublishInfo"
+        },
+        "unpublishInfos" : {
+          "type" : "array",
+          "description" : "This contains the unpublish information for multiple APIs. Required when publishing more than one API from one or more service registries.",
+          "items" : {
+            "$ref" : "#/definitions/UnpublishInfo"
+          }
+        }
+      }
+    },
+    "UnpublishInfo" : {
+      "type" : "object",
+      "properties" : {
+        "apiId" : {
+          "type" : "string",
+          "description" : "API id for the API to be unpublished. This field is required."
+        },
+        "serviceRegistryIds" : {
+          "type" : "array",
+          "description" : "List of ids of the service registries from which the API has to be unpublished. This field is required.",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "ServiceRegistryUnpublishPutResponse" : {
+      "type" : "object",
+      "properties" : {
+        "unpublishResponse" : {
+          "$ref" : "#/definitions/UnpublishResponse"
+        },
+        "unpublishResponses" : {
+          "type" : "array",
+          "description" : "This contains the service registry unpublish status for requests unpublishing more than one API from one or more service registries.",
+          "items" : {
+            "$ref" : "#/definitions/UnpublishResponse"
+          }
+        }
+      }
+    },
+    "ServiceRegistryUnpublishResponse" : {
+      "type" : "object",
+      "properties" : {
+        "serviceRegistryId" : {
+          "type" : "string",
+          "description" : "Id i.e, UDDI key of the service registry"
+        },
+        "serviceRegistryName" : {
+          "type" : "string",
+          "description" : "Name of the service registry"
+        },
+        "success" : {
+          "type" : "boolean",
+          "description" : "Represents whether the unpublish operation of API from the service registry is success. Possible values: true/false"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Represents the status of the unpublish operation of the API from the service registry eg: Unpublish successful, Unpublish failed, etc"
+        },
+        "failureReason" : {
+          "type" : "string",
+          "description" : "Provides the reason for the failure when the unpublish operation is not successful"
+        }
+      }
+    },
+    "UnpublishResponse" : {
+      "type" : "object",
+      "properties" : {
+        "apiId" : {
+          "type" : "string",
+          "description" : "API id of the API published."
+        },
+        "apiName" : {
+          "type" : "string",
+          "description" : "API name of the API published."
+        },
+        "serviceRegistryUnpublishResponses" : {
+          "type" : "array",
+          "description" : "Contains unpublish status of the API for each service registry in the request.",
+          "items" : {
+            "$ref" : "#/definitions/ServiceRegistryUnpublishResponse"
+          }
+        },
+        "apiVersion" : {
+          "type" : "string",
+          "description" : "API version of the API published."
+        }
+      }
+    },
     "API" : {
       "type" : "object",
       "discriminator" : "type",
@@ -1183,10 +1268,10 @@
         "type" : {
           "type" : "string"
         },
-        "description" : {
+        "title" : {
           "type" : "string"
         },
-        "title" : {
+        "description" : {
           "type" : "string"
         },
         "version" : {
@@ -2432,20 +2517,20 @@
         "description" : {
           "type" : "string"
         },
-        "example" : {
-          "type" : "object"
-        },
         "vendorExtensions" : {
           "type" : "object",
           "additionalProperties" : {
             "type" : "object"
           }
         },
-        "reference" : {
-          "type" : "string"
+        "example" : {
+          "type" : "object"
         },
         "externalDocs" : {
           "$ref" : "#/definitions/ExternalDocs"
+        },
+        "reference" : {
+          "type" : "string"
         }
       }
     },
@@ -3056,23 +3141,23 @@
         "description" : {
           "type" : "string"
         },
-        "required" : {
-          "type" : "boolean"
-        },
-        "format" : {
-          "type" : "string"
-        },
-        "access" : {
-          "type" : "string"
-        },
-        "example" : {
-          "type" : "object"
-        },
         "vendorExtensions" : {
           "type" : "object",
           "additionalProperties" : {
             "type" : "object"
           }
+        },
+        "access" : {
+          "type" : "string"
+        },
+        "required" : {
+          "type" : "boolean"
+        },
+        "example" : {
+          "type" : "object"
+        },
+        "format" : {
+          "type" : "string"
         },
         "position" : {
           "type" : "integer",
@@ -3175,12 +3260,12 @@
       }, {
         "type" : "object",
         "properties" : {
+          "get$ref" : {
+            "type" : "string"
+          },
           "refFormat" : {
             "type" : "string",
             "enum" : [ "URL", "RELATIVE", "INTERNAL" ]
-          },
-          "get$ref" : {
-            "type" : "string"
           },
           "simpleRef" : {
             "type" : "string"
@@ -3277,12 +3362,12 @@
       }, {
         "type" : "object",
         "properties" : {
+          "get$ref" : {
+            "type" : "string"
+          },
           "refFormat" : {
             "type" : "string",
             "enum" : [ "URL", "RELATIVE", "INTERNAL" ]
-          },
-          "get$ref" : {
-            "type" : "string"
           },
           "simpleRef" : {
             "type" : "string"
@@ -4143,12 +4228,12 @@
         "apiId" : {
           "type" : "string"
         },
-        "errorReason" : {
-          "type" : "string"
-        },
         "responseStatus" : {
           "type" : "string",
           "enum" : [ "SUCCESS", "ERROR", "NOT_FOUND", "BAD_REQUEST", "PARTIAL_SUCCESS" ]
+        },
+        "errorReason" : {
+          "type" : "string"
         }
       }
     },
@@ -4274,6 +4359,10 @@
           "type" : "string",
           "readOnly" : true
         },
+        "portalApiItemIdentifier" : {
+          "type" : "string",
+          "readOnly" : true
+        },
         "mockService" : {
           "$ref" : "#/definitions/MockService"
         },
@@ -4332,11 +4421,11 @@
       "type" : "object",
       "required" : [ "newApiVersion" ],
       "properties" : {
-        "retainApplications" : {
-          "type" : "boolean"
-        },
         "newApiVersion" : {
           "type" : "string"
+        },
+        "retainApplications" : {
+          "type" : "boolean"
         }
       }
     },
@@ -4435,49 +4524,29 @@
         "apiId" : {
           "type" : "string"
         },
-        "errorReason" : {
-          "type" : "string"
-        },
         "responseStatus" : {
           "type" : "string",
           "enum" : [ "SUCCESS", "ERROR", "NOT_FOUND", "BAD_REQUEST", "PARTIAL_SUCCESS" ]
+        },
+        "errorReason" : {
+          "type" : "string"
         }
       },
       "description" : "This model contains the basics details of an API."
     },
-    "InputPublish" : {
-      "type" : "object",
-      "properties" : {
-        "portalGatewayId" : {
-          "type" : "string"
-        },
-        "communities" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "endpoints" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string"
-          }
-        }
-      }
-    },
     "APIResponseGetAPI" : {
       "type" : "object",
       "properties" : {
-        "versions" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/Version"
-          }
-        },
         "gatewayEndPoints" : {
           "type" : "array",
           "items" : {
             "type" : "string"
+          }
+        },
+        "versions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Version"
           }
         },
         "api" : {
@@ -4486,12 +4555,12 @@
         "apiId" : {
           "type" : "string"
         },
-        "errorReason" : {
-          "type" : "string"
-        },
         "responseStatus" : {
           "type" : "string",
           "enum" : [ "SUCCESS", "ERROR", "NOT_FOUND", "BAD_REQUEST", "PARTIAL_SUCCESS" ]
+        },
+        "errorReason" : {
+          "type" : "string"
         }
       }
     },
@@ -4599,6 +4668,7 @@
         },
         "authStrategyIds" : {
           "type" : "array",
+          "description" : "Contains a list of JWT/Oauth/OpenID authentication strategy ids associated to the application",
           "uniqueItems" : true,
           "items" : {
             "type" : "string"
@@ -4690,10 +4760,10 @@
     "CommandInfo" : {
       "type" : "object",
       "properties" : {
-        "commandName" : {
+        "commandClass" : {
           "type" : "string"
         },
-        "commandClass" : {
+        "commandName" : {
           "type" : "string"
         }
       }
@@ -4707,14 +4777,32 @@
         "humanPresentableName" : {
           "type" : "string"
         },
+        "defaultRepresentationClassAsString" : {
+          "type" : "string"
+        },
         "subType" : {
           "type" : "string"
+        },
+        "flavorJavaFileListType" : {
+          "type" : "boolean"
+        },
+        "flavorRemoteObjectType" : {
+          "type" : "boolean"
+        },
+        "flavorSerializedObjectType" : {
+          "type" : "boolean"
+        },
+        "flavorTextType" : {
+          "type" : "boolean"
         },
         "mimeTypeSerializedObject" : {
           "type" : "boolean"
         },
-        "defaultRepresentationClassAsString" : {
-          "type" : "string"
+        "representationClassByteBuffer" : {
+          "type" : "boolean"
+        },
+        "representationClassCharBuffer" : {
+          "type" : "boolean"
         },
         "representationClassInputStream" : {
           "type" : "boolean"
@@ -4722,28 +4810,10 @@
         "representationClassReader" : {
           "type" : "boolean"
         },
-        "representationClassCharBuffer" : {
-          "type" : "boolean"
-        },
-        "representationClassByteBuffer" : {
-          "type" : "boolean"
-        },
-        "representationClassSerializable" : {
-          "type" : "boolean"
-        },
         "representationClassRemote" : {
           "type" : "boolean"
         },
-        "flavorSerializedObjectType" : {
-          "type" : "boolean"
-        },
-        "flavorRemoteObjectType" : {
-          "type" : "boolean"
-        },
-        "flavorJavaFileListType" : {
-          "type" : "boolean"
-        },
-        "flavorTextType" : {
+        "representationClassSerializable" : {
           "type" : "boolean"
         },
         "primaryType" : {
@@ -4772,10 +4842,10 @@
         "outputStream" : {
           "$ref" : "#/definitions/OutputStream"
         },
-        "transferDataFlavors" : {
+        "allCommands" : {
           "type" : "array",
           "items" : {
-            "$ref" : "#/definitions/DataFlavor"
+            "$ref" : "#/definitions/CommandInfo"
           }
         },
         "preferredCommands" : {
@@ -4784,10 +4854,10 @@
             "$ref" : "#/definitions/CommandInfo"
           }
         },
-        "allCommands" : {
+        "transferDataFlavors" : {
           "type" : "array",
           "items" : {
-            "$ref" : "#/definitions/CommandInfo"
+            "$ref" : "#/definitions/DataFlavor"
           }
         }
       }
@@ -4909,98 +4979,37 @@
         }
       }
     },
-    "InputServiceRegistryUnpublish" : {
+    "InputPublish" : {
       "type" : "object",
       "properties" : {
-        "unpublishInfo" : {
-          "$ref" : "#/definitions/UnpublishInfo"
+        "portalGatewayId" : {
+          "type" : "string"
         },
-        "unpublishInfos" : {
+        "communities" : {
           "type" : "array",
-          "description" : "This contains the unpublish information for multiple APIs. Required when publishing more than one API from one or more service registries.",
           "items" : {
-            "$ref" : "#/definitions/UnpublishInfo"
+            "type" : "string"
           }
-        }
-      }
-    },
-    "UnpublishInfo" : {
-      "type" : "object",
-      "properties" : {
-        "apiId" : {
-          "type" : "string",
-          "description" : "API id for the API to be unpublished. This field is required."
         },
-        "serviceRegistryIds" : {
+        "endpoints" : {
           "type" : "array",
-          "description" : "List of ids of the service registries from which the API has to be unpublished. This field is required.",
           "items" : {
             "type" : "string"
           }
         }
       }
     },
-    "ServiceRegistryUnpublishPutResponse" : {
+    "InputAPIImplementation" : {
       "type" : "object",
       "properties" : {
-        "unpublishResponse" : {
-          "$ref" : "#/definitions/UnpublishResponse"
+        "maturityState" : {
+          "type" : "string"
         },
-        "unpublishResponses" : {
+        "nativeBaseURLs" : {
           "type" : "array",
-          "description" : "This contains the service registry unpublish status for requests unpublishing more than one API from one or more service registries.",
           "items" : {
-            "$ref" : "#/definitions/UnpublishResponse"
+            "type" : "string"
           }
-        }
-      }
-    },
-    "ServiceRegistryUnpublishResponse" : {
-      "type" : "object",
-      "properties" : {
-        "serviceRegistryId" : {
-          "type" : "string",
-          "description" : "Id i.e, UDDI key of the service registry"
-        },
-        "serviceRegistryName" : {
-          "type" : "string",
-          "description" : "Name of the service registry"
-        },
-        "success" : {
-          "type" : "boolean",
-          "description" : "Represents whether the unpublish operation of API from the service registry is success. Possible values: true/false"
-        },
-        "description" : {
-          "type" : "string",
-          "description" : "Represents the status of the unpublish operation of the API from the service registry eg: Unpublish successful, Unpublish failed, etc"
-        },
-        "failureReason" : {
-          "type" : "string",
-          "description" : "Provides the reason for the failure when the unpublish operation is not successful"
-        }
-      }
-    },
-    "UnpublishResponse" : {
-      "type" : "object",
-      "properties" : {
-        "apiId" : {
-          "type" : "string",
-          "description" : "API id of the API published."
-        },
-        "apiName" : {
-          "type" : "string",
-          "description" : "API name of the API published."
-        },
-        "serviceRegistryUnpublishResponses" : {
-          "type" : "array",
-          "description" : "Contains unpublish status of the API for each service registry in the request.",
-          "items" : {
-            "$ref" : "#/definitions/ServiceRegistryUnpublishResponse"
-          }
-        },
-        "apiVersion" : {
-          "type" : "string",
-          "description" : "API version of the API published."
         }
       }
     },
@@ -5019,21 +5028,6 @@
       },
       "description" : "This defines the service registry publish information for API Gateway's API endpoints"
     },
-    "InputServiceRegistryPublish" : {
-      "type" : "object",
-      "properties" : {
-        "publishInfo" : {
-          "$ref" : "#/definitions/PublishPayload"
-        },
-        "publishInfos" : {
-          "type" : "array",
-          "description" : "This contains the publish information for multiple APIs. Required when publishing more than one API to one or more service registries.",
-          "items" : {
-            "$ref" : "#/definitions/PublishPayload"
-          }
-        }
-      }
-    },
     "IntegrationServerPublishInfo" : {
       "type" : "object",
       "properties" : {
@@ -5049,12 +5043,59 @@
           "type" : "string",
           "description" : "Name of the folder under the package (mentioned on 'packageName' property) in which the API to be published. This field is required."
         },
+        "apiName" : {
+          "type" : "string"
+        },
+        "updateNativeEndpointsOfAPI" : {
+          "type" : "boolean"
+        },
+        "importSwaggerBasedOnTags" : {
+          "type" : "boolean"
+        },
+        "enableMTOM" : {
+          "type" : "boolean"
+        },
+        "enforceWSICompliance" : {
+          "type" : "boolean"
+        },
+        "validateSchemaWithXerces" : {
+          "type" : "boolean"
+        },
+        "contentModelComplianceForWSDL" : {
+          "type" : "string"
+        },
+        "packageAndFolders" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/PackageFolderPair"
+          }
+        },
         "status" : {
           "type" : "string",
           "enum" : [ "NEW", "PUBLISHED", "SUSPENDED" ]
         },
         "integrationServerName" : {
           "type" : "string"
+        }
+      }
+    },
+    "PackageFolderPair" : {
+      "type" : "object",
+      "properties" : {
+        "packageName" : {
+          "type" : "string"
+        },
+        "folderName" : {
+          "type" : "string"
+        },
+        "markedAsDeleted" : {
+          "type" : "boolean"
+        },
+        "apiDescriptorNSNameMap" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "string"
+          }
         }
       }
     },
@@ -5080,6 +5121,14 @@
         }
       }
     },
+    "ServiceRegistryPublishGetResponse" : {
+      "type" : "object",
+      "properties" : {
+        "publishInfo" : {
+          "$ref" : "#/definitions/PublishPayload"
+        }
+      }
+    },
     "ServiceRegistryPublishInfo" : {
       "type" : "object",
       "properties" : {
@@ -5102,6 +5151,21 @@
           "uniqueItems" : true,
           "items" : {
             "$ref" : "#/definitions/Endpoints"
+          }
+        }
+      }
+    },
+    "InputServiceRegistryPublish" : {
+      "type" : "object",
+      "properties" : {
+        "publishInfo" : {
+          "$ref" : "#/definitions/PublishPayload"
+        },
+        "publishInfos" : {
+          "type" : "array",
+          "description" : "This contains the publish information for multiple APIs. Required when publishing more than one API to one or more service registries.",
+          "items" : {
+            "$ref" : "#/definitions/PublishPayload"
           }
         }
       }
@@ -5214,14 +5278,6 @@
         "failureReason" : {
           "type" : "string",
           "description" : "Provides the reason for the failure when the publish operation is not successful"
-        }
-      }
-    },
-    "ServiceRegistryPublishGetResponse" : {
-      "type" : "object",
-      "properties" : {
-        "publishInfo" : {
-          "$ref" : "#/definitions/PublishPayload"
         }
       }
     },

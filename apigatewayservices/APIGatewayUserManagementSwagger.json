@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway User Management Service allows you to manage Users, Groups and Access profiles in the API Gateway. Any user with the 'Manage user administration' functional privilege can manage the Users, Groups and Access profiles in API Gateway. By default, the users who are part of API-Gateway-Administrators groups will have this privilege.\n\nAPI Gateway allows you to manage the password restrictions settings. For security purposes, API Gateway places length and character restrictions on passwords for administrator and non-administrator users. API Gateway contains a default set of password requirements. However, you can change these using the API Gateway Administration Service. Refer the REST resource '/configurations/passwordRestrictions' in the API Gateway Administration Service. \n\nAPI Gateway allows you to manage the password expiration settings. For security purposes, API Gateway allows administrators to set password expiration requirements on passwords for administrator and non-administrator users. API Gateway contains a default set of password expiry settings. However, you can change these with the API Gateway Administration service. Refer the REST resource '/configurations/passwordExpiry' in the API Gateway Administration Service. \n\nAPI Gateway allows you to manage the account locking settings. For security purposes, it is important to lock a user account when the user fails to provide the correct password after a specified number of failed login attempts to API Gateway. A locked user account remains locked for a specific period of time, after which the account gets unlocked. API Gateway allows administrators to configure these account locking settings for administrator and non-administrator users. Using API Gateway Administration Service, you can set the values for number of attempts by a user before locking the account and also the duration of the lock interval. Refer the REST resource '/configurations/accountLockSettings' in the API Gateway Administration Service.\n\nAPI Gateway allows you to view the locked user accounts and also allows to manually unlock locked user accounts before the automatic unlocking period. This can be achieved using the REST resource '/is/lockedAccounts' in the API Gateway User Management Service. \n\nAPI Gateway allows you to configure LDAP directories. If your server uses Lightweight Directory Access Protocol (LDAP) for user and group information, you can configure API Gateway to obtain user and group information from the external LDAP directory. You can configure API Gateway to use more than one LDAP directory at a time, allowing API Gateway to work with different LDAP directories for users in different locations or different organizations. You can manage the LDAP directories and LDAP configurations using the API Gateway Administration service. Refer the REST resource '/configurations/ldapConfig' in the API Gateway Administration Service.\n\nGlobal Team Assignments : When Teamwork feature is enabled, one can automate the team assignment for assets, by defining Global Team Assignment rules. Rules are defined by specifying one or more asset based conditions, and by configuring the rule output if the conditions are met. Management of such rules are exposed through an REST API. Refer the REST resource '/rule' in the API Gateway Administration Service.",
-    "version" : "10.5",
+    "version" : "10.7",
     "title" : "API Gateway User Management Service"
   },
   "host" : "localhost:5555",
@@ -11,34 +11,6 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
-    "/installedLanguages" : {
-      "get" : {
-        "description" : "The method retrieves list of installed language packs in API Gateway.",
-        "operationId" : "getInstalledLanguages",
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the list of installed language packs is successfully retrieved.",
-            "examples" : {
-              "application/json" : "{\r\n    \"installedLanguages\": [\r\n        \"ja\"\r\n    ]\r\n}"
-            },
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
     "/accessProfiles" : {
       "get" : {
         "description" : "The method retrieves list of all teams in API Gateway.",
@@ -273,6 +245,275 @@
         } ]
       }
     },
+    "/authenticate" : {
+      "post" : {
+        "description" : "This HTTP request authenticates an User in API Gateway.",
+        "operationId" : "authorizeUser",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of a user that is to be created in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/User"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the user was successfully authenticated.",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the request payload is not correct or User is already exists"
+          },
+          "401" : {
+            "description" : "This status code indicates that authorization has been refused for this HTTP request. This is possibly because, the user has not specified the required credentials (username and password), or has specified invalid credentials."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/installedLanguages" : {
+      "get" : {
+        "description" : "The method retrieves list of installed language packs in API Gateway.",
+        "operationId" : "getInstalledLanguages",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the list of installed language packs is successfully retrieved.",
+            "examples" : {
+              "application/json" : "{\r\n    \"installedLanguages\": [\r\n        \"ja\"\r\n    ]\r\n}"
+            },
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/users" : {
+      "get" : {
+        "description" : "The method retrieves list of all users in API Gateway.",
+        "operationId" : "getUsers",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the list of users is successfully retrieved.",
+            "examples" : {
+              "application/json" : "{\r\n    \"users\": [\r\n        {\r\n            \"id\": \"Administrator\",\r\n            \"loginId\": \"Administrator\",\r\n            \"firstName\": \"Administrator\",\r\n            \"password\": \"********************************\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"active\": true,\r\n            \"systemDefined\": true,\r\n            \"language\": \"en\",\r\n             \"emailAddresses\": []\r\n        },\r\n        {\r\n            \"id\": \"15fbeeb2-745c-4988-b7b6-61f359ecbfc8\",\r\n            \"loginId\": \"testUser\",\r\n            \"firstName\": \"User\",\r\n            \"lastName\": \"Test\",\r\n            \"password\": \"********************************\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"active\": true,\r\n            \"systemDefined\": false,\r\n            \"language\": \"ja\",\r\n            \"emailAddresses\": [\r\n                \"noreply@softwareag.com\"\r\n            ]\r\n        }\r\n    ]\r\n}\r\n"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "The method creates an user in API Gateway. The API request body must contain the payload for the user.",
+        "operationId" : "createUser",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of a user that is to be created in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/User"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n            \"loginId\": \"testUser\",\r\n            \"firstName\": \"User\",\r\n            \"lastName\": \"Test\",\r\n            \"password\": \"test\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"language\": \"en\",\r\n            \"emailAddresses\": [\r\n                \"noreply@softwareag.com\"\r\n            ]\r\n        }"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "This status code indicates that the user has been successfully created in API Gateway, and the newly created user is available in the response body.",
+            "examples" : {
+              "application/json" : "{\r\n            \"id\": \"15fbeeb2-745c-4988-b7b6-61f359ecbfc8\",\r\n            \"loginId\": \"testUser\",\r\n            \"firstName\": \"User\",\r\n            \"lastName\": \"Test\",\r\n            \"password\": \"********************************\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"active\": true,\r\n            \"language\": \"en\",\r\n            \"emailAddresses\": [\r\n                \"noreply@softwareag.com\"\r\n            ]\r\n        }"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that an user with the given loginId already exists in API Gateway or the request body is not correct."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/users/authenticate" : {
+      "post" : {
+        "description" : "This HTTP request authenticates an User in API Gateway.",
+        "operationId" : "authorizeUser",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of a user that is to be created in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/User"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the user was successfully authenticated.",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the request payload is not correct or User is already exists"
+          },
+          "401" : {
+            "description" : "This status code indicates that authorization has been refused for this HTTP request. This is possibly because, the user has not specified the required credentials (username and password), or has specified invalid credentials."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/users/{userId}" : {
+      "get" : {
+        "description" : "The method retrieves the details of an user in API Gateway.",
+        "operationId" : "getUser",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "The path parameter specifies the id of an user whose details are to be retrieved.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the details of the user is successfully retrieved.",
+            "examples" : {
+              "application/json" : "{\r\n    \"users\": [\r\n        {\r\n            \"id\": \"15fbeeb2-745c-4988-b7b6-61f359ecbfc8\",\r\n            \"loginId\": \"testUser\",\r\n            \"firstName\": \"User\",\r\n            \"lastName\": \"Test\",\r\n            \"password\": \"********************************\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"active\": true,\r\n            \"emailAddresses\": [\r\n                \"noreply@softwareag.com\"\r\n            ]\r\n        }\r\n    ]\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that an user with the given id could not be found in API Gateway.",
+            "examples" : {
+              "application/json" : "{\r\n    \"errorDetails\": \" User with id: 15fbeeb2-745c-4988-b7b6-61f359ecbfc8 does not exist.\"\r\n}"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "The method updates the details of a specified user in API Gateway. The API request body must contain the payload for the updated user.",
+        "operationId" : "updateUser",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of a user that is to be updated in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/User"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n            \"loginId\": \"testUser\",\r\n            \"firstName\": \"User\",\r\n            \"lastName\": \"Test\",\r\n            \"password\": \"test\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"emailAddresses\": [\r\n                \"noreply@softwareag.com\"\r\n            ]\r\n        }"
+          }
+        }, {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "The path parameter specifies the id of an user whose detail is to be updated in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the user has been successfully updated in API Gateway, and the updated user is available in the response body.",
+            "examples" : {
+              "application/json" : "{\r\n  \"id\": \"15fbeeb2-745c-4988-b7b6-61f359ecbfc8\",\r\n            \"loginId\": \"testUser\",\r\n            \"firstName\": \"User\",\r\n            \"lastName\": \"Test\",\r\n            \"password\": \"test\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"emailAddresses\": [\r\n                \"noreply@softwareag.com\"\r\n            ]\r\n        }"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the request body is invalid."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "This HTTP request deletes the specified application in API Gateway.",
+        "operationId" : "deleteUser",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application that is to be deleted in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "204" : {
+            "description" : "This status code indicates that the specified user has been successfully deleted from API Gateway."
+          },
+          "404" : {
+            "description" : "This status code indicates that an user with the given id could not be found in API Gateway.",
+            "examples" : {
+              "application/json" : "{\r\n    \"errorDetails\": \" User with id: 732c4526-db9a-4ef9-9782-edda1a6aa9bc does not exist.\"\r\n}"
+            }
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
     "/groups" : {
       "get" : {
         "description" : "The method retrieves list of all groups in API Gateway.",
@@ -445,247 +686,6 @@
           "Basic" : [ ]
         } ]
       }
-    },
-    "/users" : {
-      "get" : {
-        "description" : "The method retrieves list of all users in API Gateway.",
-        "operationId" : "getUsers",
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the list of users is successfully retrieved.",
-            "examples" : {
-              "application/json" : "{\r\n    \"users\": [\r\n        {\r\n            \"id\": \"Administrator\",\r\n            \"loginId\": \"Administrator\",\r\n            \"firstName\": \"Administrator\",\r\n            \"password\": \"********************************\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"active\": true,\r\n            \"systemDefined\": true,\r\n            \"language\": \"en\",\r\n             \"emailAddresses\": []\r\n        },\r\n        {\r\n            \"id\": \"15fbeeb2-745c-4988-b7b6-61f359ecbfc8\",\r\n            \"loginId\": \"testUser\",\r\n            \"firstName\": \"User\",\r\n            \"lastName\": \"Test\",\r\n            \"password\": \"********************************\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"active\": true,\r\n            \"systemDefined\": false,\r\n            \"language\": \"ja\",\r\n            \"emailAddresses\": [\r\n                \"noreply@softwareag.com\"\r\n            ]\r\n        }\r\n    ]\r\n}\r\n"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/User"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "post" : {
-        "description" : "The method creates an user in API Gateway. The API request body must contain the payload for the user.",
-        "operationId" : "createUser",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "This parameter describes the request payload of a user that is to be created in API Gateway.",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/User"
-          },
-          "x-examples" : {
-            "application/json" : "{\r\n            \"loginId\": \"testUser\",\r\n            \"firstName\": \"User\",\r\n            \"lastName\": \"Test\",\r\n            \"password\": \"test\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"language\": \"en\",\r\n            \"emailAddresses\": [\r\n                \"noreply@softwareag.com\"\r\n            ]\r\n        }"
-          }
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "This status code indicates that the user has been successfully created in API Gateway, and the newly created user is available in the response body.",
-            "examples" : {
-              "application/json" : "{\r\n            \"id\": \"15fbeeb2-745c-4988-b7b6-61f359ecbfc8\",\r\n            \"loginId\": \"testUser\",\r\n            \"firstName\": \"User\",\r\n            \"lastName\": \"Test\",\r\n            \"password\": \"********************************\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"active\": true,\r\n            \"language\": \"en\",\r\n            \"emailAddresses\": [\r\n                \"noreply@softwareag.com\"\r\n            ]\r\n        }"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/User"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicates that an user with the given loginId already exists in API Gateway or the request body is not correct."
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/users/authenticate" : {
-      "post" : {
-        "description" : "This HTTP request authenticates an User in API Gateway.",
-        "operationId" : "authenticateUser",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "This parameter describes the request payload of a user that is to be created in API Gateway.",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/User"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the user was successfully authenticated.",
-            "schema" : {
-              "$ref" : "#/definitions/User"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicates that the request payload is not correct or User is already exists"
-          },
-          "401" : {
-            "description" : "This status code indicates that authorization has been refused for this HTTP request. This is possibly because, the user has not specified the required credentials (username and password), or has specified invalid credentials."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/users/{userId}" : {
-      "get" : {
-        "description" : "The method retrieves the details of an user in API Gateway.",
-        "operationId" : "getUser",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "userId",
-          "in" : "path",
-          "description" : "The path parameter specifies the id of an user whose details are to be retrieved.",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the details of the user is successfully retrieved.",
-            "examples" : {
-              "application/json" : "{\r\n    \"users\": [\r\n        {\r\n            \"id\": \"15fbeeb2-745c-4988-b7b6-61f359ecbfc8\",\r\n            \"loginId\": \"testUser\",\r\n            \"firstName\": \"User\",\r\n            \"lastName\": \"Test\",\r\n            \"password\": \"********************************\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"active\": true,\r\n            \"emailAddresses\": [\r\n                \"noreply@softwareag.com\"\r\n            ]\r\n        }\r\n    ]\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/User"
-            }
-          },
-          "404" : {
-            "description" : "This status code indicates that an user with the given id could not be found in API Gateway.",
-            "examples" : {
-              "application/json" : "{\r\n    \"errorDetails\": \" User with id: 15fbeeb2-745c-4988-b7b6-61f359ecbfc8 does not exist.\"\r\n}"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "put" : {
-        "description" : "The method updates the details of a specified user in API Gateway. The API request body must contain the payload for the updated user.",
-        "operationId" : "updateUser",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "This parameter describes the request payload of a user that is to be updated in API Gateway.",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/User"
-          },
-          "x-examples" : {
-            "application/json" : "{\r\n            \"loginId\": \"testUser\",\r\n            \"firstName\": \"User\",\r\n            \"lastName\": \"Test\",\r\n            \"password\": \"test\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"emailAddresses\": [\r\n                \"noreply@softwareag.com\"\r\n            ]\r\n        }"
-          }
-        }, {
-          "name" : "userId",
-          "in" : "path",
-          "description" : "The path parameter specifies the id of an user whose detail is to be updated in API Gateway.",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the user has been successfully updated in API Gateway, and the updated user is available in the response body.",
-            "examples" : {
-              "application/json" : "{\r\n  \"id\": \"15fbeeb2-745c-4988-b7b6-61f359ecbfc8\",\r\n            \"loginId\": \"testUser\",\r\n            \"firstName\": \"User\",\r\n            \"lastName\": \"Test\",\r\n            \"password\": \"test\",\r\n            \"type\": \"local\",\r\n            \"allowDigestAuth\": false,\r\n            \"emailAddresses\": [\r\n                \"noreply@softwareag.com\"\r\n            ]\r\n        }"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/User"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicates that the request body is invalid."
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "delete" : {
-        "description" : "This HTTP request deletes the specified application in API Gateway.",
-        "operationId" : "deleteUser",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "userId",
-          "in" : "path",
-          "description" : "This parameter specifies the ID of an application that is to be deleted in API Gateway.",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          },
-          "204" : {
-            "description" : "This status code indicates that the specified user has been successfully deleted from API Gateway."
-          },
-          "404" : {
-            "description" : "This status code indicates that an user with the given id could not be found in API Gateway.",
-            "examples" : {
-              "application/json" : "{\r\n    \"errorDetails\": \" User with id: 732c4526-db9a-4ef9-9782-edda1a6aa9bc does not exist.\"\r\n}"
-            }
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/authenticate" : {
-      "post" : {
-        "description" : "This HTTP request authenticates an User in API Gateway.",
-        "operationId" : "authorizeUser",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "This parameter describes the request payload of a user that is to be created in API Gateway.",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/User"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the user was successfully authenticated.",
-            "schema" : {
-              "$ref" : "#/definitions/User"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicates that the request payload is not correct or User is already exists"
-          },
-          "401" : {
-            "description" : "This status code indicates that authorization has been refused for this HTTP request. This is possibly because, the user has not specified the required credentials (username and password), or has specified invalid credentials."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
     }
   },
   "securityDefinitions" : {
@@ -786,32 +786,6 @@
         }
       }
     },
-    "Group" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "string",
-          "description" : "Group ID",
-          "readOnly" : true
-        },
-        "name" : {
-          "type" : "string",
-          "description" : "name of the group"
-        },
-        "description" : {
-          "type" : "string",
-          "description" : "description of the group"
-        },
-        "userIds" : {
-          "type" : "array",
-          "description" : "list of user's Ids assigned to the group",
-          "items" : {
-            "type" : "string"
-          }
-        }
-      },
-      "description" : "This model contains details about a group in API Gateway"
-    },
     "User" : {
       "type" : "object",
       "properties" : {
@@ -853,6 +827,32 @@
         }
       },
       "description" : "This model contains details about an User in API Gateway"
+    },
+    "Group" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "Group ID",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "name of the group"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "description of the group"
+        },
+        "userIds" : {
+          "type" : "array",
+          "description" : "list of user's Ids assigned to the group",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "This model contains details about a group in API Gateway"
     }
   }
 }

@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Policies are the set of rules that gets enforced on the APIs (or even at finer levels like operations/methods) for every invocation of the API. In API Gateway, a policy is made up of a set of policy actions. During an invocation of an API, API Gateway executes every policy action in the policy in a sequential manner. Policy action defines the rule along with its parameters that is applied on the resources/operation of an API. Every policy action will belong to either one or more policy stages. A policy stage is a logical grouping of the policy actions. A policy is divided into different stages that depict the execution order of the policy actions. A stage might contain one or more policy action.  \n\nUse this method to get a list of all the policy stages\n\nThe policies can be categorized into Service level policies, Scope level policies, Package level policies, Policy Templates and Global policies. \n\nA service level policy is applicable for all resources/operation inside that API.  \n\nA scope level policy is applicable for all resources/operation inside that scope. It will override or add the runtime enforcements based on the enforcement type. \n\nA Global Policy is applicable to all APIs matching the scope defined inside the policy. Global policy will take precedence over scope and service level policy. \n\nPackage level policies are created as part of the creation of packages and plans. A package level policy will be applied over global, scope and service level policies. \n\nIf one needs to apply the same set of policy actions to different APIs with just changes to the policy parameter values, then he/she can create a Policy template and can be apply it to the APIs whenever needed. While applying policy template on APIs user need to clone policy template and attach to the corresponding API. It will avoid recreating the policies. \n\n Any user with the 'Manage APIs' functional privilege can manage the service level polices. In order to manage Global policies, Threat protection policies etc, users need additional functional privileges.  By default, the users who are part of API-Gateway-Administrators group will have all privileges.\n\nThis swagger doc also contains API Definition for managing Denied IP addresses. Only Administrator can invoke the API methods. Denied IPs are the IPs that violated the threat protection rules configured. Using this API you can retrieve the list of IPs denied and you can exclude the IPs from the list of denied IPs using the delete HTTP method. \n\n API Gateway uses WS-Security to protect the SOAP services at the message level.  By default, API Gateway supports a number of security policies for the SOAP services like WSS UserName, SAML, Kerberos, Encryption etc.  In addition to this, API Gateway also provides an extension using custom policy assertions that allows the API providers to extend and provide additional security policies which are not supported by API Gateway.  In WS Security, Policy assertions can be used in defining individual security requirements or constraints. These individual policy assertions can be combined to create security policies that can be used to secure messages exchanged between a Web service and a client. ",
-    "version" : "10.5",
+    "version" : "10.7",
     "title" : "API Gateway Policy Management Service"
   },
   "host" : "localhost:5555",
@@ -11,6 +11,300 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
+    "/denialofservice/deniedIP" : {
+      "get" : {
+        "description" : "This GET method is used to retrieve the list of IPs are denied ( IPs that violated the threat protection rules configured).",
+        "operationId" : "getDeniedIPs",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the denied IPs successfully returned. The response contains the list of Denied IPs.",
+            "examples" : {
+              "application/json" : "{\r\n    \"deniedIPList\": [\r\n        \"10.60.37.99\"\r\n    ]\r\n}"
+            },
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator access to get denied IPs list."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "This DELETE method is used to remove the IP from Denied IPs list. Once removed the request from IP will be processed.",
+        "operationId" : "deleteDeniedIPs",
+        "parameters" : [ {
+          "name" : "IP",
+          "in" : "query",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "IP=127.0.0.1"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the denied IPs successfully removed from the denied IPs list."
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator access to delete IP from denied IPs list."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/serviceResultCache/{apiId}" : {
+      "get" : {
+        "description" : "This REST Request is used to get the Service Result cache size for the API using apiID. An alternative REST API call for /serviceResultCache. Instead of specifying name and version, if you know API id you can directly use that id to get the number of cached responses for that API",
+        "operationId" : "getCacheDetailsByapiId",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiId",
+          "in" : "path",
+          "description" : "The id of API for which the cached response size is requested",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "732c4526-db9a-4ef9-9782-edda1a6aa9bc"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the request for Service Result Cache size is successfully returned. The response will have number of cache elements (A cached element is nothing but a single response) for the given API id, so it infers that the number of responses are actually cached for this API ",
+            "examples" : {
+              "application/json" : "{\r\n\t\"Cache size\": 2\r\n}"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator access"
+          },
+          "500" : {
+            "description" : "This status code indicates that the server has encountered an error while fetching the Service Result Cache for the API"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "This REST Request is used to request for deletion of Service Result Cache for the API using api id",
+        "operationId" : "deleteCacheDetailsbyAPIId",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiId",
+          "in" : "path",
+          "description" : "The id of API for which the Service Result Cache deletion is requested",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "732c4526-db9a-4ef9-9782-edda1a6aa9bc"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "This status code indicates that Service Result Cache has been deleted for the API and no data is returned in response "
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API Gateway provider access to delete the Service Result cache of the specified API."
+          },
+          "500" : {
+            "description" : "This status code indicates that the server has encountered an error while deleting the Service Result Cache for the API"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/serviceResultCache" : {
+      "get" : {
+        "description" : "You can enable API caching in API Gateway to cache your native service's response. With caching, you can reduce the number of calls made to your endpoint and also improve the latency of the requests to your API. When you enable caching for a stage, API Gateway caches responses from your endpoint for a specified time to live period. API Gateway then responds to the request by looking up the endpoint response from the cache instead of making a request to your endpoint. \n\nService Result cache can be configured for a API or Resource/method or Operation. \n\nThis REST Request is used to get the Service Result cache size for an API using apiName and apiVersion.",
+        "operationId" : "getCacheDetailsByapiNameAndVersion",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiName",
+          "in" : "query",
+          "description" : "This query parameter is used to specify the API name for which the service result cache element size needs to be fetched.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "apiName=WIKI-SearchData"
+        }, {
+          "name" : "apiVersion",
+          "in" : "query",
+          "description" : "The version of the apiName parameter specified",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "apiVersion=1.0"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the request for Service Result Cache size has been successfully returned. The response will have number of cache elements (A cached element is nothing but a single response) for the given API name and version, so it infers that the number of responses are actually cached for this API",
+            "examples" : {
+              "application/json" : "{\r\n\t\"Cache size\": 2\r\n}"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator access."
+          },
+          "500" : {
+            "description" : "This status code indicates that the server has encountered an error while fetching the Service Result cache for the API"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "This REST Request is used to request for deletion of Service Result cache for the API using apiName and apiVersion",
+        "operationId" : "deleteCacheDetailsByapiNameAndVersion",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiName",
+          "in" : "query",
+          "description" : "This query parameter is used to specify the API name for which the service result cache deletion is requsted.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "apiName=WIKI-SearchData"
+        }, {
+          "name" : "apiVersion",
+          "in" : "query",
+          "description" : "The version of the apiName parameter specified",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "apiVersion=1.0"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "This status code indicates that Service Result Cache has been deleted for the specified API and no data is returned in response"
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API Gateway provider access to delete the Service Result Cache of the specified API."
+          },
+          "500" : {
+            "description" : "This status code indicates that the server has encountered an error while deleting the Service Result cache for the API"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/configurations/mobileApp" : {
+      "get" : {
+        "description" : "You can use API Gateway to disable access for certain mobile application versions on a predefined set of mobile platforms. By registering the required devices and applications and disabling access to these versions, you ensure that all users use the latest versions of the applications and take advantage of the latest security and functional updates.",
+        "operationId" : "getMobileApplicationConfigurations",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the Mobile Applications configurations are retrieved successfully. ",
+            "examples" : {
+              "application/json" : "{\r\n    \"mobileApplications\": [\r\n        \"MyApp\",\r\n        \"HelloApplication\"\r\n    ],\r\n    \"mobileAppDeviceTypes\": [\r\n        \"Android\",\r\n        \"ios\"\r\n    ]\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/MobileApplicationConfiguration"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the mobileApp not mentioned in API access uri path.",
+            "examples" : {
+              "application/json" : "{\r\n    \"errorDetails\": \"Missing mandatory field configId in request.\"\r\n}"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that the user is not a valid API Gateway user for retrieving the Mobile Applications configuration."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "The method is used to update the details of the Mobile Applications configuration in API Gateway.You can use API Gateway to disable access for certain mobile application versions on a predefined set of mobile platforms. By registering the required devices and applications and disabling access to these versions, you ensure that all users use the latest versions of the applications and take advantage of the latest security and functional updates.",
+        "operationId" : "saveMobileApplicationConfigurations",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/MobileApplicationConfiguration"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n    \"mobileApplications\": [\r\n        \"MyApp\",\r\n        \"HelloApplication\"\r\n    ],\r\n    \"mobileAppDeviceTypes\": [\r\n        \"Android\",\r\n        \"ios\"\r\n    ]\r\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the Mobile Applications configuration has been successfully updated in API Gateway, and the updated configuration is available in the response body.",
+            "examples" : {
+              "application/json" : "{\r\n    \"mobileApplications\": [\r\n        \"MyApp\",\r\n        \"HelloApplication\"\r\n    ],\r\n    \"mobileAppDeviceTypes\": [\r\n        \"Android\",\r\n        \"ios\"\r\n    ]\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/MobileApplicationConfiguration"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have \"Manage Threat Protection\" functional privilege to access this API."
+          },
+          "405" : {
+            "description" : "This status code indicates that the specified HTTP method is not allowed for the requested Mobile Applications in API Gateway.",
+            "examples" : {
+              "application/json" : "{\r\n\t\"errorDetails\": \" Unable to process the PUT request for Mobile Applications configuration. Error occurred while processing the payload. Error Message: Method: PUT is not allowed on resource: loadBalancer\"\r\n}"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the request body is invalid.",
+            "examples" : {
+              "application/json" : "{\r\n\"errorDetails\": \" Invalid property key found in request payload.\"\r\n}"
+            }
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/policyStages" : {
+      "get" : {
+        "description" : "This REST Request is used to get the list of policy stages available in API gateway. It will also show the list of policies (template key of each policy) associated with each stage. ",
+        "operationId" : "getPolicyStages",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "The response body contains list of all stages and policy associated with the stages. Also the response body contains the sequence where the policies corresponding to a stage will be executed",
+            "examples" : {
+              "application/json" : "{\r\n  \"stages\": [\r\n    {\r\n      \"stageKey\": \"threatProtection\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Threat Protection\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"globalipdos\",\r\n        \"ipdos\",\r\n        \"egviolationalert\",\r\n        \"MsgSizeLimitFilter\",\r\n        \"OAuthFilter\",\r\n        \"mobileAppProtectionFilter\",\r\n        \"sqlInjectionFilter\",\r\n        \"antiVirusFilter\",\r\n        \"jsonThreatProtectionFilter\",\r\n        \"xmlThreatProtectionFilter\",\r\n        \"customFilter\"\r\n      ],\r\n      \"sequence\": \"insequence\"\r\n    },\r\n    {\r\n      \"stageKey\": \"transport\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Transport\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"entryProtocolPolicy\",\r\n        \"setMediaType\"\r\n      ],\r\n      \"sequence\": \"insequence\"\r\n    },\r\n    {\r\n      \"stageKey\": \"IAM\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Identity and Access Management\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"inboundAuthTransport\",\r\n        \"webServiceSecurityPolicy\",\r\n        \"authorizeUser\",\r\n        \"evaluatePolicy\"\r\n      ],\r\n      \"sequence\": null\r\n    },\r\n    {\r\n      \"stageKey\": \"requestPayloadProcessing\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Request Payload Processing\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"invokeESB\",\r\n        \"xsltTransformation\",\r\n        \"validateSchema\"\r\n      ],\r\n      \"sequence\": \"insequence\"\r\n    },\r\n    {\r\n      \"stageKey\": \"routing\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Routing Policies\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"contentBasedRouting\",\r\n        \"contextBasedRouting\",\r\n        \"dynamicRouting\",\r\n        \"loadBalancerRouting\",\r\n        \"straightThroughRouting\",\r\n        \"customHttpHeaders\",\r\n        \"outboundTransportAuthentication\",\r\n        \"outboundMessageAuthentication\"\r\n      ],\r\n      \"sequence\": \"insequence\"\r\n    },\r\n    {\r\n      \"stageKey\": \"LMT\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Logging, Monitoring and Traffic Optimization\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"logInvocation\",\r\n        \"monitorServicePerformance\",\r\n        \"monitorSLA\",\r\n        \"throttle\",\r\n        \"serviceResultCache\"\r\n      ],\r\n      \"sequence\": \"insequence\"\r\n    },\r\n    {\r\n      \"stageKey\": \"responseProcessing\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Response Processing\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"invokeESB\",\r\n        \"xsltTransformation\",\r\n        \"validateSchema\"\r\n      ],\r\n      \"sequence\": \"outsequence\"\r\n    },\r\n    {\r\n      \"stageKey\": \"responseFaultProcessing\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Error Handling\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"conditionalErrorProcessing\"\r\n      ],\r\n      \"sequence\": \"faultsequence\"\r\n    }\r\n  ]\r\n}"
+            },
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/PolicyEnforcementStage"
+              }
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API Gateway provider access to get the policy stage."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
     "/policies" : {
       "get" : {
         "description" : "This REST request is used to retrieve list of all policies from API Gateway. This can also be used to retrieve details for particular set of policies by specifying the policy ids in the query string.",
@@ -260,125 +554,6 @@
             "description" : "This status code indicates that error has occurred during the deletion of policy. The sample shows that the policy cannot be delete since the global policy is in active state.",
             "examples" : {
               "application/json" : "{\r\n  \"errorDetails\": \" Policy [Employee Global Policy] is in active state, hence cannot be deleted. Please deactivate the policy to delete\"\r\n}"
-            }
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/policies/{policyId}/apis" : {
-      "get" : {
-        "description" : "This REST request is used to get the list of applicable APIs for a global policy.  An API become  applicable API for a global policy only if it satisfies the scope specified in the global policy.  By default it will return the basic API details of all the applicable APIs either if the API is active or inactive for a global policy. User can use the query parameter \"active\" to retrieve all active APIs for a global policy or all applicable APIs regardless of its status for a global policy.",
-        "operationId" : "getApplicableAPIsForGlobalPolicyByID",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "policyId",
-          "in" : "path",
-          "description" : "This path parameter is used to specify the global policy id for which we need the list of applicable APIs",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "732c4526-db9a-4ef9-9782-edda1a6aa9bc"
-        }, {
-          "name" : "active",
-          "in" : "query",
-          "description" : "This is a query parameter. It is used to retrieve the list of applicable APIs for a global policy. If the value for this parameter is 'false' then it will return all the APIs whether it is active or not for the specified global policy. If the value for this flag is 'true' then it will return only the list of applicable active APIs alone for the specified global policy",
-          "required" : false,
-          "type" : "string",
-          "x-example" : "active=false"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the specified global policy is valid and in the response it will contain the list of applicable APIs based on the parameters specified in the request. ",
-            "examples" : {
-              "application/json" : "{\r\n  \"apiResponse\": [\r\n    {\r\n      \"api\": {\r\n        \"apiName\": \"API Gateway \",\r\n        \"apiVersion\": \"10.0\",\r\n        \"apiDescription\": \"This swagger doc contain API Definition for API Gateway APIs. It contains swagger definition for all APIs in API Gateway.\",\r\n        \"isActive\": false,\r\n        \"type\": \"REST\",\r\n        \"publishedPortals\": [],\r\n        \"systemVersion\": 1,\r\n        \"id\": \"4869049b-4cef-4c76-b678-14d4970c5241\"\r\n      },\r\n      \"responseStatus\": \"SUCCESS\"\r\n    },\r\n    {\r\n      \"api\": {\r\n        \"apiName\": \"EMP\",\r\n        \"apiVersion\": \"1.0\",\r\n        \"isActive\": true,\r\n        \"type\": \"REST\",\r\n        \"publishedPortals\": [],\r\n        \"systemVersion\": 1,\r\n        \"id\": \"e60d6fe9-3612-469f-b33a-fb4c97c72b3b\"\r\n      },\r\n      \"responseStatus\": \"SUCCESS\"\r\n    },\r\n    {\r\n      \"api\": {\r\n        \"apiName\": \"EMP_POJO_WSDL\",\r\n        \"apiVersion\": \"1\",\r\n        \"isActive\": true,\r\n        \"type\": \"SOAP\",\r\n        \"publishedPortals\": [],\r\n        \"systemVersion\": 1,\r\n        \"id\": \"421eb4bf-b2d0-40a4-900f-ad5fd0a2484e\"\r\n      },\r\n      \"responseStatus\": \"SUCCESS\"\r\n    },\r\n    {\r\n      \"api\": {\r\n        \"apiName\": \"EMP_REST_SWAGGER\",\r\n        \"apiVersion\": \"1.0.0\",\r\n        \"isActive\": false,\r\n        \"type\": \"REST\",\r\n        \"publishedPortals\": [],\r\n        \"systemVersion\": 1,\r\n        \"id\": \"260c11e1-b3eb-4714-aa73-7cd95fc91abb\"\r\n      },\r\n      \"responseStatus\": \"SUCCESS\"\r\n    }\r\n  ]\r\n}"
-            },
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/APIResponseDelete"
-              }
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API gateway provider access to get the list of applicable APIs for the specified global policy."
-          },
-          "404" : {
-            "description" : "This status code indicates that the specified global policy is not available in API Gateway",
-            "examples" : {
-              "application/json" : "{\r\n  \"errorDetails\": \" Unable to find the resource: 732c4526-db9a-4ef9-9782-edda1a6aa9bc1\"\r\n}"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicate the specified policy is not a global policy.",
-            "examples" : {
-              "application/json" : "{\r\n    \"errorDetails\": \"5e04581b-a583-495b-83b3-411f9c067054 is not a global policy.\"\r\n}"
-            }
-          },
-          "500" : {
-            "description" : "This is status code indicates that server has encounted an while getting applicable APIs for the specified policy"
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/policies/{policyId}/conflicts" : {
-      "get" : {
-        "description" : "This REST Request is used to get the conflicts for a global policy. Conflicts between the policies/APIs can arise if the policies contain the conflicting policy actions. For example, a global policy that contains the Identity and Access Policy with \"API Key\" will conflict with another global policy that contains the Identity and Access Policy with \"OAuth2\". If an API satisfy more than one global policy, then all the policy actions of all applicable global policy will be added for effective policy calculation. If any policy validation error occurred it will be reported as conflict.\n\nThis REST request doesn't require request body. By Default it will return the conflicts for all applicable APIs and conflicts between the specified global policy and other active global policies. Additionally, we can use the query parameter to get the conflicts for active or all applicable APIs. \n\nIf there is conflict, status 500 is returned along with the details on conflicting scenarios and if there is no conflict then status 200 is returned",
-        "operationId" : "checkConflictForGlobalPolicy",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "policyId",
-          "in" : "path",
-          "description" : "This path parameter is used to specify the global policy id to which we need to conflicting case for a global policy",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "732c4526-db9a-4ef9-9782-edda1a6aa9bc"
-        }, {
-          "name" : "active",
-          "in" : "query",
-          "description" : "This is a query parameter. It is used to get conflicting case for a global policy. If the value for this parameter is 'false' then it will return conflicting scenario for all the APIs whether it is active or not for the specified global policy. If the value for this flag is 'true' then it will return conflicting case only for the list of applicable active APIs alone",
-          "required" : false,
-          "type" : "string",
-          "x-example" : "active=false"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that there are no conflicting cases for the specified global policy and the response will have the policy details of the global policy",
-            "examples" : {
-              "application/json" : "{\r\n  \"policy\": {\r\n    \"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\",\r\n    \"names\": [\r\n      {\r\n        \"value\": \"a\",\r\n        \"locale\": \"English\"\r\n      }\r\n    ],\r\n    \"descriptions\": [\r\n      {\r\n        \"value\": \"\",\r\n        \"locale\": \"English\"\r\n      }\r\n    ],\r\n    \"scope\": {\r\n      \"applicableAPITypes\": [\r\n        \"REST\",\r\n        \"SOAP\"\r\n      ],\r\n      \"result\": {},\r\n      \"scopeConditions\": [],\r\n      \"logicalConnector\": \"AND\"\r\n    },\r\n    \"policyEnforcements\": [\r\n      {\r\n        \"enforcements\": [\r\n          {\r\n            \"enforcementObjectId\": \"2e63b365-5fb8-4c8c-b2b3-404045b583f7\",\r\n            \"order\": null\r\n          }\r\n        ],\r\n        \"stageKey\": \"IAM\"\r\n      }\r\n    ],\r\n    \"policyScope\": \"GLOBAL\",\r\n    \"global\": true,\r\n    \"active\": false,\r\n    \"systemPolicy\": false\r\n  }\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/Policy"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicate either user didn't provide any user credential or user doesn't have API Gateway Administrator or API gateway provider access to get conflicting cases for the specified global policy."
-          },
-          "404" : {
-            "description" : "This status code indicates that the specified global policy is not available in API Gateway",
-            "examples" : {
-              "application/json" : "{\r\n  \"errorDetails\": \" Unable to find the resource: 732c4526-db9a-4ef9-9782-edda1a6aa9bc1\"\r\n}"
-            }
-          },
-          "500" : {
-            "description" : "This status code indicates that there are some conflicting cases for the specified global policy. The sample shows one such conflicting case. The specified global policy and another active global policy have conflicting scenario on a common active API",
-            "examples" : {
-              "application/json" : "{\r\n  \"errorDetails\": \" Conflict between global Policy for API - EMP_POJO_WSDL, Operation - updateEmployee -  An API can be associated with only one policy action with template id Identify & Authorize Application\",\r\n  \"reason\": [\r\n    {\r\n      \"apiId\": \"421eb4bf-b2d0-40a4-900f-ad5fd0a2484e\",\r\n      \"apiName\": \"EMP_POJO_WSDL\",\r\n      \"apiType\": \"SOAP\",\r\n      \"errorOnResource\": [\r\n        {\r\n          \"conflictingPolicies\": {\r\n            \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\": {\r\n              \"names\": [\r\n                {\r\n                  \"value\": \"a\",\r\n                  \"locale\": \"English\"\r\n                }\r\n              ],\r\n              \"policyActionsIds\": [\r\n                \"2e63b365-5fb8-4c8c-b2b3-404045b583f7\"\r\n              ],\r\n              \"policyId\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\",\r\n              \"policyScope\": \"GLOBAL\",\r\n              \"stageKey\": \"IAM\"\r\n            }\r\n          },\r\n          \"error\": {\r\n            \"allowedOccurence\": \"once\",\r\n            \"errorType\": \"occurence\",\r\n            \"policyActionName\": \"[Identify & Authorize Application]\",\r\n            \"templateId\": \"evaluatePolicy\"\r\n          },\r\n          \"errorMessage\": \" An API can be associated with only one policy action with template id Identify & Authorize Application\",\r\n          \"policyDetails\": {\r\n            \"names\": [\r\n              {\r\n                \"value\": \"Employee Global Policy\",\r\n                \"locale\": \"English\"\r\n              }\r\n            ],\r\n            \"policyActionsIds\": [\r\n              \"31c729f9-4f1c-4074-acba-6975c0668433\"\r\n            ],\r\n            \"policyId\": \"7a16baec-7925-4579-966b-bfe58265853d\",\r\n            \"policyScope\": \"GLOBAL\",\r\n            \"stageKey\": \"IAM\"\r\n          },\r\n          \"resource\": \"updateEmployee\"\r\n        },\r\n        {\r\n          \"conflictingPolicies\": {\r\n            \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\": {\r\n              \"names\": [\r\n                {\r\n                  \"value\": \"a\",\r\n                  \"locale\": \"English\"\r\n                }\r\n              ],\r\n              \"policyActionsIds\": [\r\n                \"2e63b365-5fb8-4c8c-b2b3-404045b583f7\"\r\n              ],\r\n              \"policyId\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\",\r\n              \"policyScope\": \"GLOBAL\",\r\n              \"stageKey\": \"IAM\"\r\n            }\r\n          },\r\n          \"error\": {\r\n            \"allowedOccurence\": \"once\",\r\n            \"errorType\": \"occurence\",\r\n            \"policyActionName\": \"[Identify & Authorize Application]\",\r\n            \"templateId\": \"evaluatePolicy\"\r\n          },\r\n          \"errorMessage\": \" An API can be associated with only one policy action with template id Identify & Authorize Application\",\r\n          \"policyDetails\": {\r\n            \"names\": [\r\n              {\r\n                \"value\": \"Employee Global Policy\",\r\n                \"locale\": \"English\"\r\n              }\r\n            ],\r\n            \"policyActionsIds\": [\r\n              \"31c729f9-4f1c-4074-acba-6975c0668433\"\r\n            ],\r\n            \"policyId\": \"7a16baec-7925-4579-966b-bfe58265853d\",\r\n            \"policyScope\": \"GLOBAL\",\r\n            \"stageKey\": \"IAM\"\r\n          },\r\n          \"resource\": \"addEmployee\"\r\n        },\r\n        {\r\n          \"conflictingPolicies\": {\r\n            \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\": {\r\n              \"names\": [\r\n                {\r\n                  \"value\": \"a\",\r\n                  \"locale\": \"English\"\r\n                }\r\n              ],\r\n              \"policyActionsIds\": [\r\n                \"2e63b365-5fb8-4c8c-b2b3-404045b583f7\"\r\n              ],\r\n              \"policyId\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\",\r\n              \"policyScope\": \"GLOBAL\",\r\n              \"stageKey\": \"IAM\"\r\n            }\r\n          },\r\n          \"error\": {\r\n            \"allowedOccurence\": \"once\",\r\n            \"errorType\": \"occurence\",\r\n            \"policyActionName\": \"[Identify & Authorize Application]\",\r\n            \"templateId\": \"evaluatePolicy\"\r\n          },\r\n          \"errorMessage\": \" An API can be associated with only one policy action with template id Identify & Authorize Application\",\r\n          \"policyDetails\": {\r\n            \"names\": [\r\n              {\r\n                \"value\": \"Employee Global Policy\",\r\n                \"locale\": \"English\"\r\n              }\r\n            ],\r\n            \"policyActionsIds\": [\r\n              \"31c729f9-4f1c-4074-acba-6975c0668433\"\r\n            ],\r\n            \"policyId\": \"7a16baec-7925-4579-966b-bfe58265853d\",\r\n            \"policyScope\": \"GLOBAL\",\r\n            \"stageKey\": \"IAM\"\r\n          },\r\n          \"resource\": \"deleteEmployee\"\r\n        },\r\n        {\r\n          \"conflictingPolicies\": {\r\n            \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\": {\r\n              \"names\": [\r\n                {\r\n                  \"value\": \"a\",\r\n                  \"locale\": \"English\"\r\n                }\r\n              ],\r\n              \"policyActionsIds\": [\r\n                \"2e63b365-5fb8-4c8c-b2b3-404045b583f7\"\r\n              ],\r\n              \"policyId\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\",\r\n              \"policyScope\": \"GLOBAL\",\r\n              \"stageKey\": \"IAM\"\r\n            }\r\n          },\r\n          \"error\": {\r\n            \"allowedOccurence\": \"once\",\r\n            \"errorType\": \"occurence\",\r\n            \"policyActionName\": \"[Identify & Authorize Application]\",\r\n            \"templateId\": \"evaluatePolicy\"\r\n          },\r\n          \"errorMessage\": \" An API can be associated with only one policy action with template id Identify & Authorize Application\",\r\n          \"policyDetails\": {\r\n            \"names\": [\r\n              {\r\n                \"value\": \"Employee Global Policy\",\r\n                \"locale\": \"English\"\r\n              }\r\n            ],\r\n            \"policyActionsIds\": [\r\n              \"31c729f9-4f1c-4074-acba-6975c0668433\"\r\n            ],\r\n            \"policyId\": \"7a16baec-7925-4579-966b-bfe58265853d\",\r\n            \"policyScope\": \"GLOBAL\",\r\n            \"stageKey\": \"IAM\"\r\n          },\r\n          \"resource\": \"getEmployee\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/EnforcementValidationMessage"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicate the specified policy is not a global policy.",
-            "examples" : {
-              "application/json" : "{\r\n    \"errorDetails\": \"5e04581b-a583-495b-83b3-411f9c067054 is not a global policy.\"\r\n}"
             }
           }
         },
@@ -681,49 +856,118 @@
         } ]
       }
     },
-    "/denialofservice/deniedIP" : {
+    "/policies/{policyId}/apis" : {
       "get" : {
-        "description" : "This GET method is used to retrieve the list of IPs are denied ( IPs that violated the threat protection rules configured).",
-        "operationId" : "getDeniedIPs",
+        "description" : "This REST request is used to get the list of applicable APIs for a global policy.  An API become  applicable API for a global policy only if it satisfies the scope specified in the global policy.  By default it will return the basic API details of all the applicable APIs either if the API is active or inactive for a global policy. User can use the query parameter \"active\" to retrieve all active APIs for a global policy or all applicable APIs regardless of its status for a global policy.",
+        "operationId" : "getApplicableAPIsForGlobalPolicyByID",
+        "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "policyId",
+          "in" : "path",
+          "description" : "This path parameter is used to specify the global policy id for which we need the list of applicable APIs",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "732c4526-db9a-4ef9-9782-edda1a6aa9bc"
+        }, {
+          "name" : "active",
+          "in" : "query",
+          "description" : "This is a query parameter. It is used to retrieve the list of applicable APIs for a global policy. If the value for this parameter is 'false' then it will return all the APIs whether it is active or not for the specified global policy. If the value for this flag is 'true' then it will return only the list of applicable active APIs alone for the specified global policy",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "active=false"
+        } ],
         "responses" : {
           "200" : {
-            "description" : "This status code indicates that the denied IPs successfully returned. The response contains the list of Denied IPs.",
+            "description" : "This status code indicates that the specified global policy is valid and in the response it will contain the list of applicable APIs based on the parameters specified in the request. ",
             "examples" : {
-              "application/json" : "{\r\n    \"deniedIPList\": [\r\n        \"10.60.37.99\"\r\n    ]\r\n}"
+              "application/json" : "{\r\n  \"apiResponse\": [\r\n    {\r\n      \"api\": {\r\n        \"apiName\": \"API Gateway \",\r\n        \"apiVersion\": \"10.0\",\r\n        \"apiDescription\": \"This swagger doc contain API Definition for API Gateway APIs. It contains swagger definition for all APIs in API Gateway.\",\r\n        \"isActive\": false,\r\n        \"type\": \"REST\",\r\n        \"publishedPortals\": [],\r\n        \"systemVersion\": 1,\r\n        \"id\": \"4869049b-4cef-4c76-b678-14d4970c5241\"\r\n      },\r\n      \"responseStatus\": \"SUCCESS\"\r\n    },\r\n    {\r\n      \"api\": {\r\n        \"apiName\": \"EMP\",\r\n        \"apiVersion\": \"1.0\",\r\n        \"isActive\": true,\r\n        \"type\": \"REST\",\r\n        \"publishedPortals\": [],\r\n        \"systemVersion\": 1,\r\n        \"id\": \"e60d6fe9-3612-469f-b33a-fb4c97c72b3b\"\r\n      },\r\n      \"responseStatus\": \"SUCCESS\"\r\n    },\r\n    {\r\n      \"api\": {\r\n        \"apiName\": \"EMP_POJO_WSDL\",\r\n        \"apiVersion\": \"1\",\r\n        \"isActive\": true,\r\n        \"type\": \"SOAP\",\r\n        \"publishedPortals\": [],\r\n        \"systemVersion\": 1,\r\n        \"id\": \"421eb4bf-b2d0-40a4-900f-ad5fd0a2484e\"\r\n      },\r\n      \"responseStatus\": \"SUCCESS\"\r\n    },\r\n    {\r\n      \"api\": {\r\n        \"apiName\": \"EMP_REST_SWAGGER\",\r\n        \"apiVersion\": \"1.0.0\",\r\n        \"isActive\": false,\r\n        \"type\": \"REST\",\r\n        \"publishedPortals\": [],\r\n        \"systemVersion\": 1,\r\n        \"id\": \"260c11e1-b3eb-4714-aa73-7cd95fc91abb\"\r\n      },\r\n      \"responseStatus\": \"SUCCESS\"\r\n    }\r\n  ]\r\n}"
             },
             "schema" : {
               "type" : "array",
               "items" : {
-                "type" : "string"
+                "$ref" : "#/definitions/APIResponseDelete"
               }
             }
           },
           "401" : {
-            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator access to get denied IPs list."
+            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API gateway provider access to get the list of applicable APIs for the specified global policy."
+          },
+          "404" : {
+            "description" : "This status code indicates that the specified global policy is not available in API Gateway",
+            "examples" : {
+              "application/json" : "{\r\n  \"errorDetails\": \" Unable to find the resource: 732c4526-db9a-4ef9-9782-edda1a6aa9bc1\"\r\n}"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicate the specified policy is not a global policy.",
+            "examples" : {
+              "application/json" : "{\r\n    \"errorDetails\": \"5e04581b-a583-495b-83b3-411f9c067054 is not a global policy.\"\r\n}"
+            }
+          },
+          "500" : {
+            "description" : "This is status code indicates that server has encounted an while getting applicable APIs for the specified policy"
           }
         },
         "security" : [ {
           "Basic" : [ ]
         } ]
-      },
-      "delete" : {
-        "description" : "This DELETE method is used to remove the IP from Denied IPs list. Once removed the request from IP will be processed.",
-        "operationId" : "deleteDeniedIPs",
+      }
+    },
+    "/policies/{policyId}/conflicts" : {
+      "get" : {
+        "description" : "This REST Request is used to get the conflicts for a global policy. Conflicts between the policies/APIs can arise if the policies contain the conflicting policy actions. For example, a global policy that contains the Identity and Access Policy with \"API Key\" will conflict with another global policy that contains the Identity and Access Policy with \"OAuth2\". If an API satisfy more than one global policy, then all the policy actions of all applicable global policy will be added for effective policy calculation. If any policy validation error occurred it will be reported as conflict.\n\nThis REST request doesn't require request body. By Default it will return the conflicts for all applicable APIs and conflicts between the specified global policy and other active global policies. Additionally, we can use the query parameter to get the conflicts for active or all applicable APIs. \n\nIf there is conflict, status 500 is returned along with the details on conflicting scenarios and if there is no conflict then status 200 is returned",
+        "operationId" : "checkConflictForGlobalPolicy",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "IP",
-          "in" : "query",
+          "name" : "policyId",
+          "in" : "path",
+          "description" : "This path parameter is used to specify the global policy id to which we need to conflicting case for a global policy",
           "required" : true,
           "type" : "string",
-          "x-example" : "IP=127.0.0.1"
+          "x-example" : "732c4526-db9a-4ef9-9782-edda1a6aa9bc"
+        }, {
+          "name" : "active",
+          "in" : "query",
+          "description" : "This is a query parameter. It is used to get conflicting case for a global policy. If the value for this parameter is 'false' then it will return conflicting scenario for all the APIs whether it is active or not for the specified global policy. If the value for this flag is 'true' then it will return conflicting case only for the list of applicable active APIs alone",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "active=false"
         } ],
         "responses" : {
           "200" : {
-            "description" : "This status code indicates that the denied IPs successfully removed from the denied IPs list."
+            "description" : "This status code indicates that there are no conflicting cases for the specified global policy and the response will have the policy details of the global policy",
+            "examples" : {
+              "application/json" : "{\r\n  \"policy\": {\r\n    \"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\",\r\n    \"names\": [\r\n      {\r\n        \"value\": \"a\",\r\n        \"locale\": \"English\"\r\n      }\r\n    ],\r\n    \"descriptions\": [\r\n      {\r\n        \"value\": \"\",\r\n        \"locale\": \"English\"\r\n      }\r\n    ],\r\n    \"scope\": {\r\n      \"applicableAPITypes\": [\r\n        \"REST\",\r\n        \"SOAP\"\r\n      ],\r\n      \"result\": {},\r\n      \"scopeConditions\": [],\r\n      \"logicalConnector\": \"AND\"\r\n    },\r\n    \"policyEnforcements\": [\r\n      {\r\n        \"enforcements\": [\r\n          {\r\n            \"enforcementObjectId\": \"2e63b365-5fb8-4c8c-b2b3-404045b583f7\",\r\n            \"order\": null\r\n          }\r\n        ],\r\n        \"stageKey\": \"IAM\"\r\n      }\r\n    ],\r\n    \"policyScope\": \"GLOBAL\",\r\n    \"global\": true,\r\n    \"active\": false,\r\n    \"systemPolicy\": false\r\n  }\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Policy"
+            }
           },
           "401" : {
-            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator access to delete IP from denied IPs list."
+            "description" : "This status code indicate either user didn't provide any user credential or user doesn't have API Gateway Administrator or API gateway provider access to get conflicting cases for the specified global policy."
+          },
+          "404" : {
+            "description" : "This status code indicates that the specified global policy is not available in API Gateway",
+            "examples" : {
+              "application/json" : "{\r\n  \"errorDetails\": \" Unable to find the resource: 732c4526-db9a-4ef9-9782-edda1a6aa9bc1\"\r\n}"
+            }
+          },
+          "500" : {
+            "description" : "This status code indicates that there are some conflicting cases for the specified global policy. The sample shows one such conflicting case. The specified global policy and another active global policy have conflicting scenario on a common active API",
+            "examples" : {
+              "application/json" : "{\r\n  \"errorDetails\": \" Conflict between global Policy for API - EMP_POJO_WSDL, Operation - updateEmployee -  An API can be associated with only one policy action with template id Identify & Authorize Application\",\r\n  \"reason\": [\r\n    {\r\n      \"apiId\": \"421eb4bf-b2d0-40a4-900f-ad5fd0a2484e\",\r\n      \"apiName\": \"EMP_POJO_WSDL\",\r\n      \"apiType\": \"SOAP\",\r\n      \"errorOnResource\": [\r\n        {\r\n          \"conflictingPolicies\": {\r\n            \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\": {\r\n              \"names\": [\r\n                {\r\n                  \"value\": \"a\",\r\n                  \"locale\": \"English\"\r\n                }\r\n              ],\r\n              \"policyActionsIds\": [\r\n                \"2e63b365-5fb8-4c8c-b2b3-404045b583f7\"\r\n              ],\r\n              \"policyId\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\",\r\n              \"policyScope\": \"GLOBAL\",\r\n              \"stageKey\": \"IAM\"\r\n            }\r\n          },\r\n          \"error\": {\r\n            \"allowedOccurence\": \"once\",\r\n            \"errorType\": \"occurence\",\r\n            \"policyActionName\": \"[Identify & Authorize Application]\",\r\n            \"templateId\": \"evaluatePolicy\"\r\n          },\r\n          \"errorMessage\": \" An API can be associated with only one policy action with template id Identify & Authorize Application\",\r\n          \"policyDetails\": {\r\n            \"names\": [\r\n              {\r\n                \"value\": \"Employee Global Policy\",\r\n                \"locale\": \"English\"\r\n              }\r\n            ],\r\n            \"policyActionsIds\": [\r\n              \"31c729f9-4f1c-4074-acba-6975c0668433\"\r\n            ],\r\n            \"policyId\": \"7a16baec-7925-4579-966b-bfe58265853d\",\r\n            \"policyScope\": \"GLOBAL\",\r\n            \"stageKey\": \"IAM\"\r\n          },\r\n          \"resource\": \"updateEmployee\"\r\n        },\r\n        {\r\n          \"conflictingPolicies\": {\r\n            \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\": {\r\n              \"names\": [\r\n                {\r\n                  \"value\": \"a\",\r\n                  \"locale\": \"English\"\r\n                }\r\n              ],\r\n              \"policyActionsIds\": [\r\n                \"2e63b365-5fb8-4c8c-b2b3-404045b583f7\"\r\n              ],\r\n              \"policyId\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\",\r\n              \"policyScope\": \"GLOBAL\",\r\n              \"stageKey\": \"IAM\"\r\n            }\r\n          },\r\n          \"error\": {\r\n            \"allowedOccurence\": \"once\",\r\n            \"errorType\": \"occurence\",\r\n            \"policyActionName\": \"[Identify & Authorize Application]\",\r\n            \"templateId\": \"evaluatePolicy\"\r\n          },\r\n          \"errorMessage\": \" An API can be associated with only one policy action with template id Identify & Authorize Application\",\r\n          \"policyDetails\": {\r\n            \"names\": [\r\n              {\r\n                \"value\": \"Employee Global Policy\",\r\n                \"locale\": \"English\"\r\n              }\r\n            ],\r\n            \"policyActionsIds\": [\r\n              \"31c729f9-4f1c-4074-acba-6975c0668433\"\r\n            ],\r\n            \"policyId\": \"7a16baec-7925-4579-966b-bfe58265853d\",\r\n            \"policyScope\": \"GLOBAL\",\r\n            \"stageKey\": \"IAM\"\r\n          },\r\n          \"resource\": \"addEmployee\"\r\n        },\r\n        {\r\n          \"conflictingPolicies\": {\r\n            \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\": {\r\n              \"names\": [\r\n                {\r\n                  \"value\": \"a\",\r\n                  \"locale\": \"English\"\r\n                }\r\n              ],\r\n              \"policyActionsIds\": [\r\n                \"2e63b365-5fb8-4c8c-b2b3-404045b583f7\"\r\n              ],\r\n              \"policyId\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\",\r\n              \"policyScope\": \"GLOBAL\",\r\n              \"stageKey\": \"IAM\"\r\n            }\r\n          },\r\n          \"error\": {\r\n            \"allowedOccurence\": \"once\",\r\n            \"errorType\": \"occurence\",\r\n            \"policyActionName\": \"[Identify & Authorize Application]\",\r\n            \"templateId\": \"evaluatePolicy\"\r\n          },\r\n          \"errorMessage\": \" An API can be associated with only one policy action with template id Identify & Authorize Application\",\r\n          \"policyDetails\": {\r\n            \"names\": [\r\n              {\r\n                \"value\": \"Employee Global Policy\",\r\n                \"locale\": \"English\"\r\n              }\r\n            ],\r\n            \"policyActionsIds\": [\r\n              \"31c729f9-4f1c-4074-acba-6975c0668433\"\r\n            ],\r\n            \"policyId\": \"7a16baec-7925-4579-966b-bfe58265853d\",\r\n            \"policyScope\": \"GLOBAL\",\r\n            \"stageKey\": \"IAM\"\r\n          },\r\n          \"resource\": \"deleteEmployee\"\r\n        },\r\n        {\r\n          \"conflictingPolicies\": {\r\n            \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\": {\r\n              \"names\": [\r\n                {\r\n                  \"value\": \"a\",\r\n                  \"locale\": \"English\"\r\n                }\r\n              ],\r\n              \"policyActionsIds\": [\r\n                \"2e63b365-5fb8-4c8c-b2b3-404045b583f7\"\r\n              ],\r\n              \"policyId\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\",\r\n              \"policyScope\": \"GLOBAL\",\r\n              \"stageKey\": \"IAM\"\r\n            }\r\n          },\r\n          \"error\": {\r\n            \"allowedOccurence\": \"once\",\r\n            \"errorType\": \"occurence\",\r\n            \"policyActionName\": \"[Identify & Authorize Application]\",\r\n            \"templateId\": \"evaluatePolicy\"\r\n          },\r\n          \"errorMessage\": \" An API can be associated with only one policy action with template id Identify & Authorize Application\",\r\n          \"policyDetails\": {\r\n            \"names\": [\r\n              {\r\n                \"value\": \"Employee Global Policy\",\r\n                \"locale\": \"English\"\r\n              }\r\n            ],\r\n            \"policyActionsIds\": [\r\n              \"31c729f9-4f1c-4074-acba-6975c0668433\"\r\n            ],\r\n            \"policyId\": \"7a16baec-7925-4579-966b-bfe58265853d\",\r\n            \"policyScope\": \"GLOBAL\",\r\n            \"stageKey\": \"IAM\"\r\n          },\r\n          \"resource\": \"getEmployee\"\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/EnforcementValidationMessage"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicate the specified policy is not a global policy.",
+            "examples" : {
+              "application/json" : "{\r\n    \"errorDetails\": \"5e04581b-a583-495b-83b3-411f9c067054 is not a global policy.\"\r\n}"
+            }
           }
         },
         "security" : [ {
@@ -804,28 +1048,76 @@
         } ]
       }
     },
-    "/policyStages" : {
+    "/policyActions" : {
       "get" : {
-        "description" : "This REST Request is used to get the list of policy stages available in API gateway. It will also show the list of policies (template key of each policy) associated with each stage. ",
-        "operationId" : "getPolicyStages",
+        "description" : "This request will return all the policy actions from API Gateway",
+        "operationId" : "getAllPolicyActions",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "policyActionIds",
+          "in" : "query",
+          "description" : "This is a query parameter. Provide comma separated Policy Action ids to get the policy action details for specified policy action ids",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "685e99ee-0e1b-4afa-8ff3-4322cf296566,78c0f92e-c85d-44c2-b7d5-e7a11fda8a57"
+        } ],
         "responses" : {
           "200" : {
-            "description" : "The response body contains list of all stages and policy associated with the stages. Also the response body contains the sequence where the policies corresponding to a stage will be executed",
+            "description" : "The list of policy actions will be available in the response body. The list can be all or specific set of policy action ids specified in query string. If any of the policy action id specified in query parameter is not available then it will omit that id and fetch result for other valid ids",
             "examples" : {
-              "application/json" : "{\r\n  \"stages\": [\r\n    {\r\n      \"stageKey\": \"threatProtection\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Threat Protection\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"globalipdos\",\r\n        \"ipdos\",\r\n        \"egviolationalert\",\r\n        \"MsgSizeLimitFilter\",\r\n        \"OAuthFilter\",\r\n        \"mobileAppProtectionFilter\",\r\n        \"sqlInjectionFilter\",\r\n        \"antiVirusFilter\",\r\n        \"jsonThreatProtectionFilter\",\r\n        \"xmlThreatProtectionFilter\",\r\n        \"customFilter\"\r\n      ],\r\n      \"sequence\": \"insequence\"\r\n    },\r\n    {\r\n      \"stageKey\": \"transport\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Transport\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"entryProtocolPolicy\",\r\n        \"setMediaType\"\r\n      ],\r\n      \"sequence\": \"insequence\"\r\n    },\r\n    {\r\n      \"stageKey\": \"IAM\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Identity and Access Management\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"inboundAuthTransport\",\r\n        \"webServiceSecurityPolicy\",\r\n        \"authorizeUser\",\r\n        \"evaluatePolicy\"\r\n      ],\r\n      \"sequence\": null\r\n    },\r\n    {\r\n      \"stageKey\": \"requestPayloadProcessing\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Request Payload Processing\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"invokeESB\",\r\n        \"xsltTransformation\",\r\n        \"validateSchema\"\r\n      ],\r\n      \"sequence\": \"insequence\"\r\n    },\r\n    {\r\n      \"stageKey\": \"routing\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Routing Policies\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"contentBasedRouting\",\r\n        \"contextBasedRouting\",\r\n        \"dynamicRouting\",\r\n        \"loadBalancerRouting\",\r\n        \"straightThroughRouting\",\r\n        \"customHttpHeaders\",\r\n        \"outboundTransportAuthentication\",\r\n        \"outboundMessageAuthentication\"\r\n      ],\r\n      \"sequence\": \"insequence\"\r\n    },\r\n    {\r\n      \"stageKey\": \"LMT\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Logging, Monitoring and Traffic Optimization\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"logInvocation\",\r\n        \"monitorServicePerformance\",\r\n        \"monitorSLA\",\r\n        \"throttle\",\r\n        \"serviceResultCache\"\r\n      ],\r\n      \"sequence\": \"insequence\"\r\n    },\r\n    {\r\n      \"stageKey\": \"responseProcessing\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Response Processing\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"invokeESB\",\r\n        \"xsltTransformation\",\r\n        \"validateSchema\"\r\n      ],\r\n      \"sequence\": \"outsequence\"\r\n    },\r\n    {\r\n      \"stageKey\": \"responseFaultProcessing\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Error Handling\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [],\r\n      \"policyActionTemplates\": [\r\n        \"conditionalErrorProcessing\"\r\n      ],\r\n      \"sequence\": \"faultsequence\"\r\n    }\r\n  ]\r\n}"
+              "application/json" : "{\r\n  \"policyAction\": [\r\n    {\r\n      \"id\": \"50c705f0-28d9-4a1a-a20b-6c84a0f4a837\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Straight Through Routing\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [\r\n        {\r\n          \"value\": \"\",\r\n          \"locale\": \"English\"\r\n        }\r\n      ],\r\n      \"templateKey\": \"straightThroughRouting\",\r\n      \"parameters\": [\r\n        {\r\n          \"templateKey\": \"endpointUri\",\r\n          \"values\": [\r\n            \"http://localhost:8080/employee_service/${sys:resource_path}\"\r\n          ]\r\n        }\r\n      ],\r\n      \"active\": false\r\n    },\r\n    {\r\n      \"id\": \"09219ca1-9bd7-4d62-8baf-167d29e3390e\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Require HTTP / HTTPS\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [\r\n        {\r\n          \"value\": \"\",\r\n          \"locale\": \"English\"\r\n        }\r\n      ],\r\n      \"templateKey\": \"entryProtocolPolicy\",\r\n      \"parameters\": [\r\n        {\r\n          \"templateKey\": \"protocol\",\r\n          \"values\": [\r\n            \"http\"\r\n          ]\r\n        }\r\n      ],\r\n      \"active\": false\r\n    }\r\n  ]\r\n}"
             },
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/PolicyEnforcementStage"
+                "$ref" : "#/definitions/PolicyAction"
               }
             }
           },
           "401" : {
-            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API Gateway provider access to get the policy stage."
+            "description" : "This status code indicates shows either user didn't provide any user credential or user doesn't have API Gateway Administrator or API Gateway provider access to get the policy actions."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "This REST request is used to create policy action. The result of this request is a policy action payload and is available in the response. To know about the policy action template and to create it  you can use the policyActionTemplates/{templateKey} to get the template structure of a policy action. The template key will be available in policyStage resource.",
+        "operationId" : "createPolicyAction",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Contains the policy action details of the newly created policy action",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PolicyAction"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n  \"policyAction\": {\r\n    \"templateKey\": \"entryProtocolPolicy\",\r\n    \"parameters\": [\r\n      {\r\n        \"templateKey\": \"protocol\",\r\n        \"values\": [\r\n          \"http\"\r\n        ] \r\n      },\r\n\t{\r\n\t\t\"templateKey\": \"soapVersion\",\r\n\t\t\"values\": [\r\n\t\t\"soap\"\r\n\t\t]\r\n\t}\r\n    ]\r\n  }\r\n}"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "This status code indicates that the policy action is created successfully and the created policy action can be seen in the response body",
+            "examples" : {
+              "application/json" : "{\r\n  \"policyAction\": {\r\n    \"id\": \"685e99ee-0e1b-4afa-8ff3-4322cf296566\",\r\n    \"names\": [\r\n      {\r\n        \"value\": \"Require HTTP / HTTPS\",\r\n        \"locale\": \"en\"\r\n      }\r\n    ],\r\n    \"templateKey\": \"entryProtocolPolicy\",\r\n    \"parameters\": [\r\n      {\r\n        \"templateKey\": \"protocol\",\r\n        \"values\": [\r\n          \"http\"\r\n        ]\r\n      },\r\n      {\r\n        \"templateKey\": \"soapVersion\",\r\n        \"values\": [\r\n          \"soap\"\r\n        ]\r\n      }\r\n    ],\r\n    \"active\": false\r\n  }\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/PolicyAction"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the request payload is not correct and corresponding error details can be seen in the response body",
+            "examples" : {
+              "application/json" : "{\r\n  \"errorDetails\": \" Unable to create the resource. Error in processing the payload null. Error Message . Check the correctness of key and payload.\"\r\n}"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API Gateway provider access to create policy actions."
           }
         },
         "security" : [ {
@@ -957,35 +1249,24 @@
         } ]
       }
     },
-    "/policyActions" : {
+    "/assertions" : {
       "get" : {
-        "description" : "This request will return all the policy actions from API Gateway",
-        "operationId" : "getAllPolicyActions",
-        "consumes" : [ "application/json" ],
+        "description" : "This request will return all the assertions from API Gateway",
+        "operationId" : "getAllAssertions",
         "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "policyActionIds",
-          "in" : "query",
-          "description" : "This is a query parameter. Provide comma separated Policy Action ids to get the policy action details for specified policy action ids",
-          "required" : false,
-          "type" : "string",
-          "x-example" : "685e99ee-0e1b-4afa-8ff3-4322cf296566,78c0f92e-c85d-44c2-b7d5-e7a11fda8a57"
-        } ],
+        "parameters" : [ ],
         "responses" : {
           "200" : {
-            "description" : "The list of policy actions will be available in the response body. The list can be all or specific set of policy action ids specified in query string. If any of the policy action id specified in query parameter is not available then it will omit that id and fetch result for other valid ids",
+            "description" : "Retrieves a list of available assertions in API Gateway.",
             "examples" : {
-              "application/json" : "{\r\n  \"policyAction\": [\r\n    {\r\n      \"id\": \"50c705f0-28d9-4a1a-a20b-6c84a0f4a837\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Straight Through Routing\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [\r\n        {\r\n          \"value\": \"\",\r\n          \"locale\": \"English\"\r\n        }\r\n      ],\r\n      \"templateKey\": \"straightThroughRouting\",\r\n      \"parameters\": [\r\n        {\r\n          \"templateKey\": \"endpointUri\",\r\n          \"values\": [\r\n            \"http://localhost:8080/employee_service/${sys:resource_path}\"\r\n          ]\r\n        }\r\n      ],\r\n      \"active\": false\r\n    },\r\n    {\r\n      \"id\": \"09219ca1-9bd7-4d62-8baf-167d29e3390e\",\r\n      \"names\": [\r\n        {\r\n          \"value\": \"Require HTTP / HTTPS\",\r\n          \"locale\": \"en\"\r\n        }\r\n      ],\r\n      \"descriptions\": [\r\n        {\r\n          \"value\": \"\",\r\n          \"locale\": \"English\"\r\n        }\r\n      ],\r\n      \"templateKey\": \"entryProtocolPolicy\",\r\n      \"parameters\": [\r\n        {\r\n          \"templateKey\": \"protocol\",\r\n          \"values\": [\r\n            \"http\"\r\n          ]\r\n        }\r\n      ],\r\n      \"active\": false\r\n    }\r\n  ]\r\n}"
+              "application/json" : "{\r\n    \"assertionConfigurations\": [\r\n        {\r\n            \"configurationId\": \"be463644-25a6-42af-840d-0b2d43be41ec\",\r\n            \"configurationName\": \"CustomBindingAssertion1\",\r\n            \"configurationElement\": \"<sp:AsymmetricBinding xmlns:sp=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702\\\" xmlns:wsp=\\\"http://schemas.xmlsoap.org/ws/2004/09/policy\\\">\\n    <wsp:Policy>\\n        <sp:InitiatorToken>\\n            <wsp:Policy>\\n                <sp:X509Token sp:IncludeToken=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never\\\">\\n                    <wsp:Policy>\\n                        <sp:WssX509V3Token10 />\\n                    </wsp:Policy>\\n                </sp:X509Token>\\n            </wsp:Policy>\\n        </sp:InitiatorToken>\\n        <sp:RecipientToken>\\n\\t\\t\\t<wsp:Policy>\\n\\t\\t\\t\\t<sp:X509Token sp:IncludeToken=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never\\\">\\n\\t\\t\\t\\t\\t<wsp:Policy>\\n                       <sp:WssX509V3Token10 />\\n                     </wsp:Policy>\\n                 </sp:X509Token>\\n            </wsp:Policy>\\n        </sp:RecipientToken>\\n        <sp:AlgorithmSuite>\\n          <wsp:Policy>\\n            <sp:TripleDesRsa15 />\\n          </wsp:Policy>\\n        </sp:AlgorithmSuite>\\n        <sp:Layout>\\n\\t\\t\\t<wsp:Policy>\\n\\t\\t\\t\\t<sp:Strict />\\n\\t\\t\\t</wsp:Policy>\\n        </sp:Layout>\\n\\t\\t<sp:ProtectTokens/> \\n    </wsp:Policy>\\n </sp:AsymmetricBinding>\",\r\n            \"assertionType\": \"bindingAssertion\"\r\n        },\r\n        {\r\n            \"configurationId\": \"9bfbd5ea-86eb-4990-8f7a-fdfef8f16f86\",\r\n            \"configurationName\": \"tokenAssertion01\",\r\n            \"configurationElement\": \"<sp:AsymmetricBinding xmlns:sp=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702\\\" xmlns:wsp=\\\"http://schemas.xmlsoap.org/ws/2004/09/policy\\\">\\r\\n    <wsp:Policy>\\r\\n        <sp:InitiatorToken>\\r\\n            <wsp:Policy>\\r\\n                <sp:X509Token sp:IncludeToken=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never\\\">\\r\\n                    <wsp:Policy>\\r\\n                        <sp:WssX509V3Token10 />\\r\\n                    </wsp:Policy>\\r\\n                </sp:X509Token>\\r\\n            </wsp:Policy>\\r\\n        </sp:InitiatorToken>\\r\\n        <sp:RecipientToken>\\r\\n\\t\\t\\t<wsp:Policy>\\r\\n\\t\\t\\t\\t<sp:X509Token sp:IncludeToken=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never\\\">\\r\\n\\t\\t\\t\\t\\t<wsp:Policy>\\r\\n                       <sp:WssX509V3Token10 />\\r\\n                     </wsp:Policy>\\r\\n                 </sp:X509Token>\\r\\n            </wsp:Policy>\\r\\n        </sp:RecipientToken>\\r\\n        <sp:AlgorithmSuite>\\r\\n          <wsp:Policy>\\r\\n            <sp:TripleDesRsa15 />\\r\\n          </wsp:Policy>\\r\\n        </sp:AlgorithmSuite>\\r\\n        <sp:Layout>\\r\\n\\t\\t\\t<wsp:Policy>\\r\\n\\t\\t\\t\\t<sp:Strict />\\r\\n\\t\\t\\t</wsp:Policy>\\r\\n        </sp:Layout>\\r\\n\\t\\t<sp:ProtectTokens/> \\r\\n    </wsp:Policy>\\r\\n </sp:AsymmetricBinding>\",\r\n            \"assertionType\": \"tokenAssertion\"\r\n        }\r\n    ]\r\n}"
             },
             "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/PolicyAction"
-              }
+              "$ref" : "#/definitions/AssertionConfiguration"
             }
           },
           "401" : {
-            "description" : "This status code indicates shows either user didn't provide any user credential or user doesn't have API Gateway Administrator or API Gateway provider access to get the policy actions."
+            "description" : "This status code indicates that authorization has been refused for this HTTP request. This is possibly because, the user has not specified the required credentials (username and password), or has specified invalid credentials, or the user is not authenticated as an API Gateway Administrator to retrieve assertions in API Gateway."
           }
         },
         "security" : [ {
@@ -993,255 +1274,40 @@
         } ]
       },
       "post" : {
-        "description" : "This REST request is used to create policy action. The result of this request is a policy action payload and is available in the response. To know about the policy action template and to create it  you can use the policyActionTemplates/{templateKey} to get the template structure of a policy action. The template key will be available in policyStage resource.",
-        "operationId" : "createPolicyAction",
+        "description" : "Custom assertions allow the API providers to extend and provide additional security policies that are not available by default in API Gateway. In WS-Security, custom assertions are used for expressing individual security requirements, constraints, or both. The individual policy assertions can be combined to create security policies that ensure secure and reliable exchanges of SOAP messages between a client and a SOAP API. This REST service is used to create a assertion. Below are the request payloads for different types of assertions.\r\nbindingAssertion: &quot;{\r\n\t&quot;configurationElement&quot;: &quot;&lt;sp:AsymmetricBinding xmlns:sp=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702&quot;&gt;\r\n\t\t\t\t\t&lt;wsp:Policy xmlns:wsp=&quot;http://schemas.xmlsoap.org/ws/2004/09/policy&quot;&gt;\r\n\t\t\t\t\t\t&lt;sp:InitiatorToken&gt;\r\n\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t&lt;sp:X509Token sp:IncludeToken=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never&quot;&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t\t\t&lt;sp:WssX509V3Token10/&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t&lt;/sp:X509Token&gt;\r\n\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t&lt;/sp:InitiatorToken&gt;\r\n\t\t\t\t\t\t&lt;sp:RecipientToken&gt;\r\n\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t&lt;sp:X509Token sp:IncludeToken=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never&quot;&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t\t\t&lt;sp:WssX509V3Token10/&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t&lt;/sp:X509Token&gt;\r\n\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t&lt;/sp:RecipientToken&gt;\r\n\t\t\t\t\t\t&lt;sp:AlgorithmSuite&gt;\r\n\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t&lt;sp:Basic256 /&gt;\r\n\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t&lt;/sp:AlgorithmSuite&gt;\r\n\t\t\t\t\t\t&lt;sp:Layout&gt;\r\n\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t&lt;sp:LaxTimestampFirst/&gt;\r\n\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t&lt;/sp:Layout&gt;\r\n\t\t\t\t\t\t&lt;sp:ProtectTokens/&gt;\r\n\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t&lt;/sp:AsymmetricBinding&gt;&quot;,\r\n\t&quot;configurationName&quot;:&quot;CustomBindingAssertion1&quot;,\r\n\t&quot;assertionType&quot;:&quot;bindingAssertion&quot;}&quot;\r\n\r\ntokenAssertion: &quot;{\r\n\t&quot;configurationElement&quot;: &quot;&lt;sp:SupportingTokens xmlns:sp=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702&quot;&gt;\r\n\t\t\t\t\t&lt;wsp:Policy xmlns:wsp=&quot;http://schemas.xmlsoap.org/ws/2004/09/policy&quot;&gt;\r\n\t\t\t\t\t\t&lt;sp:UsernameToken sp:IncludeToken=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient&quot;/&gt;\r\n\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t&lt;/sp:SupportingTokens&gt;&quot;,\r\n\t&quot;configurationName&quot;:&quot;UsernameToken&quot;,\r\n\t&quot;assertionType&quot;:&quot;tokenAssertion&quot;}&quot;\r\n\t\r\npolicyAssertion: &quot;{\r\n\t&quot;configurationElement&quot;: &quot;&lt;wsp:Policy wsu:Id=&quot;CustomBinding_IWSTrust13Async_policy&quot;\r\n\t\t\txmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;\r\n\t\t\txmlns:wsp=&quot;http://schemas.xmlsoap.org/ws/2004/09/policy&quot; \r\n\t\t\txmlns:wsaw=&quot;http://www.w3.org/2006/02/addressing/wsdl&quot;\r\n\t\t\txmlns:sp=&quot;http://schemas.xmlsoap.org/ws/2005/07/securitypolicy&quot;&gt;\r\n\t\t\t&lt;wsp:ExactlyOne&gt;\r\n\t\t\t\t&lt;wsp:All&gt;\r\n\t\t\t\t\t&lt;sp:TransportBinding xmlns:sp=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702&quot;&gt;\r\n\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;sp:TransportToken&gt;\r\n\t\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;sp:HttpsToken/&gt;\r\n\t\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;/sp:TransportToken&gt;\r\n\t\t\t\t\t\t\t&lt;sp:AlgorithmSuite&gt;\r\n\t\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;sp:Basic128/&gt;\r\n\t\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;/sp:AlgorithmSuite&gt;\r\n\t\t\t\t\t\t\t&lt;sp:Layout&gt;\r\n\t\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;sp:Strict/&gt;\r\n\t\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;/sp:Layout&gt;\r\n\t\t\t\t\t\t\t&lt;sp:IncludeTimestamp/&gt;\r\n\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t&lt;/sp:TransportBinding&gt;\r\n\t\t\t\t\t&lt;sp:EndorsingSupportingTokens xmlns:sp=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702&quot;&gt;\r\n\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;sp:KerberosToken sp:IncludeToken=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Once&quot;&gt;\r\n\t\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;sp:WssGssKerberosV5ApReqToken11/&gt;\r\n\t\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;/sp:KerberosToken&gt;\r\n\t\t\t\t\t\t\t&lt;sp:KeyValueToken sp:IncludeToken=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never&quot; wsp:Optional=&quot;true&quot;/&gt;\r\n\t\t\t\t\t\t\t&lt;!-- \r\n\t\t\t\t\t\t\t&lt;sp:SignedParts&gt;\r\n\t\t\t\t\t\t\t\t&lt;sp:Header Name=&quot;To&quot; Namespace=&quot;http://www.w3.org/2005/08/addressing&quot;/&gt;\r\n\t\t\t\t\t\t\t&lt;/sp:SignedParts&gt;\r\n\t\t\t\t\t\t\t--&gt;\r\n\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t&lt;/sp:EndorsingSupportingTokens&gt;\r\n\t\t\t\t\t&lt;sp:Wss11 xmlns:sp=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702&quot;&gt;\r\n\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;sp:MustSupportRefKeyIdentifier/&gt;\r\n\t\t\t\t\t\t\t&lt;sp:MustSupportRefIssuerSerial/&gt;\r\n\t\t\t\t\t\t\t&lt;sp:MustSupportRefThumbprint/&gt;\r\n\t\t\t\t\t\t\t&lt;sp:MustSupportRefEncryptedKey/&gt;\r\n\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t&lt;/sp:Wss11&gt;\r\n\t\t\t\t\t&lt;sp:Trust13 xmlns:sp=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702&quot;&gt;\r\n\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;sp:MustSupportIssuedTokens/&gt;\r\n\t\t\t\t\t\t\t&lt;sp:RequireClientEntropy/&gt;\r\n\t\t\t\t\t\t\t&lt;sp:RequireServerEntropy/&gt;\r\n\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t&lt;/sp:Trust13&gt;\r\n\t\t\t\t\t&lt;wsaw:UsingAddressing/&gt;\r\n\t\t\t\t&lt;/wsp:All&gt;\r\n\t\t\t&lt;/wsp:ExactlyOne&gt;\r\n\t\t&lt;/wsp:Policy&gt;&quot;\r\n\t&quot;configurationName&quot;:&quot;KerberosOverTransport&quot;,\r\n\t&quot;assertionType&quot;:&quot;policyAssertion&quot;}&quot;",
+        "operationId" : "createAssertion",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "body",
           "name" : "body",
-          "description" : "Contains the policy action details of the newly created policy action",
+          "description" : "assertion request payload",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/PolicyAction"
+            "$ref" : "#/definitions/AssertionConfiguration"
           },
           "x-examples" : {
-            "application/json" : "{\r\n  \"policyAction\": {\r\n    \"templateKey\": \"entryProtocolPolicy\",\r\n    \"parameters\": [\r\n      {\r\n        \"templateKey\": \"protocol\",\r\n        \"values\": [\r\n          \"http\"\r\n        ] \r\n      },\r\n\t{\r\n\t\t\"templateKey\": \"soapVersion\",\r\n\t\t\"values\": [\r\n\t\t\"soap\"\r\n\t\t]\r\n\t}\r\n    ]\r\n  }\r\n}"
+            "application/json" : "{\r\n\t\"configurationElement\": \"<sp:SupportingTokens xmlns:sp=\"http: //docs.oasis-open.org/ws-sx/ws-securitypolicy/200702\">\r\n\t<wsp:Policy xmlns:wsp=\"http: //schemas.xmlsoap.org/ws/2004/09/policy\">\r\n\t\t<sp:UsernameToken sp:IncludeToken=\"http: //docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient\"/>\r\n\t</wsp:Policy>\r\n</sp:SupportingTokens>\",\r\n\t\"configurationName\": \"UsernameToken\",\r\n\t\"assertionType\": \"tokenAssertion\"\r\n}"
           }
         } ],
         "responses" : {
           "201" : {
-            "description" : "This status code indicates that the policy action is created successfully and the created policy action can be seen in the response body",
+            "description" : "Assertion successfully created in API Gateway",
             "examples" : {
-              "application/json" : "{\r\n  \"policyAction\": {\r\n    \"id\": \"685e99ee-0e1b-4afa-8ff3-4322cf296566\",\r\n    \"names\": [\r\n      {\r\n        \"value\": \"Require HTTP / HTTPS\",\r\n        \"locale\": \"en\"\r\n      }\r\n    ],\r\n    \"templateKey\": \"entryProtocolPolicy\",\r\n    \"parameters\": [\r\n      {\r\n        \"templateKey\": \"protocol\",\r\n        \"values\": [\r\n          \"http\"\r\n        ]\r\n      },\r\n      {\r\n        \"templateKey\": \"soapVersion\",\r\n        \"values\": [\r\n          \"soap\"\r\n        ]\r\n      }\r\n    ],\r\n    \"active\": false\r\n  }\r\n}"
+              "application/json" : "{\r\n  \"assertionConfiguration\": {\r\n    \"configurationId\": \"0882293d-e773-4242-8bf5-c22e693f8413\",\r\n    \"configurationName\": \"token_04\",\r\n    \"configurationElement\": \"<sp:AsymmetricBinding xmlns:sp=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702\\\" xmlns:wsp=\\\"http://schemas.xmlsoap.org/ws/2004/09/policy\\\">\\r\\n    <wsp:Policy>\\r\\n        <sp:InitiatorToken>\\r\\n            <wsp:Policy>\\r\\n                <sp:X509Token sp:IncludeToken=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never\\\">\\r\\n                    <wsp:Policy>\\r\\n                        <sp:WssX509V3Token10 />\\r\\n                    </wsp:Policy>\\r\\n                </sp:X509Token>\\r\\n            </wsp:Policy>\\r\\n        </sp:InitiatorToken>\\r\\n        <sp:RecipientToken>\\r\\n\\t\\t\\t<wsp:Policy>\\r\\n\\t\\t\\t\\t<sp:X509Token sp:IncludeToken=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never\\\">\\r\\n\\t\\t\\t\\t\\t<wsp:Policy>\\r\\n                       <sp:WssX509V3Token10 />\\r\\n                     </wsp:Policy>\\r\\n                 </sp:X509Token>\\r\\n            </wsp:Policy>\\r\\n        </sp:RecipientToken>\\r\\n        <sp:AlgorithmSuite>\\r\\n          <wsp:Policy>\\r\\n            <sp:TripleDesRsa15 />\\r\\n          </wsp:Policy>\\r\\n        </sp:AlgorithmSuite>\\r\\n        <sp:Layout>\\r\\n\\t\\t\\t<wsp:Policy>\\r\\n\\t\\t\\t\\t<sp:Strict />\\r\\n\\t\\t\\t</wsp:Policy>\\r\\n        </sp:Layout>\\r\\n\\t\\t<sp:ProtectTokens/> \\r\\n    </wsp:Policy>\\r\\n </sp:AsymmetricBinding>\"\r\n  }\r\n}"
             },
             "schema" : {
-              "$ref" : "#/definitions/PolicyAction"
+              "$ref" : "#/definitions/AssertionConfiguration"
             }
           },
           "400" : {
             "description" : "This status code indicates that the request payload is not correct and corresponding error details can be seen in the response body",
             "examples" : {
-              "application/json" : "{\r\n  \"errorDetails\": \" Unable to create the resource. Error in processing the payload null. Error Message . Check the correctness of key and payload.\"\r\n}"
+              "application/json" : "{\r\n  \"errorDetails\": \" Unable to create the resource. Error in processing the payload null. Error Message . Check the correctness of payload.\"\r\n}"
             }
           },
           "401" : {
-            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API Gateway provider access to create policy actions."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/configurations/mobileApp" : {
-      "get" : {
-        "description" : "You can use API Gateway to disable access for certain mobile application versions on a predefined set of mobile platforms. By registering the required devices and applications and disabling access to these versions, you ensure that all users use the latest versions of the applications and take advantage of the latest security and functional updates.",
-        "operationId" : "getMobileApplicationConfigurations",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the Mobile Applications configurations are retrieved successfully. ",
-            "examples" : {
-              "application/json" : "{\r\n    \"mobileApplications\": [\r\n        \"MyApp\",\r\n        \"HelloApplication\"\r\n    ],\r\n    \"mobileAppDeviceTypes\": [\r\n        \"Android\",\r\n        \"ios\"\r\n    ]\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/MobileApplicationConfiguration"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicates that the mobileApp not mentioned in API access uri path.",
-            "examples" : {
-              "application/json" : "{\r\n    \"errorDetails\": \"Missing mandatory field configId in request.\"\r\n}"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that the user is not a valid API Gateway user for retrieving the Mobile Applications configuration."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "put" : {
-        "description" : "The method is used to update the details of the Mobile Applications configuration in API Gateway.You can use API Gateway to disable access for certain mobile application versions on a predefined set of mobile platforms. By registering the required devices and applications and disabling access to these versions, you ensure that all users use the latest versions of the applications and take advantage of the latest security and functional updates.",
-        "operationId" : "saveMobileApplicationConfigurations",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/MobileApplicationConfiguration"
-          },
-          "x-examples" : {
-            "application/json" : "{\r\n    \"mobileApplications\": [\r\n        \"MyApp\",\r\n        \"HelloApplication\"\r\n    ],\r\n    \"mobileAppDeviceTypes\": [\r\n        \"Android\",\r\n        \"ios\"\r\n    ]\r\n}"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the Mobile Applications configuration has been successfully updated in API Gateway, and the updated configuration is available in the response body.",
-            "examples" : {
-              "application/json" : "{\r\n    \"mobileApplications\": [\r\n        \"MyApp\",\r\n        \"HelloApplication\"\r\n    ],\r\n    \"mobileAppDeviceTypes\": [\r\n        \"Android\",\r\n        \"ios\"\r\n    ]\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/MobileApplicationConfiguration"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have \"Manage Threat Protection\" functional privilege to access this API."
-          },
-          "405" : {
-            "description" : "This status code indicates that the specified HTTP method is not allowed for the requested Mobile Applications in API Gateway.",
-            "examples" : {
-              "application/json" : "{\r\n\t\"errorDetails\": \" Unable to process the PUT request for Mobile Applications configuration. Error occurred while processing the payload. Error Message: Method: PUT is not allowed on resource: loadBalancer\"\r\n}"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicates that the request body is invalid.",
-            "examples" : {
-              "application/json" : "{\r\n\"errorDetails\": \" Invalid property key found in request payload.\"\r\n}"
-            }
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/serviceResultCache/{apiId}" : {
-      "get" : {
-        "description" : "This REST Request is used to get the Service Result cache size for the API using apiID. An alternative REST API call for /serviceResultCache. Instead of specifying name and version, if you know API id you can directly use that id to get the number of cached responses for that API",
-        "operationId" : "getCacheDetailsByapiId",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "apiId",
-          "in" : "path",
-          "description" : "The id of API for which the cached response size is requested",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "732c4526-db9a-4ef9-9782-edda1a6aa9bc"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the request for Service Result Cache size is successfully returned. The response will have number of cache elements (A cached element is nothing but a single response) for the given API id, so it infers that the number of responses are actually cached for this API ",
-            "examples" : {
-              "application/json" : "{\r\n\t\"Cache size\": 2\r\n}"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator access"
-          },
-          "500" : {
-            "description" : "This status code indicates that the server has encountered an error while fetching the Service Result Cache for the API"
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "delete" : {
-        "description" : "This REST Request is used to request for deletion of Service Result Cache for the API using api id",
-        "operationId" : "deleteCacheDetailsbyAPIId",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "apiId",
-          "in" : "path",
-          "description" : "The id of API for which the Service Result Cache deletion is requested",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "732c4526-db9a-4ef9-9782-edda1a6aa9bc"
-        } ],
-        "responses" : {
-          "204" : {
-            "description" : "This status code indicates that Service Result Cache has been deleted for the API and no data is returned in response "
-          },
-          "401" : {
-            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API Gateway provider access to delete the Service Result cache of the specified API."
-          },
-          "500" : {
-            "description" : "This status code indicates that the server has encountered an error while deleting the Service Result Cache for the API"
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/serviceResultCache" : {
-      "get" : {
-        "description" : "You can enable API caching in API Gateway to cache your native service's response. With caching, you can reduce the number of calls made to your endpoint and also improve the latency of the requests to your API. When you enable caching for a stage, API Gateway caches responses from your endpoint for a specified time to live period. API Gateway then responds to the request by looking up the endpoint response from the cache instead of making a request to your endpoint. \n\nService Result cache can be configured for a API or Resource/method or Operation. \n\nThis REST Request is used to get the Service Result cache size for an API using apiName and apiVersion.",
-        "operationId" : "getCacheDetailsByapiNameAndVersion",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "apiName",
-          "in" : "query",
-          "description" : "This query parameter is used to specify the API name for which the service result cache element size needs to be fetched.",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "apiName=WIKI-SearchData"
-        }, {
-          "name" : "apiVersion",
-          "in" : "query",
-          "description" : "The version of the apiName parameter specified",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "apiVersion=1.0"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the request for Service Result Cache size has been successfully returned. The response will have number of cache elements (A cached element is nothing but a single response) for the given API name and version, so it infers that the number of responses are actually cached for this API",
-            "examples" : {
-              "application/json" : "{\r\n\t\"Cache size\": 2\r\n}"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator access."
-          },
-          "500" : {
-            "description" : "This status code indicates that the server has encountered an error while fetching the Service Result cache for the API"
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "delete" : {
-        "description" : "This REST Request is used to request for deletion of Service Result cache for the API using apiName and apiVersion",
-        "operationId" : "deleteCacheDetailsByapiNameAndVersion",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "apiName",
-          "in" : "query",
-          "description" : "This query parameter is used to specify the API name for which the service result cache deletion is requsted.",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "apiName=WIKI-SearchData"
-        }, {
-          "name" : "apiVersion",
-          "in" : "query",
-          "description" : "The version of the apiName parameter specified",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "apiVersion=1.0"
-        } ],
-        "responses" : {
-          "204" : {
-            "description" : "This status code indicates that Service Result Cache has been deleted for the specified API and no data is returned in response"
-          },
-          "401" : {
-            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API Gateway provider access to delete the Service Result Cache of the specified API."
-          },
-          "500" : {
-            "description" : "This status code indicates that the server has encountered an error while deleting the Service Result cache for the API"
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
         "security" : [ {
@@ -1369,72 +1435,6 @@
           "Basic" : [ ]
         } ]
       }
-    },
-    "/assertions" : {
-      "get" : {
-        "description" : "This request will return all the assertions from API Gateway",
-        "operationId" : "getAllAssertions",
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Retrieves a list of available assertions in API Gateway.",
-            "examples" : {
-              "application/json" : "{\r\n    \"assertionConfigurations\": [\r\n        {\r\n            \"configurationId\": \"be463644-25a6-42af-840d-0b2d43be41ec\",\r\n            \"configurationName\": \"CustomBindingAssertion1\",\r\n            \"configurationElement\": \"<sp:AsymmetricBinding xmlns:sp=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702\\\" xmlns:wsp=\\\"http://schemas.xmlsoap.org/ws/2004/09/policy\\\">\\n    <wsp:Policy>\\n        <sp:InitiatorToken>\\n            <wsp:Policy>\\n                <sp:X509Token sp:IncludeToken=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never\\\">\\n                    <wsp:Policy>\\n                        <sp:WssX509V3Token10 />\\n                    </wsp:Policy>\\n                </sp:X509Token>\\n            </wsp:Policy>\\n        </sp:InitiatorToken>\\n        <sp:RecipientToken>\\n\\t\\t\\t<wsp:Policy>\\n\\t\\t\\t\\t<sp:X509Token sp:IncludeToken=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never\\\">\\n\\t\\t\\t\\t\\t<wsp:Policy>\\n                       <sp:WssX509V3Token10 />\\n                     </wsp:Policy>\\n                 </sp:X509Token>\\n            </wsp:Policy>\\n        </sp:RecipientToken>\\n        <sp:AlgorithmSuite>\\n          <wsp:Policy>\\n            <sp:TripleDesRsa15 />\\n          </wsp:Policy>\\n        </sp:AlgorithmSuite>\\n        <sp:Layout>\\n\\t\\t\\t<wsp:Policy>\\n\\t\\t\\t\\t<sp:Strict />\\n\\t\\t\\t</wsp:Policy>\\n        </sp:Layout>\\n\\t\\t<sp:ProtectTokens/> \\n    </wsp:Policy>\\n </sp:AsymmetricBinding>\",\r\n            \"assertionType\": \"bindingAssertion\"\r\n        },\r\n        {\r\n            \"configurationId\": \"9bfbd5ea-86eb-4990-8f7a-fdfef8f16f86\",\r\n            \"configurationName\": \"tokenAssertion01\",\r\n            \"configurationElement\": \"<sp:AsymmetricBinding xmlns:sp=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702\\\" xmlns:wsp=\\\"http://schemas.xmlsoap.org/ws/2004/09/policy\\\">\\r\\n    <wsp:Policy>\\r\\n        <sp:InitiatorToken>\\r\\n            <wsp:Policy>\\r\\n                <sp:X509Token sp:IncludeToken=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never\\\">\\r\\n                    <wsp:Policy>\\r\\n                        <sp:WssX509V3Token10 />\\r\\n                    </wsp:Policy>\\r\\n                </sp:X509Token>\\r\\n            </wsp:Policy>\\r\\n        </sp:InitiatorToken>\\r\\n        <sp:RecipientToken>\\r\\n\\t\\t\\t<wsp:Policy>\\r\\n\\t\\t\\t\\t<sp:X509Token sp:IncludeToken=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never\\\">\\r\\n\\t\\t\\t\\t\\t<wsp:Policy>\\r\\n                       <sp:WssX509V3Token10 />\\r\\n                     </wsp:Policy>\\r\\n                 </sp:X509Token>\\r\\n            </wsp:Policy>\\r\\n        </sp:RecipientToken>\\r\\n        <sp:AlgorithmSuite>\\r\\n          <wsp:Policy>\\r\\n            <sp:TripleDesRsa15 />\\r\\n          </wsp:Policy>\\r\\n        </sp:AlgorithmSuite>\\r\\n        <sp:Layout>\\r\\n\\t\\t\\t<wsp:Policy>\\r\\n\\t\\t\\t\\t<sp:Strict />\\r\\n\\t\\t\\t</wsp:Policy>\\r\\n        </sp:Layout>\\r\\n\\t\\t<sp:ProtectTokens/> \\r\\n    </wsp:Policy>\\r\\n </sp:AsymmetricBinding>\",\r\n            \"assertionType\": \"tokenAssertion\"\r\n        }\r\n    ]\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/AssertionConfiguration"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that authorization has been refused for this HTTP request. This is possibly because, the user has not specified the required credentials (username and password), or has specified invalid credentials, or the user is not authenticated as an API Gateway Administrator to retrieve assertions in API Gateway."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "post" : {
-        "description" : "Custom assertions allow the API providers to extend and provide additional security policies that are not available by default in API Gateway. In WS-Security, custom assertions are used for expressing individual security requirements, constraints, or both. The individual policy assertions can be combined to create security policies that ensure secure and reliable exchanges of SOAP messages between a client and a SOAP API. This REST service is used to create a assertion. Below are the request payloads for different types of assertions.\r\nbindingAssertion: &quot;{\r\n\t&quot;configurationElement&quot;: &quot;&lt;sp:AsymmetricBinding xmlns:sp=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702&quot;&gt;\r\n\t\t\t\t\t&lt;wsp:Policy xmlns:wsp=&quot;http://schemas.xmlsoap.org/ws/2004/09/policy&quot;&gt;\r\n\t\t\t\t\t\t&lt;sp:InitiatorToken&gt;\r\n\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t&lt;sp:X509Token sp:IncludeToken=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never&quot;&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t\t\t&lt;sp:WssX509V3Token10/&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t&lt;/sp:X509Token&gt;\r\n\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t&lt;/sp:InitiatorToken&gt;\r\n\t\t\t\t\t\t&lt;sp:RecipientToken&gt;\r\n\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t&lt;sp:X509Token sp:IncludeToken=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never&quot;&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t\t\t&lt;sp:WssX509V3Token10/&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t&lt;/sp:X509Token&gt;\r\n\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t&lt;/sp:RecipientToken&gt;\r\n\t\t\t\t\t\t&lt;sp:AlgorithmSuite&gt;\r\n\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t&lt;sp:Basic256 /&gt;\r\n\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t&lt;/sp:AlgorithmSuite&gt;\r\n\t\t\t\t\t\t&lt;sp:Layout&gt;\r\n\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t&lt;sp:LaxTimestampFirst/&gt;\r\n\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t&lt;/sp:Layout&gt;\r\n\t\t\t\t\t\t&lt;sp:ProtectTokens/&gt;\r\n\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t&lt;/sp:AsymmetricBinding&gt;&quot;,\r\n\t&quot;configurationName&quot;:&quot;CustomBindingAssertion1&quot;,\r\n\t&quot;assertionType&quot;:&quot;bindingAssertion&quot;}&quot;\r\n\r\ntokenAssertion: &quot;{\r\n\t&quot;configurationElement&quot;: &quot;&lt;sp:SupportingTokens xmlns:sp=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702&quot;&gt;\r\n\t\t\t\t\t&lt;wsp:Policy xmlns:wsp=&quot;http://schemas.xmlsoap.org/ws/2004/09/policy&quot;&gt;\r\n\t\t\t\t\t\t&lt;sp:UsernameToken sp:IncludeToken=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient&quot;/&gt;\r\n\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t&lt;/sp:SupportingTokens&gt;&quot;,\r\n\t&quot;configurationName&quot;:&quot;UsernameToken&quot;,\r\n\t&quot;assertionType&quot;:&quot;tokenAssertion&quot;}&quot;\r\n\t\r\npolicyAssertion: &quot;{\r\n\t&quot;configurationElement&quot;: &quot;&lt;wsp:Policy wsu:Id=&quot;CustomBinding_IWSTrust13Async_policy&quot;\r\n\t\t\txmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;\r\n\t\t\txmlns:wsp=&quot;http://schemas.xmlsoap.org/ws/2004/09/policy&quot; \r\n\t\t\txmlns:wsaw=&quot;http://www.w3.org/2006/02/addressing/wsdl&quot;\r\n\t\t\txmlns:sp=&quot;http://schemas.xmlsoap.org/ws/2005/07/securitypolicy&quot;&gt;\r\n\t\t\t&lt;wsp:ExactlyOne&gt;\r\n\t\t\t\t&lt;wsp:All&gt;\r\n\t\t\t\t\t&lt;sp:TransportBinding xmlns:sp=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702&quot;&gt;\r\n\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;sp:TransportToken&gt;\r\n\t\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;sp:HttpsToken/&gt;\r\n\t\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;/sp:TransportToken&gt;\r\n\t\t\t\t\t\t\t&lt;sp:AlgorithmSuite&gt;\r\n\t\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;sp:Basic128/&gt;\r\n\t\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;/sp:AlgorithmSuite&gt;\r\n\t\t\t\t\t\t\t&lt;sp:Layout&gt;\r\n\t\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;sp:Strict/&gt;\r\n\t\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;/sp:Layout&gt;\r\n\t\t\t\t\t\t\t&lt;sp:IncludeTimestamp/&gt;\r\n\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t&lt;/sp:TransportBinding&gt;\r\n\t\t\t\t\t&lt;sp:EndorsingSupportingTokens xmlns:sp=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702&quot;&gt;\r\n\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;sp:KerberosToken sp:IncludeToken=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Once&quot;&gt;\r\n\t\t\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t\t\t&lt;sp:WssGssKerberosV5ApReqToken11/&gt;\r\n\t\t\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;/sp:KerberosToken&gt;\r\n\t\t\t\t\t\t\t&lt;sp:KeyValueToken sp:IncludeToken=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never&quot; wsp:Optional=&quot;true&quot;/&gt;\r\n\t\t\t\t\t\t\t&lt;!-- \r\n\t\t\t\t\t\t\t&lt;sp:SignedParts&gt;\r\n\t\t\t\t\t\t\t\t&lt;sp:Header Name=&quot;To&quot; Namespace=&quot;http://www.w3.org/2005/08/addressing&quot;/&gt;\r\n\t\t\t\t\t\t\t&lt;/sp:SignedParts&gt;\r\n\t\t\t\t\t\t\t--&gt;\r\n\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t&lt;/sp:EndorsingSupportingTokens&gt;\r\n\t\t\t\t\t&lt;sp:Wss11 xmlns:sp=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702&quot;&gt;\r\n\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;sp:MustSupportRefKeyIdentifier/&gt;\r\n\t\t\t\t\t\t\t&lt;sp:MustSupportRefIssuerSerial/&gt;\r\n\t\t\t\t\t\t\t&lt;sp:MustSupportRefThumbprint/&gt;\r\n\t\t\t\t\t\t\t&lt;sp:MustSupportRefEncryptedKey/&gt;\r\n\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t&lt;/sp:Wss11&gt;\r\n\t\t\t\t\t&lt;sp:Trust13 xmlns:sp=&quot;http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702&quot;&gt;\r\n\t\t\t\t\t\t&lt;wsp:Policy&gt;\r\n\t\t\t\t\t\t\t&lt;sp:MustSupportIssuedTokens/&gt;\r\n\t\t\t\t\t\t\t&lt;sp:RequireClientEntropy/&gt;\r\n\t\t\t\t\t\t\t&lt;sp:RequireServerEntropy/&gt;\r\n\t\t\t\t\t\t&lt;/wsp:Policy&gt;\r\n\t\t\t\t\t&lt;/sp:Trust13&gt;\r\n\t\t\t\t\t&lt;wsaw:UsingAddressing/&gt;\r\n\t\t\t\t&lt;/wsp:All&gt;\r\n\t\t\t&lt;/wsp:ExactlyOne&gt;\r\n\t\t&lt;/wsp:Policy&gt;&quot;\r\n\t&quot;configurationName&quot;:&quot;KerberosOverTransport&quot;,\r\n\t&quot;assertionType&quot;:&quot;policyAssertion&quot;}&quot;",
-        "operationId" : "createAssertion",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "assertion request payload",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/AssertionConfiguration"
-          },
-          "x-examples" : {
-            "application/json" : "{\r\n\t\"configurationElement\": \"<sp:SupportingTokens xmlns:sp=\"http: //docs.oasis-open.org/ws-sx/ws-securitypolicy/200702\">\r\n\t<wsp:Policy xmlns:wsp=\"http: //schemas.xmlsoap.org/ws/2004/09/policy\">\r\n\t\t<sp:UsernameToken sp:IncludeToken=\"http: //docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient\"/>\r\n\t</wsp:Policy>\r\n</sp:SupportingTokens>\",\r\n\t\"configurationName\": \"UsernameToken\",\r\n\t\"assertionType\": \"tokenAssertion\"\r\n}"
-          }
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "Assertion successfully created in API Gateway",
-            "examples" : {
-              "application/json" : "{\r\n  \"assertionConfiguration\": {\r\n    \"configurationId\": \"0882293d-e773-4242-8bf5-c22e693f8413\",\r\n    \"configurationName\": \"token_04\",\r\n    \"configurationElement\": \"<sp:AsymmetricBinding xmlns:sp=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702\\\" xmlns:wsp=\\\"http://schemas.xmlsoap.org/ws/2004/09/policy\\\">\\r\\n    <wsp:Policy>\\r\\n        <sp:InitiatorToken>\\r\\n            <wsp:Policy>\\r\\n                <sp:X509Token sp:IncludeToken=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never\\\">\\r\\n                    <wsp:Policy>\\r\\n                        <sp:WssX509V3Token10 />\\r\\n                    </wsp:Policy>\\r\\n                </sp:X509Token>\\r\\n            </wsp:Policy>\\r\\n        </sp:InitiatorToken>\\r\\n        <sp:RecipientToken>\\r\\n\\t\\t\\t<wsp:Policy>\\r\\n\\t\\t\\t\\t<sp:X509Token sp:IncludeToken=\\\"http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/Never\\\">\\r\\n\\t\\t\\t\\t\\t<wsp:Policy>\\r\\n                       <sp:WssX509V3Token10 />\\r\\n                     </wsp:Policy>\\r\\n                 </sp:X509Token>\\r\\n            </wsp:Policy>\\r\\n        </sp:RecipientToken>\\r\\n        <sp:AlgorithmSuite>\\r\\n          <wsp:Policy>\\r\\n            <sp:TripleDesRsa15 />\\r\\n          </wsp:Policy>\\r\\n        </sp:AlgorithmSuite>\\r\\n        <sp:Layout>\\r\\n\\t\\t\\t<wsp:Policy>\\r\\n\\t\\t\\t\\t<sp:Strict />\\r\\n\\t\\t\\t</wsp:Policy>\\r\\n        </sp:Layout>\\r\\n\\t\\t<sp:ProtectTokens/> \\r\\n    </wsp:Policy>\\r\\n </sp:AsymmetricBinding>\"\r\n  }\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/AssertionConfiguration"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicates that the request payload is not correct and corresponding error details can be seen in the response body",
-            "examples" : {
-              "application/json" : "{\r\n  \"errorDetails\": \" Unable to create the resource. Error in processing the payload null. Error Message . Check the correctness of payload.\"\r\n}"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
     }
   },
   "securityDefinitions" : {
@@ -1444,6 +1444,76 @@
     }
   },
   "definitions" : {
+    "MobileApplicationConfiguration" : {
+      "type" : "object",
+      "properties" : {
+        "mobileApplications" : {
+          "type" : "array",
+          "description" : "Configure Mobile Application names to be filtered when Threat protection 'Mobile App Filter' Rule enforced",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "mobileAppDeviceTypes" : {
+          "type" : "array",
+          "description" : "Configure Device Types to be filtered when Threat protection 'Mobile App Filter' Rule enforced",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "Configured values are used in Threat protection Rules 'Mobile App filter'"
+    },
+    "InternationalizedString" : {
+      "type" : "object",
+      "properties" : {
+        "value" : {
+          "type" : "string",
+          "description" : "This property will hold the actual string"
+        },
+        "locale" : {
+          "type" : "string",
+          "description" : "This property will have the localization information of the property 'value'."
+        }
+      },
+      "description" : "This model is used to store a string with its corresponding locale"
+    },
+    "PolicyEnforcementStage" : {
+      "type" : "object",
+      "properties" : {
+        "stageKey" : {
+          "type" : "string",
+          "description" : "The unique key for the stage."
+        },
+        "names" : {
+          "type" : "array",
+          "description" : "Stage name with corresponding locale",
+          "items" : {
+            "$ref" : "#/definitions/InternationalizedString"
+          }
+        },
+        "descriptions" : {
+          "type" : "array",
+          "description" : "Stage description with corresponding locale",
+          "items" : {
+            "$ref" : "#/definitions/InternationalizedString"
+          }
+        },
+        "policyActionTempaltes" : {
+          "type" : "array",
+          "description" : "The list of policy enforcements can be applied on the respective stage.",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "sequence" : {
+          "type" : "string",
+          "description" : "Sequence of the stage.\n 1. insequence - Stages or policies marked with this sequence will be executed when the request comes to API Gateway and before the request dispatched to native service. \n 2. outsequence - Stages or policies marked with this sequence will be executed when the request goes out of API Gateway to the invoker. \n 3. faultsequence - Stages or policies marked with this sequence will be executed when native service return any error.",
+          "enum" : [ "insequence", "outsequence", "faultsequence" ]
+        }
+      },
+      "description" : "Each Policy Stage contains one or more policies. It provide you a the list of policy enforcement associated with each stage and its sequence either in, out or fault."
+    },
     "Attribute" : {
       "type" : "object",
       "required" : [ "attributeName", "operation", "value" ],
@@ -1492,20 +1562,6 @@
           "type" : "string"
         }
       }
-    },
-    "InternationalizedString" : {
-      "type" : "object",
-      "properties" : {
-        "value" : {
-          "type" : "string",
-          "description" : "This property will hold the actual string"
-        },
-        "locale" : {
-          "type" : "string",
-          "description" : "This property will have the localization information of the property 'value'."
-        }
-      },
-      "description" : "This model is used to store a string with its corresponding locale"
     },
     "Policy" : {
       "type" : "object",
@@ -2059,42 +2115,6 @@
       },
       "description" : "For policy action parameter we can define the list of possible values."
     },
-    "PolicyEnforcementStage" : {
-      "type" : "object",
-      "properties" : {
-        "stageKey" : {
-          "type" : "string",
-          "description" : "The unique key for the stage."
-        },
-        "names" : {
-          "type" : "array",
-          "description" : "Stage name with corresponding locale",
-          "items" : {
-            "$ref" : "#/definitions/InternationalizedString"
-          }
-        },
-        "descriptions" : {
-          "type" : "array",
-          "description" : "Stage description with corresponding locale",
-          "items" : {
-            "$ref" : "#/definitions/InternationalizedString"
-          }
-        },
-        "policyActionTempaltes" : {
-          "type" : "array",
-          "description" : "The list of policy enforcements can be applied on the respective stage.",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "sequence" : {
-          "type" : "string",
-          "description" : "Sequence of the stage.\n 1. insequence - Stages or policies marked with this sequence will be executed when the request comes to API Gateway and before the request dispatched to native service. \n 2. outsequence - Stages or policies marked with this sequence will be executed when the request goes out of API Gateway to the invoker. \n 3. faultsequence - Stages or policies marked with this sequence will be executed when native service return any error.",
-          "enum" : [ "insequence", "outsequence", "faultsequence" ]
-        }
-      },
-      "description" : "Each Policy Stage contains one or more policies. It provide you a the list of policy enforcement associated with each stage and its sequence either in, out or fault."
-    },
     "PolicyAction" : {
       "type" : "object",
       "properties" : {
@@ -2135,26 +2155,6 @@
         }
       },
       "description" : "This model contains details about a policy action in API Gateway"
-    },
-    "MobileApplicationConfiguration" : {
-      "type" : "object",
-      "properties" : {
-        "mobileApplications" : {
-          "type" : "array",
-          "description" : "Configure Mobile Application names to be filtered when Threat protection 'Mobile App Filter' Rule enforced",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "mobileAppDeviceTypes" : {
-          "type" : "array",
-          "description" : "Configure Device Types to be filtered when Threat protection 'Mobile App Filter' Rule enforced",
-          "items" : {
-            "type" : "string"
-          }
-        }
-      },
-      "description" : "Configured values are used in Threat protection Rules 'Mobile App filter'"
     },
     "AssertionConfiguration" : {
       "type" : "object",

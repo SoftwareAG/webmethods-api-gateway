@@ -1,8 +1,8 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "API Gateway user can do basic CRUD operations on resources like Api, Application, Package and Plans and so on without any supervision. But if the user wants to restrict the basic CRUD operations then they can use Approval Configuration. Once the user enabled approval configuration for respective events then without accepting/rejecting the approval request nothing will take place. API Gateway Approval Management Service allows user to manage the different types of approval configuration in API Gateway. Any user with the 'Manage general administration configurations' functional privilege can manage the Approval configuration. Any user as part of Approval Team can approve or reject the Approval requests. By default, the users who are part of 'Administrators' Team will have this privilege. Any user with the 'Manage applications' functional privilege can approve or reject the Approval request but they can't delete it. The approval request can be deleted by the one who created it or the one who has 'Manage general administration configurations' functional privilege. Available approval configuration events are 1. Create application, 2. Register application, 3. Update application, 4. Subscribe package and 5. Change owner/teams. Once user enabled any of the event then the respective operation will not happen without approving the request. For example if user enables Create application Approval configuration, then while creating application any of the user in the Approver Team need to approve the application creation approval request to create the application. Until then users can't view the application in the Applications page. This is the same with the other configurations also. In addition to that user can enable send notification option to send notification via email to approver for 1. Approval initiation, 2. Accepting approval and 3. Rejecting Approval. User can also configure the email template for the events to be sent to the approver. To send email to the approvers, users need to configure the Email under Administration -> Destinations-> Email configuration.",
-    "version" : "10.5",
+    "description" : "API Gateway Approval Management Service allows you to manage the different types of approval configuration in API Gateway. Any user with the 'Administration configurations' functional privilege can manage the Approval configuration. Also they can approve and reject the Approval requests. By default, the users who are part of either API-Gateway-Providers or API-Gateway-Administrators groups will have this privilege. Any user who is part of the aproval team has functional privilege to approve or reject the Approval request. User who created the approval request can also delete it if not needed. As of now approval configuration consist of few events. They are 1. Create application, 2. Register application, 3. Update application, 4. Subscribe package and 5. Change owner/teams. Once it is enabled then the respective operation will not happen without approving the request. For example if the user enables Create application Approval configuration, then while creating application the user needs to approve the application creation approval request to create the application. This is the same with the other configurations also. In addition to that user can enable send notification option to send notification to approver for 1. Approval initiation, 2. Accepting approval and 3. Rejecting Approval. They can also configure the email template for the events to be sent to the approver.",
+    "version" : "10.7",
     "title" : "API Gateway Approvals Management Service"
   },
   "host" : "localhost:5555",
@@ -11,98 +11,9 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
-    "/approvals/{approvalId}" : {
-      "get" : {
-        "description" : "Retrieve an Approval Request based on the approvalId.",
-        "operationId" : "getApproval",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "approvalId",
-          "in" : "path",
-          "description" : "approvalId for the Approval Request to be retrieved",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This method provides the details of approval request.",
-            "examples" : {
-              "application/json" : "{\n    \"approvalRequest\": {\n        \"id\": \"726fbffa-3713-493b-8f5c-e1b04ec71798\",\n        \"approversGroupId\": \"API-Gateway-Providers\",\n        \"approvalEvent\": \"createApplication\",\n        \"requestorId\": \"Administrator\",\n        \"requestorName\": \"Administrator\",\n        \"requestorFirstName\": \"Administrator\",\n        \"requestorLastName\": \"\",\n        \"requestorMail\": \"\",\n        \"mode\": \"anyone\",\n        \"created\": \"1586950929208\",\n        \"lastUpdated\": \"1586950929208\",\n        \"status\": \"pending\",\n        \"approvalEventPayloadAsString\": \"{\\\"applicationID\\\":\\\"36005e81-9714-4eef-9a83-e819a405fbca\\\",\\\"name\\\":\\\"Approval Application\\\",\\\"owner\\\":\\\"Administrator\\\",\\\"identifiers\\\":[],\\\"contactEmails\\\":[],\\\"lastUpdated\\\":0,\\\"siteURLs\\\":[],\\\"jsOrigins\\\":[],\\\"version\\\":\\\"1.0\\\",\\\"properties\\\":{\\\"requesterComment\\\":null},\\\"isSuspended\\\":false,\\\"authStrategyIds\\\":[],\\\"subscription\\\":false}\",\n        \"approvers\": [\n            {\n                \"id\": \"gora\",\n                \"name\": \"gora\",\n                \"firstName\": \"gora\",\n                \"lastName\": \"gora\",\n                \"status\": \"pending\",\n                \"email\": \"gora@softwareag.com\"\n            }\n        ],\n        \"properties\": {\n            \"newApisForAssociation\": \"\"\n        }\n    }\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/ApprovalRequest"
-            }
-          },
-          "404" : {
-            "description" : "This status code indicates that the approvalId specified is not found in the API Gateway"
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "delete" : {
-        "description" : "Delete the Approval Request with the given approvalId",
-        "operationId" : "deleteApprovalRequest",
-        "parameters" : [ {
-          "name" : "approvalId",
-          "in" : "path",
-          "description" : "Approval Request Id for the Approval Request to be deleted",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
-        } ],
-        "responses" : {
-          "404" : {
-            "description" : "This status code indicates that the approvalId specified is not found in the API Gateway"
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          },
-          "204" : {
-            "description" : "Success"
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/approvals" : {
-      "get" : {
-        "description" : "Retrieve all the approval requests waiting for the user. If the user is part of one or more approval team, then he/she will get the approval requests assigned for those teams.",
-        "operationId" : "getApprovals",
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "The method provides all approval requests pending for the user",
-            "examples" : {
-              "application/json" : "{\n    \"approvalRequests\": [\n        {\n            \"id\": \"726fbffa-3713-493b-8f5c-e1b04ec71798\",\n            \"approversGroupId\": \"API-Gateway-Providers\",\n            \"approvalEvent\": \"createApplication\",\n            \"requestorId\": \"Administrator\",\n            \"requestorName\": \"Administrator\",\n            \"requestorFirstName\": \"Administrator\",\n            \"requestorLastName\": \"\",\n            \"requestorMail\": \"\",\n            \"mode\": \"anyone\",\n            \"created\": \"1586950929208\",\n            \"lastUpdated\": \"1586950929208\",\n            \"status\": \"pending\",\n            \"approvalEventPayloadAsString\": \"{\\\"applicationID\\\":\\\"36005e81-9714-4eef-9a83-e819a405fbca\\\",\\\"name\\\":\\\"Approval Application\\\",\\\"owner\\\":\\\"Administrator\\\",\\\"identifiers\\\":[],\\\"contactEmails\\\":[],\\\"lastUpdated\\\":0,\\\"siteURLs\\\":[],\\\"jsOrigins\\\":[],\\\"version\\\":\\\"1.0\\\",\\\"properties\\\":{\\\"requesterComment\\\":null},\\\"isSuspended\\\":false,\\\"authStrategyIds\\\":[],\\\"subscription\\\":false}\",\n            \"approvers\": [\n                {\n                    \"id\": \"gora\",\n                    \"name\": \"gora\",\n                    \"firstName\": \"gora\",\n                    \"lastName\": \"gora\",\n                    \"status\": \"pending\",\n                    \"email\": \"gora@softwareag.com\"\n                }\n            ],\n            \"properties\": {\n                \"newApisForAssociation\": \"\"\n            }\n        }\n    ]\n}"
-            },
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/ApprovalResponsePayload"
-              }
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
     "/approvals/{approvalId}/{action}" : {
       "put" : {
-        "description" : "Request payload for the approval request.",
+        "description" : "Approve/Reject the Approval Request with given approvalId and action",
         "operationId" : "approveorrejectApprovalRequest",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -126,33 +37,21 @@
           "description" : "Approval Request payload",
           "required" : false,
           "schema" : {
-            "$ref" : "#/definitions/ApprovalPutRequest"
-          },
-          "x-examples" : {
-            "application/json" : "{\n    \"approverComment\": \"approve application creation\"\n}"
+            "$ref" : "#/definitions/ApprovalRequest"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "Response payload of the approval request after approve/reject action.",
-            "examples" : {
-              "application/json" : "{\n    \"status\": \"approved\"\n}"
-            },
+            "description" : "Returns the approved/rejected status after successfully approved/rejected the Approval Request",
             "schema" : {
-              "$ref" : "#/definitions/ApprovalPutResponse"
+              "$ref" : "#/definitions/ApprovalResponse"
             }
-          },
-          "500" : {
-            "description" : "This status code indicates that server has encountered an error during the update of approval request."
-          },
-          "400" : {
-            "description" : "This status code indicates that the given approval request body is not correct."
           },
           "404" : {
             "description" : "This status code indicates that the approvalId specified is not found in the API Gateway"
           },
           "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+            "description" : ""
           }
         },
         "security" : [ {
@@ -160,65 +59,82 @@
         } ]
       }
     },
-    "/approvalConfigurations" : {
+    "/approvals" : {
       "get" : {
-        "description" : "The method retrieves a list of available approval configurations in API Gateway.",
-        "operationId" : "getApprovalConfigurations",
+        "description" : "Get all Approvals",
+        "operationId" : "getApprovals",
         "produces" : [ "application/json" ],
         "parameters" : [ ],
         "responses" : {
           "200" : {
-            "description" : "This status code indicates that a list of the available approval configurations is retrieved successfully.",
-            "examples" : {
-              "application/json" : "{\r\n    \"approvalConfigurations\": [\r\n        {\r\n            \"id\": \"createApplication\",\r\n            \"eventType\": \"createApplication\",\r\n            \"isEnabled\": true,\r\n            \"approversGroupId\": \"0936de2c-9fb9-4625-b5b0-b7648e0d4103\",\r\n            \"approvalMode\": \"anyone\",\r\n            \"approvedEmailConfiguration\": {\r\n                \"emailSubject\": \"Approval of @event.type\",\r\n                \"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\",\r\n                \"enabled\": false,\r\n                \"requestType\": \"approved\"\r\n            },\r\n            \"rejectedEmailConfiguration\": {\r\n                \"emailSubject\": \"Rejection of @event.type\",\r\n                \"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n                \"enabled\": false,\r\n                \"requestType\": \"rejected\"\r\n            },\r\n            \"initiateApprovalRequestEmailConfiguration\": {\r\n                \"emailSubject\": \"Approval request pending\",\r\n                \"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n                \"enabled\": false,\r\n                \"requestType\": \"initiate\"\r\n            }\r\n        }\r\n    ]\r\n}"
-            },
+            "description" : "Returns the list of all Approval Requests",
             "schema" : {
-              "$ref" : "#/definitions/ApprovalConfiguration"
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ApprovalRequest"
+              }
             }
           },
           "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+            "description" : ""
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/approvals/{approvalId}" : {
+      "get" : {
+        "description" : "Retrieve an Approval Request based on the Approval id.",
+        "operationId" : "getApproval",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "approvalId",
+          "in" : "path",
+          "description" : "Approval Id for the Approval Request to be retrieved",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "returns the approval requests object based on the given approvalId",
+            "schema" : {
+              "$ref" : "#/definitions/ApprovalRequest"
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that the approvalId specified is not found in the API Gateway"
+          },
+          "401" : {
+            "description" : ""
           }
         },
         "security" : [ {
           "Basic" : [ ]
         } ]
       },
-      "post" : {
-        "description" : "The method creates an approval configuration in API Gateway.",
-        "operationId" : "createApprovalConfiguration",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
+      "delete" : {
+        "description" : "Delete the Approval Request with the given approvalId",
+        "operationId" : "deleteApprovalRequest",
         "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "This parameter describes the request payload of an approval configuration that is to be created in API Gateway.",
+          "name" : "approvalId",
+          "in" : "path",
+          "description" : "Approval Request Id for the Approval Request to be deleted",
           "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/ApprovalConfiguration"
-          },
-          "x-examples" : {
-            "application/json" : "{\r\n    \"approvalConfig\": {\r\n        \"id\": \"createApplication\",\r\n        \"eventType\": \"createApplication\",\r\n        \"isEnabled\": true,\r\n        \"approversGroupId\": \"0936de2c-9fb9-4625-b5b0-b7648e0d4103\",\r\n        \"approvalMode\": \"anyone\",\r\n        \"approvedEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval of @event.type\",\r\n            \"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"approved\"\r\n        },\r\n        \"rejectedEmailConfiguration\": {\r\n            \"emailSubject\": \"Rejection of @event.type\",\r\n            \"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"rejected\"\r\n        },\r\n        \"initiateApprovalRequestEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval request pending\",\r\n            \"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"initiate\"\r\n        }\r\n    }\r\n}"
-          }
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
         } ],
         "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the approval configuration has been successfully created in API Gateway.",
-            "examples" : {
-              "application/json" : "{\r\n    \"approvalConfig\": {\r\n        \"id\": \"createApplication\",\r\n        \"eventType\": \"createApplication\",\r\n        \"isEnabled\": true,\r\n        \"approversGroupId\": \"0936de2c-9fb9-4625-b5b0-b7648e0d4103\",\r\n        \"approvalMode\": \"anyone\",\r\n        \"approvedEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval of @event.type\",\r\n            \"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"approved\"\r\n        },\r\n        \"rejectedEmailConfiguration\": {\r\n            \"emailSubject\": \"Rejection of @event.type\",\r\n            \"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"rejected\"\r\n        },\r\n        \"initiateApprovalRequestEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval request pending\",\r\n            \"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"initiate\"\r\n        }\r\n    }\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/ApprovalConfiguration"
-            }
-          },
-          "500" : {
-            "description" : "This status code indicates that server has encountered an error during the creation of approval configuration."
-          },
-          "400" : {
-            "description" : "This status code indicates that the given approval configuration request body is not correct."
+          "404" : {
+            "description" : "This status code indicates that the approvalId specified is not found in the API Gateway"
           },
           "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+            "description" : "Access Denied"
+          },
+          "204" : {
+            "description" : "Success"
           }
         },
         "security" : [ {
@@ -295,12 +211,6 @@
           "400" : {
             "description" : "This status code indicates that the given approval configuration request body is not correct."
           },
-          "500" : {
-            "description" : "This status code indicates that server has encountered an error during the update of approval configuration."
-          },
-          "404" : {
-            "description" : "This status code indicates that an approval configuration with the given ID could not be found in API Gateway."
-          },
           "401" : {
             "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
@@ -335,6 +245,69 @@
           "Basic" : [ ]
         } ]
       }
+    },
+    "/approvalConfigurations" : {
+      "get" : {
+        "description" : "The method retrieves a list of available approval configurations in API Gateway.",
+        "operationId" : "getApprovalConfigurations",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that a list of the available approval configurations is retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\r\n    \"approvalConfigurations\": [\r\n        {\r\n            \"id\": \"createApplication\",\r\n            \"eventType\": \"createApplication\",\r\n            \"isEnabled\": true,\r\n            \"approversGroupId\": \"0936de2c-9fb9-4625-b5b0-b7648e0d4103\",\r\n            \"approvalMode\": \"anyone\",\r\n            \"approvedEmailConfiguration\": {\r\n                \"emailSubject\": \"Approval of @event.type\",\r\n                \"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\",\r\n                \"enabled\": false,\r\n                \"requestType\": \"approved\"\r\n            },\r\n            \"rejectedEmailConfiguration\": {\r\n                \"emailSubject\": \"Rejection of @event.type\",\r\n                \"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n                \"enabled\": false,\r\n                \"requestType\": \"rejected\"\r\n            },\r\n            \"initiateApprovalRequestEmailConfiguration\": {\r\n                \"emailSubject\": \"Approval request pending\",\r\n                \"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n                \"enabled\": false,\r\n                \"requestType\": \"initiate\"\r\n            }\r\n        }\r\n    ]\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/ApprovalConfiguration"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "The method creates an approval configuration in API Gateway.",
+        "operationId" : "createApprovalConfiguration",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of an approval configuration that is to be created in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ApprovalConfiguration"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n    \"approvalConfig\": {\r\n        \"id\": \"createApplication\",\r\n        \"eventType\": \"createApplication\",\r\n        \"isEnabled\": true,\r\n        \"approversGroupId\": \"0936de2c-9fb9-4625-b5b0-b7648e0d4103\",\r\n        \"approvalMode\": \"anyone\",\r\n        \"approvedEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval of @event.type\",\r\n            \"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"approved\"\r\n        },\r\n        \"rejectedEmailConfiguration\": {\r\n            \"emailSubject\": \"Rejection of @event.type\",\r\n            \"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"rejected\"\r\n        },\r\n        \"initiateApprovalRequestEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval request pending\",\r\n            \"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"initiate\"\r\n        }\r\n    }\r\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the approval configuration has been successfully created in API Gateway.",
+            "examples" : {
+              "application/json" : "{\r\n    \"approvalConfig\": {\r\n        \"id\": \"createApplication\",\r\n        \"eventType\": \"createApplication\",\r\n        \"isEnabled\": true,\r\n        \"approversGroupId\": \"0936de2c-9fb9-4625-b5b0-b7648e0d4103\",\r\n        \"approvalMode\": \"anyone\",\r\n        \"approvedEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval of @event.type\",\r\n            \"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"approved\"\r\n        },\r\n        \"rejectedEmailConfiguration\": {\r\n            \"emailSubject\": \"Rejection of @event.type\",\r\n            \"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"rejected\"\r\n        },\r\n        \"initiateApprovalRequestEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval request pending\",\r\n            \"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"initiate\"\r\n        }\r\n    }\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/ApprovalConfiguration"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the given approval configuration request body is not correct."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
     }
   },
   "securityDefinitions" : {
@@ -348,40 +321,25 @@
       "type" : "object",
       "properties" : {
         "id" : {
-          "type" : "string",
-          "description" : "to identify the approval request"
+          "type" : "string"
         },
         "approversGroupId" : {
-          "type" : "string",
-          "description" : "approval group id"
+          "type" : "string"
         },
         "approvalEvent" : {
-          "type" : "string",
-          "description" : "can be create, update, register etc.."
+          "type" : "string"
         },
         "requestorId" : {
-          "type" : "string",
-          "description" : "the one who requested the approval process"
+          "type" : "string"
         },
         "requestorName" : {
-          "type" : "string",
-          "description" : "name of the requestor"
-        },
-        "requestorFirstName" : {
-          "type" : "string",
-          "description" : "requestor first name"
-        },
-        "requestorLastName" : {
-          "type" : "string",
-          "description" : "requestor last name"
+          "type" : "string"
         },
         "requestorMail" : {
-          "type" : "string",
-          "description" : "the email id of the requestor"
+          "type" : "string"
         },
         "mode" : {
-          "type" : "string",
-          "description" : "can be everyone/anyone"
+          "type" : "string"
         },
         "created" : {
           "type" : "string"
@@ -390,50 +348,38 @@
           "type" : "string"
         },
         "status" : {
-          "type" : "string",
-          "description" : "Can be Pending/Approved/Rejected"
+          "type" : "string"
         },
         "requesterComment" : {
-          "type" : "string",
-          "description" : "requestor comment for the particular approval request"
+          "type" : "string"
         },
         "subjectId" : {
-          "type" : "string",
-          "description" : "subjectId"
+          "type" : "string"
         },
         "approvalEventPayloadAsString" : {
-          "type" : "string",
-          "description" : "approval request event payload"
+          "type" : "string"
         },
         "approvers" : {
           "type" : "array",
-          "description" : "list of approvers",
           "items" : {
             "$ref" : "#/definitions/Approver"
           }
         },
         "properties" : {
           "type" : "object",
-          "description" : "additional request context properties",
           "additionalProperties" : {
             "type" : "string"
           }
         }
-      },
-      "description" : "This model contains details about an ApprovalRequest in API Gateway"
+      }
     },
-    "ApprovalResponsePayload" : {
+    "ApprovalResponse" : {
       "type" : "object",
       "properties" : {
-        "approvalRequests" : {
-          "type" : "array",
-          "description" : "approval response payload",
-          "items" : {
-            "$ref" : "#/definitions/ApprovalRequest"
-          }
+        "status" : {
+          "type" : "string"
         }
-      },
-      "description" : "This model contains details about an Approval Response Payload in API Gateway"
+      }
     },
     "Approver" : {
       "type" : "object",
@@ -442,12 +388,6 @@
           "type" : "string"
         },
         "name" : {
-          "type" : "string"
-        },
-        "firstName" : {
-          "type" : "string"
-        },
-        "lastName" : {
           "type" : "string"
         },
         "status" : {
@@ -463,26 +403,6 @@
           }
         }
       }
-    },
-    "ApprovalPutRequest" : {
-      "type" : "object",
-      "properties" : {
-        "approverComment" : {
-          "type" : "string",
-          "description" : "approver comment for approval request"
-        }
-      },
-      "description" : "This model contains details about an Approval Put Request in API Gateway"
-    },
-    "ApprovalPutResponse" : {
-      "type" : "object",
-      "properties" : {
-        "status" : {
-          "type" : "string",
-          "description" : "status of the approval request"
-        }
-      },
-      "description" : "This model contains details about an Approval Response in API Gateway"
     },
     "ApprovalConfiguration" : {
       "type" : "object",

@@ -1,0 +1,212 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This swagger doc contain API Definition for API Gateway APIs. It contains swagger definition for all APIs in API Gateway.",
+    "version" : "10.7",
+    "title" : "API Gateway APIs"
+  },
+  "host" : "localhost:5555",
+  "basePath" : "/rest/apigateway",
+  "schemes" : [ "http" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/scopes" : {
+      "get" : {
+        "description" : "The method retrieves a list of available gateway scopes in API Gateway.",
+        "operationId" : "getGatewayScopes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that a list of the available gateway scopes are retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GatewayScope"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "The method creates a gateway scope in API Gateway.",
+        "operationId" : "createGatewayScope",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of an gateway scope that is to be created in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/GatewayScope"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the gateway scope has been successfully created in API Gateway.",
+            "schema" : {
+              "$ref" : "#/definitions/GatewayScope"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that an gateway scope with the given ID already exists in API Gateway"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "The method deletes the specified gateway scope in API Gateway.",
+        "operationId" : "deleteGatewayScope",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ids",
+          "in" : "query",
+          "description" : "This parameter specifies the ID of an gateway scope that is to be deleted in API Gateway.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "204" : {
+            "description" : "This status code indicates that the specified gateway scope has been successfully deleted from API Gateway."
+          },
+          "404" : {
+            "description" : "This status code indicates that an gateway scope with the given ID could not be found in API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/scopes/{gatewayScopeId}" : {
+      "get" : {
+        "description" : "The method retrieves the details of a specified gateway scope in API Gateway",
+        "operationId" : "getGatewayScope",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "gatewayScopeId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an gateway scope whose details are to be retrieved in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the details of the specified gateway scope are retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/GatewayScope"
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that an gateway scope with the given ID could not be found in API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "The method updates the property details of the specified gateway scope in API Gateway.",
+        "operationId" : "updateGatewayScope",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of an gateway scope that is to be updated in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/GatewayScope"
+          }
+        }, {
+          "name" : "strategyId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an gateway scope that is to be updated in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the specified gateway scope been successfully updated in API Gateway.",
+            "schema" : {
+              "$ref" : "#/definitions/GatewayScope"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the specified gateway scope could not be updated"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Basic" : {
+      "description" : "API Gateway Administrator and API Gateway provider",
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "AuthServerScope" : {
+      "type" : "object",
+      "properties" : {
+        "authServerAlias" : {
+          "type" : "string"
+        },
+        "scopeName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "GatewayScope" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "scopeName" : {
+          "type" : "string"
+        },
+        "scopeDescription" : {
+          "type" : "string"
+        },
+        "audience" : {
+          "type" : "string"
+        },
+        "apiScopes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "requiredAuthScopes" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/AuthServerScope"
+          }
+        }
+      }
+    }
+  }
+}

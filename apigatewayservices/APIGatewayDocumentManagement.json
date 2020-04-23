@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway Document Management Service allows you to store/manage the Documents associated to API in the API Gateway. Any user with the 'Manage APIs' functional privilege can manage the documents in the API Gateway. By default, the users who are part of either API-Gateway-Providers or API-Gateway-Administrators groups will have this privilege.\n\nAny document can be stored and attached to any of these APIs types - REST APIs, SOAP APIs, WebSocket APIs and OData APIs. ",
-    "version" : "10.5",
+    "version" : "10.7",
     "title" : "API Gateway Document Management Service"
   },
   "host" : "localhost:5555",
@@ -207,6 +207,13 @@
           "x-examples" : {
             "application/json" : "{\r\n\t\"displayName\": \"APIGatewayPortsInfoDocument Updated\"\r\n}"
           }
+        }, {
+          "name" : "documentId",
+          "in" : "path",
+          "description" : "The unique identifier of the document to be patched.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
         } ],
         "responses" : {
           "200" : {

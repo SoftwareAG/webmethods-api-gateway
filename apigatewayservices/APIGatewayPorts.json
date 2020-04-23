@@ -1,0 +1,392 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This swagger doc contains API Definition of the ports CRUD operations.",
+    "version" : "10.7",
+    "title" : "Ports configurations."
+  },
+  "host" : "localhost:5555",
+  "basePath" : "/rest/apigateway",
+  "schemes" : [ "http" ],
+  "consumes" : [ "plain/text" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/ports" : {
+      "post" : {
+        "operationId" : "createPort",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "port payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Port"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "schema" : {
+              "$ref" : "#/definitions/Port"
+            }
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "Access Denied"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "operationId" : "updatePort",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Port"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "schema" : {
+              "$ref" : "#/definitions/Port"
+            }
+          },
+          "500" : {
+            "description" : ""
+          },
+          "401" : {
+            "description" : ""
+          },
+          "400" : {
+            "description" : ""
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "operationId" : "deletePort",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "listenerKey",
+          "in" : "query",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "HTTPListener@5555"
+        }, {
+          "name" : "pkg",
+          "in" : "query",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "WmRoot"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : ""
+          },
+          "204" : {
+            "description" : ""
+          },
+          "404" : {
+            "description" : ""
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/ports/enable" : {
+      "put" : {
+        "operationId" : "enablePort",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PortEnableDisable"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "schema" : {
+              "$ref" : "#/definitions/PortEnableDisable"
+            }
+          },
+          "500" : {
+            "description" : ""
+          },
+          "401" : {
+            "description" : ""
+          },
+          "400" : {
+            "description" : ""
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/ports/disable" : {
+      "put" : {
+        "operationId" : "ddisablePort",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PortEnableDisable"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "schema" : {
+              "$ref" : "#/definitions/PortEnableDisable"
+            }
+          },
+          "500" : {
+            "description" : ""
+          },
+          "401" : {
+            "description" : ""
+          },
+          "400" : {
+            "description" : ""
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/ports/primary" : {
+      "put" : {
+        "operationId" : "setPrimaryPort",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SetPrimaryPort"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "schema" : {
+              "$ref" : "#/definitions/PortEnableDisable"
+            }
+          },
+          "500" : {
+            "description" : ""
+          },
+          "401" : {
+            "description" : ""
+          },
+          "400" : {
+            "description" : ""
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Basic" : {
+      "description" : "API Gateway Administrator and API Gateway provider",
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "Port" : {
+      "type" : "object",
+      "properties" : {
+        "port" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "protocol" : {
+          "type" : "string"
+        },
+        "pkg" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "string"
+        },
+        "key" : {
+          "type" : "string"
+        },
+        "uniqueID" : {
+          "type" : "string"
+        },
+        "portAlias" : {
+          "type" : "string"
+        },
+        "portDescription" : {
+          "type" : "string"
+        },
+        "factoryKey" : {
+          "type" : "string"
+        },
+        "configURL" : {
+          "type" : "string"
+        },
+        "provider" : {
+          "type" : "string"
+        },
+        "listenerType" : {
+          "type" : "string"
+        },
+        "clientAuth" : {
+          "type" : "string"
+        },
+        "idProvider" : {
+          "type" : "object"
+        },
+        "ssl" : {
+          "type" : "string"
+        },
+        "maxQueue" : {
+          "type" : "string"
+        },
+        "keepAliveTimeout" : {
+          "type" : "string"
+        },
+        "threadPool" : {
+          "type" : "string"
+        },
+        "minThread" : {
+          "type" : "string"
+        },
+        "maxThread" : {
+          "type" : "string"
+        },
+        "threadPriority" : {
+          "type" : "string"
+        },
+        "usedThreadCount" : {
+          "type" : "string"
+        },
+        "internalPort" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "curDelay" : {
+          "type" : "string"
+        },
+        "stepsize" : {
+          "type" : "string"
+        },
+        "suspended" : {
+          "type" : "string"
+        },
+        "jsseEnabledProtocols" : {
+          "type" : "object"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "listening" : {
+          "type" : "string"
+        },
+        "accessMode" : {
+          "type" : "string"
+        },
+        "hasAccessList" : {
+          "type" : "string"
+        },
+        "ipAccessMode" : {
+          "type" : "string"
+        },
+        "hasIPAccessList" : {
+          "type" : "string"
+        },
+        "hostAccessMode" : {
+          "type" : "string"
+        },
+        "hostAllow" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "hostDeny" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "This defines the various fields that related to a particular port."
+    },
+    "PortEnableDisable" : {
+      "type" : "object",
+      "properties" : {
+        "listenerKey" : {
+          "type" : "string"
+        },
+        "pkg" : {
+          "type" : "string"
+        },
+        "requestServiceStatus" : {
+          "type" : "string"
+        },
+        "get$resourceID" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SetPrimaryPort" : {
+      "type" : "object",
+      "properties" : {
+        "listenerKey" : {
+          "type" : "string"
+        },
+        "pkg" : {
+          "type" : "string"
+        },
+        "requestServiceStatus" : {
+          "type" : "string"
+        },
+        "get$resourceID" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

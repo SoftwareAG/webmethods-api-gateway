@@ -125,7 +125,7 @@
         "types" : {
           "type" : "string",
           "description" : "List of allowed types that can be searched across API Gateway.",
-          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS" ]
+          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS", "GATEWAY_SCOPE" ]
         },
         "scope" : {
           "$ref" : "#/definitions/SearchField"
@@ -182,11 +182,11 @@
           "type" : "string",
           "description" : "Value of the corresponding field to be matched. User can use regular expression to specify the multiple values for single attributeName. For example  to find \n 1. apiDescription contains \"weather\" or equals \"country\" , we can use {\"attributeName\" : \"apiDescription\", \"keyword\" : \".*weather.*|country\"}. \n 2. apiName starts with weather - {\"attributeName\" : \"apiName\", \"keyword\" : \"weather.*\"}. \n 3. api type is REST or SOAP - {\"attributeName\" : \"type\", \"keyword\" : \"REST|SOAP\"}."
         },
-        "orTokenKey" : {
-          "type" : "boolean"
-        },
         "rawFieldKey" : {
           "type" : "string"
+        },
+        "orTokenKey" : {
+          "type" : "boolean"
         }
       },
       "description" : "A scope is filtering criteria for the list of types specified in search.It is a key/value pair. key is the field name on which the search is being done and value  contains the search string to be searched on the field specified.To get the field name for a type, user needs to access the corresponding API Gateway REST service to know about the fields available for a particular type. "
