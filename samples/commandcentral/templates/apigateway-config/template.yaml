@@ -1,0 +1,162 @@
+###############################################################################
+# Copyright (c) 2011-2019 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+###############################################################################
+
+##Template 
+alias: sag-apigateway-config
+description: External Elasticsearch, Kibana, Port, Clustering, Logging configuration update
+environments:
+  default:
+    is.tenant:               apigateway
+    es.ssl.user:             ${}
+    es.ssl.password:         ${}
+    es.hostname:             ${}
+    es.port:                 9202
+    
+    kibana.host:             ${}
+    kibana.port:             8492
+    
+    port.name:               ${}
+    port.number:             ${}
+    port.type:               HTTPListener@${port.number}
+    port.description:        "http port on ${port.number}"
+    
+    cluster.name:            ${}
+    cluster.terracottaurl:   ${}
+    
+    logger.mode:             Debug
+layers:
+  runtime:
+    templates:
+      - sag-apigateway-config
+
+templates:
+  sag-apigateway-config:
+    products:
+      integrationServer:
+        default:
+          configuration:
+            OSGI-IS_apigateway-WmAPIGateway:
+              APIGATEWAY-ELASTICSEARCH:
+                APIGATEWAY-ELASTICSEARCH:
+                  '@alias': Elasticsearch
+                  autostart: 'false'
+                  tenantId: ${is.tenant}
+                  Auth:
+                    '@type': SSL
+                    User: ${es.ssl.user}
+                    Password: ${es.ssl.password}
+                  Transport:
+                    Host: ${es.hostname}
+                    Port: ${es.port}
+                  SSL:
+                    Enable: 'false'
+                    HostnameVerification: 'false'                    
+                  ExtendedProperties:
+                    Property:
+                      - '@name': clientHttpResponseSize
+                        $: '1024'
+                      - '@name': connectionTimeout
+                        $: '10000'
+                      - '@name': keepalive
+                        $: '10'
+                      - '@name': keepAliveConnectionsPerRoute
+                        $: '1000'
+                      - '@name': maxRetry
+                        $: '10000'
+                      - '@name': socketTimeout
+                        $: '10000'
+                      - '@name': sniffEnabled
+                        $: 'true'
+                      - '@name': sniffTimeInterval
+                        $: '5000'
+              APIGATEWAY-KIBANA:
+                APIGATEWAY-KIBANA:
+                  '@alias': Kibana
+                  autostart: 'false'
+                  Transport:
+                    Host: ${kibana.host}
+                    Port: ${kibana.port}
+              COMMON-PORTS:
+                COMMON_PORTS_httpPort:
+                  Port:
+                    '@primary': 'false'
+                    '@alias': ${port.name}
+                    Enabled: 'true'
+                    CustomType: ${port.type}
+                    Number: ${port.number}
+                    Protocol: HTTP
+                    Backlog: '200'
+                    KeepAliveTimeout: '20000'
+                    ThreadPool:
+                    ExtendedProperties:
+                      Property:
+                        - '@name': DIS_PORT
+                          $: ${port.number}
+                        - '@name': DIS_PORT_ALIAS
+                          $: ${port.name}
+                        - '@name': DIS_PROTOCOL
+                          $: HTTP
+                        - '@name': DIS_ENABLE
+                          $: 'true'
+                        - '@name': DIS_PRIMARY
+                          $: 'false'
+                        - '@name': UseJSSE
+                        - '@name': listenerType
+                          $: Regular
+                        - '@name': Type
+                          $: Regular
+                        - '@name': DIS_TYPE
+                          $: Regular
+                        - '@name': PortType
+                          $: HTTP
+                        - '@name': PortDescription
+                          $: ${port.description}
+                        - '@name': ClientAuth
+                          $: none
+                        - '@name': IdleTimeout
+                        - '@name': MaxConnections
+                        - '@name': ProxyHost
+                        - '@name': Username
+                        - '@name': Password
+                        - '@name': pkg
+                          $: WmRoot
+              COMMON-CLUSTER:
+                COMMON-CLUSTER:
+                  Enabled: 'true'
+                  Name: ${cluster.name}
+                  Servers:
+                    Server:
+                      URL: ${cluster.terracottaurl}
+                  ExtendedProperties:
+                    Property:
+                    - '@name': SessionTimeout
+                      $: '60'
+                    - '@name': ActionOnStartupError
+                      $: standalone          
+              COMMON-LOGGERS:
+                COMMON_LOGGERS_apigatewayLogger:
+                  Logger:
+                    '@alias': apigatewayLogger
+                    Name: API Gateway
+                    Mode: ${logger.mode}
+                    Destination: API Gateway UI and server logs.      
+                      
+provision:
+  default:
+    runtime: ${nodes}
