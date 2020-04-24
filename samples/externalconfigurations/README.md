@@ -4,32 +4,32 @@ These files contain sample configuration for different flavors of starting API G
 
 ### Usage of the configuration files
 
-###### config-sources.yml
+#### config-sources.yml
 
 This is the master configuration file which contains the configuration source definitions.
 
-###### apigw-elasticsearch-no-cluster.yml
+#### apigw-elasticsearch-no-cluster.yml
 
 Use this configuration to start API Gateway with
 
   * an external Elasticsearch
   * no cluster
 
-###### apigw-elasticsearch-basicauth-no-cluster.yml
+#### apigw-elasticsearch-basicauth-no-cluster.yml
 
 Use this configuration to start API Gateway with
 
   * an external Elasticsearch which is protected with basic authentication
   * no cluster
 
-###### apigw-elasticsearch-ssl-no-cluster.yml
+#### apigw-elasticsearch-ssl-no-cluster.yml
 
 Use this configuration to start API Gateway with
 
   * an external Elasticsearch which is SSL protected
   * no cluster
 
-###### apigw-elasticsearch-kibana-no-cluster.yml
+#### apigw-elasticsearch-kibana-no-cluster.yml
 
 Use this configuration to start API Gateway with
 
@@ -37,7 +37,7 @@ Use this configuration to start API Gateway with
   * an external Kibana
   * no cluster
 
-###### apigw-elasticsearch-kibana-cluster.yml
+#### apigw-elasticsearch-kibana-cluster.yml
 
 Use this configuration to start API Gateway with
 
