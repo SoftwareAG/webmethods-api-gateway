@@ -1,0 +1,29 @@
+---
+apigw:
+  elasticsearch:
+    tenantId: default
+    hosts: localhost:9240
+    autostart: true
+    http:
+      keepAlive: true
+      keepAliveMaxConnections: 50
+      keepAliveMaxConnectionsPerRoute: 15
+      connectionTimeout: 10000
+      socketTimeout: 30000
+      maxRetryTimeout: 100000
+    https:
+      enabled: false
+    sniff:
+      enable: true
+      timeInterval: 60000
+    clientHttpResponseSize: 100
+  kibana:
+    dashboardInstance: http://localhost:9405
+    autostart: true
+  cluster:
+    aware: false
+    sessTimeout: 60
+    actionOnStartupError: standalone
+    esClusterName: SAG_EventDataStore
+    discoverySeedHosts: localhost:9340
+    pendingRestart: false

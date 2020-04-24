@@ -1,0 +1,20 @@
+---
+apigw:
+  elasticsearch:
+    tenantId: "apigateway"
+    hosts: "eshost:9200"
+    autostart: false
+  kibana:
+    #Configure elasticsearch host and port in external kibana.yml
+    dashboardInstance: "http://kibanahost:9405"
+    autostart: false
+  cluster:
+    aware: true
+    name: "APIGatewayTSAcluster"
+    tsaUrls: "terracottahost:9510"
+    terracottaLicenseFileName: "terracotta-license.key"
+    sessTimeout: 20
+    actionOnStartupError: "standalone"
+    esClusterName: "SAG_EventDataStore"
+    discoverySeedHosts: "eshost:9300,eshost2:9300,eshost3:8300"
+    initialMasterNodes: "eshost_nodename"

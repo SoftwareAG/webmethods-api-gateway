@@ -1,0 +1,16 @@
+######################## Master configuration ############################
+#
+# This is the master configuration file which contains the configuration 
+# source definitions.
+#
+# You can find the full configuration reference here:
+# http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Starting+API+Gateway+using+externalized+configurations
+#
+#=======================  Sources configuration ==========================
+
+sources:
+- type: YAML
+  allowEdit: true
+  properties:
+    #Provide the appropriate filename
+    location: <configuration>.yml
