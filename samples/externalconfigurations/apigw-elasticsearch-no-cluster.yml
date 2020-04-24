@@ -1,0 +1,6 @@
+---
+apigw:
+  elasticsearch:
+    tenantId: "default"
+    hosts: "eshost:9200"
+    autostart: false

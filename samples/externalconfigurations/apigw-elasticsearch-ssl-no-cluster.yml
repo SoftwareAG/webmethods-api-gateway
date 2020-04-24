@@ -1,0 +1,19 @@
+---
+apigw:
+  elasticsearch:
+    tenantId: "apigateway"
+    hosts: "eshost:9200"
+    autostart: false
+    https:
+      enabled: true
+      truststoreFilepath: "C:/softwares/elasticsearch-7.2.0/config/truststore-new.ks"
+      keystoreAlias: "root-ca"
+      truststorePassword: "changeit"
+      enforceHostnameVerification: false
+  kibana:
+    elasticsearch:
+      sslCA: "C:/softwares/elasticsearch-7.2.0/config/SAG-B1HPWT2.pem"
+  filebeat:
+    output:
+      elasticsearch:
+        sslCA: "C:/softwares/elasticsearch-7.2.0/config/SAG-B1HPWT2.pem"

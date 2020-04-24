@@ -1,0 +1,9 @@
+---
+apigw:
+  elasticsearch:
+    tenantId: "apigateway"
+    hosts: "eshost:9200"
+    autostart: false
+    http:
+      username: "username"
+      password: "password"

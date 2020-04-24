@@ -1,0 +1,10 @@
+---
+apigw:
+  elasticsearch:
+    tenantId: "apigateway"
+    hosts: "eshost:9200"
+    autostart: false
+  kibana:
+    #Configure elasticsearch host and port in external kibana.yml
+    dashboardInstance: "http://kibanahost:9405"
+    autostart: false
