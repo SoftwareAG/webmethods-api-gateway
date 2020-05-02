@@ -1,3 +1,4 @@
+# Docker
 Docker is an open-source technology that allows users to deploy applications to software containers. A Docker container is an instance of a Docker image, where the Docker image is the application,
 including the file system and runtime parameters.
 
@@ -8,7 +9,7 @@ Support for API Gateway with Docker 18 and later is available on Linux and UNIX 
 
 For details on Docker and container technology, see [Docker documentation](https://docs.docker.com)
 
-**Docker security**
+## Docker security
 
 Docker, by default, has introduced a number of security updates and features, which have made Docker easier to use in an enterprise. There are certain guidelines or best practices that apply to the following layers of the Docker technology stack, that an organization can look at:
 * Docker image and registry configuration
