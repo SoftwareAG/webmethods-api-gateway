@@ -58,9 +58,11 @@ To build a Docker image for an API Gateway instance, follow the below steps. Ref
 
     ``` ./apigw_container.sh build [optional arguments] ```
 
+
 The image is stored on the Docker host. To check the image run the command 
 
 ` $ docker images `
+
 
 The Docker images created using above steps feature the following:
 * Docker logging. 
