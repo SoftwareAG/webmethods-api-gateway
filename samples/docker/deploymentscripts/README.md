@@ -99,7 +99,7 @@ You can combine API Gateway Docker containers to form a cluster. To configure an
    API Gateway requires a Terracotta Server Array installation. For details, see Terracotta documentation (https://www.terracotta.org/). The Terracotta Server Array on its own can be deployed as a Docker container.
    
 3. **Create the basic API Gateway Docker image.**
-For details on creating the API Gateway Docker image, see [API Gateway Docker Images](https://github.com/SoftwareAG/webmethods-api-gateway/tree/deploymentscripts/samples/docker#api-gateway-docker-images)
+For details on creating the API Gateway Docker image, see [API Gateway Docker Images](../#api-gateway-docker-images)
 
 4. **Create cluster API Gateway Docker image and enhance it with the cluster configuration in one of the following ways:**
    
