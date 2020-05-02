@@ -37,7 +37,6 @@ Prior to building a Docker image for API Gateway, you must complete the followin
 To build a Docker image for an API Gateway instance, follow the below steps. Refer API Gateway Configuration Guide document for more information about how to provide the optional arguments.
 
 1. Go to the <APIGateway_Installation>/IntegrationServer/docker directory
-
 ``` cd IntegrationServer/docker ```
 
 2. Create a docker file for the Integration Server (IS) instance by running the following command:
