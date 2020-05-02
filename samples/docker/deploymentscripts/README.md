@@ -89,7 +89,7 @@ Do the following to set up API Gateway container with an external Elasticsearch 
    
    ```apigw_kibana_dashboardInstance=instance```
    
-### API Gateway Container Cluster Configuration
+## API Gateway Container Cluster Configuration
    
 You can combine API Gateway Docker containers to form a cluster. To configure an API Gateway Docker container cluster:
 
@@ -107,7 +107,7 @@ For details on creating the API Gateway Docker image, see [API Gateway Docker Im
    
    * Clustered API Gateway containers with externalized Elasticsearch and Kibana containers.
    
-#### Clustered all-in-one Containers that consist of API Gateway, Kibana and Elasticsearch
+### Clustered all-in-one Containers that consist of API Gateway, Kibana and Elasticsearch
 Although API Gateway clusters with externalized Elasticsearch is the preferred approach API Gateway all-in-one containers can also be clustered.
 
 `Note: Having external Kibana is an optional variation.`
@@ -126,7 +126,7 @@ apigw_terracotta_license_filename=terracotta-license.key
 apigw_discovery_zen_ping_unicast_hosts=apigw1:9340,apigw2:9340,apigw3:9340
 ```
 
-#### Clustered API Gateway Containers with externalized Elasticsearch and Kibana containers
+### Clustered API Gateway Containers with externalized Elasticsearch and Kibana containers
 
 The API Gateway containers are clustered. They are talking to a clustered Terracotta Server Array container and to a cluster of Elasticsearch container through a loadbalancer. The Elasticsearch loadbalancer is also providing the Elasticsearch endpoint for the Kibana containers
 
