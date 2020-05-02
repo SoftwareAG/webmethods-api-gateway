@@ -12,7 +12,7 @@ To deploy a single API Gateway and an Elasticsearch container, follow the below 
 
   ```export APIGW_DOCKER_IMAGE_NAME=image name or filepath location of an existing image```
   
-  The composite file requires an API Gateway Docker image. You can create the referenced image through API Gateway scripting. For details on creating a Docker image, see [API Gateway Docker Images](../#api-gateway-docker-images).
+  The composite file requires an API Gateway Docker image. You can create the referenced image through API Gateway scripting. For details on creating a Docker image, see [API Gateway Docker Images](../../#api-gateway-docker-images).
   
   The Docker Compose file references the standard Elasticsearch 7.2image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
   
