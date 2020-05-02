@@ -4,7 +4,7 @@ You can run a single API Gateway and an Elasticsearch container using Docker Com
 
 The following figure depicts an API Gateway container with an externalized Elasticsearch where Kibana is included in the API Gateway container.
 
-![APIGateway_and_externalES.png](images/1.%20APIGateway_and_externalES.png)
+![APIGateway_and_externalES.png](../images/1.%20APIGateway_and_externalES.png)
 
 To deploy a single API Gateway and an Elasticsearch container, follow the below steps
 
