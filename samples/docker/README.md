@@ -25,7 +25,7 @@ For details on how to establish a secure configuration baseline for the Docker E
 For information on the potential security concerns associated with the use of containers and
 recommendations for addressing these concerns, see [NIST SP 800](https://csrc.nist.gov/publications/sp800) publication (Application Container Security Guide)
 
-## Building the Docker Image for an API Gateway Instance
+## API Gateway Docker Images
 The API Gateway Docker image provides an API Gateway installation. Depending on the existing installation the image provides a standard API Gateway or an advanced API Gateway. When running the image the API Gateway is started. The API Gateway image is created on top of an Integration Server image.
 
 ### Prerequisites for Building a Docker Image
@@ -33,7 +33,7 @@ Prior to building a Docker image for API Gateway, you must complete the followin
 * Install Docker client on the machine on which you are going to install API Gateway and start Docker as a daemon. The Docker client should have connectivity to Docker server to create images.
 * Install API Gateway, packages, and fixes on a Linux or UNIX system and then configure API Gateway and the hosted products.
 
-### Building the Docker Image
+### Building an API Gateway Docker Image
 To build a Docker image for an API Gateway instance, follow the below steps. Refer API Gateway Configuration Guide document for more information about how to provide the optional arguments.
 
 1. Go to the <APIGateway_Installation>/IntegrationServer/docker directory
@@ -107,3 +107,9 @@ Stop the API Gateway container using the docker stop command:
 The docker stop is parameterized with the number of seconds required for a graceful shutdown of the API Gateway and the API Gateway Docker container name.
 
 **Note**: The docker stop does not destroy the state of the API Gateway. On restarting the Docker container all assets that have been created or configured are available again.
+
+
+### Managing API Gateway Images
+You can manage the API Gateway images using the `is_container.sh` script
+* `saveImage` : To save an API Gateway image to a file (creating a tar ball from an image)
+* `loadImage` : To load an image to a Docker registry (loading an image into a Docker registry from tar ball)
