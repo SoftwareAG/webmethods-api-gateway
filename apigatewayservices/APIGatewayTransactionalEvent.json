@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway Transactions service allows you to query the API transactions. API Transactions are generated (as events) everytime an API invocation happens. API Transactions may contain the details about the invocation such as request/response headers, request/response payloads, consumer applications and so on.  API Provider may choose to store these events to one or more destinations by using Log Invocation Policy. API Gateway provides different destination options to the API Provider (like API Gateway own data store, relational databases, Elastic Search etc.) where he/she would like to store these events to. By default, API Gateway is chosen as a storage destination for these events.\n\nIt is important to note that this REST API queries for the transactions data only from the API Gateway's default datastore.\n\nThere are multiple use cases for these transactions data. For instance, you can integrate this API with your billing system wherein these transactional data can be used to compute the usage history of your API for different consumers for monetization usecases. In other scenarios, the data extracted from this service can be used for custom report generation.Any valid API Gateway user can consume this REST service.",
-    "version" : "10.7",
+    "version" : "10.5",
     "title" : "API Gateway Transactions Data Service"
   },
   "host" : "localhost:5555",
