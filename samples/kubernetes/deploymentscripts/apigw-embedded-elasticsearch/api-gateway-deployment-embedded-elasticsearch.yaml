@@ -1,5 +1,4 @@
-# Configuration for deploying an API Gateway without elasticsearch to a kubernetes cluster.
-# An external elasticsearch needs to be up and running.
+# Configuration for deploying an API Gateway with an embedded elasticsearch to a kubernetes cluster.
 # The cluster should provide at least 4 GB of main memory.
 #
 # The full documentation is available from the Software AG Documentation website: 
@@ -8,47 +7,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-gateway-deployment-external-es
+  name: api-gateway-deployment
   labels:
-    app: api-gateway-deployment-external-es
+    app: api-gateway-deployment
 spec:
   replicas: 1
+  
   selector:
     matchLabels:
-      app: api-gateway-deployment-external-es
+      app: api-gateway-deployment
   template:
     metadata:
       labels:
-        app: api-gateway-deployment-external-es
+        app: api-gateway-deployment
     spec:
       containers:
-      - name: api-gateway-deployment-external-es
+      - name: api-gateway-deployment
         # Please fill in the path to your api gateway image stored in a docker registry.
         image: <yourDockerRegistry>:<RegistryPort>/<PathToApiGateway>:<Tag>
         # The default pull policy is IfNotPresent which causes the Kubelet to skip pulling an image if it already exists.
-        # If you would like to always force a pull use "Always"        
-        imagePullPolicy: IfNotPresent
-        env:
-        # Please fill in your datas to access your external elasticsearch.
-        # Url pointing to your running elasticsearch for example: 127.0.0.1:9200
-        - name: apigw_elasticsearch_hosts
-          value: "<UrlToYourExternalElasticsearch>:<elasticsearchPort>"
-        # Use true if your elasticsearch has https enabled, false if not.
-        - name: "apigw_elasticsearch_https_enabled"
-          value: <"false" or "true">
-        # Fill in your elasticsearch username for example: elastic
-        - name: "apigw_elasticsearch_http_username"
-          value: <elasticsearchUsername>
-        # Fill in your elasticsearch password for example: changeme
-        - name: "apigw_elasticsearch_http_password"
-          value: <elasticsearchPassword>
-        # Ports used in the docker image, the default ports are 5555 and 9072
+        # If you would like to always force a pull use "Always"
+        imagePullPolicy: IfNotPresent 
+        # Ports used in the docker image, the default ports are 5555, 9072 and 9240
         ports:
         - containerPort: 5555
-          name: 5555tcp01
+          name: 5555tcp1
           protocol: TCP
         - containerPort: 9072
-          name: 9072tcp01
+          name: 9072tcp1
+          protocol: TCP
+        - containerPort: 9240
+          name: 9240tcp1
           protocol: TCP
         livenessProbe:
           failureThreshold: 4
@@ -82,10 +71,13 @@ spec:
     - name: http1
       port: 5555
       targetPort: 5555
-      protocol: TCP 
+      protocol: TCP
     - name: http2
       port: 9072
       targetPort: 9072
-      protocol: TCP 
+      protocol: TCP
+    - name: http3
+      port: 9200
+      targetPort: 9200
   selector:
     app: api-gateway-deployment
