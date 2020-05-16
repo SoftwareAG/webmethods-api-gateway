@@ -20,7 +20,7 @@ For more details on deploying Elasticsearch on Kubernetes, see Elasticsearch and
 
 ``` kubectl create -f api-gateway-deployment-external-elasticsearch.yaml ```
 
-Ensure that you have specified the required information such as image name, default ports, details of the external elastic search and how to access it in the Kubernetes sample file  [api-gateway-deployment-external-elasticsearch.yaml](api-gateway-deployment-external-elasticsearch.yaml). For details on Kubernetes YAML files, see Kubernetes documentation. 
+Ensure that you have specified the required information such as container name, the path to your API Gateway image stored in a docker registry, container port, details of the external elastic search and how to access it in the Kubernetes sample file  [api-gateway-deployment-external-elasticsearch.yaml](api-gateway-deployment-external-elasticsearch.yaml). For details on Kubernetes YAML files, see Kubernetes documentation. 
    
    This now pulls the image specified and creates the API Gateway pod with API Gateway container connected to an Elasticsearch Kubernetes service.
    
