@@ -1,6 +1,6 @@
 ## Deploying API Gateway Pod with API Gateway and Elasticsearch Containers
 
-You would select this deployment model if you want API Gateway as a Kubernetes service protecting the native services deployed to Kubernetes. Here, API Gateway runs in dedicated pods, and each pod has Elasticsearch and Kibana containers. API Gateway routes the incoming API requests to the native services. The invocation of the native services by the consumers happens through APIs provisioned by API Gateway.
+You can select this deployment model if you want API Gateway as a Kubernetes service protecting the native services deployed to Kubernetes. Here, API Gateway runs in dedicated pods, and each pod has Elasticsearch and Kibana containers. API Gateway routes the incoming API requests to the native services. The invocation of the native services by the consumers happens through APIs provisioned by API Gateway.
 
 The below figure depicts the API Gateway Kubernetes service deployment model where you have a single API Gateway pod that contains API Gateway and Elasticsearch containers. The Kibana can either be embedded in the API Gateway container or can reside as a separate container within the pod.
 
@@ -46,5 +46,5 @@ This assumes that Elasticsearch runs on the standard port 9200 and the xpack.sec
    kubectl create -f api-gateway-deployment-embedded-elasticsearch.yaml
    ```
    
-   Ensure that you have specified the required information such as image name, default ports in the Kubernetes sample file api-gateway-deployment-embedded-elasticsearch.yaml located at SAG_Root/IntegrationServer/instances/default/packages/WmAPIGateway/resources/samples/K8s. For details on Kubernetes YAML files, see Kubernetes documentation. This now pulls the image specified and creates the API Gateway pod with API Gateway and Elasticsearch containers. Run the command kubectl get pods to view the pods created.
+   Ensure that you have specified the required information such as image name, default ports in the Kubernetes sample file [api-gateway-deployment-embedded-elasticsearch.yaml](). For details on Kubernetes YAML files, see Kubernetes documentation. This now pulls the image specified and creates the API Gateway pod with API Gateway and Elasticsearch containers. Run the command kubectl get pods to view the pods created.
 
