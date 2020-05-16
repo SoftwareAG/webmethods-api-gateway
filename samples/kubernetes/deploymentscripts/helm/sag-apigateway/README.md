@@ -29,9 +29,9 @@ templates provide to customize your deployment.
 repository, the port and service details, and the deployment type for which you want to create
 a service. The values.yml file passes the configuration parameters into the helm chart.
 
-3. Navigate to the working folder where the charts are stored, and run the following command.
+3. Navigate to the [working folder where the charts are stored](.), and run the following command.
 
-```helm install sag-api-gateway-10.5```
+```helm install sag-api-gateway```
 
-where, sag-api-gateway-10.5 is the Helm chart name.
+where, sag-api-gateway is the Helm chart name.
 The Kubernetes cluster starts API Gateway and the service.
