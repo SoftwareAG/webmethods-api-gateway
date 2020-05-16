@@ -46,7 +46,7 @@ This assumes that Elasticsearch runs on the standard port 9200 and the xpack.sec
    kubectl create -f api-gateway-deployment-embedded-elasticsearch.yaml
    ```
    
-   Ensure that you have specified the required information such as image name, default ports in the Kubernetes sample file [api-gateway-deployment-sidecar-elasticsearch.yaml](api-gateway-deployment-embedded-elasticsearch.yaml). For details on Kubernetes YAML files, see Kubernetes documentation. 
+   Ensure that you have specified the required information such as API Gateway container name, the path to your API Gateway image stored in a docker registry, Elasticsearch container name, the path to the Elasticsearch image and default ports in the Kubernetes sample file [api-gateway-deployment-sidecar-elasticsearch.yaml](api-gateway-deployment-embedded-elasticsearch.yaml). For details on Kubernetes YAML files, see Kubernetes documentation. 
    
    This now pulls the image specified and creates the API Gateway pod with API Gateway and Elasticsearch containers. 
    
