@@ -4,16 +4,16 @@ API Gateway can be run within a Kubernetes (k8s) environment. Kubernetes provide
 The API Gateway Kubernetes support provides the following:
 * Liveliness check to support Kubernetes pod lifecycle.
 
-This helps in verifying that the API Gateway container is up and responding.
+    This helps in verifying that the API Gateway container is up and responding.
 
 * Readiness check to support Kubernetes pod lifecycle.
 
-This helps in verifying that the API Gateway container is ready to serve requests. For details
+    This helps in verifying that the API Gateway container is ready to serve requests. For details
 on pod lifecycle, see [Kubernetes documentation](https://kubernetes.io/docs/home/)
 
 * Prometheus metrics to support the monitoring of API Gateway pods.
 
-API Gateway support is based on the Microservices Runtime Prometheus support. You use
+    API Gateway support is based on the Microservices Runtime Prometheus support. You use
 the IS metrics endpoint /metrics to gather the required metrics. When the metrics endpoint is
 called, Microservices Runtime gathers metrics and returns the data in a Prometheus format.
 Prometheus is an open source monitoring and alerting toolkit, which is frequently used for
