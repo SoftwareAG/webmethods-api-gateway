@@ -1,4 +1,4 @@
-# Deploying API Gateway Pod with API Gateway and Elasticsearch Containers
+## Deploying API Gateway Pod with API Gateway and Elasticsearch Containers
 
 You would select this deployment model if you want API Gateway as a Kubernetes service protecting the native services deployed to Kubernetes. Here, API Gateway runs in dedicated pods, and each pod has Elasticsearch and Kibana containers. API Gateway routes the incoming API requests to the native services. The invocation of the native services by the consumers happens through APIs provisioned by API Gateway.
 
