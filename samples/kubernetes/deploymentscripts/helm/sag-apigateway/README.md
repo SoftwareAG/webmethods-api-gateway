@@ -1,4 +1,4 @@
-#Helm Charts for API Gateway
+# Helm Charts for API Gateway
 
 The Helm chart covers the following Kubernetes deployments for API Gateway:
 * A pod with containers for API Gateway, Elasticsearch, and Kibana
@@ -13,7 +13,7 @@ The Helm chart supports a values.yaml file for the following Elasticsearch confi
 The [values.yaml](sag-apigateway/values.yaml) file passes the configuration parameters into the Helm chart. 
 Provide the required parameters in this file to customize the deployment.
 
-##Using Helm to Start the API Gateway Service
+## Using Helm to Start the API Gateway Service
 
 To use Helm chart to start the API Gateway service
 
