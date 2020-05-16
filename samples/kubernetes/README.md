@@ -1,10 +1,5 @@
 # Kubernetes 
-API Gateway can be run within a Kubernetes (k8s) environment. Kubernetes provides a platform
-for automating deployment, scaling and operations of services. The basic scheduling unit in
-Kubernetes is a pod. It adds a higher level of abstraction by grouping containerized components.
-A pod consists of one or more containers that are co-located on the host machine and can share
-resources. A Kubernetes service is a set of pods that work together, such as one tier of a multi-tier
-application.
+API Gateway can be run within a Kubernetes (k8s) environment. Kubernetes provides a platform for automating deployment, scaling and operations of services. The basic scheduling unit in Kubernetes is a pod. It adds a higher level of abstraction by grouping containerized components. A pod consists of one or more containers that are co-located on the host machine and can share resources. A Kubernetes service is a set of pods that work together, such as one tier of a multi-tier application.
 
 The API Gateway Kubernetes support provides the following:
 * Liveliness check to support Kubernetes pod lifecycle.
