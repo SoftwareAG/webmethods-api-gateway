@@ -10,17 +10,17 @@ Do the following stesps to deploy an API Gateway Kubernetes pod that communicate
 
 1. Ensure you have an Elasticsearch Kubernetes service for Elasticsearch 7.2.0.
 
-For more details on deploying Elasticsearch on Kubernetes, see Elasticsearch and Kubernetes documentation.
+   For more details on deploying Elasticsearch on Kubernetes, see Elasticsearch and Kubernetes documentation.
 
 2. Ensure you have an API Gateway Docker image for this deployment. For the API Gateway container, you have to set the following environment variable:
 
-``` apigw_elasticsearch_hosts=elasticsearch-host:elasticsearch-port ```
+   ``` apigw_elasticsearch_hosts=elasticsearch-host:elasticsearch-port ```
 
 3. Run the following command to deploy API Gateway in the Kubernetes setup:
 
-``` kubectl create -f api-gateway-deployment-external-elasticsearch.yaml ```
+   ``` kubectl create -f api-gateway-deployment-external-elasticsearch.yaml ```
 
-Ensure that you have specified the required information such as container name, the path to your API Gateway image stored in a docker registry, container port, details of the external elastic search and how to access it in the Kubernetes sample file  [api-gateway-deployment-external-elasticsearch.yaml](api-gateway-deployment-external-elasticsearch.yaml). For details on Kubernetes YAML files, see Kubernetes documentation. 
+   Ensure that you have specified the required information such as container name, the path to your API Gateway image stored in a docker registry, container port, details of the external elastic search and how to access it in the Kubernetes sample file  [api-gateway-deployment-external-elasticsearch.yaml](api-gateway-deployment-external-elasticsearch.yaml). For details on Kubernetes YAML files, see Kubernetes documentation. 
    
    This now pulls the image specified and creates the API Gateway pod with API Gateway container connected to an Elasticsearch Kubernetes service.
    
