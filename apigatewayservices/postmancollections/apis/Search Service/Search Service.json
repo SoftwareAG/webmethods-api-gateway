@@ -1,0 +1,342 @@
+{
+	"info": {
+		"_postman_id": "6fbd4936-8d6c-4ffd-8b73-b96607241c02",
+		"name": "Search Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Search by Type",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"types\": [\"api\"],\r\n    \"condition\": \"and\",\r\n    \"scope\": [{\r\n        \"attributeName\": \"apiName\",\r\n        \"keyword\": \".*\"\r\n    }],\r\n    \"responseFields\": [\"apiName\", \"apiVersion\", \"apiDescription\",\r\n        \"id\", \"type\", \"isActive\", \"systemVersion\", \"publishedPortals\", \"publishedToRegistry\", \"provider\", \"centraSiteURL\", \"apiDefinition.isRESTInvokeEnabled\", \"apiDefinition.type\"],\r\n    \"from\": 0,\r\n    \"size\": 10,\r\n    \"sortByField\": \"apiName\",\r\n    \"sortOrder\": \"ASC\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/search",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"search"
+					]
+				},
+				"description": "The search API allows you to execute a search query in API Gateway and get back search results that match the query. You can perform search across different objects such as API, Application, Alias, Assertions, Policies, Administrator Settings, Policy Action, Packages, Plans, Subscriptions, Users and User Groups. Following are the type of searches that does not require scope or fields. \n 1. Users - This type is used to get the list of users from IS. \n 2. User Groups - This type is used to get the list of user groups from IS. \n\n Following are the type of searches for which you can specify the  scope and fields. \n 1. API - This type is used to search the APIs in API Gateway. \n 2. Application - This type is used to search the Applications created in API Gateway. \n 3. Alias - This type is used to search aliases created in API Gateway. \n 4. Assertions - This type is used to search custom assertions created in API Gateway. \n 5. Policy - This type is used to search policies in API Gateway. \n 6. Policy Action - This type is used to search policy actions in API Gateway. \n 7. Package - This type is used to search packages in API Gateway. \n 8. Plan - This type is used to search plans in API Gateway. \n 9. Administrator Setting - This type is used to search the administrator settings in API Gateway. \n 10. Subscription - This type is used to search subscriptions in API Gateway. \n \n For the above ten types, if a scope is specified, then the scope is applicable for all types regardless whether it is applicable for that or not. Also if the required fields are specified and it is not available in any other types, then the search result corresponds to that type does not have the fields. \n If from and size are specified then it skips first n records specified in from for all types and it fetches the number of records specified in size.\n\n\nexamples:\n\n1. Fetch All APIs contains run as substring\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }] }\n\nThe above payload will fetch all APIs contains run as substring in API name. The response will contains APIs with some fields populated with default values. \n\n2. Fetch All APIs contains run as substring and specific set of fields in the response\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }], \"responseFields\" : [\"apiName\", \"type\", \"isActive\", \"systemVersion\", \"policies\",\"publishedPortals\",\"apiVersion\",\"id\"]}\n\nTo fetch all fields, user can use \"*\" in responseFields. It will fetch all the fields in the response.\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }], \"responseFields\" : [\"*\"]}\n\n\nThe above payload will fetch all APIs contains run as substring in API name and corresponding fields mentioned in responseFields section.\n\nThe responseFields can be identified from schema definition using below table for some of the main used types\n\nAsset type: API ,Swagger file: APIGatewayServiceManagement.json ,Definition: #/definitions/GatewayAPI\nAsset type: POLICY ,Swagger file: APIGatewayPolicyManagement.json ,Definition: #/definitions/Policy\nAsset type: POLICY_ACTION ,Swagger file: APIGatewayPolicyManagement.json ,Definition: #/definitions/PolicyAction\nAsset type: ALIAS ,Swagger file: APIGatewayAlias.json  ,Definition: #/definitions/Alias\nAsset type: APPLICATION ,Swagger file:APIGatewayApplication.json ,Definition: #/definitions/Application\nAsset type: USERS ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/User\nAsset type: GROUPS ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/Group\nAsset type: ACCESSPROFILES ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/AccessProfile\nAsset type: API_DOCUMENT ,Swagger file: APIGatewayDocumentManagement.json ,Definition: #/definitions/Document\nAsset type: KEYSTORE ,Swagger file: APIGatewayAdministration.json ,Definition: #/definitions/KeyStore\nAsset type: TRUSTSTORE ,Swagger file: APIGatewayAdministration.json ,Definition: #/definitions/TrustStore\n\nFor other types user can use \"*\" in responseFields section to get all the fields.\n"
+			},
+			"response": [
+				{
+					"name": "This status code indicates that the search process is successful. The result is a map of type and object. Each type has it's respective search results mapped.",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"types\": \"<string>\",\n    \"scope\": {\n        \"attributeName\": \"<string>\",\n        \"keyword\": \"<string>\",\n        \"orTokenKey\": \"<boolean>\",\n        \"rawFieldKey\": \"<string>\"\n    },\n    \"condition\": \"<string>\",\n    \"responseFields\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"from\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"sortByField\": \"<string>\",\n    \"sortOrder\": \"<string>\",\n    \"teamFilter\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"search"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "\"{\\r\\n\\t\\\"GROUP\\\": [\\\"API-Gateway-Administrators\\\",\\r\\n\\t\\\"API-Gateway-Providers\\\",\\r\\n\\t\\\"Administrators\\\",\\r\\n\\t\\\"Anonymous\\\",\\r\\n\\t\\\"Developers\\\",\\r\\n\\t\\\"Everybody\\\",\\r\\n\\t\\\"Replicators\\\"],\\r\\n\\t\\\"POLICY\\\": [{\\r\\n\\t\\t\\\"id\\\": \\\"GlobalLogInvocationPolicy\\\",\\r\\n\\t\\t\\\"names\\\": [{\\r\\n\\t\\t\\t\\\"value\\\": \\\"Transaction logging\\\",\\r\\n\\t\\t\\t\\\"locale\\\": \\\"English\\\"\\r\\n\\t\\t}],\\r\\n\\t\\t\\\"policyEnforcements\\\": [],\\r\\n\\t\\t\\\"policyScope\\\": \\\"GLOBAL\\\",\\r\\n\\t\\t\\\"global\\\": false,\\r\\n\\t\\t\\\"active\\\": false,\\r\\n\\t\\t\\\"systemPolicy\\\": false\\r\\n\\t},\\r\\n\\t{\\r\\n\\t\\t\\\"id\\\": \\\"3808db1a-8577-41e5-af6b-dcdac470524c\\\",\\r\\n\\t\\t\\\"names\\\": [{\\r\\n\\t\\t\\t\\\"value\\\": \\\"Transport Policy\\\",\\r\\n\\t\\t\\t\\\"locale\\\": \\\"English\\\"\\r\\n\\t\\t}],\\r\\n\\t\\t\\\"policyEnforcements\\\": [],\\r\\n\\t\\t\\\"policyScope\\\": \\\"GLOBAL\\\",\\r\\n\\t\\t\\\"global\\\": false,\\r\\n\\t\\t\\\"active\\\": false,\\r\\n\\t\\t\\\"systemPolicy\\\": false\\r\\n\\t}],\\r\\n\\t\\\"ALIAS\\\": [{\\r\\n\\t\\t\\\"name\\\": \\\"Myname\\\",\\r\\n\\t\\t\\\"value\\\": \\\"API Gateway N\\\"\\r\\n\\t}],\\r\\n\\t\\\"APPLICATION\\\": [{\\r\\n\\t\\t\\\"name\\\": \\\"Application\\\",\\r\\n\\t\\t\\\"owner\\\": \\\"Administrator\\\",\\r\\n\\t\\t\\\"identifiers\\\": [],\\r\\n\\t\\t\\\"siteURLs\\\": [],\\r\\n\\t\\t\\\"subscription\\\": false\\r\\n\\t}],\\r\\n\\t\\\"API\\\": [{\\r\\n\\t\\t\\\"apiName\\\": \\\"API Gateway\\\",\\r\\n\\t\\t\\\"isActive\\\": false,\\r\\n\\t\\t\\\"policies\\\": [],\\r\\n\\t\\t\\\"publishedPortals\\\": [],\\r\\n\\t\\t\\\"systemVersion\\\": 1,\\r\\n\\t\\t\\\"id\\\": \\\"1ac48246-80eb-44c8-8901-564e025dbbde\\\"\\r\\n\\t},\\r\\n\\t{\\r\\n\\t\\t\\\"apiName\\\": \\\"API Gateway Policy Management\\\",\\r\\n\\t\\t\\\"isActive\\\": false,\\r\\n\\t\\t\\\"owner\\\": \\\"Administrator\\\",\\r\\n\\t\\t\\\"policies\\\": [],\\r\\n\\t\\t\\\"publishedPortals\\\": [],\\r\\n\\t\\t\\\"systemVersion\\\": 1,\\r\\n\\t\\t\\\"id\\\": \\\"7b2166a6-cf3c-4f72-a04b-72c110c302d2\\\"\\r\\n\\t}],\\r\\n\\t\\\"USER\\\": [\\\"Administrator\\\",\\r\\n\\t\\\"Default\\\",\\r\\n\\t\\\"Developer\\\",\\r\\n\\t\\\"Replicator\\\",\\r\\n\\t\\\"apigateway\\\"]\\r\\n}\""
+				},
+				{
+					"name": "This status code indicates that either the user did not provide any user credentials or user does not have API Gateway Administrator or API Gateway provider access rights for search.",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"types\": \"<string>\",\n    \"scope\": {\n        \"attributeName\": \"<string>\",\n        \"keyword\": \"<string>\",\n        \"orTokenKey\": \"<boolean>\",\n        \"rawFieldKey\": \"<string>\"\n    },\n    \"condition\": \"<string>\",\n    \"responseFields\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"from\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"sortByField\": \"<string>\",\n    \"sortOrder\": \"<string>\",\n    \"teamFilter\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"search"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "This status code indicates either error occurred during the search process or user has missed some mandatory field that is required to do the search. The examples shows user missed a mandatory field \"condition\" in request body",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"types\": \"<string>\",\n    \"scope\": {\n        \"attributeName\": \"<string>\",\n        \"keyword\": \"<string>\",\n        \"orTokenKey\": \"<boolean>\",\n        \"rawFieldKey\": \"<string>\"\n    },\n    \"condition\": \"<string>\",\n    \"responseFields\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"from\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"sortByField\": \"<string>\",\n    \"sortOrder\": \"<string>\",\n    \"teamFilter\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"search"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "\"{\\r\\n  \\\"errorDetails\\\": \\\" Mandatory field condition is missing in the input request body\\\"\\r\\n}\""
+				},
+				{
+					"name": "This status code indicates that the search process is not successful and has failed due to some internal server error.",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"types\": \"<string>\",\n    \"scope\": {\n        \"attributeName\": \"<string>\",\n        \"keyword\": \"<string>\",\n        \"orTokenKey\": \"<boolean>\",\n        \"rawFieldKey\": \"<string>\"\n    },\n    \"condition\": \"<string>\",\n    \"responseFields\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"from\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"sortByField\": \"<string>\",\n    \"sortOrder\": \"<string>\",\n    \"teamFilter\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/search",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"search"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Count by Type",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"types\": [\"application\"],\r\n    \"condition\": \"and\",\r\n    \"scope\": [{\r\n        \"attributeName\": \"name\",\r\n        \"keyword\": \".*\"\r\n    }],\r\n    \"responseFields\": [\"applicationID\",\"name\", \"version\", \"description\",\"accessTokens\",\"owner\",\"isSuspended\", \"authStrategyIds\"],\r\n    \"from\": 0,\r\n    \"size\": 0,\r\n    \"sortByField\": \"name\",\r\n    \"sortOrder\": \"ASC\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/search/_count",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"search",
+						"_count"
+					]
+				},
+				"description": "This REST call is intent to get the total number of records for the specified scope and types. If the scope is not specified it returns total number of assets for the specified type. Both /search and /search/_count shares the same payload. Except types,scope and condition other attributes are not considered during the REST API call."
+			},
+			"response": [
+				{
+					"name": "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API Gateway provider access for search.",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"types\": \"<string>\",\n    \"scope\": {\n        \"attributeName\": \"<string>\",\n        \"keyword\": \"<string>\",\n        \"orTokenKey\": \"<boolean>\",\n        \"rawFieldKey\": \"<string>\"\n    },\n    \"condition\": \"<string>\",\n    \"responseFields\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"from\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"sortByField\": \"<string>\",\n    \"sortOrder\": \"<string>\",\n    \"teamFilter\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/search/_count",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"search",
+								"_count"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "This status code indicates the search process is not success and failed due to some internal server error.",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"types\": \"<string>\",\n    \"scope\": {\n        \"attributeName\": \"<string>\",\n        \"keyword\": \"<string>\",\n        \"orTokenKey\": \"<boolean>\",\n        \"rawFieldKey\": \"<string>\"\n    },\n    \"condition\": \"<string>\",\n    \"responseFields\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"from\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"sortByField\": \"<string>\",\n    \"sortOrder\": \"<string>\",\n    \"teamFilter\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/search/_count",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"search",
+								"_count"
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "This status code indicates the count for the specified scope is success. The result will be a map of type and count for each type.",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"types\": \"<string>\",\n    \"scope\": {\n        \"attributeName\": \"<string>\",\n        \"keyword\": \"<string>\",\n        \"orTokenKey\": \"<boolean>\",\n        \"rawFieldKey\": \"<string>\"\n    },\n    \"condition\": \"<string>\",\n    \"responseFields\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"from\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"sortByField\": \"<string>\",\n    \"sortOrder\": \"<string>\",\n    \"teamFilter\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/search/_count",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"search",
+								"_count"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "\"{\\r\\n\\t\\\"group\\\":12,\\r\\n\\t\\\"policy\\\":13,\\r\\n\\t\\\"user\\\":4,\\r\\n\\t\\\"api\\\":5\\r\\n}\""
+				},
+				{
+					"name": "This status code indicates either error occurred during the search process or user has missed some mandatory field that is required to do the search. The examples shows user missed a mandatory field \"condition\" in request body",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"types\": \"<string>\",\n    \"scope\": {\n        \"attributeName\": \"<string>\",\n        \"keyword\": \"<string>\",\n        \"orTokenKey\": \"<boolean>\",\n        \"rawFieldKey\": \"<string>\"\n    },\n    \"condition\": \"<string>\",\n    \"responseFields\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"from\": \"<integer>\",\n    \"size\": \"<integer>\",\n    \"sortByField\": \"<string>\",\n    \"sortOrder\": \"<string>\",\n    \"teamFilter\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/search/_count",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"search",
+								"_count"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "\"{\\r\\n  \\\"errorDetails\\\": \\\" Mandatory field condition is missing in the input request body\\\"\\r\\n}\""
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "manage",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Administrator",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"id": "c071533f-1218-4ef8-8069-cd76392b73e9",
+			"key": "baseURL",
+			"value": "http://localhost:5555/rest/apigateway",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

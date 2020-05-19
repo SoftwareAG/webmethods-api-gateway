@@ -1,0 +1,1299 @@
+{
+	"info": {
+		"_postman_id": "b39ba8bb-8b9f-4596-8f03-7ae488add456",
+		"name": "Approval Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Approval Configurations",
+			"item": [
+				{
+					"name": "Get All Approval Configurations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/approvalConfigurations",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"approvalConfigurations"
+							]
+						},
+						"description": "The method retrieves a list of available approval configurations in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that a list of the available approval configurations is retrieved successfully.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"approvalConfigurations\\\": [\\r\\n        {\\r\\n            \\\"id\\\": \\\"createApplication\\\",\\r\\n            \\\"eventType\\\": \\\"createApplication\\\",\\r\\n            \\\"isEnabled\\\": true,\\r\\n            \\\"approversGroupId\\\": \\\"0936de2c-9fb9-4625-b5b0-b7648e0d4103\\\",\\r\\n            \\\"approvalMode\\\": \\\"anyone\\\",\\r\\n            \\\"approvedEmailConfiguration\\\": {\\r\\n                \\\"emailSubject\\\": \\\"Approval of @event.type\\\",\\r\\n                \\\"emailContent\\\": \\\"Congratulations @requestor.name !\\\\n\\\\nYour request for @event.type has been approved.\\\",\\r\\n                \\\"enabled\\\": false,\\r\\n                \\\"requestType\\\": \\\"approved\\\"\\r\\n            },\\r\\n            \\\"rejectedEmailConfiguration\\\": {\\r\\n                \\\"emailSubject\\\": \\\"Rejection of @event.type\\\",\\r\\n                \\\"emailContent\\\": \\\"Hello @requestor.name,\\\\n\\\\nYour @event.type  request has been rejected.\\\\nReasons:@rejectionReason.\\\\n\\\\nBest Regards,\\\\nAPI Gateway Team\\\\n\\\\n*** This notification was sent automatically. Do not reply to this email.***\\\",\\r\\n                \\\"enabled\\\": false,\\r\\n                \\\"requestType\\\": \\\"rejected\\\"\\r\\n            },\\r\\n            \\\"initiateApprovalRequestEmailConfiguration\\\": {\\r\\n                \\\"emailSubject\\\": \\\"Approval request pending\\\",\\r\\n                \\\"emailContent\\\": \\\"Hello @approver.name,\\\\n\\\\n A request by @requestor.name to @event.type needs your review and approval.\\\\n\\\\nBest Regards,\\\\nAPI Gateway Team\\\\n\\\\n*** This notification was sent automatically. Do not reply to this email.***\\\",\\r\\n                \\\"enabled\\\": false,\\r\\n                \\\"requestType\\\": \\\"initiate\\\"\\r\\n            }\\r\\n        }\\r\\n    ]\\r\\n}\""
+						}
+					]
+				},
+				{
+					"name": "Create Approval Configuration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"approvalConfig\": {\n\t\t\"id\": \"createApplication\",\n\t\t\"eventType\": \"createApplication\",\n\t\t\"isEnabled\": true,\n\t\t\"approversGroupId\": \"API-Gateway-Providers\",\n\t\t\"approvalMode\": \"anyone\",\n\t\t\"approvedEmailConfiguration\": {\n\t\t\t\"emailSubject\": \"Approval of @event.type\",\n\t\t\t\"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\\n\\n *** This notification was sent automatically. Do not reply to this email.***\",\n\t\t\t\"enabled\": true,\n\t\t\t\"requestType\": \"approved\"\n\t\t},\n\t\t\"rejectedEmailConfiguration\": {\n\t\t\t\"emailSubject\": \"Rejection of @event.type\",\n\t\t\t\"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\n\t\t\t\"enabled\": true,\n\t\t\t\"requestType\": \"rejected\"\n\t\t},\n\t\t\"initiateApprovalRequestEmailConfiguration\": {\n\t\t\t\"emailSubject\": \"Approval request pending\",\n\t\t\t\"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\n\t\t\t\"enabled\": true,\n\t\t\t\"requestType\": \"initiate\"\n\t\t}\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/approvalConfigurations",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"approvalConfigurations"
+							]
+						},
+						"description": "Approval Configuration:\n\nSimilar to this we can create approval configurations for other event types also. Change the \"id\" and \"eventType\" as mentioned below.\n\n1. createApplication\n2. registerApplication\n3. updateApplication\n4. subscribePackage\n5. changeOwner"
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"<string>\",\n    \"eventType\": \"<string>\",\n    \"isEnabled\": \"<boolean>\",\n    \"approversGroupId\": \"<string>\",\n    \"approvalMode\": \"<string>\",\n    \"approvedEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    },\n    \"rejectedEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    },\n    \"initiateApprovalRequestEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the given approval configuration request body is not correct.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"<string>\",\n    \"eventType\": \"<string>\",\n    \"isEnabled\": \"<boolean>\",\n    \"approversGroupId\": \"<string>\",\n    \"approvalMode\": \"<string>\",\n    \"approvedEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    },\n    \"rejectedEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    },\n    \"initiateApprovalRequestEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the approval configuration has been successfully created in API Gateway.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"<string>\",\n    \"eventType\": \"<string>\",\n    \"isEnabled\": \"<boolean>\",\n    \"approversGroupId\": \"<string>\",\n    \"approvalMode\": \"<string>\",\n    \"approvedEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    },\n    \"rejectedEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    },\n    \"initiateApprovalRequestEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"approvalConfig\\\": {\\r\\n        \\\"id\\\": \\\"createApplication\\\",\\r\\n        \\\"eventType\\\": \\\"createApplication\\\",\\r\\n        \\\"isEnabled\\\": true,\\r\\n        \\\"approversGroupId\\\": \\\"0936de2c-9fb9-4625-b5b0-b7648e0d4103\\\",\\r\\n        \\\"approvalMode\\\": \\\"anyone\\\",\\r\\n        \\\"approvedEmailConfiguration\\\": {\\r\\n            \\\"emailSubject\\\": \\\"Approval of @event.type\\\",\\r\\n            \\\"emailContent\\\": \\\"Congratulations @requestor.name !\\\\n\\\\nYour request for @event.type has been approved.\\\",\\r\\n            \\\"enabled\\\": false,\\r\\n            \\\"requestType\\\": \\\"approved\\\"\\r\\n        },\\r\\n        \\\"rejectedEmailConfiguration\\\": {\\r\\n            \\\"emailSubject\\\": \\\"Rejection of @event.type\\\",\\r\\n            \\\"emailContent\\\": \\\"Hello @requestor.name,\\\\n\\\\nYour @event.type  request has been rejected.\\\\nReasons:@rejectionReason.\\\\n\\\\nBest Regards,\\\\nAPI Gateway Team\\\\n\\\\n*** This notification was sent automatically. Do not reply to this email.***\\\",\\r\\n            \\\"enabled\\\": false,\\r\\n            \\\"requestType\\\": \\\"rejected\\\"\\r\\n        },\\r\\n        \\\"initiateApprovalRequestEmailConfiguration\\\": {\\r\\n            \\\"emailSubject\\\": \\\"Approval request pending\\\",\\r\\n            \\\"emailContent\\\": \\\"Hello @approver.name,\\\\n\\\\n A request by @requestor.name to @event.type needs your review and approval.\\\\n\\\\nBest Regards,\\\\nAPI Gateway Team\\\\n\\\\n*** This notification was sent automatically. Do not reply to this email.***\\\",\\r\\n            \\\"enabled\\\": false,\\r\\n            \\\"requestType\\\": \\\"initiate\\\"\\r\\n        }\\r\\n    }\\r\\n}\""
+						}
+					]
+				},
+				{
+					"name": "Get Approval Configuration by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/approvalConfigurations/:id",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"approvalConfigurations",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "createApplication",
+									"description": "(Required) This parameter specifies the ID of an approval configuration whose details are to be retrieved in API Gateway."
+								}
+							]
+						},
+						"description": "The method retrieves the details of a specified approval configuration in API Gateway"
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the details of the specified approval configuration are retrieved successfully.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"approvalConfig\\\": {\\r\\n        \\\"id\\\": \\\"createApplication\\\",\\r\\n        \\\"eventType\\\": \\\"createApplication\\\",\\r\\n        \\\"isEnabled\\\": true,\\r\\n        \\\"approversGroupId\\\": \\\"0936de2c-9fb9-4625-b5b0-b7648e0d4103\\\",\\r\\n        \\\"approvalMode\\\": \\\"anyone\\\",\\r\\n        \\\"approvedEmailConfiguration\\\": {\\r\\n            \\\"emailSubject\\\": \\\"Approval of @event.type\\\",\\r\\n            \\\"emailContent\\\": \\\"Congratulations @requestor.name !\\\\n\\\\nYour request for @event.type has been approved.\\\",\\r\\n            \\\"enabled\\\": false,\\r\\n            \\\"requestType\\\": \\\"approved\\\"\\r\\n        },\\r\\n        \\\"rejectedEmailConfiguration\\\": {\\r\\n            \\\"emailSubject\\\": \\\"Rejection of @event.type\\\",\\r\\n            \\\"emailContent\\\": \\\"Hello @requestor.name,\\\\n\\\\nYour @event.type  request has been rejected.\\\\nReasons:@rejectionReason.\\\\n\\\\nBest Regards,\\\\nAPI Gateway Team\\\\n\\\\n*** This notification was sent automatically. Do not reply to this email.***\\\",\\r\\n            \\\"enabled\\\": false,\\r\\n            \\\"requestType\\\": \\\"rejected\\\"\\r\\n        },\\r\\n        \\\"initiateApprovalRequestEmailConfiguration\\\": {\\r\\n            \\\"emailSubject\\\": \\\"Approval request pending\\\",\\r\\n            \\\"emailContent\\\": \\\"Hello @approver.name,\\\\n\\\\n A request by @requestor.name to @event.type needs your review and approval.\\\\n\\\\nBest Regards,\\\\nAPI Gateway Team\\\\n\\\\n*** This notification was sent automatically. Do not reply to this email.***\\\",\\r\\n            \\\"enabled\\\": false,\\r\\n            \\\"requestType\\\": \\\"initiate\\\"\\r\\n        }\\r\\n    }\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that an approval configuration with the given ID could not be found in API Gateway.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Update Approval Configuration",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"approvalConfig\": {\n\t\t\"id\": \"createApplication\",\n\t\t\"eventType\": \"createApplication\",\n\t\t\"isEnabled\": true,\n\t\t\"approversGroupId\": \"API-Gateway-Providers\",\n\t\t\"approvalMode\": \"anyone\",\n\t\t\"approvedEmailConfiguration\": {\n\t\t\t\"emailSubject\": \"Approval of @event.type\",\n\t\t\t\"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\\n\\n *** This notification was sent automatically. Do not reply to this email.***\",\n\t\t\t\"enabled\": true,\n\t\t\t\"requestType\": \"approved\"\n\t\t},\n\t\t\"rejectedEmailConfiguration\": {\n\t\t\t\"emailSubject\": \"Rejection of @event.type\",\n\t\t\t\"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\n\t\t\t\"enabled\": true,\n\t\t\t\"requestType\": \"rejected\"\n\t\t},\n\t\t\"initiateApprovalRequestEmailConfiguration\": {\n\t\t\t\"emailSubject\": \"Approval request pending\",\n\t\t\t\"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\n\t\t\t\"enabled\": true,\n\t\t\t\"requestType\": \"initiate\"\n\t\t}\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/approvalConfigurations/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"approvalConfigurations",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "createApplication",
+									"description": "(Required) This parameter specifies the ID of an approval configuration that is to be updated in API Gateway."
+								}
+							]
+						},
+						"description": "The method updates the approval configuration in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"<string>\",\n    \"eventType\": \"<string>\",\n    \"isEnabled\": \"<boolean>\",\n    \"approversGroupId\": \"<string>\",\n    \"approvalMode\": \"<string>\",\n    \"approvedEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    },\n    \"rejectedEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    },\n    \"initiateApprovalRequestEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the given approval configuration request body is not correct.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"<string>\",\n    \"eventType\": \"<string>\",\n    \"isEnabled\": \"<boolean>\",\n    \"approversGroupId\": \"<string>\",\n    \"approvalMode\": \"<string>\",\n    \"approvedEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    },\n    \"rejectedEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    },\n    \"initiateApprovalRequestEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the approval configuration has been successfully updated in API Gateway.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"<string>\",\n    \"eventType\": \"<string>\",\n    \"isEnabled\": \"<boolean>\",\n    \"approversGroupId\": \"<string>\",\n    \"approvalMode\": \"<string>\",\n    \"approvedEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    },\n    \"rejectedEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    },\n    \"initiateApprovalRequestEmailConfiguration\": {\n        \"emailSubject\": \"<string>\",\n        \"emailContent\": \"<string>\",\n        \"enabled\": \"<boolean>\",\n        \"requestType\": \"<string>\"\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"approvalConfig\\\": {\\r\\n        \\\"id\\\": \\\"createApplication\\\",\\r\\n        \\\"eventType\\\": \\\"createApplication\\\",\\r\\n        \\\"isEnabled\\\": true,\\r\\n        \\\"approversGroupId\\\": \\\"0936de2c-9fb9-4625-b5b0-b7648e0d4103\\\",\\r\\n        \\\"approvalMode\\\": \\\"anyone\\\",\\r\\n        \\\"approvedEmailConfiguration\\\": {\\r\\n            \\\"emailSubject\\\": \\\"Approval of @event.type\\\",\\r\\n            \\\"emailContent\\\": \\\"Congratulations @requestor.name !\\\\n\\\\nYour request for @event.type has been approved.\\\",\\r\\n            \\\"enabled\\\": false,\\r\\n            \\\"requestType\\\": \\\"approved\\\"\\r\\n        },\\r\\n        \\\"rejectedEmailConfiguration\\\": {\\r\\n            \\\"emailSubject\\\": \\\"Rejection of @event.type\\\",\\r\\n            \\\"emailContent\\\": \\\"Hello @requestor.name,\\\\n\\\\nYour @event.type  request has been rejected.\\\\nReasons:@rejectionReason.\\\\n\\\\nBest Regards,\\\\nAPI Gateway Team\\\\n\\\\n*** This notification was sent automatically. Do not reply to this email.***\\\",\\r\\n            \\\"enabled\\\": false,\\r\\n            \\\"requestType\\\": \\\"rejected\\\"\\r\\n        },\\r\\n        \\\"initiateApprovalRequestEmailConfiguration\\\": {\\r\\n            \\\"emailSubject\\\": \\\"Approval request pending\\\",\\r\\n            \\\"emailContent\\\": \\\"Hello @approver.name,\\\\n\\\\n A request by @requestor.name to @event.type needs your review and approval.\\\\n\\\\nBest Regards,\\\\nAPI Gateway Team\\\\n\\\\n*** This notification was sent automatically. Do not reply to this email.***\\\",\\r\\n            \\\"enabled\\\": false,\\r\\n            \\\"requestType\\\": \\\"initiate\\\"\\r\\n        }\\r\\n    }\\r\\n}\""
+						}
+					]
+				},
+				{
+					"name": "Delete Approval Configuration",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/approvalConfigurations/:id",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"approvalConfigurations",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "createApplication",
+									"description": "(Required) This parameter specifies the ID of an approval configuration that is to be deleted in API Gateway."
+								}
+							]
+						},
+						"description": "The method deletes the specified approval configuration in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the specified approval configuration has been successfully deleted from API Gateway.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that an approval configuration with the given ID could not be found in API Gateway.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvalConfigurations/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvalConfigurations",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "682b5cdf-9a5b-4a4f-b390-ee7ba851d089",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a354a048-adb4-4ea2-8151-e7dcfc07e45a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Pending Approvals",
+			"item": [
+				{
+					"name": "Get All Approvals",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/approvals",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"approvals"
+							]
+						},
+						"description": "Retrieve all the approval requests waiting for the user. If the user is part of one or more approval team, then he/she will get the approval requests assigned for those teams."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvals",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "The method provides all approval requests pending for the user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvals",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\n    \\\"approvalRequests\\\": [\\n        {\\n            \\\"id\\\": \\\"726fbffa-3713-493b-8f5c-e1b04ec71798\\\",\\n            \\\"approversGroupId\\\": \\\"API-Gateway-Providers\\\",\\n            \\\"approvalEvent\\\": \\\"createApplication\\\",\\n            \\\"requestorId\\\": \\\"Administrator\\\",\\n            \\\"requestorName\\\": \\\"Administrator\\\",\\n            \\\"requestorFirstName\\\": \\\"Administrator\\\",\\n            \\\"requestorLastName\\\": \\\"\\\",\\n            \\\"requestorMail\\\": \\\"\\\",\\n            \\\"mode\\\": \\\"anyone\\\",\\n            \\\"created\\\": \\\"1586950929208\\\",\\n            \\\"lastUpdated\\\": \\\"1586950929208\\\",\\n            \\\"status\\\": \\\"pending\\\",\\n            \\\"approvalEventPayloadAsString\\\": \\\"{\\\\\\\"applicationID\\\\\\\":\\\\\\\"36005e81-9714-4eef-9a83-e819a405fbca\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Approval Application\\\\\\\",\\\\\\\"owner\\\\\\\":\\\\\\\"Administrator\\\\\\\",\\\\\\\"identifiers\\\\\\\":[],\\\\\\\"contactEmails\\\\\\\":[],\\\\\\\"lastUpdated\\\\\\\":0,\\\\\\\"siteURLs\\\\\\\":[],\\\\\\\"jsOrigins\\\\\\\":[],\\\\\\\"version\\\\\\\":\\\\\\\"1.0\\\\\\\",\\\\\\\"properties\\\\\\\":{\\\\\\\"requesterComment\\\\\\\":null},\\\\\\\"isSuspended\\\\\\\":false,\\\\\\\"authStrategyIds\\\\\\\":[],\\\\\\\"subscription\\\\\\\":false}\\\",\\n            \\\"approvers\\\": [\\n                {\\n                    \\\"id\\\": \\\"gora\\\",\\n                    \\\"name\\\": \\\"gora\\\",\\n                    \\\"firstName\\\": \\\"gora\\\",\\n                    \\\"lastName\\\": \\\"gora\\\",\\n                    \\\"status\\\": \\\"pending\\\",\\n                    \\\"email\\\": \\\"gora@softwareag.com\\\"\\n                }\\n            ],\\n            \\\"properties\\\": {\\n                \\\"newApisForAssociation\\\": \\\"\\\"\\n            }\\n        }\\n    ]\\n}\""
+						}
+					]
+				},
+				{
+					"name": "Get Approval Request by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/approvals/:approvalId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"approvals",
+								":approvalId"
+							],
+							"variable": [
+								{
+									"description": "(Required) approvalId for the Approval Request to be retrieved",
+									"key": "approvalId",
+									"value": "24a97e00-9c8d-4b01-987b-8d65d230aab0"
+								}
+							]
+						},
+						"description": "Retrieve an Approval Request based on the approvalId."
+					},
+					"response": [
+						{
+							"name": "This method provides the details of approval request.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvals/:approvalId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals",
+										":approvalId"
+									],
+									"variable": [
+										{
+											"key": "approvalId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\n    \\\"approvalRequest\\\": {\\n        \\\"id\\\": \\\"726fbffa-3713-493b-8f5c-e1b04ec71798\\\",\\n        \\\"approversGroupId\\\": \\\"API-Gateway-Providers\\\",\\n        \\\"approvalEvent\\\": \\\"createApplication\\\",\\n        \\\"requestorId\\\": \\\"Administrator\\\",\\n        \\\"requestorName\\\": \\\"Administrator\\\",\\n        \\\"requestorFirstName\\\": \\\"Administrator\\\",\\n        \\\"requestorLastName\\\": \\\"\\\",\\n        \\\"requestorMail\\\": \\\"\\\",\\n        \\\"mode\\\": \\\"anyone\\\",\\n        \\\"created\\\": \\\"1586950929208\\\",\\n        \\\"lastUpdated\\\": \\\"1586950929208\\\",\\n        \\\"status\\\": \\\"pending\\\",\\n        \\\"approvalEventPayloadAsString\\\": \\\"{\\\\\\\"applicationID\\\\\\\":\\\\\\\"36005e81-9714-4eef-9a83-e819a405fbca\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"Approval Application\\\\\\\",\\\\\\\"owner\\\\\\\":\\\\\\\"Administrator\\\\\\\",\\\\\\\"identifiers\\\\\\\":[],\\\\\\\"contactEmails\\\\\\\":[],\\\\\\\"lastUpdated\\\\\\\":0,\\\\\\\"siteURLs\\\\\\\":[],\\\\\\\"jsOrigins\\\\\\\":[],\\\\\\\"version\\\\\\\":\\\\\\\"1.0\\\\\\\",\\\\\\\"properties\\\\\\\":{\\\\\\\"requesterComment\\\\\\\":null},\\\\\\\"isSuspended\\\\\\\":false,\\\\\\\"authStrategyIds\\\\\\\":[],\\\\\\\"subscription\\\\\\\":false}\\\",\\n        \\\"approvers\\\": [\\n            {\\n                \\\"id\\\": \\\"gora\\\",\\n                \\\"name\\\": \\\"gora\\\",\\n                \\\"firstName\\\": \\\"gora\\\",\\n                \\\"lastName\\\": \\\"gora\\\",\\n                \\\"status\\\": \\\"pending\\\",\\n                \\\"email\\\": \\\"gora@softwareag.com\\\"\\n            }\\n        ],\\n        \\\"properties\\\": {\\n            \\\"newApisForAssociation\\\": \\\"\\\"\\n        }\\n    }\\n}\""
+						},
+						{
+							"name": "This status code indicates that the approvalId specified is not found in the API Gateway",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvals/:approvalId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals",
+										":approvalId"
+									],
+									"variable": [
+										{
+											"key": "approvalId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvals/:approvalId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals",
+										":approvalId"
+									],
+									"variable": [
+										{
+											"key": "approvalId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Delete Approval Request",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/approvals/:approvalId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"approvals",
+								":approvalId"
+							],
+							"variable": [
+								{
+									"key": "approvalId",
+									"value": "24a97e00-9c8d-4b01-987b-8d65d230aab0",
+									"description": "(Required) Approval Request Id for the Approval Request to be deleted"
+								}
+							]
+						},
+						"description": "Delete the Approval Request with the given approvalId"
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the approvalId specified is not found in the API Gateway",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvals/:approvalId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals",
+										":approvalId"
+									],
+									"variable": [
+										{
+											"key": "approvalId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvals/:approvalId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals",
+										":approvalId"
+									],
+									"variable": [
+										{
+											"key": "approvalId"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/approvals/:approvalId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals",
+										":approvalId"
+									],
+									"variable": [
+										{
+											"key": "approvalId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Approve or Reject Approval Request",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"approverComment\": \"comments flows here\"\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/approvals/:approvalId/:action",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"approvals",
+								":approvalId",
+								":action"
+							],
+							"variable": [
+								{
+									"description": "(Required) ApprovalId for the Approval Request to be approved",
+									"key": "approvalId",
+									"value": "df0645de-cdd2-415d-94ff-abbf62987483"
+								},
+								{
+									"description": "(Required) Action for the Approval Request to be approve/reject.",
+									"key": "action",
+									"value": "approve"
+								}
+							]
+						},
+						"description": "Request payload for the approval request."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"approverComment\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/approvals/:approvalId/:action",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals",
+										":approvalId",
+										":action"
+									],
+									"variable": [
+										{
+											"key": "approvalId"
+										},
+										{
+											"key": "action"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the given approval request body is not correct.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"approverComment\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/approvals/:approvalId/:action",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals",
+										":approvalId",
+										":action"
+									],
+									"variable": [
+										{
+											"key": "approvalId"
+										},
+										{
+											"key": "action"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that server has encountered an error during the update of approval request.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"approverComment\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/approvals/:approvalId/:action",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals",
+										":approvalId",
+										":action"
+									],
+									"variable": [
+										{
+											"key": "approvalId"
+										},
+										{
+											"key": "action"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the approvalId specified is not found in the API Gateway",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"approverComment\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/approvals/:approvalId/:action",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals",
+										":approvalId",
+										":action"
+									],
+									"variable": [
+										{
+											"key": "approvalId"
+										},
+										{
+											"key": "action"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Response payload of the approval request after approve/reject action.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"approverComment\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/approvals/:approvalId/:action",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"approvals",
+										":approvalId",
+										":action"
+									],
+									"variable": [
+										{
+											"key": "approvalId"
+										},
+										{
+											"key": "action"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\n    \\\"status\\\": \\\"approved\\\"\\n}\""
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a02f1a5a-5c8e-459e-951d-38c615dd84a5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "2082edf1-eb82-47c7-a8a5-e53fc566eb88",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "manage",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Administrator",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"id": "0ccdde22-9142-4db9-9524-7cd25176ee58",
+			"key": "baseURL",
+			"value": "http://localhost:5555/rest/apigateway",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
