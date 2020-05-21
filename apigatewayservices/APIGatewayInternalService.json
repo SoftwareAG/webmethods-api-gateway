@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Services in this category work on identified application.  API Gateway will first try to identify the application based on identifiers such as API Key, OAuth token, ip address etc (as defined in the Application) and then executes the API for that application.",
-    "version" : "10.7",
+    "version" : "10.3",
     "title" : "API Gateway Internal Service"
   },
   "host" : "localhost:5555",
@@ -32,11 +32,11 @@
         "responses" : {
           "200" : {
             "description" : "This status code indicates that the access token has been successfully generated.",
-            "examples" : {
-              "application/json" : "{\n    \"accessToken\": \"eyJraWQiOiJzc29zIiwiYWxnIjoiUlMyNTYifQ.eyJzY3AiOlsiaW52ZW50b3J5Il0sInVpZCI6IjExNDkyODAyNjk0ODQxOTM1NzgzNyIsInN1YiI6IjQwNzQwODcxODE5Mi5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF1ZCI6InRpbWV0cmF2ZWxzIiwiYXpwIjoiODAzYjdmMTYtNDVjNi00YjFjLWJlMjYtNGRhMDUzZDQwNjQwIiwiaXNzIjoidGVzdC1nYXRld2F5LWlzc3VlciIsImV4cCI6MTU0Mzk5NjExNCwiaWF0IjoxNTQzOTkyNTE1LCJqdGkiOiIzZGQ5M2FmOC0yMWVmLTQyMDYtYTBiNy01MTg2NDUxMTM0YWYifQ.Dty2iLk_DJRZLU0CYhb7Opp_sINP7yRVkgAvafYGrSzDEeWiOXDv_jSO93iQV4TCdU20R5WjypC0HY_xd05VkqozFP0I5irZGYqmVnm8rFonzLXmHBx6JZZdm4Xq-Bq2rTSe08QjOGhd5Xa00FlX2c8-SjYfx3p2wtbBjm2-wsgCqLNCc8m_42VRXpukcpuliZr8dRlrqBU7hUfPHpe-xbn6rsmYPhiS9c9Lau3VK83h2uaj6A6nwq1E2qbG23F9eboZrpjvrSg431ZlPE-jRVy9vNX6n7eIiSLruFwlNwyKnOSuTelzYz__m5mdILaEVTjwjidgI2e-ctdR-4jQWA\",\n    \"expiresIn\": 3600,\n    \"scopes\": \"inventory\",\n    \"tokenType\": \"Bearer\"\n}"
-            },
             "schema" : {
               "$ref" : "#/definitions/ServiceOutput"
+            },
+            "examples" : {
+              "application/json" : "{\n    \"accessToken\": \"eyJraWQiOiJzc29zIiwiYWxnIjoiUlMyNTYifQ.eyJzY3AiOlsiaW52ZW50b3J5Il0sInVpZCI6IjExNDkyODAyNjk0ODQxOTM1NzgzNyIsInN1YiI6IjQwNzQwODcxODE5Mi5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF1ZCI6InRpbWV0cmF2ZWxzIiwiYXpwIjoiODAzYjdmMTYtNDVjNi00YjFjLWJlMjYtNGRhMDUzZDQwNjQwIiwiaXNzIjoidGVzdC1nYXRld2F5LWlzc3VlciIsImV4cCI6MTU0Mzk5NjExNCwiaWF0IjoxNTQzOTkyNTE1LCJqdGkiOiIzZGQ5M2FmOC0yMWVmLTQyMDYtYTBiNy01MTg2NDUxMTM0YWYifQ.Dty2iLk_DJRZLU0CYhb7Opp_sINP7yRVkgAvafYGrSzDEeWiOXDv_jSO93iQV4TCdU20R5WjypC0HY_xd05VkqozFP0I5irZGYqmVnm8rFonzLXmHBx6JZZdm4Xq-Bq2rTSe08QjOGhd5Xa00FlX2c8-SjYfx3p2wtbBjm2-wsgCqLNCc8m_42VRXpukcpuliZr8dRlrqBU7hUfPHpe-xbn6rsmYPhiS9c9Lau3VK83h2uaj6A6nwq1E2qbG23F9eboZrpjvrSg431ZlPE-jRVy9vNX6n7eIiSLruFwlNwyKnOSuTelzYz__m5mdILaEVTjwjidgI2e-ctdR-4jQWA\",\n    \"expiresIn\": 3600,\n    \"scopes\": \"inventory\",\n    \"tokenType\": \"Bearer\"\n}"
             }
           },
           "400" : {
@@ -50,7 +50,7 @@
     },
     "/security/getJsonWebToken" : {
       "post" : {
-        "description" : "Generate JWT token with custom claims supplied in the request",
+        "description" : "This method can be used to generate JWT with the given claims for the identified application. API Gateway will first try to identify the application based on identifiers such as API Key, OAuth token, ip address etc (as defined in the Application) and then generates a JWT token for that application with the claims (custom) submitted in the request. This method is different from /jwt/getJsonWebToken service. With /pub/apigateway/jwt/getJsonWebToken, API Gateway generates JWT token for the authenticated user with default claims",
         "operationId" : "getJsonWebToken-New",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -69,11 +69,11 @@
         "responses" : {
           "200" : {
             "description" : "This status code indicates that a JWT has been successfully created.",
-            "examples" : {
-              "application/json" : "{\n    \"expiresIn\": 600,\n    \"tokenType\": \"Bearer\",\n    \"accessToken\": \"eyJraWQiOiJzc29zIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI4MDNiN2YxNi00NWM2LTRiMWMtYmUyNi00ZGEwNTNkNDA2NDAiLCJhdWQiOiJzd2FnZ2VyLWRvYy1hcHAiLCJpc3MiOiJ0ZXN0LWdhdGV3YXktaXNzdWVyIiwiaXNBZG1pbiI6dHJ1ZSwiZXhwIjoxNTQzOTkyMDQ1LCJmaXJzdF9uYW1lIjoiQm9iIiwiaWF0IjoxNTQzOTkxNDQ1fQ.FfV4XxEbsrCgpJCZ1GOLbnRYilvCkFfsLMcm00Xxt4ujNcNY7j-_dUjQSxgn7B1njnQ3obEVe-5UkgYBT8cnnrrJtEjjjfSiY40VECrdqm1QopCx04I71hz2qWhxKphSgk6KkZVioyqme0U5LO9JAu-kw1s1IBPmRWa3iBobWAbugnw8tz5J6T3LiwWVj32dvVtJmc9boq3fkndHmRTcQuk9V6uwArUXxU78v5P92SVjZOyQRGex46FOGqPjNauCkAOno8a3oA5qjIGeFJcQ6eOddFdPc1iZ6SwCCBpAbR_qF1LbPHtG0EXE8buI_rTS2zJBn2_d9cjFkLvL3HBYxQ\"\n}"
-            },
             "schema" : {
               "$ref" : "#/definitions/JWTServiceOutput"
+            },
+            "examples" : {
+              "application/json" : "{\n    \"expiresIn\": 600,\n    \"tokenType\": \"Bearer\",\n    \"accessToken\": \"eyJraWQiOiJzc29zIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI4MDNiN2YxNi00NWM2LTRiMWMtYmUyNi00ZGEwNTNkNDA2NDAiLCJhdWQiOiJzd2FnZ2VyLWRvYy1hcHAiLCJpc3MiOiJ0ZXN0LWdhdGV3YXktaXNzdWVyIiwiaXNBZG1pbiI6dHJ1ZSwiZXhwIjoxNTQzOTkyMDQ1LCJmaXJzdF9uYW1lIjoiQm9iIiwiaWF0IjoxNTQzOTkxNDQ1fQ.FfV4XxEbsrCgpJCZ1GOLbnRYilvCkFfsLMcm00Xxt4ujNcNY7j-_dUjQSxgn7B1njnQ3obEVe-5UkgYBT8cnnrrJtEjjjfSiY40VECrdqm1QopCx04I71hz2qWhxKphSgk6KkZVioyqme0U5LO9JAu-kw1s1IBPmRWa3iBobWAbugnw8tz5J6T3LiwWVj32dvVtJmc9boq3fkndHmRTcQuk9V6uwArUXxU78v5P92SVjZOyQRGex46FOGqPjNauCkAOno8a3oA5qjIGeFJcQ6eOddFdPc1iZ6SwCCBpAbR_qF1LbPHtG0EXE8buI_rTS2zJBn2_d9cjFkLvL3HBYxQ\"\n}"
             }
           },
           "400" : {
