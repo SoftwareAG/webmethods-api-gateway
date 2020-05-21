@@ -12,7 +12,6 @@ Below are the list of swagger files for each of the components available in API 
   - APIGatewayPromotionManagement.json
   - APIGatewayPublicServices.json
   - APIGatewaySearch.json
-  - APIGatewayServerInfoSwagger.json
   - APIGatewayServiceManagement.json
   - APIGatewayTransactionalEvent.json
   - APIGatewayUserManagementSwagger.json
