@@ -1,5 +1,7 @@
 Elasticsearch Best Practices (v7.2.0)
 ==========================================================
+Author: Rizwan, Mohammed (mriz@softwareag.com)<br>
+Supported Versions: 10.5
 
 Purpose
 -------
