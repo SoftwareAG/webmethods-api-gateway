@@ -1,0 +1,481 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API Gateway Application Management Service allows you to manage the Applications in API Gateway. Any user with the 'Manage applications' functional privilege can manage the APIs in the API Gateway. By default, the users who are part of either API-Gateway-Providers or API-Gateway-Administrators groups will have this privilege.\n\n An application defines the precise identifiers by which messages from a particular consumer application is recognized at run time. The identifiers can be, for example, user name in HTTP headers, a range of IP addresses, such that API Gateway can identify or authenticate the consumers that are requesting an API.\n\n. The ability of API Gateway to relate a request to a specific consumer application enables it to:\n\n 1. Control access to an API at run time (that is, allow only authorized consumer applications to invoke an API).\n\n 2. Monitor an API for violations of a Service-Level Agreement (SLA) for a specified application.\n\n 3. Indicate the consumer application to which a logged transaction event belongs.\n\n\n\n An application has the following attributes for specifying the identifiers:\n\n 1. IP address, which specifies one or more IP addresses that identify requests from a particular consumer application. Example: 192.168.0.10\n\n This attribute is queried when the Identify and Authorize Application policy is configured to identify consumer applications by IP address.\n\n 2. JWT claims set, which specifies one or more claims that identify requests from a particular consumer application. The claims are a set of name-value pairs that provide sufficient information about the application. Example: sub = Administrator.\n\n This attribute is queried when the Identify and Authorize Application policy is configured to identify consumer applications by JSON Web Token (JWT).\n\n 3. Consumer certificate, which specifies the X.509 certificates that identify requests from a particular consumer.\n\n This attribute is queried when the Identify and authenticate consumer policy is configured to identify the consumer applications by a consumer certificate.\n\n 4. Identification token, which specifies the host names, user names or other distinguishing strings that identify requests from a particular consumer application.\n\n This attribute is queried when the Identify and authenticate consumer policy action is configured to identify consumer applications by host name, HTTP user name, and WSS user name.\n\n \n\n As an API provider or an API Gateway Administrator you can create and manage applications, and register applications with the APIs.\n\n These are the high level stages of managing and using an application:\n\n 1. API developers request the API Gateway administrators to create an application for access as per the required identification criteria.\n\n 2. API Gateway provider or administrator validates the request and creates a new application, there by provisioning the application specific access tokens (API access key and OAuth credentials).\n\n 3. API Developer, upon finding a suitable API, sends a request to API Gateway for consumption by providing the application details.\n\n 4. After validating the request, API Gateway provider or administrator associates the application with the API. Keys are generated for applications and not for every API that the application consumes. \n\n Note:  The approval process, if any, is handled by the requesting application and not handled by API Gateway.\n\n 5. The API developer can then use the application with the proper identifier (such as the access key or identifier) to access the API.",
+    "version" : "10.1",
+    "title" : "API Gateway Application Management Service"
+  },
+  "host" : "localhost:5555",
+  "basePath" : "/rest/apigateway",
+  "schemes" : [ "http" ],
+  "consumes" : [ "plain/text" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/applications/{applicationId}" : {
+      "get" : {
+        "description" : "The method retrieves the details of a specified application in API Gateway",
+        "operationId" : "getApplication",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application whose details are to be retrieved in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the details of the specified application are retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            },
+            "examples" : {
+              "application/json" : "{\r\n\r\n    \"applications\": [\r\n        {\r\n            \"name\": \"hostname\",\r\n            \"description\": \"Application with hostname identifier\",\r\n            \"contactEmails\": [ ],\r\n            \"identifiers\": [\r\n                {\r\n                    \"id\": \"d0d14b59-7a22-4312-832d-1333546a0aa8\",\r\n                    \"name\": \"Username\",\r\n                    \"key\": \"httpBasicAuth\",\r\n                    \"value\": [\r\n                        \"Administrator\"\r\n                    ]\r\n                },\r\n                {\r\n                    \"id\": \"061dc8dd-95db-4c4e-bfa9-99c7f7934f16\",\r\n                    \"name\": \"Hostname\",\r\n                    \"key\": \"hostNameAddress\",\r\n                    \"value\": [\r\n                        \"MCDTH01\"\r\n                    ]\r\n                }\r\n            ],\r\n            \"siteURLs\": [ ],\r\n            \"version\": \"1.0\",\r\n            \"id\": \"01c43697-ea35-444b-87d5-4a181f003a7a\",\r\n            \"created\": \"2017-08-18 06:17:30 GMT\",\r\n            \"lastupdated\": \"2017-08-22 05:20:26 GMT\",\r\n            \"consumingAPIs\": [ ],\r\n            \"accessTokens\": {\r\n                \"apiAccessKey_credentials\": {\r\n                    \"apiAccessKey\": \"1fe9c3a1-75ef-4187-a0e8-570d0542148d\",\r\n                    \"expirationInterval\": null,\r\n                    \"expirationDate\": null\r\n                },\r\n                \"oauth_credentials\": {\r\n                    \"clientID\": \"96d07c36-70cf-4b72-8192-811b6f38dd49\",\r\n                    \"clientSecret\": \"a8ac32b2-417a-4f1f-98e6-0c95d0c6e53a\",\r\n                    \"clientName\": \"hostname-c22b18b3-07de-43a7-a761-95638283d503\",\r\n                    \"scopes\": null,\r\n                    \"token_lifetime\": \"3600\",\r\n                    \"token_refresh_limit\": \"0\",\r\n                    \"redirect_uris\": [\r\n                        \"https://placeholder_redirect_uri\"\r\n                    ],\r\n                    \"Type\": \"confidential\"\r\n                }\r\n            }\r\n        }\r\n    ]\r\n\r\n}"
+            }
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "This HTTP request updates a specified application in API Gateway.",
+        "operationId" : "updateApplication",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of an application that is to be updated in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Application"
+          },
+          "x-examples" : {
+            "application/json" : "{\"id\":\"221aa46e-501d-4ae8-911f-34458e062e63\",\"name\":\"TestApp\",\"description\":null,\"version\":\"1.0\",\"contactEmails\":[],\"siteURLs\":[],\"identifiers\":[{\"value\":[\"admin\"],\"name\":\"Username\",\"key\":\"httpBasicAuth\"}],\"consumingAPIs\":[],\"owner\":null,\"accessTokens\":{\"apiAccessKey_credentials\":{\"apiAccessKey\":\"a6e43495-f981-43da-8f6a-ff8cb5689864\",\"expirationInterval\":null},\"oauth_credentials\":{\"Type\":\"confidential\",\"clientID\":\"a8271b2d-d903-4869-b571-c21088ac4b8d\",\"clientSecret\":\"13e2b1ca-befb-4fe3-909e-ed9fdb0a6748\",\"clientName\":\"TestApp-a1f3b232-4018-44c9-a086-77804fd55dd9\",\"scopes\":[\"dd5b733f-b31e-4f1d-86be-97364865c70b\",\"3de85431-d45b-418d-b5aa-0be5c3b5714d\"],\"redirect_uris\":[\"https://placeholder_redirect_uri\"],\"token_lifetime\":\"3600\",\"token_refresh_limit\":\"100\",\"accessTokenRequestURI\":null}}}"
+          }
+        }, {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application that is to be updated in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the specified application has been successfully updated in API Gateway.",
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the specified application could not be updated"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/applications/{applicationId}/apis" : {
+      "get" : {
+        "description" : "The method retrieves a list of registered APIs for the specified application in API Gateway.",
+        "operationId" : "getRegisteredApis",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application whose registered APIs are to be retrieved in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that a list of registered APIs for the application is retrieved successfully."
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "This HTTP request registers the APIs with the specified application in API Gateway.",
+        "operationId" : "registerApis",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter specifies the IDs of the APIs for registering in an application in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "x-examples" : {
+            "application/json" : "{\"apiIDs\":[\"3de85431-d45b-418d-b5aa-0be5c3b5714d\"]}"
+          }
+        }, {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application for registering APIs in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the given APIs have been successfully registered with the specified application in API Gateway.",
+            "examples" : {
+              "application/json" : "{}"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "This HTTP request updates the registered APIs of the specified application.",
+        "operationId" : "updateRegisteredApis",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter specifies the ID of a registered API that is to be updated in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "x-examples" : {
+            "application/json" : "{\"apiIDs\":[\"3de85431-d45b-418d-b5aa-0be5c3b5714d\"]}"
+          }
+        }, {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application for updating the details of the registered APIs in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the registered API has been successfully updated in API Gateway."
+          },
+          "400" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "The method unregisters the APIs from the specified application in API Gateway.",
+        "operationId" : "unregisterApis",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiIDs",
+          "in" : "query",
+          "description" : "This parameter specifies the IDs of APIs that are to be unregistered from the specified application in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "applicationId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of an application for unregistering the associated APIs in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "204" : {
+            "description" : "This status code indicates that APIs are successfully unregistered from the specified application in API Gateway."
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/applications" : {
+      "get" : {
+        "description" : "The method retrieves a list of available applications in API Gateway.",
+        "operationId" : "getApplications",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that a list of the available applications is retrieved successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            },
+            "examples" : {
+              "application/json" : "{\r\n\r\n    \"applications\": [\r\n        {\r\n            \"name\": \"hostname\",\r\n            \"description\": \"Application with hostname identifier\",\r\n            \"contactEmails\": [ ],\r\n            \"identifiers\": [\r\n                {\r\n                    \"id\": \"d0d14b59-7a22-4312-832d-1333546a0aa8\",\r\n                    \"name\": \"Username\",\r\n                    \"key\": \"httpBasicAuth\",\r\n                    \"value\": [\r\n                        \"Administrator\"\r\n                    ]\r\n                },\r\n                {\r\n                    \"id\": \"061dc8dd-95db-4c4e-bfa9-99c7f7934f16\",\r\n                    \"name\": \"Hostname\",\r\n                    \"key\": \"hostNameAddress\",\r\n                    \"value\": [\r\n                        \"MCDTH01\"\r\n                    ]\r\n                }\r\n            ],\r\n            \"siteURLs\": [ ],\r\n            \"version\": \"1.0\",\r\n            \"id\": \"01c43697-ea35-444b-87d5-4a181f003a7a\",\r\n            \"created\": \"2017-08-18 06:17:30 GMT\",\r\n            \"lastupdated\": \"2017-08-22 05:20:26 GMT\",\r\n            \"consumingAPIs\": [ ],\r\n            \"accessTokens\": {\r\n                \"apiAccessKey_credentials\": {\r\n                    \"apiAccessKey\": \"1fe9c3a1-75ef-4187-a0e8-570d0542148d\",\r\n                    \"expirationInterval\": null,\r\n                    \"expirationDate\": null\r\n                },\r\n                \"oauth_credentials\": {\r\n                    \"clientID\": \"96d07c36-70cf-4b72-8192-811b6f38dd49\",\r\n                    \"clientSecret\": \"a8ac32b2-417a-4f1f-98e6-0c95d0c6e53a\",\r\n                    \"clientName\": \"hostname-c22b18b3-07de-43a7-a761-95638283d503\",\r\n                    \"scopes\": null,\r\n                    \"token_lifetime\": \"3600\",\r\n                    \"token_refresh_limit\": \"0\",\r\n                    \"redirect_uris\": [\r\n                        \"https://placeholder_redirect_uri\"\r\n                    ],\r\n                    \"Type\": \"confidential\"\r\n                }\r\n            }\r\n        }\r\n    ]\r\n\r\n}"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "The method creates an application in API Gateway.",
+        "operationId" : "createApplication",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of an application that is to be created in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Application"
+          },
+          "x-examples" : {
+            "application/json" : "{\"id\":\"\",\"name\":\"TestApp\",\"description\":null,\"version\":\"1.0\",\"contactEmails\":[],\"siteURLs\":[],\"identifiers\":[{\"value\":[\"admin\"],\"name\":\"Username\",\"key\":\"httpBasicAuth\"}],\"consumingAPIs\":[],\"owner\":null}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the application has been successfully created in API Gateway.",
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            },
+            "examples" : {
+              "application/json" : "{\r\n\r\n    \"applications\": [\r\n        {\r\n            \"name\": \"hostname\",\r\n            \"description\": \"Application with hostname identifier\",\r\n            \"contactEmails\": [ ],\r\n            \"identifiers\": [\r\n                {\r\n                    \"id\": \"d0d14b59-7a22-4312-832d-1333546a0aa8\",\r\n                    \"name\": \"Username\",\r\n                    \"key\": \"httpBasicAuth\",\r\n                    \"value\": [\r\n                        \"Administrator\"\r\n                    ]\r\n                },\r\n                {\r\n                    \"id\": \"061dc8dd-95db-4c4e-bfa9-99c7f7934f16\",\r\n                    \"name\": \"Hostname\",\r\n                    \"key\": \"hostNameAddress\",\r\n                    \"value\": [\r\n                        \"MCDTH01\"\r\n                    ]\r\n                }\r\n            ],\r\n            \"siteURLs\": [ ],\r\n            \"version\": \"1.0\",\r\n            \"id\": \"01c43697-ea35-444b-87d5-4a181f003a7a\",\r\n            \"created\": \"2017-08-18 06:17:30 GMT\",\r\n            \"lastupdated\": \"2017-08-22 05:20:26 GMT\",\r\n            \"consumingAPIs\": [ ],\r\n            \"accessTokens\": {\r\n                \"apiAccessKey_credentials\": {\r\n                    \"apiAccessKey\": \"1fe9c3a1-75ef-4187-a0e8-570d0542148d\",\r\n                    \"expirationInterval\": null,\r\n                    \"expirationDate\": null\r\n                },\r\n                \"oauth_credentials\": {\r\n                    \"clientID\": \"96d07c36-70cf-4b72-8192-811b6f38dd49\",\r\n                    \"clientSecret\": \"a8ac32b2-417a-4f1f-98e6-0c95d0c6e53a\",\r\n                    \"clientName\": \"hostname-c22b18b3-07de-43a7-a761-95638283d503\",\r\n                    \"scopes\": null,\r\n                    \"token_lifetime\": \"3600\",\r\n                    \"token_refresh_limit\": \"0\",\r\n                    \"redirect_uris\": [\r\n                        \"https://placeholder_redirect_uri\"\r\n                    ],\r\n                    \"Type\": \"confidential\"\r\n                }\r\n            }\r\n        }\r\n    ]\r\n\r\n}"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that an application with the given ID already exists in API Gateway"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "The method deletes the specified application in API Gateway.",
+        "operationId" : "deleteApplications",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ids",
+          "in" : "query",
+          "description" : "This parameter specifies the ID of an application that is to be deleted in API Gateway.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "204" : {
+            "description" : "This status code indicates that the specified application has been successfully deleted from API Gateway."
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Basic" : {
+      "description" : "API Gateway Administrator and API Gateway provider",
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "APIAccessKey" : {
+      "type" : "object",
+      "properties" : {
+        "apiAccessKey" : {
+          "type" : "string",
+          "description" : "API access key"
+        },
+        "expirationInterval" : {
+          "type" : "string",
+          "description" : "expiration interval of the api key"
+        },
+        "expirationDate" : {
+          "type" : "string",
+          "description" : "expiration date of the api key"
+        }
+      }
+    },
+    "Application" : {
+      "type" : "object",
+      "properties" : {
+        "applicationID" : {
+          "type" : "string",
+          "description" : "unique identifier of an application"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "name of the application"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "description of the application"
+        },
+        "owner" : {
+          "type" : "string",
+          "description" : "owner of the application"
+        },
+        "identifiers" : {
+          "type" : "array",
+          "description" : "list of all application identifiers",
+          "items" : {
+            "$ref" : "#/definitions/ApplicationIdentifier"
+          }
+        },
+        "contactEmails" : {
+          "type" : "array",
+          "description" : "list of email contacts",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "iconbyteArray" : {
+          "type" : "string",
+          "description" : "application icon byte array"
+        },
+        "accessTokens" : {
+          "description" : "access tokens associated with the application",
+          "$ref" : "#/definitions/ApplicationToken"
+        },
+        "creationDate" : {
+          "type" : "string",
+          "description" : "application creation time"
+        },
+        "lastModified" : {
+          "type" : "string",
+          "description" : "last modified time of the application"
+        },
+        "siteURLs" : {
+          "type" : "array",
+          "description" : "list of all site URLs",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "version" : {
+          "type" : "string"
+        },
+        "subscription" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "ApplicationIdentifier" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "unique identifier of the application identifier"
+        },
+        "key" : {
+          "type" : "string",
+          "description" : "identifier type"
+        }
+      }
+    },
+    "ApplicationToken" : {
+      "type" : "object",
+      "properties" : {
+        "apiAccessKey" : {
+          "description" : "the API KEY access credentials",
+          "$ref" : "#/definitions/APIAccessKey"
+        },
+        "oauth2Token" : {
+          "$ref" : "#/definitions/OAuth2Token"
+        }
+      }
+    },
+    "OAuth2Token" : {
+      "type" : "object",
+      "properties" : {
+        "type" : {
+          "type" : "string",
+          "description" : "type of the oauth2 client"
+        },
+        "clientId" : {
+          "type" : "string",
+          "description" : "unique identifier of the oauth2 client"
+        },
+        "clientSecret" : {
+          "type" : "string",
+          "description" : "the client secret"
+        },
+        "clientName" : {
+          "type" : "string",
+          "description" : "the name of the client"
+        },
+        "scopes" : {
+          "type" : "array",
+          "description" : "the scopes associated with the client",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "expirationInterval" : {
+          "type" : "string",
+          "description" : "the expiration interval"
+        },
+        "refreshCount" : {
+          "type" : "string",
+          "description" : "number of times an access token can be refreshed"
+        },
+        "redirectUris" : {
+          "type" : "array",
+          "description" : "list of redirect uris",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}
