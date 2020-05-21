@@ -19,7 +19,7 @@ API Gateway uses [Elasticsearch](https://www.elastic.co/products/elasticsearch) 
 
 For versions <=10.4, **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Elasticsearch%20best%20practices)** 
 
-For versions >=10.5, **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Elasticsearch%20best%20practices%20for%20API%20Gateway%2010.5)**
+For versions >=10.5, **[Read on...](Elasticsearch%20Best%20Practices%20(v7.2.0)/)**
 
 Securing Elasticsearch for API Gateway
 --------------------------------------
