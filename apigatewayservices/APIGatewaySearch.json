@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "The search API allows you to execute a search query in API Gateway and receive search results that match the search query. You can perform search across different objects such as API, Application, Alias, Assertions, Users and User Groups.",
-    "version" : "10.7",
+    "version" : "10.1",
     "title" : "API Gateway Search Service"
   },
   "host" : "localhost:5555",
@@ -13,7 +13,7 @@
   "paths" : {
     "/search" : {
       "post" : {
-        "description" : "The search API allows you to execute a search query in API Gateway and get back search results that match the query. You can perform search across different objects such as API, Application, Alias, Assertions, Policies, Administrator Settings, Policy Action, Packages, Plans, Subscriptions, Users and User Groups. Following are the type of searches that does not require scope or fields. \n 1. Users - This type is used to get the list of users from IS. \n 2. User Groups - This type is used to get the list of user groups from IS. \n\n Following are the type of searches for which you can specify the  scope and fields. \n 1. API - This type is used to search the APIs in API Gateway. \n 2. Application - This type is used to search the Applications created in API Gateway. \n 3. Alias - This type is used to search aliases created in API Gateway. \n 4. Assertions - This type is used to search custom assertions created in API Gateway. \n 5. Policy - This type is used to search policies in API Gateway. \n 6. Policy Action - This type is used to search policy actions in API Gateway. \n 7. Package - This type is used to search packages in API Gateway. \n 8. Plan - This type is used to search plans in API Gateway. \n 9. Administrator Setting - This type is used to search the administrator settings in API Gateway. \n 10. Subscription - This type is used to search subscriptions in API Gateway. \n \n For the above ten types, if a scope is specified, then the scope is applicable for all types regardless whether it is applicable for that or not. Also if the required fields are specified and it is not available in any other types, then the search result corresponds to that type does not have the fields. \n If from and size are specified then it skips first n records specified in from for all types and it fetches the number of records specified in size.\n\n\nexamples:\n\n1. Fetch All APIs contains run as substring\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }] }\n\nThe above payload will fetch all APIs contains run as substring in API name. The response will contains APIs with some fields populated with default values. \n\n2. Fetch All APIs contains run as substring and specific set of fields in the response\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }], \"responseFields\" : [\"apiName\", \"type\", \"isActive\", \"systemVersion\", \"policies\",\"publishedPortals\",\"apiVersion\",\"id\"]}\n\nTo fetch all fields, user can use \"*\" in responseFields. It will fetch all the fields in the response.\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }], \"responseFields\" : [\"*\"]}\n\n\nThe above payload will fetch all APIs contains run as substring in API name and corresponding fields mentioned in responseFields section.\n\nThe responseFields can be identified from schema definition using below table for some of the main used types\n\nAsset type: API ,Swagger file: APIGatewayServiceManagement.json ,Definition: #/definitions/GatewayAPI\nAsset type: POLICY ,Swagger file: APIGatewayPolicyManagement.json ,Definition: #/definitions/Policy\nAsset type: POLICY_ACTION ,Swagger file: APIGatewayPolicyManagement.json ,Definition: #/definitions/PolicyAction\nAsset type: ALIAS ,Swagger file: APIGatewayAlias.json  ,Definition: #/definitions/Alias\nAsset type: APPLICATION ,Swagger file:APIGatewayApplication.json ,Definition: #/definitions/Application\nAsset type: USERS ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/User\nAsset type: GROUPS ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/Group\nAsset type: ACCESSPROFILES ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/AccessProfile\nAsset type: API_DOCUMENT ,Swagger file: APIGatewayDocumentManagement.json ,Definition: #/definitions/Document\nAsset type: KEYSTORE ,Swagger file: APIGatewayAdministration.json ,Definition: #/definitions/KeyStore\nAsset type: TRUSTSTORE ,Swagger file: APIGatewayAdministration.json ,Definition: #/definitions/TrustStore\n\nFor other types user can use \"*\" in responseFields section to get all the fields.\n",
+        "description" : "The search API allows you to execute a search query in API Gateway and get back search results that match the query. You can perform search across different objects such as API, Application, Alias, Assertions, Policies, Administrator Settings, Policy Action, Packages, Plans, Subscriptions, Users and User Groups. Following are the type of searches that does not require scope or fields. \n 1. Users - This type is used to get the list of users from IS. \n 2. User Groups - This type is used to get the list of user groups from IS. \n\n Following are the type of searches for which you can specify the  scope and fields. \n 1. API - This type is used to search the APIs in API Gateway. \n 2. Application - This type is used to search the Applications created in API Gateway. \n 3. Alias - This type is used to search aliases created in API Gateway. \n 4. Assertions - This type is used to search custom assertions created in API Gateway. \n 5. Policy - This type is used to search policies in API Gateway. \n 6. Policy Action - This type is used to search policy actions in API Gateway. \n 7. Package - This type is used to search packages in API Gateway. \n 8. Plan - This type is used to search plans in API Gateway. \n 9. Administrator Setting - This type is used to search the administrator settings in API Gateway. \n 10. Subscription - This type is used to search subscriptions in API Gateway. \n \n For the above ten types, if a scope is specified, then the scope is applicable for all types regardless whether it is applicable for that or not. Also if the required fields are specified and it is not available in any other types, then the search result corresponds to that type does not have the fields. \n If from and size are specified then it skips first n records specified in from for all types and it fetches the number of records specified in size.",
         "operationId" : "searchByType",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -32,14 +32,14 @@
         "responses" : {
           "200" : {
             "description" : "This status code indicates that the search process is successful. The result is a map of type and object. Each type has it's respective search results mapped.",
-            "examples" : {
-              "application/json" : "{\r\n\t\"GROUP\": [\"API-Gateway-Administrators\",\r\n\t\"API-Gateway-Providers\",\r\n\t\"Administrators\",\r\n\t\"Anonymous\",\r\n\t\"Developers\",\r\n\t\"Everybody\",\r\n\t\"Replicators\"],\r\n\t\"POLICY\": [{\r\n\t\t\"id\": \"GlobalLogInvocationPolicy\",\r\n\t\t\"names\": [{\r\n\t\t\t\"value\": \"Transaction logging\",\r\n\t\t\t\"locale\": \"English\"\r\n\t\t}],\r\n\t\t\"policyEnforcements\": [],\r\n\t\t\"policyScope\": \"GLOBAL\",\r\n\t\t\"global\": false,\r\n\t\t\"active\": false,\r\n\t\t\"systemPolicy\": false\r\n\t},\r\n\t{\r\n\t\t\"id\": \"3808db1a-8577-41e5-af6b-dcdac470524c\",\r\n\t\t\"names\": [{\r\n\t\t\t\"value\": \"Transport Policy\",\r\n\t\t\t\"locale\": \"English\"\r\n\t\t}],\r\n\t\t\"policyEnforcements\": [],\r\n\t\t\"policyScope\": \"GLOBAL\",\r\n\t\t\"global\": false,\r\n\t\t\"active\": false,\r\n\t\t\"systemPolicy\": false\r\n\t}],\r\n\t\"ALIAS\": [{\r\n\t\t\"name\": \"Myname\",\r\n\t\t\"value\": \"API Gateway N\"\r\n\t}],\r\n\t\"APPLICATION\": [{\r\n\t\t\"name\": \"Application\",\r\n\t\t\"owner\": \"Administrator\",\r\n\t\t\"identifiers\": [],\r\n\t\t\"siteURLs\": [],\r\n\t\t\"subscription\": false\r\n\t}],\r\n\t\"API\": [{\r\n\t\t\"apiName\": \"API Gateway\",\r\n\t\t\"isActive\": false,\r\n\t\t\"policies\": [],\r\n\t\t\"publishedPortals\": [],\r\n\t\t\"systemVersion\": 1,\r\n\t\t\"id\": \"1ac48246-80eb-44c8-8901-564e025dbbde\"\r\n\t},\r\n\t{\r\n\t\t\"apiName\": \"API Gateway Policy Management\",\r\n\t\t\"isActive\": false,\r\n\t\t\"owner\": \"Administrator\",\r\n\t\t\"policies\": [],\r\n\t\t\"publishedPortals\": [],\r\n\t\t\"systemVersion\": 1,\r\n\t\t\"id\": \"7b2166a6-cf3c-4f72-a04b-72c110c302d2\"\r\n\t}],\r\n\t\"USER\": [\"Administrator\",\r\n\t\"Default\",\r\n\t\"Developer\",\r\n\t\"Replicator\",\r\n\t\"apigateway\"]\r\n}"
-            },
             "schema" : {
               "type" : "object",
               "additionalProperties" : {
                 "type" : "object"
               }
+            },
+            "examples" : {
+              "application/json" : "{\r\n\t\"GROUP\": [\"API-Gateway-Administrators\",\r\n\t\"API-Gateway-Providers\",\r\n\t\"Administrators\",\r\n\t\"Anonymous\",\r\n\t\"Developers\",\r\n\t\"Everybody\",\r\n\t\"Replicators\"],\r\n\t\"POLICY\": [{\r\n\t\t\"id\": \"GlobalLogInvocationPolicy\",\r\n\t\t\"names\": [{\r\n\t\t\t\"value\": \"Transaction logging\",\r\n\t\t\t\"locale\": \"English\"\r\n\t\t}],\r\n\t\t\"policyEnforcements\": [],\r\n\t\t\"policyScope\": \"GLOBAL\",\r\n\t\t\"global\": false,\r\n\t\t\"active\": false,\r\n\t\t\"systemPolicy\": false\r\n\t},\r\n\t{\r\n\t\t\"id\": \"3808db1a-8577-41e5-af6b-dcdac470524c\",\r\n\t\t\"names\": [{\r\n\t\t\t\"value\": \"Transport Policy\",\r\n\t\t\t\"locale\": \"English\"\r\n\t\t}],\r\n\t\t\"policyEnforcements\": [],\r\n\t\t\"policyScope\": \"GLOBAL\",\r\n\t\t\"global\": false,\r\n\t\t\"active\": false,\r\n\t\t\"systemPolicy\": false\r\n\t}],\r\n\t\"ALIAS\": [{\r\n\t\t\"name\": \"Myname\",\r\n\t\t\"value\": \"API Gateway N\"\r\n\t}],\r\n\t\"APPLICATION\": [{\r\n\t\t\"name\": \"Application\",\r\n\t\t\"owner\": \"Administrator\",\r\n\t\t\"identifiers\": [],\r\n\t\t\"siteURLs\": [],\r\n\t\t\"subscription\": false\r\n\t}],\r\n\t\"API\": [{\r\n\t\t\"apiName\": \"API Gateway\",\r\n\t\t\"isActive\": false,\r\n\t\t\"policies\": [],\r\n\t\t\"publishedPortals\": [],\r\n\t\t\"systemVersion\": 1,\r\n\t\t\"id\": \"1ac48246-80eb-44c8-8901-564e025dbbde\"\r\n\t},\r\n\t{\r\n\t\t\"apiName\": \"API Gateway Policy Management\",\r\n\t\t\"isActive\": false,\r\n\t\t\"owner\": \"Administrator\",\r\n\t\t\"policies\": [],\r\n\t\t\"publishedPortals\": [],\r\n\t\t\"systemVersion\": 1,\r\n\t\t\"id\": \"7b2166a6-cf3c-4f72-a04b-72c110c302d2\"\r\n\t}],\r\n\t\"USER\": [\"Administrator\",\r\n\t\"Default\",\r\n\t\"Developer\",\r\n\t\"Replicator\",\r\n\t\"apigateway\"]\r\n}"
             }
           },
           "401" : {
@@ -81,15 +81,15 @@
         "responses" : {
           "200" : {
             "description" : "This status code indicates the count for the specified scope is success. The result will be a map of type and count for each type.",
-            "examples" : {
-              "application/json" : "{\r\n\t\"group\":12,\r\n\t\"policy\":13,\r\n\t\"user\":4,\r\n\t\"api\":5\r\n}"
-            },
             "schema" : {
               "type" : "object",
               "additionalProperties" : {
                 "type" : "integer",
                 "format" : "int32"
               }
+            },
+            "examples" : {
+              "application/json" : "{\r\n\t\"group\":12,\r\n\t\"policy\":13,\r\n\t\"user\":4,\r\n\t\"api\":5\r\n}"
             }
           },
           "401" : {
@@ -125,7 +125,7 @@
         "types" : {
           "type" : "string",
           "description" : "List of allowed types that can be searched across API Gateway.",
-          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS" ]
+          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION" ]
         },
         "scope" : {
           "$ref" : "#/definitions/SearchField"
@@ -160,13 +160,6 @@
           "type" : "string",
           "description" : "Sort order for the records",
           "enum" : [ "ASC", "DESC" ]
-        },
-        "teamFilter" : {
-          "type" : "array",
-          "description" : "This filter is used to specify list teams to apply on the search results.",
-          "items" : {
-            "type" : "string"
-          }
         }
       },
       "description" : "This defines the request structure to search across API Gateway"
@@ -181,12 +174,6 @@
         "keyword" : {
           "type" : "string",
           "description" : "Value of the corresponding field to be matched. User can use regular expression to specify the multiple values for single attributeName. For example  to find \n 1. apiDescription contains \"weather\" or equals \"country\" , we can use {\"attributeName\" : \"apiDescription\", \"keyword\" : \".*weather.*|country\"}. \n 2. apiName starts with weather - {\"attributeName\" : \"apiName\", \"keyword\" : \"weather.*\"}. \n 3. api type is REST or SOAP - {\"attributeName\" : \"type\", \"keyword\" : \"REST|SOAP\"}."
-        },
-        "orTokenKey" : {
-          "type" : "boolean"
-        },
-        "rawFieldKey" : {
-          "type" : "string"
         }
       },
       "description" : "A scope is filtering criteria for the list of types specified in search.It is a key/value pair. key is the field name on which the search is being done and value  contains the search string to be searched on the field specified.To get the field name for a type, user needs to access the corresponding API Gateway REST service to know about the fields available for a particular type. "
