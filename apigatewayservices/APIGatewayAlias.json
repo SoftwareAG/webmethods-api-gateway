@@ -1,8 +1,8 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "API Gateway Alias Management Service allows you to manage aliases in the API Gateway. Any user with the 'Manage aliases' functional previlige can manage the aliases in API Gateway. By default, the users who are part of API-Gateway-Administrators group will have this privilege. \n\n An alias in API Gateway holds environment-specific property values that can be used in policy routing configurations. The aliases can be referred to in routing endpoints, routing rules, endpoint connection properties, outbound authentication tokens, and outbound HTTP headers instead of providing an actual value. The corresponding alias value based on the stage is obtained and is substituted in place of an alias name during run-time. Thus the same alias can be referred to in multiple policies and the change in a particular alias would affect all the policy properties in which it is being referred. \n\n There are mainly six types of alias \n 1. Simple alias - Holds a simple value \n 2. Endpoint alias - Holds the endpoint value along with additional properties such as connection timeout, read timeout, whether to pass security headers or not, keystore alias, key alias \n 3. HTTP Transport security alias - Contains the transport level security information required while accessing the native API. Used in the outbound policies \n 4. SOAP message security alias - Contains message level security information that is required to access the native API \n 5. webMethods Integration Server alias - Holds the ESB service value. Can be used in the Invoke webMethods IS policy for request and response processing.\n 6. Transformation alias - Holds a list of XSLT style sheets. Can be used in the XSLT Transformation policies for request and response processing.\n\n In addition to the above alias types, the configurations for \n SAML issuer - which holds the configuration to communicate to STS (Security Token Service) to retrieve the SAML token. Used in the Outbound policies, \n Authorization server - which holds configuration of authorization server(internal/external)for introspection/Dynamic client registration. Used in the token validation and OAuth2 client creation, \n Client metadata mapping - which holds the authorization service provider metadata information. Used in the Dynamic client registration for the authorization server alias and \n Service Registry- which holds registry endpoint and service paths information. Used in the client side and server side discovery \n are internally stored as aliases.\n AWS Configuration Alias- which holds AWS instance configuaration details. This can be configured in any custom policies for invoking a lambda service\n running in any AWS cloud instance.\n Integration servers - This holds webMethods Integration Server accounts details. This configuration will be used to create connection to the integration server when publishing APIs to an integration server for implementing the API. You can refer to API Gateway Service Management Swagger documentation for information about how to publish API Gateway APIs to Integration servers.",
-    "version" : "10.7",
+    "description" : "API Gateway Alias Management Service allows you to manage aliases in the API Gateway. Any user with the 'Manage aliases' functional previlige can manage the aliases in API Gateway. By default, the users who are part of API-Gateway-Administrators group will have this privilege. \n\n An alias in API Gateway holds environment-specific property values that can be used in policy routing configurations. The aliases can be referred to in routing endpoints, routing rules, endpoint connection properties, outbound authentication tokens, and outbound HTTP headers instead of providing an actual value. The corresponding alias value based on the stage is obtained and is substituted in place of an alias name during run-time. Thus the same alias can be referred to in multiple policies and the change in a particular alias would affect all the policy properties in which it is being referred. \n\n There are mainly six types of alias \n 1. Simple alias - Holds a simple value \n 2. Endpoint alias - Holds the endpoint value along with additional properties such as connection timeout, read timeout, whether to pass security headers or not, keystore alias, key alias \n 3. HTTP Transport security alias - Contains the transport level security information required while accessing the native API. Used in the outbound policies \n 4. SOAP message security alias - Contains message level security information that is required to access the native API \n 5. webMethods Integration Server alias - Holds the ESB service value. Can be used in the Invoke webMethods IS policy for request and response processing.\n 6. Transformation alias - Holds a list of XSLT style sheets. Can be used in the XSLT Transformation policies for request and response processing.\n\n In addition to the above alias types, the configurations for \n SAML issuer - which holds the configuration to communicate to STS (Security Token Service) to retrieve the SAML token. Used in the Outbound policies, \n Authorization server - which holds configuration of authorization server(internal/external)for introspection/Dynamic client registration. Used in the token validation and OAuth2 client creation, \n Client metadata mapping - which holds the authorization service provider metadata information. Used in the Dynamic client registration for the authorization server alias and \n Service Registry- which holds registry endpoint and service paths information. Used in the client side and server side discovery \n are internally stored as aliases.",
+    "version" : "10.3",
     "title" : "API Gateway Alias Management Service"
   },
   "host" : "localhost:5555",
@@ -11,75 +11,6 @@
   "consumes" : [ "plain/text" ],
   "produces" : [ "application/json" ],
   "paths" : {
-    "/alias" : {
-      "get" : {
-        "description" : "The method retrieves a list of all aliases in API Gateway.",
-        "operationId" : "getAllAlias",
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the list of aliases is successfully retrieved.",
-            "examples" : {
-              "application/json" : "{\r\n\t\"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\"\r\n\t\"endPointURI\": \"https://myDevstage:9090\",\r\n\t\"connectionTimeout\": \"23\",\r\n\t\"optimizationTechnique\": \"MTOM\",\r\n\t\"readTimeout\": \"36\",\r\n\t\"passSecurityHeaders\": true,\r\n\t\"keystoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\"keyAlias\": \"ssos\",\r\n\t\"name\": \"MystageEndpoint\",\r\n\t\"description\": \"Endpoint alias for myDevstage.\",\r\n\t\"type\": \"endpoint\"\r\n},\r\n{\r\n\t\"id\": \"842c4526-db9a-4ef9-9782-edda1a6ab84c\"\r\n\t\"authType\": \"WSS_USERNAME\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"wssCredentials\": {\r\n\t\t\"userName\": \"Administrator\",\r\n\t\t\"password\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"UsernameMessageAlias\",\r\n\t\"description\": \"WSS username message alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"652c4526-db8a-4ef9-9782-edda1a4gf9bc\"\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachineadfs20.sag.com\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"KerberosHttpTransportAlias\",\r\n\t\"description\": \"vmmachineadfs20 kerberos transport alias\",\r\n\t\"type\": \"httpTransportSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"422c4526-db9a-4ef9-9872-edda1a6aa9bc\"\r\n\t\"authType\": \"HTTP_BASIC\",\r\n\t\"httpAuthCredentials\": {\r\n\t\t\"domain\": \"localhost\",\r\n\t\t\"userName\": \"Administrator\",\r\n\t\t\"password\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"BasicHttpTransportAlias\",\r\n\t\"description\": \"Basic http transport alias\",\r\n\t\"type\": \"httpTransportSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"732c4526-db9a-5t46-9782-edda1a4ac9bc\"\r\n\t\"authType\": \"NTLM\",\r\n\t\"httpAuthCredentials\": {\r\n\t\t\"domain\": \"localhost\",\r\n\t\t\"userName\": \"Administrator\",\r\n\t\t\"password\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"NTLMTransportAlias\",\r\n\t\"description\": \"ntlm http transport alias\",\r\n\t\"type\": \"httpTransportSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"652c4526-db9a-4ef9-3265-edda1a6aa9bc\"\r\n\t\"authType\": \"OAUTH2\",\r\n\t\"oauth2Token\": \"T2F1dGgydG9rZW4=\",\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"OAuthTransportAlias\",\r\n\t\"description\": \"OAuth2 alias for outbound transport security\",\r\n\t\"type\": \"httpTransportSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"732c3265-db9a-4ef9-9782-edda1a6aa9bc\"\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachine01.sag.com/adfs\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"DELEGATE_INCOMING\",\r\n\t\"name\": \"KerberosMessageAlias\",\r\n\t\"description\": \"Kerberos outbound message secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"12c4526-db9a-5ef9-9845-edda1a7ba9bc\"\r\n\t\"authType\": \"SAML\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"\",\r\n\t\t\"keyAlias\": null,\r\n\t\t\"certificateAlias\": null,\r\n\t\t\"truststoreAlias\": \"\"\r\n\t},\r\n\t\"samlIssuerConfig\": \"${SAMLIssuer1}\",\r\n\t\"name\": \"SAMLAlias\",\r\n\t\"description\": \"SAML secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n}\r\n"
-            },
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Alias"
-              }
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "post" : {
-        "description" : "Use this method to create an alias. There are different types of alias like Endpoint, Simple etc. Refer to the Alias schema for different type of alias that you can create. If you want to create an alias for a specific type (say Endpoint alias), refer to the corresponding schema (EndpointAlias)",
-        "operationId" : "createAlias",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Alias"
-          },
-          "x-examples" : {
-            "application/json" : "{\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachine01.sag.com/adfs\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"DELEGATE_INCOMING\",\r\n\t\"name\": \"KerberosMessageAlias\",\r\n\t\"description\": \"Kerberos outbound message secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n\t\"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\"\r\n}"
-          }
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "This status code indicates that the alias has been successfully created in API Gateway, and the newly created alias is available in the response body.",
-            "examples" : {
-              "application/json" : "{\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachine01.sag.com/adfs\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"DELEGATE_INCOMING\",\r\n\t\"name\": \"KerberosMessageAlias\",\r\n\t\"description\": \"Kerberos outbound message secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n\t\"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\"\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/Alias"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicates that an alias with the given name already exists in API Gateway or the request body is not correct.",
-            "examples" : {
-              "application/json" : "{}"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
     "/alias/{aliasId}" : {
       "get" : {
         "description" : "The method retrieves the details of an alias in API Gateway.",
@@ -96,11 +27,11 @@
         "responses" : {
           "200" : {
             "description" : "This status code indicates that the details of the alias are successfully retrieved.",
-            "examples" : {
-              "application/json" : "{\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachine01.sag.com/adfs\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"DELEGATE_INCOMING\",\r\n\t\"name\": \"KerberosMessageAlias\",\r\n\t\"description\": \"Kerberos outbound message secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n\t\"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\"\r\n}"
-            },
             "schema" : {
               "$ref" : "#/definitions/Alias"
+            },
+            "examples" : {
+              "application/json" : "{\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachine01.sag.com/adfs\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"DELEGATE_INCOMING\",\r\n\t\"name\": \"KerberosMessageAlias\",\r\n\t\"description\": \"Kerberos outbound message secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n\t\"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\"\r\n}"
             }
           },
           "404" : {
@@ -144,11 +75,11 @@
         "responses" : {
           "200" : {
             "description" : "This status code indicates that the alias has been successfully updated in API Gateway, and the updated alias is available in the response body.",
-            "examples" : {
-              "application/json" : "{\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachine01.sag.com/adfs\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"DELEGATE_INCOMING\",\r\n\t\"name\": \"KerberosMessageAlias\",\r\n\t\"description\": \"Kerberos outbound message secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n\t\"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\"\r\n}"
-            },
             "schema" : {
               "$ref" : "#/definitions/Alias"
+            },
+            "examples" : {
+              "application/json" : "{\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachine01.sag.com/adfs\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"DELEGATE_INCOMING\",\r\n\t\"name\": \"KerberosMessageAlias\",\r\n\t\"description\": \"Kerberos outbound message secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n\t\"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\"\r\n}"
             }
           },
           "404" : {
@@ -206,6 +137,75 @@
           "Basic" : [ ]
         } ]
       }
+    },
+    "/alias" : {
+      "get" : {
+        "description" : "The method retrieves a list of all aliases in API Gateway.",
+        "operationId" : "getAllAlias",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the list of aliases is successfully retrieved.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Alias"
+              }
+            },
+            "examples" : {
+              "application/json" : "{\r\n\t\"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\"\r\n\t\"endPointURI\": \"https://myDevstage:9090\",\r\n\t\"connectionTimeout\": \"23\",\r\n\t\"optimizationTechnique\": \"MTOM\",\r\n\t\"readTimeout\": \"36\",\r\n\t\"passSecurityHeaders\": true,\r\n\t\"keystoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\"keyAlias\": \"ssos\",\r\n\t\"name\": \"MystageEndpoint\",\r\n\t\"description\": \"Endpoint alias for myDevstage.\",\r\n\t\"type\": \"endpoint\"\r\n},\r\n{\r\n\t\"id\": \"842c4526-db9a-4ef9-9782-edda1a6ab84c\"\r\n\t\"authType\": \"WSS_USERNAME\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"wssCredentials\": {\r\n\t\t\"userName\": \"Administrator\",\r\n\t\t\"password\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"UsernameMessageAlias\",\r\n\t\"description\": \"WSS username message alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"652c4526-db8a-4ef9-9782-edda1a4gf9bc\"\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachineadfs20.sag.com\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"KerberosHttpTransportAlias\",\r\n\t\"description\": \"vmmachineadfs20 kerberos transport alias\",\r\n\t\"type\": \"httpTransportSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"422c4526-db9a-4ef9-9872-edda1a6aa9bc\"\r\n\t\"authType\": \"HTTP_BASIC\",\r\n\t\"httpAuthCredentials\": {\r\n\t\t\"domain\": \"localhost\",\r\n\t\t\"userName\": \"Administrator\",\r\n\t\t\"password\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"BasicHttpTransportAlias\",\r\n\t\"description\": \"Basic http transport alias\",\r\n\t\"type\": \"httpTransportSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"732c4526-db9a-5t46-9782-edda1a4ac9bc\"\r\n\t\"authType\": \"NTLM\",\r\n\t\"httpAuthCredentials\": {\r\n\t\t\"domain\": \"localhost\",\r\n\t\t\"userName\": \"Administrator\",\r\n\t\t\"password\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"NTLMTransportAlias\",\r\n\t\"description\": \"ntlm http transport alias\",\r\n\t\"type\": \"httpTransportSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"652c4526-db9a-4ef9-3265-edda1a6aa9bc\"\r\n\t\"authType\": \"OAUTH2\",\r\n\t\"oauth2Token\": \"T2F1dGgydG9rZW4=\",\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"OAuthTransportAlias\",\r\n\t\"description\": \"OAuth2 alias for outbound transport security\",\r\n\t\"type\": \"httpTransportSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"732c3265-db9a-4ef9-9782-edda1a6aa9bc\"\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachine01.sag.com/adfs\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"DELEGATE_INCOMING\",\r\n\t\"name\": \"KerberosMessageAlias\",\r\n\t\"description\": \"Kerberos outbound message secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"12c4526-db9a-5ef9-9845-edda1a7ba9bc\"\r\n\t\"authType\": \"SAML\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"\",\r\n\t\t\"keyAlias\": null,\r\n\t\t\"certificateAlias\": null,\r\n\t\t\"truststoreAlias\": \"\"\r\n\t},\r\n\t\"samlIssuerConfig\": \"${SAMLIssuer1}\",\r\n\t\"name\": \"SAMLAlias\",\r\n\t\"description\": \"SAML secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n}\r\n"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "Use this method to create an alias. There are different types of alias like Endpoint, Simple etc. Refer to the Alias schema for different type of alias that you can create. If you want to create an alias for a specific type (say Endpoint alias), refer to the corresponding schema (EndpointAlias)",
+        "operationId" : "createAlias",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Alias"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachine01.sag.com/adfs\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"DELEGATE_INCOMING\",\r\n\t\"name\": \"KerberosMessageAlias\",\r\n\t\"description\": \"Kerberos outbound message secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n\t\"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\"\r\n}"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "This status code indicates that the alias has been successfully created in API Gateway, and the newly created alias is available in the response body.",
+            "schema" : {
+              "$ref" : "#/definitions/Alias"
+            },
+            "examples" : {
+              "application/json" : "{\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachine01.sag.com/adfs\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"DELEGATE_INCOMING\",\r\n\t\"name\": \"KerberosMessageAlias\",\r\n\t\"description\": \"Kerberos outbound message secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n\t\"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\"\r\n}"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that an alias with the given name already exists in API Gateway or the request body is not correct.",
+            "examples" : {
+              "application/json" : "{}"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
     }
   },
   "securityDefinitions" : {
@@ -215,27 +215,6 @@
     }
   },
   "definitions" : {
-    "AWSConfigurationAlias" : {
-      "allOf" : [ {
-        "$ref" : "#/definitions/Alias"
-      }, {
-        "type" : "object",
-        "properties" : {
-          "region" : {
-            "type" : "string",
-            "description" : "The configured AWS instance region detail"
-          },
-          "accessKey" : {
-            "type" : "string",
-            "description" : "The access key ID for the AWS instance. This is used to sign the requests"
-          },
-          "secretKey" : {
-            "type" : "string",
-            "description" : "The secret access key for the AWS instance. This is used to sign the requests"
-          }
-        }
-      } ]
-    },
     "Alias" : {
       "type" : "object",
       "discriminator" : "type",
@@ -256,7 +235,7 @@
         "type" : {
           "type" : "string",
           "description" : "Type of the alias",
-          "enum" : [ "simple", "endpoint", "httpTransportSecurityAlias", "soapMessageSecurityAlias", "samlIssuerAlias", "authServerAlias", "webmethodsAlias", "transformationAlias", "serviceRegistryAlias", "clientMetadataMapping", "awsConfigurationAlias", "isConfigurationAlias" ]
+          "enum" : [ "simple", "endpoint", "httpTransportSecurityAlias", "soapMessageSecurityAlias", "samlIssuerAlias", "authServerAlias", "webmethodsAlias", "transformationAlias", "serviceRegistryAlias", "clientMetadataMapping" ]
         },
         "stage" : {
           "type" : "string",
@@ -279,28 +258,34 @@
         "type" : "object",
         "properties" : {
           "localIntrospectionConfig" : {
+            "description" : "Configuration to do the local introspection",
             "$ref" : "#/definitions/LocalIntrospectionConfig"
           },
           "remoteIntrospectionConfig" : {
+            "description" : "Configuration to do the remote introspection.",
             "$ref" : "#/definitions/RemoteIntrospectionConfig"
           },
           "dcrEndpoint" : {
+            "description" : "configuration for the dynamic client registration",
             "$ref" : "#/definitions/DynamicClientRegistrationEndpoint"
           },
           "tokenGeneratorConfig" : {
+            "description" : "Configuration that is required to generate the token by the API Gateway",
             "$ref" : "#/definitions/TokenGeneratorConfig"
           },
           "sslConfig" : {
+            "description" : "SSL Configuration used for two ssl for the authorization server communications",
             "$ref" : "#/definitions/SSLConfig"
           },
           "metadata" : {
+            "description" : "Metadata information used by the API Portal",
             "$ref" : "#/definitions/Metadata"
           },
-          "scopes" : {
+          "authServerScopes" : {
             "type" : "array",
             "description" : "List of scopes available in the authorization server",
             "items" : {
-              "$ref" : "#/definitions/Scope"
+              "type" : "string"
             }
           },
           "supportedGrantTypes" : {
@@ -318,9 +303,6 @@
             "type" : "string",
             "description" : "Type of the authorization server",
             "enum" : [ "LOCAL_IS", "REMOTE_IS", "EXTERNAL" ]
-          },
-          "remoteISConfig" : {
-            "$ref" : "#/definitions/RemoteISConfig"
           }
         }
       } ]
@@ -390,9 +372,11 @@
       "type" : "object",
       "properties" : {
         "authInfo" : {
+          "description" : "Authorization configuration to manage the clients in the authorization server",
           "$ref" : "#/definitions/AuthInfo"
         },
         "clientRegistrationEndpoint" : {
+          "description" : "Client registration endpoint configuration",
           "$ref" : "#/definitions/OAuth2Endpoint"
         }
       }
@@ -472,42 +456,16 @@
             "enum" : [ "NEW", "INCOMING_HTTP_BASIC_AUTH", "INCOMING_WSS_USER", "INCOMING_X509", "DELEGATE_INCOMING", "INCOMING_OAUTH_TOKEN", "INCOMING_JWT", "TRANSPARENT", "INCOMING_KERBEROS" ]
           },
           "httpAuthCredentials" : {
+            "description" : "Credentials that are used for HTTP authentication",
             "$ref" : "#/definitions/Credentials"
           },
           "kerberosCredentials" : {
+            "description" : "Credentials that are  used for Kerberos authentication",
             "$ref" : "#/definitions/KerberosCredentials"
           },
           "oauth2Token" : {
             "type" : "string",
             "description" : "OAuth2 token that is used for authentication"
-          }
-        }
-      } ]
-    },
-    "ISConfigurationAlias" : {
-      "allOf" : [ {
-        "$ref" : "#/definitions/Alias"
-      }, {
-        "type" : "object",
-        "properties" : {
-          "url" : {
-            "type" : "string"
-          },
-          "username" : {
-            "type" : "string",
-            "description" : "The username of a registered Integration Server user who has the functional privilege to create the service"
-          },
-          "password" : {
-            "type" : "string",
-            "description" : "A valid password of the Integration Server user identified by the attribute Username"
-          },
-          "keystoreAlias" : {
-            "type" : "string",
-            "description" : "The Keystore alias field contains a list of the available keystore aliases in API Gateway. If there are no configured keystore aliases, this field lists the default Integration Server keystore, DEFAULT_IS_KEYSTORE ."
-          },
-          "keyAlias" : {
-            "type" : "string",
-            "description" : "The alias of the private key that is stored in the keystore specified by the keystore alias.\nThe Key alias field contains a list of the available aliases in the selected keystore. If there are no configured keystores, this field is empty"
           }
         }
       } ]
@@ -697,47 +655,6 @@
         }
       } ]
     },
-    "RemoteISConfig" : {
-      "type" : "object",
-      "properties" : {
-        "host" : {
-          "type" : "string",
-          "description" : "Host name or IP address of the remote server for which you are creating an alias"
-        },
-        "port" : {
-          "type" : "integer",
-          "format" : "int32",
-          "example" : 5555,
-          "description" : "Port number on which the remote server listens for incoming requests from your server"
-        },
-        "username" : {
-          "type" : "string",
-          "description" : "User name for a user account on the remote server. When you invoke a service using this alias, the remote server uses this user account for authentication and access control."
-        },
-        "password" : {
-          "type" : "string",
-          "description" : "Password of the corresponding user in remote IS authorization server"
-        },
-        "useSSL" : {
-          "type" : "boolean",
-          "description" : "Whether you want your server to connect to the remote server using Secure Sockets Layer (SSL)."
-        },
-        "acl" : {
-          "type" : "string",
-          "description" : "ACL that governs which user groups on your server can use this alias for the remote server. Select an ACL from the drop down list. By default, only members of groups governed by the Internal ACL can use this alias."
-        },
-        "timeout" : {
-          "type" : "integer",
-          "format" : "int32",
-          "description" : "Specifies the length of time (in minutes) that your server maintains an idle connection to a remote server."
-        },
-        "keepAlive" : {
-          "type" : "integer",
-          "format" : "int32",
-          "description" : "Sets the default number of client keep alive connections to retain for a given target endpoint. If not specified, five keep alive connections are retained."
-        }
-      }
-    },
     "RemoteIntrospectionConfig" : {
       "type" : "object",
       "properties" : {
@@ -785,9 +702,11 @@
             "enum" : [ "NEW", "INCOMING_HTTP_BASIC_AUTH", "INCOMING_WSS_USER", "INCOMING_X509", "DELEGATE_INCOMING", "INCOMING_OAUTH_TOKEN", "INCOMING_JWT", "TRANSPARENT", "INCOMING_KERBEROS" ]
           },
           "wssCredentials" : {
+            "description" : "Credentials required for the WSS Username token",
             "$ref" : "#/definitions/WssCredentials"
           },
           "kerberosCredentials" : {
+            "description" : "Credentials for the kerberos token",
             "$ref" : "#/definitions/KerberosCredentials"
           },
           "endpoint" : {
@@ -816,6 +735,7 @@
             }
           },
           "signAndEncryptConfig" : {
+            "description" : "Private and public keys used for signature and encryption",
             "$ref" : "#/definitions/SignAndEncryptConfig"
           },
           "assertionId" : {
@@ -841,9 +761,11 @@
             "enum" : [ "NEW", "INCOMING_HTTP_BASIC_AUTH", "INCOMING_WSS_USER", "INCOMING_X509", "DELEGATE_INCOMING", "INCOMING_OAUTH_TOKEN", "INCOMING_JWT", "TRANSPARENT", "INCOMING_KERBEROS" ]
           },
           "wssCredentials" : {
+            "description" : "Credentials required for the WSS Username token",
             "$ref" : "#/definitions/WssCredentials"
           },
           "kerberosCredentials" : {
+            "description" : "Credentials for the kerberos token",
             "$ref" : "#/definitions/KerberosCredentials"
           },
           "samlIssuerConfig" : {
@@ -851,6 +773,7 @@
             "description" : "Saml issuer configuration name"
           },
           "signAndEncryptConfig" : {
+            "description" : "private and public keys used for signature and encryption",
             "$ref" : "#/definitions/SignAndEncryptConfig"
           }
         }
@@ -870,19 +793,6 @@
         "trustStoreAlias" : {
           "type" : "string",
           "description" : "The truststore to be used by API Gateway when validating the incoming response from the authorization server. Truststore is a repository that holds all the trusted public certificates"
-        }
-      }
-    },
-    "Scope" : {
-      "type" : "object",
-      "properties" : {
-        "name" : {
-          "type" : "string",
-          "description" : "Name of the oauth2 scope"
-        },
-        "description" : {
-          "type" : "string",
-          "description" : "Description of the oauth2 scope"
         }
       }
     },
@@ -943,12 +853,15 @@
             }
           },
           "discoveryInfo" : {
+            "description" : "Contains information like resource path and HTTP method to use while discovering a service in service registry",
             "$ref" : "#/definitions/ServiceRegistryCommunication"
           },
           "registrationInfo" : {
+            "description" : "Contains information like resource path and HTTP method to use while registering a service in service registry",
             "$ref" : "#/definitions/ServiceRegistryCommunication"
           },
           "deRegistrationInfo" : {
+            "description" : "Contains information like resource path and HTTP method to use while de-registering a service from service registry",
             "$ref" : "#/definitions/ServiceRegistryCommunication"
           },
           "serviceRegistryType" : {
