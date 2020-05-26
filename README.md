@@ -5,7 +5,7 @@ webMethods API Gateway is the core run time component in [webMethods API Manag
 
 APIs created in API Gateway can also be published to API Portal for external facing developers’ consumption. 
 
-![](attachments/651659260/651659423.png)
+![](attachments/651659260/apimgmt.png)
 
 Get API Gateway
 ----------------
