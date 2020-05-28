@@ -61,7 +61,7 @@ This is done by running the migration utility by referring to the backup of sour
 
 ### Migration using direct mode for standalone
 
-Please refer [http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Migrating+standalone+API+Gateway+using+Direct+mode](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Migrating+standalone+API+Gateway+using+Direct+mode)
+Please refer [Migrating standalone API Gateway using Direct mode](Migrating%20standalone%20API%20Gateway%20using%20Direct%20mode/)
 
 ### Migration using direct mode for cluster
 
