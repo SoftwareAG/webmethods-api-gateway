@@ -13,7 +13,7 @@ API Gateway supports migration of data from older version to newer versions. In 
 *   Migration using backup mode for standalone
 *   Migration using backup mode for cluster 
 
-**[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/API%20Gateway%20migration%20steps%20-%20Simplified)**
+**[Read on...](API%20Gateway%20migration%20steps%20-%20Simplified/)**
 
 Back up and restore of API Gateway assets
 -----------------------------------------
