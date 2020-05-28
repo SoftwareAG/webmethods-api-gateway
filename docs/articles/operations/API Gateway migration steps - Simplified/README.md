@@ -65,7 +65,7 @@ Please refer [Migrating standalone API Gateway using Direct mode](Migrating%20s
 
 ### Migration using direct mode for cluster
 
-Please refer [http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Migrating+API+Gateway+cluster+using+Direct+mode](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Migrating+API+Gateway+cluster+using+Direct+mode)
+Please refer [Migrating API Gateway cluster using Direct mode](Migrating%20API%20Gateway%20cluster%20using%20Direct%20mode/)
 
 ### Migration using backup mode for standalone
 
