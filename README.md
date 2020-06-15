@@ -13,8 +13,7 @@ Get API Gateway
 webMethods API Gateway can be provisioned in multiple ways based on the users needs. Choose the one which works the best for you. 
 
 *   **[WEBMETHODS.io](https://www.softwareag.cloud/site/product/webmethods-api.html)** \-  A _30 day free trail_ cloud account can be provisioned in less than 15 minutes. Visit SoftwareAG cloud and get your instance running in a region of your choice.
-*   [**Docker**](https://hub.docker.com/_/softwareag-apigateway) \- A _90 day free trail_ version of API Gateway docker image can be pulled from the docker hub. 
-*   **[Classic Installation](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Guide%20to%20Downloading%20and%20installing%20the%20webMethods%20Free%20Trial%20Version)** \- Download and install webMethods API Gateway _free trial version_.                      
+*   [**Docker**](https://hub.docker.com/_/softwareag-apigateway) \- A _90 day free trail_ version of API Gateway docker image can be pulled from the docker hub.                     
 
 Get Started
 -----------
@@ -23,7 +22,6 @@ Hope, everything went well in product provisioning . Lets now get started to exp
 
 *   ****WEBMETHODS.io****  - You would have received a mail from Software AG with a link to login to your cloud account. Login and start the free trail of the products. In few mins, your cloud instance would be up and running. 
 *   **Docker** - After the checkout, you would have landed in the "_How to use_" page which lists the detailed steps for spinning a container with the docker image. Please follow the steps and get your instance started in few minutes.
-*   **Classic Installation** \- Navigate to <SoftwareAG\_InstallDir>/IntegrationServer/instances/default/bin/ and run startup.bat/sh to launch the product.
 
 ![](attachments/651659260/651661280.png)
 
