@@ -1,39 +1,10 @@
 Handling of clear text passwords in external components of API Gateway - 10.5
 ==================================================================================================
 
-*   [Overview of the tutorial](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-Overviewofthetutorial)
-*   [Required knowledge](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-Requiredknowledge)
-*   [Why?](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-Why?)
-*   [Prerequisite steps](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-Prerequisitesteps)
-*   [Details](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-Details)
-    *   [Keystore tool](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-Keystoretool)
-        *   [Points to remember](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-Pointstoremember)
-    *   [Obfuscating passwords in Elasticsearch configuration file](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-ObfuscatingpasswordsinElasticsearchconfigurationfile)
-        *   [Creating a keystore in Elasticsearch](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-CreatingakeystoreinElasticsearch)
-        *   [Adding a setting in Elasticsearch](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-AddingasettinginElasticsearch)
-        *   [Listing all the settings in Elasticsearch](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-ListingallthesettingsinElasticsearch)
-        *   [Removing a setting  in Elasticsearch](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-RemovingasettinginElasticsearch)
-    *   [Obfuscating passwords in Kibana configuration file](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-ObfuscatingpasswordsinKibanaconfigurationfile)
-        *   [Creating a keystore in Kibana](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-CreatingakeystoreinKibana)
-        *   [Adding a setting in Kibana](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-AddingasettinginKibana)
-        *   [Listing all the settings in Kibana](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-ListingallthesettingsinKibana)
-        *   [Removing a setting  in Kibana](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-RemovingasettinginKibana)
-    *   [Obfuscating passwords in Filebeat configuration file](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-ObfuscatingpasswordsinFilebeatconfigurationfile)
-        *   [Creating a keystore in Filebeat](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-CreatingakeystoreinFilebeat)
-        *   [Adding a setting in Filebeat](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-AddingasettinginFilebeat)
-        *   [Listing all the settings in Filebeat](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-ListingallthesettingsinFilebeat)
-        *   [Removing a setting  in Filebeat](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-RemovingasettinginFilebeat)
-        *   [Creating a environment variable](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-Creatingaenvironmentvariable)
-        *   [Referring the environment variable](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-Referringtheenvironmentvariable)
-*   [Component compatibility matrix](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-Componentcompatibilitymatrix)
-*   [Troubleshooting](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-Troubleshooting)
-*   [References](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-References)
-*   [Learn more](#HandlingofcleartextpasswordsinexternalcomponentsofAPIGateway-10.5-Learnmore)
-
 ### Supported Versions:
 
 *   API Gateway version : 10.5 and above
-*   External component version : 7.x
+*   External components  : 7.x versions of  Elasticsearch, Kibana and File beat
 
 Overview of the tutorial
 ========================
@@ -271,11 +242,3 @@ References
 | Logstash keystore                 | [ https://www.elastic.co/guide/en/logstash/6.3/keystore.html](https://www.elastic.co/guide/en/logstash/6.3/keystore.html) | > 6.3             |          |
 | X-pack settings support           | https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html | > 6.2             |          |
 | Securing Elasticsearch with nginx | https://www.minvolai.com/setting-up-a-secure-single-node-elasticsearch-server-behind-nginx/ | > 2.x             |          |
-
-Learn more
-==========
-
-*   Securing API Gateway components  - [Securing API Gateway and its components using HTTPS](https://iwiki.eur.ad.sag/display/RNDWMGDM/Securing+API+Gateway+and+its+components+using+HTTPS)
-*   Elasticsearch sizing and HA setup    -  [API Gateway High Availability & Sizing](https://iwiki.eur.ad.sag/pages/viewpage.action?pageId=551008959)
-*   Elasticsearch best practices              - [Elasticsearch Best Practices](https://iwiki.eur.ad.sag/display/RNDWMGDM/Elasticsearch+Best+Practices)
-*   Backup and restore                           -  [Back up and restore of API Gateway assets](https://iwiki.eur.ad.sag/display/RNDWMGDM/Back+up+and+restore+of+API+Gateway+assets)
