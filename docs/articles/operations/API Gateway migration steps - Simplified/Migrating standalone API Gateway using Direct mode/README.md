@@ -1,7 +1,6 @@
 Migrating standalone API Gateway using Direct mode
 ==================================================
 
-Author: _Madharsha, Sadiq (sadm@softwareag.com)_  
 Supported Versions: 10.3 Fix 4 and above
 
 Overview of the tutorial
