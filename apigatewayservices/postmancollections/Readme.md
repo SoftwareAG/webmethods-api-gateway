@@ -1,30 +1,39 @@
-This Postman collection offers you the sample payloads required for REST APIs supported by API Gateway under different sections.
+#### This Postman collection offers you the sample payloads required for REST APIs supported by API Gateway under different sections.
 
-This collection covers:
+##### This collection covers:
+
 1. APIs - Includes the sample request and response payloads for REST APIs.
-2. Usecases - Includes the postman runner collection that helps you to achieve different use cases.
+2. Use cases - Includes the postman runner collection that helps you to achieve different use cases.
 
-APIs
+##### APIs
+
 The APIs folder includes the following services:
 
-Administration Service
-Alias Management
-Application Management
-Approval Management
-Archive Service
-Document Management Service
-Package and Plan Management
-Policy Management
-Promotion Management
-Search Service
-Server Information
-Service Management
-Transaction Data Service
-User Management
+1. Administration Service
+2. Alias Management
+3. Application Management
+4. Approval Management
+5. Archive Service
+6. Document Management Service
+7. Package and Plan Management
+8. Policy Management
+9. Promotion Management
+10. Search Service
+11. Server Information
+12. Service Management
+13. Transaction Data Service
+14. User Management
 
-Usecases
-The Usecases folder includes the following:
+##### Use cases
 
-API Application association
-API with Custom Extension
-API with Scope Policy
+The Use cases folder includes the following:
+
+1. API Application association
+2. API with Custom Extension
+3. API with Scope Policy
+
+In this postman collections one can find the different types of sample request payloads required to manage the configuration details. For example, API Gateway has multiple policies and policy actions. Policy Management postman collections the request payload to create all types of policies and policy actions. Like wise we have other management services.
+
+> APIGatewayServices.json
+
+All the APIs and Use cases are available as a single postman collection.

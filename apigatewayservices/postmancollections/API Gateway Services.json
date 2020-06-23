@@ -25621,8 +25621,59 @@
 			"name": "Usecases",
 			"item": [
 				{
-					"name": "API and Application association",
+					"name": "Associate policyactions and application with API",
 					"item": [
+						{
+							"name": "Create API fromURL",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "38026f10-2081-4d7f-a18d-6c59c0c429fe",
+										"exec": [
+											"let apiResponse=JSON.parse(responseBody);",
+											"pm.environment.set(\"apiID\", apiResponse.apiResponse.api.id);",
+											"pm.environment.set(\"policyID\", apiResponse.apiResponse.api.policies[0]);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"apiVersion\": \"1.0\",\n    \"type\": \"swagger\",\n    \"url\": \"http://petstore.swagger.io/v2/swagger.json\",\n    \"apiName\": \"Petstore\",\n    \"apiDescription\": \"Create policy actions, applications and associate it with API\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/apis",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"apis"
+									]
+								}
+							},
+							"response": []
+						},
 						{
 							"name": "Create IAM Policy Action",
 							"event": [
@@ -25973,10 +26024,10 @@
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "API with Custom Extension",
+					"name": "API with Custom Extension Policy",
 					"item": [
 						{
-							"name": "Create API",
+							"name": "Create API from URL",
 							"event": [
 								{
 									"listen": "test",
@@ -26249,7 +26300,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"apiVersion\": \"1.0\",\r\n    \"type\": \"swagger\",\r\n    \"url\": \"http://petstore.swagger.io/v2/swagger.json\",\r\n    \"apiName\": \"API_with_Scope_Policy\",\r\n    \"apiDescription\": \"Petstore API with IAM basic authentication policy and Log Invocation Traffic Monitoring Policy\"\r\n}",
+									"raw": "{\r\n    \"apiVersion\": \"1.0\",\r\n    \"type\": \"swagger\",\r\n    \"url\": \"http://petstore.swagger.io/v2/swagger.json\",\r\n    \"apiName\": \"API_with_Scope_Policy\",\r\n    \"apiDescription\": \"Petstore API with Log Invocation Traffic Monitoring Policy at Scope level\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -26501,7 +26552,7 @@
 	],
 	"variable": [
 		{
-			"id": "0f14ec9c-f5e5-41cd-b252-4c076d14b799",
+			"id": "e5f234f4-a3e9-4703-9e0c-f642012946bf",
 			"key": "baseURL",
 			"value": "http://localhost:5555/rest/apigateway",
 			"type": "string"
