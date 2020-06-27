@@ -235,10 +235,10 @@ References
 | Description                       | URL                                                          | Supported version | Comments |
 | --------------------------------- | ------------------------------------------------------------ | ----------------- | -------- |
 | Installig Xpack                   | https://www.elastic.co/guide/en/x-pack/5.6/installing-xpack.html | >5.6              |          |
-| Secure string in Kibana           | [https://www.elastic.co/guide/en/kibana/current/secure-settings.html](https://iwiki.eur.ad.sag/-https:/www.elastic.co/guide/en/kibana/current/secure-settings.html) |                   |          |
+| Secure string in Kibana           | [https://www.elastic.co/guide/en/kibana/current/secure-settings.html](https:/www.elastic.co/guide/en/kibana/current/secure-settings.html) |                   |          |
 | FileBeat Configuration            | https://www.elastic.co/guide/en/beats/filebeat/6.0/filebeat-configuration.html | > 6.0             |          |
 | Securing FileBeat                 | https://discuss.elastic.co/t/filebeat-best-way-to-secure-credentials/61704/17 |                   |          |
-| Securing FileBeat                 | [https://www.elastic.co/guide/en/beats/filebeat/current/keystore.html](https://iwiki.eur.ad.sag/https:/www.elastic.co/guide/en/beats/filebeat/current/keystore.html) | > 7.0             |          |
+| Securing FileBeat                 | [https://www.elastic.co/guide/en/beats/filebeat/current/keystore.html](www.elastic.co/guide/en/beats/filebeat/current/keystore.html) | > 7.0             |          |
 | Logstash keystore                 | [ https://www.elastic.co/guide/en/logstash/6.3/keystore.html](https://www.elastic.co/guide/en/logstash/6.3/keystore.html) | > 6.3             |          |
 | X-pack settings support           | https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html | > 6.2             |          |
 | Securing Elasticsearch with nginx | https://www.minvolai.com/setting-up-a-secure-single-node-elasticsearch-server-behind-nginx/ | > 2.x             |          |
