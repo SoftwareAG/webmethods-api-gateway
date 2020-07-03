@@ -1,6 +1,6 @@
 # Application Management
 
-* Application Management Service allows you to manage the Applications in API Gateway. Any user with the **'Manage applications'** functional privilege can manage the APIs in the API Gateway. 
+* You need the **'Manage applications'** functional privilege to manage APIs and applications in API Gateway. 
 
 * An application defines the precise identifiers by which messages from a particular consumer application is recognized at run time. 
 

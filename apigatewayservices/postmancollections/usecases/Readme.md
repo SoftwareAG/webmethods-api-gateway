@@ -1,10 +1,8 @@
 # Use cases
 
-API Gateway exposes rest services which is used to do atomic operations in API Gateway such as Create, Retrieve, Update, and Delete. 
+API Gateway provides REST Services that can be used to perform transaction such as create, retrieve, update, and delete. Though you can easily perform through the UI, these operations involve numerous REST calls to be triggered from the backend.
 
-Creating an API from API Gateway looks easy with the UI. But the process consist of multiple rest calls that is orchestrated at the backend.
-
-Use cases consist of such type of orchestration which will enable the customer to automate different types of processes.
+The sample use cases included in this folder cover all transactions related to a particular functionality. Open the respective folder to view the sample use cases to perform all transactions of the corresponding functionality.
 
 #### Postman Environment Variable
 
@@ -14,4 +12,3 @@ Retrieve the required variables and set it to postman environment variables for 
 let apiResponse=JSON.parse(responseBody);
 pm.environment.set("apiID", apiResponse.apiResponse.api.id);
 ```
-

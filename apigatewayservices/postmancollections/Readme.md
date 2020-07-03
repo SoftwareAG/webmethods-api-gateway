@@ -31,9 +31,3 @@ The Use cases folder includes the following:
 1. API Application association
 2. API with Custom Extension
 3. API with Scope Policy
-
-In this postman collections one can find the different types of sample request payloads required to manage the configuration details. For example, API Gateway has multiple policies and policy actions. Policy Management postman collections the request payload to create all types of policies and policy actions. Like wise we have other management services.
-
-> APIGatewayServices.json
-
-All the APIs and Use cases are available as a single postman collection.
