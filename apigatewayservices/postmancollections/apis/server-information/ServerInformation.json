@@ -1,0 +1,86 @@
+{
+	"info": {
+		"_postman_id": "ed24bf03-db65-418e-8f4f-a0c35026a7f2",
+		"name": "Server Information",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Server Information",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/is/serverinfo",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"is",
+						"serverinfo"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Returns API Gateway server Information ",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/is/serverinfo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"is",
+								"serverinfo"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"systemInfo\": {\n  \"CPU.type\": \"<string>\",\n  \"Hostname\": \"<string>\",\n  \"OS.Service.Pack\": \"<string>\",\n  \"HW.memory[GB]\": \"<string>\",\n  \"OS.Name\": \"<string>\",\n  \"OS.Release\": \"<string>\",\n  \"CPU.cores\": \"<string>\"\n },\n \"LicenseDetails\": [\n  {\n   \"Sales Information\": {\n    \"Serial Number\": \"<string>\",\n    \"License Key\": \"<string>\",\n    \"Customer ID\": \"<string>\",\n    \"Customer Name\": \"<string>\",\n    \"ContractDetails\": \"<string>\",\n    \"ContractPosNumber\": \"<string>\",\n    \"License Type Details\": \"<string>\",\n    \"AutoCallHome\": \"<string>\"\n   },\n   \"productInformation\": {\n    \"Expiration Date\": \"<string>\",\n    \"Operating System\": \"<string>\",\n    \"Product Code\": \"<string>\",\n    \"Product ID\": \"<string>\",\n    \"Product Name\": \"<string>\",\n    \"Product Version\": \"<string>\",\n    \"Usage\": \"<string>\",\n    \"RenewalDate\": \"<string>\",\n    \"HigherLevPosNr\": \"<string>\",\n    \"HigherLevProdCode\": \"<string>\",\n    \"HigherLevProdName\": \"<string>\"\n   },\n   \"integrationServer\": {\n    \"Product Code\": \"<string>\",\n    \"Product Version\": \"<string>\",\n    \"Concurrent Sessions\": \"<string>\",\n    \"Clustering\": \"<string>\",\n    \"Publish / Subscribe\": \"<string>\",\n    \"Adapter Runtime\": \"<string>\",\n    \"Remote Invoke\": \"<string>\",\n    \"Guaranteed Delivery\": \"<string>\",\n    \"Security Auditing\": \"<string>\",\n    \"Distributed Cache\": \"<string>\",\n    \"Enterprise Gateway\": \"<string>\"\n   },\n   \"licenseInformation\": {\n    \"Price Unit\": \"<string>\",\n    \"Price Quantity\": \"<string>\",\n    \"TypeOfInstallation\": \"<string>\",\n    \"LicenseType\": \"<string>\",\n    \"ExtendedRights\": \"<string>\",\n    \"LicenseVersion\": \"<string>\",\n    \"Metering\": \"<string>\"\n   },\n   \"API Gateway\": {\n    \"Policy Management - Threat Protection\": \"<string>\",\n    \"Policy Management - Gateway\": \"<string>\",\n    \"Application Management\": \"<string>\",\n    \"APIManagement\": \"<string>\"\n   }\n  },\n  {\n   \"Sales Information\": {\n    \"Serial Number\": \"<string>\",\n    \"License Key\": \"<string>\",\n    \"Customer ID\": \"<string>\",\n    \"Customer Name\": \"<string>\",\n    \"ContractDetails\": \"<string>\",\n    \"ContractPosNumber\": \"<string>\",\n    \"License Type Details\": \"<string>\",\n    \"AutoCallHome\": \"<string>\"\n   },\n   \"productInformation\": {\n    \"Expiration Date\": \"<string>\",\n    \"Operating System\": \"<string>\",\n    \"Product Code\": \"<string>\",\n    \"Product ID\": \"<string>\",\n    \"Product Name\": \"<string>\",\n    \"Product Version\": \"<string>\",\n    \"Usage\": \"<string>\",\n    \"RenewalDate\": \"<string>\",\n    \"HigherLevPosNr\": \"<string>\",\n    \"HigherLevProdCode\": \"<string>\",\n    \"HigherLevProdName\": \"<string>\"\n   },\n   \"integrationServer\": {\n    \"Product Code\": \"<string>\",\n    \"Product Version\": \"<string>\",\n    \"Concurrent Sessions\": \"<string>\",\n    \"Clustering\": \"<string>\",\n    \"Publish / Subscribe\": \"<string>\",\n    \"Adapter Runtime\": \"<string>\",\n    \"Remote Invoke\": \"<string>\",\n    \"Guaranteed Delivery\": \"<string>\",\n    \"Security Auditing\": \"<string>\",\n    \"Distributed Cache\": \"<string>\",\n    \"Enterprise Gateway\": \"<string>\"\n   },\n   \"licenseInformation\": {\n    \"Price Unit\": \"<string>\",\n    \"Price Quantity\": \"<string>\",\n    \"TypeOfInstallation\": \"<string>\",\n    \"LicenseType\": \"<string>\",\n    \"ExtendedRights\": \"<string>\",\n    \"LicenseVersion\": \"<string>\",\n    \"Metering\": \"<string>\"\n   },\n   \"API Gateway\": {\n    \"Policy Management - Threat Protection\": \"<string>\",\n    \"Policy Management - Gateway\": \"<string>\",\n    \"Application Management\": \"<string>\",\n    \"APIManagement\": \"<string>\"\n   }\n  }\n ],\n \"package\": \"<string>\",\n \"services\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"allSvcsMinusStarts\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"allSvcsMinusShuts\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"loadok\": \"<string>\",\n \"loaderr\": \"<string>\",\n \"loadwarning\": \"<string>\",\n \"startupServices\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"shutdownServices\": [\n  \"<string>\",\n  \"<string>\"\n ],\n \"version\": \"<string>\",\n \"build\": \"<string>\",\n \"description\": \"<string>\",\n \"patch_nums\": \"<object>\",\n \"jvm_version\": \"<string>\",\n \"publisher\": \"<string>\",\n \"time\": \"<object>\",\n \"listACL\": \"<string>\",\n \"message\": \"<string>\",\n \"code\": \"<string>\"\n}"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "manage",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Administrator",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"id": "60399857-0a6c-4660-9cbf-770c3432f190",
+			"key": "baseURL",
+			"value": "http://localhost:5555/rest/apigateway",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

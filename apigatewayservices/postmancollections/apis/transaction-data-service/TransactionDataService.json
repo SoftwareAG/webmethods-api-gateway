@@ -1,0 +1,685 @@
+{
+	"info": {
+		"_postman_id": "005d2ef2-0798-427a-9c4f-bf1c0ef03e53",
+		"name": "Transaction Data Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Transactions Data",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/transactionalEvents/_search?apiName=Petstore&apiVersion=1.0&apiId=9e9212b5-e347-4bb0-8b68-a5a67bf40785&applicationName=Petstore_Application&applicationId=ed12d783-ef97-4b57-a0b5-7ca06805e8af&packageName=Gold Package&packageId=f3bb7723-75b1-48e4-9542-1b655d0493d4&planName=Silver Plan&planId=d8515eaf-9636-4a07-a355-238e9f7a6b00&from=0&size=1&fromDate=2020-05-05&toDate=2020-05-10",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"transactionalEvents",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "apiName",
+							"value": "Petstore",
+							"description": "The name of the API  for which the invocation details is required.The exact name must be provided or regular expressions can be used like API_.*"
+						},
+						{
+							"key": "apiVersion",
+							"value": "1.0",
+							"description": "The version of the API"
+						},
+						{
+							"key": "apiId",
+							"value": "9e9212b5-e347-4bb0-8b68-a5a67bf40785",
+							"description": "The system generated id for an API.The id of an can be retrieved from the API details screen"
+						},
+						{
+							"key": "applicationName",
+							"value": "Petstore_Application",
+							"description": "The name of the Application for which the invocation details is required.The exact name must be provided or regular expressions can be used like APP_.*"
+						},
+						{
+							"key": "applicationId",
+							"value": "ed12d783-ef97-4b57-a0b5-7ca06805e8af",
+							"description": "The system generated id for an Application.The id of an can be retrieved from the Application details screen"
+						},
+						{
+							"key": "packageName",
+							"value": "Gold Package",
+							"description": "The name of the Package for which the invocation details is required.The exact name must be provided or regular expressions can be used like Package_.*"
+						},
+						{
+							"key": "packageId",
+							"value": "f3bb7723-75b1-48e4-9542-1b655d0493d4",
+							"description": "The system generated id for a Package.The id of an can be retrieved from the Package details screen"
+						},
+						{
+							"key": "planName",
+							"value": "Silver Plan",
+							"description": "The name of the Plan  for which the invocation details is required.The exact name must be provided or regular expressions can be used like Plan_.*"
+						},
+						{
+							"key": "planId",
+							"value": "d8515eaf-9636-4a07-a355-238e9f7a6b00",
+							"description": "The system generated id for a Plan.The id of an can be retrieved from the Plan details screen"
+						},
+						{
+							"key": "from",
+							"value": "0",
+							"description": "This parameter specifies the index from which the data has to be retrieved from the store. It is mainly used during pagination where the data is retrieved in batches"
+						},
+						{
+							"key": "size",
+							"value": "1",
+							"description": "This parameter specifies the number of records that should be present in the response. This can be combined with the parameter - from to get the records in batches during pagination."
+						},
+						{
+							"key": "fromDate",
+							"value": "2020-05-05",
+							"description": "(Required) This is the date from which the invocation details has to be retrieved for the matching filter criteria.It is a mandatory parameter and it should be of the format YYYY-MM-DD. Regular expression support is not available for this parameter"
+						},
+						{
+							"key": "toDate",
+							"value": "2020-05-10",
+							"description": "(Required) This is the date to which the invocation details has to be retrieved for the matching filter criteria.It is a mandatory parameter and it should be of the format YYYY-MM-DD. Regular expression support is not available for this parameter"
+						}
+					]
+				},
+				"description": "This method can be used to retrieve the transaction events for a given API/Application/Plan/Package for a specific period of time. Multiple request parameters of this method provide options to specify the request criteria to match the expected result and most of these input parameters supports regular expression in their values. Along with the mandatory parameters - fromDate and toDate, any one of the other filter criteria should be passed in the request."
+			},
+			"response": [
+				{
+					"name": "This response indicates that invalid credentials have been provided for the request.",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactionalEvents/_search?apiName=<string>&apiVersion=<string>&apiId=<string>&applicationName=<string>&applicationId=<string>&packageName=<string>&packageId=<string>&planName=<string>&planId=<string>&from=<integer>&size=<integer>&fromDate=<date>&toDate=<date>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactionalEvents",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "apiName",
+									"value": "<string>"
+								},
+								{
+									"key": "apiVersion",
+									"value": "<string>"
+								},
+								{
+									"key": "apiId",
+									"value": "<string>"
+								},
+								{
+									"key": "applicationName",
+									"value": "<string>"
+								},
+								{
+									"key": "applicationId",
+									"value": "<string>"
+								},
+								{
+									"key": "packageName",
+									"value": "<string>"
+								},
+								{
+									"key": "packageId",
+									"value": "<string>"
+								},
+								{
+									"key": "planName",
+									"value": "<string>"
+								},
+								{
+									"key": "planId",
+									"value": "<string>"
+								},
+								{
+									"key": "from",
+									"value": "<integer>"
+								},
+								{
+									"key": "size",
+									"value": "<integer>"
+								},
+								{
+									"key": "fromDate",
+									"value": "<date>"
+								},
+								{
+									"key": "toDate",
+									"value": "<date>"
+								}
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "Array of transactional events.",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactionalEvents/_search?apiName=<string>&apiVersion=<string>&apiId=<string>&applicationName=<string>&applicationId=<string>&packageName=<string>&packageId=<string>&planName=<string>&planId=<string>&from=<integer>&size=<integer>&fromDate=<date>&toDate=<date>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactionalEvents",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "apiName",
+									"value": "<string>"
+								},
+								{
+									"key": "apiVersion",
+									"value": "<string>"
+								},
+								{
+									"key": "apiId",
+									"value": "<string>"
+								},
+								{
+									"key": "applicationName",
+									"value": "<string>"
+								},
+								{
+									"key": "applicationId",
+									"value": "<string>"
+								},
+								{
+									"key": "packageName",
+									"value": "<string>"
+								},
+								{
+									"key": "packageId",
+									"value": "<string>"
+								},
+								{
+									"key": "planName",
+									"value": "<string>"
+								},
+								{
+									"key": "planId",
+									"value": "<string>"
+								},
+								{
+									"key": "from",
+									"value": "<integer>"
+								},
+								{
+									"key": "size",
+									"value": "<integer>"
+								},
+								{
+									"key": "fromDate",
+									"value": "<date>"
+								},
+								{
+									"key": "toDate",
+									"value": "<date>"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "\"{\\r\\n  \\\"transaction\\\": [\\r\\n    {\\r\\n      \\\"creationDate\\\": 1487229288461,\\r\\n      \\\"apiName\\\": \\\"PetStoreTest\\\",\\r\\n      \\\"apiVersion\\\": \\\"1.0.0\\\",\\r\\n      \\\"apiId\\\": \\\"73c40484-678a-4fb0-a56c-21119869e5f4\\\",\\r\\n      \\\"totalTime\\\": 1386,\\r\\n      \\\"providerTime\\\": 1336,\\r\\n      \\\"applicationName\\\": \\\"testApp\\\",\\r\\n      \\\"applicationId\\\": \\\"10727b01-e13a-4c5d-b39e-c5c336101e21\\\",\\r\\n      \\\"status\\\": \\\"SUCCESS\\\",\\r\\n      \\\"totalDataSize\\\": 1341,\\r\\n      \\\"responseCode\\\": \\\"200\\\",\\r\\n      \\\"operationName\\\": \\\"/pet\\\",\\r\\n      \\\"httpMethod\\\": \\\"post\\\",\\r\\n      \\\"packageName\\\": \\\"TestPackage\\\",\\r\\n      \\\"packageId\\\": \\\"7aafd5c8-3ea4-454f-ae78-d9ffc328672a\\\",\\r\\n      \\\"planName\\\": \\\"TestPlan\\\",\\r\\n      \\\"planId\\\": \\\"70369925-27f9-4c8a-b078-ca057516735e\\\"\\r\\n    }\\r\\n  ]\\r\\n}\""
+				},
+				{
+					"name": "One optional parameter along with fromDate and toData is required",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactionalEvents/_search?apiName=<string>&apiVersion=<string>&apiId=<string>&applicationName=<string>&applicationId=<string>&packageName=<string>&packageId=<string>&planName=<string>&planId=<string>&from=<integer>&size=<integer>&fromDate=<date>&toDate=<date>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactionalEvents",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "apiName",
+									"value": "<string>"
+								},
+								{
+									"key": "apiVersion",
+									"value": "<string>"
+								},
+								{
+									"key": "apiId",
+									"value": "<string>"
+								},
+								{
+									"key": "applicationName",
+									"value": "<string>"
+								},
+								{
+									"key": "applicationId",
+									"value": "<string>"
+								},
+								{
+									"key": "packageName",
+									"value": "<string>"
+								},
+								{
+									"key": "packageId",
+									"value": "<string>"
+								},
+								{
+									"key": "planName",
+									"value": "<string>"
+								},
+								{
+									"key": "planId",
+									"value": "<string>"
+								},
+								{
+									"key": "from",
+									"value": "<integer>"
+								},
+								{
+									"key": "size",
+									"value": "<integer>"
+								},
+								{
+									"key": "fromDate",
+									"value": "<date>"
+								},
+								{
+									"key": "toDate",
+									"value": "<date>"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "\"{ \\\"errorDetails\\\": \\\" Insufficient parameters. At least one parameter in addition to the creation date range must be provided.\\\"}\""
+				}
+			]
+		},
+		{
+			"name": "Get Transactions Data Count",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/transactionalEvents/_count?apiName=Petstore&apiVersion=1.0&apiId=9e9212b5-e347-4bb0-8b68-a5a67bf40785&applicationName=Petstore_Application&applicationId=ed12d783-ef97-4b57-a0b5-7ca06805e8af&packageName=Gold Package&packageId=f3bb7723-75b1-48e4-9542-1b655d0493d4&planName=Silver Plan&planId=d8515eaf-9636-4a07-a355-238e9f7a6b00&from=0&size=1&fromDate=2020-05-05&toDate=2020-05-10",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"transactionalEvents",
+						"_count"
+					],
+					"query": [
+						{
+							"key": "apiName",
+							"value": "Petstore",
+							"description": "The name of the API  for which the invocation count is required.The exact name must be provided or regular expressions can be used like API_.*"
+						},
+						{
+							"key": "apiVersion",
+							"value": "1.0",
+							"description": "The version of the API"
+						},
+						{
+							"key": "apiId",
+							"value": "9e9212b5-e347-4bb0-8b68-a5a67bf40785",
+							"description": "The system generated id for an API.The id of an can be retrieved from the API details screen"
+						},
+						{
+							"key": "applicationName",
+							"value": "Petstore_Application",
+							"description": "The name of the Application for which the invocation count is required.The exact name must be provided or regular expressions can be used like APP_.*"
+						},
+						{
+							"key": "applicationId",
+							"value": "ed12d783-ef97-4b57-a0b5-7ca06805e8af",
+							"description": "The system generated id for an Application.The id of an can be retrieved from the Application details screen"
+						},
+						{
+							"key": "packageName",
+							"value": "Gold Package",
+							"description": "The name of the Package for which the invocation count is required.The exact name must be provided or regular expressions can be used like Package_.*"
+						},
+						{
+							"key": "packageId",
+							"value": "f3bb7723-75b1-48e4-9542-1b655d0493d4",
+							"description": "The system generated id for a Package.The id of an can be retrieved from the Package details screen"
+						},
+						{
+							"key": "planName",
+							"value": "Silver Plan",
+							"description": "The name of the Plan  for which the invocation count is required.The exact name must be provided or regular expressions can be used like Plan_.*"
+						},
+						{
+							"key": "planId",
+							"value": "d8515eaf-9636-4a07-a355-238e9f7a6b00",
+							"description": "The system generated id for a Plan.The id of an can be retrieved from the Plan details screen"
+						},
+						{
+							"key": "from",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "1"
+						},
+						{
+							"key": "fromDate",
+							"value": "2020-05-05",
+							"description": "(Required) This is the date from which the count has to be retrieved for the matching filter criteria.It is a mandatory parameter and it should be of the format YYYY-MM-DD. Regular expression support is not available for this parameter"
+						},
+						{
+							"key": "toDate",
+							"value": "2020-05-10",
+							"description": "(Required) This is the date to which the count has to be retrieved for the matching filter criteria.It is a mandatory parameter and it should be of the format YYYY-MM-DD. Regular expression support is not available for this parameter"
+						}
+					]
+				},
+				"description": "This method can be used to retrieve the number of transaction events for a given API/Application/Plan/Package for a specific period of time. Multiple request parameters of this method provide options to specify the request criteria to match the expected result and most of these input parameters supports regular expression in their values. Along with the mandatory parameters - fromDate and toDate, any one of the other filter criteria should be passed in the request."
+			},
+			"response": [
+				{
+					"name": "One optional parameter along with fromDate and toDate is mandatory",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactionalEvents/_count?apiName=<string>&apiVersion=<string>&apiId=<string>&applicationName=<string>&applicationId=<string>&packageName=<string>&packageId=<string>&planName=<string>&planId=<string>&fromDate=<date>&toDate=<date>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactionalEvents",
+								"_count"
+							],
+							"query": [
+								{
+									"key": "apiName",
+									"value": "<string>"
+								},
+								{
+									"key": "apiVersion",
+									"value": "<string>"
+								},
+								{
+									"key": "apiId",
+									"value": "<string>"
+								},
+								{
+									"key": "applicationName",
+									"value": "<string>"
+								},
+								{
+									"key": "applicationId",
+									"value": "<string>"
+								},
+								{
+									"key": "packageName",
+									"value": "<string>"
+								},
+								{
+									"key": "packageId",
+									"value": "<string>"
+								},
+								{
+									"key": "planName",
+									"value": "<string>"
+								},
+								{
+									"key": "planId",
+									"value": "<string>"
+								},
+								{
+									"key": "fromDate",
+									"value": "<date>"
+								},
+								{
+									"key": "toDate",
+									"value": "<date>"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "\"{ \\\"errorDetails\\\": \\\" Insufficient parameters. At least one parameter in addition to the creation date range must be provided.\\\"}\""
+				},
+				{
+					"name": "Array of transactional events count grouped by apiId and api version.",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactionalEvents/_count?apiName=<string>&apiVersion=<string>&apiId=<string>&applicationName=<string>&applicationId=<string>&packageName=<string>&packageId=<string>&planName=<string>&planId=<string>&fromDate=<date>&toDate=<date>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactionalEvents",
+								"_count"
+							],
+							"query": [
+								{
+									"key": "apiName",
+									"value": "<string>"
+								},
+								{
+									"key": "apiVersion",
+									"value": "<string>"
+								},
+								{
+									"key": "apiId",
+									"value": "<string>"
+								},
+								{
+									"key": "applicationName",
+									"value": "<string>"
+								},
+								{
+									"key": "applicationId",
+									"value": "<string>"
+								},
+								{
+									"key": "packageName",
+									"value": "<string>"
+								},
+								{
+									"key": "packageId",
+									"value": "<string>"
+								},
+								{
+									"key": "planName",
+									"value": "<string>"
+								},
+								{
+									"key": "planId",
+									"value": "<string>"
+								},
+								{
+									"key": "fromDate",
+									"value": "<date>"
+								},
+								{
+									"key": "toDate",
+									"value": "<date>"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "\"{\\r\\n  \\\"count\\\": [\\r\\n    {\\r\\n      \\\"apiName\\\": \\\"PetStoreTest\\\",\\r\\n      \\\"apiVersion\\\": \\\"1.0.0\\\",\\r\\n      \\\"count\\\": 2\\r\\n    }\\r\\n  ]\\r\\n}\""
+				},
+				{
+					"name": "This response indicates that invalid credentials have been provided for the request.",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactionalEvents/_count?apiName=<string>&apiVersion=<string>&apiId=<string>&applicationName=<string>&applicationId=<string>&packageName=<string>&packageId=<string>&planName=<string>&planId=<string>&fromDate=<date>&toDate=<date>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactionalEvents",
+								"_count"
+							],
+							"query": [
+								{
+									"key": "apiName",
+									"value": "<string>"
+								},
+								{
+									"key": "apiVersion",
+									"value": "<string>"
+								},
+								{
+									"key": "apiId",
+									"value": "<string>"
+								},
+								{
+									"key": "applicationName",
+									"value": "<string>"
+								},
+								{
+									"key": "applicationId",
+									"value": "<string>"
+								},
+								{
+									"key": "packageName",
+									"value": "<string>"
+								},
+								{
+									"key": "packageId",
+									"value": "<string>"
+								},
+								{
+									"key": "planName",
+									"value": "<string>"
+								},
+								{
+									"key": "planId",
+									"value": "<string>"
+								},
+								{
+									"key": "fromDate",
+									"value": "<date>"
+								},
+								{
+									"key": "toDate",
+									"value": "<date>"
+								}
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "manage",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Administrator",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"id": "ec933874-3de1-4f62-9a70-af2cd1541711",
+			"key": "baseURL",
+			"value": "http://localhost:5555/rest/apigateway",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

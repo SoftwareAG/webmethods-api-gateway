@@ -1,0 +1,1032 @@
+{
+	"info": {
+		"_postman_id": "e1266082-c304-4b3a-91b6-da206c13fa9c",
+		"name": "Archive Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Export API Gateway Assets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/archive?include-applications=<string>&include-users=<string>&include-groups=<string>&include-truststores=<string>&policies=<string>,<string>&apis=<string>,<string>&aliases=<string>,<string>&applications=<string>,<string>&policyActions=<string>,<string>&approvalConfigurations=<string>,<string>&outboundProxies=<string>,<string>&urlAliases=<string>,<string>&keyStores=<string>,<string>&trustStores=<string>,<string>&JNDIProviderAliases=<string>,<string>&JMSConnectionAliases=<string>,<string>&JMSTriggers=<string>,<string>&webserviceEndpointAliases=<string>,<string>&users=<string>,<string>&groups=<string>,<string>&accessProfiles=<string>,<string>&kerberosSetting=<string>&plans=<string>,<string>&packages=<string>,<string>&configurations=<string>,<string>",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"archive"
+					],
+					"query": [
+						{
+							"key": "include-applications",
+							"value": "<string>",
+							"description": "This parameter indicates whether you want to export the applications associated with the\nAPIs"
+						},
+						{
+							"key": "include-users",
+							"value": "<string>",
+							"description": "This parameter indicates whether you want to export users associated with the groups and/or with the password expiry settings"
+						},
+						{
+							"key": "include-groups",
+							"value": "<string>",
+							"description": "This parameter indicates whether you want to export groups associated with the teams"
+						},
+						{
+							"key": "include-truststores",
+							"value": "<string>",
+							"description": "This parameter indicates whether you want to export truststore alias associated with the email configuration"
+						},
+						{
+							"key": "policies",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the policies to be exported. The wildcard \"*\" selects all the policies. \nFor example a single policy can be exported with its id using the following request:\nGET /rest/apigateway/archive?policies=07b8d7b7-20b7-422e-8464-4b19d405c41a\n\nWhereas, all the policies can be exported using the following request:\nGET /rest/apigateway/archive?policies=*"
+						},
+						{
+							"key": "apis",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the APIs to be exported. The wildcard \"*\" selects all the APIs. \nFor example a single API can be exported using the following request:\nGET /rest/apigateway/archive?apis=e2996867-af49-4ac6-98e7-cba48837c13e\n\nWhereas, all the APIs can be exported using the following request:\nGET /rest/apigateway/archive?apis=*"
+						},
+						{
+							"key": "aliases",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the aliases to be exported. \nThe wildcard \"*\" selects all aliases.\nFor example, a single alias can be exported using the following requrest:\nGET /rest/apigateway/archive?aliases=d1885756-9e38-39b5-87d6-ba937726b02d\n\nWhereas, all the APIs can be exported using the following request:\nGET /rest/apigateway/archive?alias=*"
+						},
+						{
+							"key": "applications",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the applications to be exported. \nThe wildcard \"*\" selects all applications.\nFor example, a single application can be exported using the following requrest:\nGET /rest/apigateway/archive?applications=d1885756-9e38-39b5-87d6-ba937726b02d\n\nWhereas, all the applications can be exported using the following request:\nGET /rest/apigateway/archive?applications=*"
+						},
+						{
+							"key": "policyActions",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the policy actions to be exported. \nThe wildcard \"*\" selects all policy actions.\nFor example, a single policy action can be exported using the following request:\n GET /rest/apigateway/archive?policyActions=20ca1e24-d6b2-430d-adf8-7a53a6cbaa53\n\nWhereas, all the policy actions can be exported using the following request:\nGET /rest/apigateway/archive?policyActions=*"
+						},
+						{
+							"key": "approvalConfigurations",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the approval configurations to be exported. \nThe wildcard \"*\" selects all approval configurations.\nFor example, a single approval configuration can be exported using the following request:\nGET /rest/apigateway/archive?approvalConfigurations=createApplication\n\nWhereas, all the approval configurations can be exported using the following request:\n GET /rest/apigateway/archive?approvalConfigurations=*"
+						},
+						{
+							"key": "outboundProxies",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the outbound proxy aliases to be exported. outbound proxy aliases are idetified with it's name.\nThe wildcard \"*\" selects all the outbound proxy aliases. \nFor example a single outbound proxy alias can be exported using the following request:\nGET /rest/apigateway/archive?outboundProxies=testOutboundProxyAlias\n\nWhereas, all the outbound proxy aliases can be exported using the following request:\nGET /rest/apigateway/archive?outboundProxies=*"
+						},
+						{
+							"key": "urlAliases",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the URL aliases to be exported. URL aliases are idetified with it's name.\nThe wildcard \"*\" selects all the URL aliases. \nFor example, a single URL alias can be exported using the following request:\nGET /rest/apigateway/archive?urlAliases=testUrlAlias\n\nWhereas, all the URL aliases can be exported using the following request:\nGET /rest/apigateway/archive?testUrlAlias=*"
+						},
+						{
+							"key": "keyStores",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the keystore aliases to be exported. Keystore aliases are idetified with it's name.\nThe wildcard \"*\" selects all the keystore aliases. \nFor example, a single keystore alias can be exported using the following request:\nGET /rest/apigateway/archive?keyStores=test_keystore\n\nWhereas, all the keystore aliases can be exported using the following request:\nGET /rest/apigateway/archive?keyStores=*"
+						},
+						{
+							"key": "trustStores",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the truststore aliases to be exported. Truststore aliases are idetified with it's name.\nThe wildcard \"*\" selects all the truststore aliases. \nFor example, a single truststore alias can be exported using the following request:\nGET /rest/apigateway/archive?trustStores=test_truststore\n\nWhereas, all the truststore aliases can be exported using the following request:\nGET /rest/apigateway/archive?trustStores=*"
+						},
+						{
+							"key": "JNDIProviderAliases",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the JNDI provider aliases to be exported. JNDI provider aliases are idetified with it's name.\nThe wildcard \"*\" selects all the JNDI provider aliases. \nFor example, a single JNDI provider alias can be exported using the following request:\nGET /rest/apigateway/archive?JNDIProviderAliases=test_jndiProviderAlias\n\nWhereas, all the JNDI provider aliases can be exported using the following request:\nGET /rest/apigateway/archive?JNDIProviderAliases=*"
+						},
+						{
+							"key": "JMSConnectionAliases",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the JMS connection aliases to be exported. JMS connection aliases are idetified with it's name.\nThe wildcard \"*\" selects all the JNDI provider aliases. \nFor example, a single JNDI provider alias can be exported using the following request:\nGET /rest/apigateway/archive?JMSConnectionAliases=test_jmsConnectionAlias\n\nWhereas, all the JMS connection aliases can be exported using the following request:\nGET /rest/apigateway/archive?JMSConnectionAliases=*"
+						},
+						{
+							"key": "JMSTriggers",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the JMS triggers to be exported. JMS triggers are idetified with it's name.\nThe wildcard \"*\" selects all the JMS triggers. \nFor example, a single JMS trigger can be exported using the following request:\nGET /rest/apigateway/archive?JMSTriggers=test_jmsTrigger\n\nWhereas, all the JMS triggers can be exported using the following request:\nGET /rest/apigateway/archive?JMSTriggers=*"
+						},
+						{
+							"key": "webserviceEndpointAliases",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the 'web service endpoint' aliases to be exported. Web service endpoint aliases are idetified with it's name.\nThe wildcard \"*\" selects all the web service endpoint aliases. \nFor example, a single web service endpoint alias can be exported using the following request:\nGET /rest/apigateway/archive?webserviceEndpointAliases=test_wsEndpointAlias\n\nWhereas, all the JMS triggers can be exported using the following request:\nGET /rest/apigateway/archive?webserviceEndpointAliases=*"
+						},
+						{
+							"key": "users",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the users to be exported. \nThe wildcard \"*\" selects all the users. \nFor example, a single user can be exported using the following request:\nGET /rest/apigateway/archive?users=7a6d3d40-44d8-4ab1-83df-5be63cdbae54\n\nWhereas, all the users can be exported using the following request:\nGET /rest/apigateway/archive?users=*"
+						},
+						{
+							"key": "groups",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the groups to be exported. \nThe wildcard \"*\" selects all the groups. \nFor example, a single group can be exported using the following request:\nGET /rest/apigateway/archive?groups=d6b38ff8-59a8-47bf-9fba-0bdb24ee5b48\n\nWhereas, all the groups can be exported using the following request:\nGET /rest/apigateway/archive?groups=*"
+						},
+						{
+							"key": "accessProfiles",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the teams to be exported. \nThe wildcard \"*\" selects all the teams. \nFor example, a single team can be exported using the following request:\nGET /rest/apigateway/archive?accessProfiles=d6b38ff8-59a8-47bf-9fba-0bdb24ee5b48\n\nWhereas, all the teams can be exported using the following request:\nGET /rest/apigateway/archive?accessProfiles=*"
+						},
+						{
+							"key": "kerberosSetting",
+							"value": "<string>",
+							"description": "This parameter identifies the kerberos configuration to be exported.\nThe kerberos configuration can be exported using the following request:\nGET /rest/apigateway/archive?kerberosSetting=kerberosSetting"
+						},
+						{
+							"key": "plans",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the plans to be exported. \nThe wildcard \"*\" selects all the plans. \nFor example, a single plan can be exported using the following request:\nGET /rest/apigateway/archive?plans=86d58023-be4b-4735-a08f-14e78131ce4a\n\nWhereas, all the plans can be exported using the following request:\nGET /rest/apigateway/archive?plans=*"
+						},
+						{
+							"key": "packages",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the packages to be exported. \nThe wildcard \"*\" selects all the packages. \nFor example, a single package can be exported using the following request:\nGET /rest/apigateway/archive?packages=73c93393-1477-4a99-9e44-c9b3e679de0c\n\nWhereas, all the packages can be exported using the following request:\nGET /rest/apigateway/archive?packages=*"
+						},
+						{
+							"key": "configurations",
+							"value": "<string>,<string>",
+							"description": "This parameter identifies the configurations to be exported. \nThe wildcard \"*\" selects all the configurations. \nFor example, a single configuration can be exported using the following request:\nGET /rest/apigateway/archive?configurations=loadBalancer,customContentTypes\n\nWhereas, all the configurations can be exported using the following request:\nGET /rest/apigateway/archive?configurations=*"
+						}
+					]
+				},
+				"description": "The GET method exports an archive. The result of the GET request is an archive in a ZIP format. \n This Method supports exporting API, Application, Alias,Policy, Policy Action, Keystore, Truststore, Kerberos, User, Group, Team, JMS Connection, JNDI Provider, JMS Trigger, Webservice Endpoint Alias, Approval Configuration, Outbound Proxy, URL alias, Plan and Package. \n This GET method can be used for exporting specific type of assets and its optional/soft dependant assets by specifying the asset name and corresponding include options in query parameter. \n For example, for an API, the Application assets (used by the API) are soft dependant of that API. To export the dependant applications of an API use the query param 'include-applications'.If 'include-applications' is not provided, the export archive will contains only the APIs. \n Refer 'Parameters' section for the usage of each include parameters.\n\n\n Use the POST /archive method to export all the assets in API Gateway."
+			},
+			"response": [
+				{
+					"name": "This response indicates that the server has encountered an error while exporting API Gateway Asset",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/archive?include-applications=<string>&include-users=<string>&include-groups=<string>&include-truststores=<string>&policies=<string>,<string>&apis=<string>,<string>&aliases=<string>,<string>&applications=<string>,<string>&policyActions=<string>,<string>&approvalConfigurations=<string>,<string>&outboundProxies=<string>,<string>&urlAliases=<string>,<string>&keyStores=<string>,<string>&trustStores=<string>,<string>&JNDIProviderAliases=<string>,<string>&JMSConnectionAliases=<string>,<string>&JMSTriggers=<string>,<string>&webserviceEndpointAliases=<string>,<string>&users=<string>,<string>&groups=<string>,<string>&accessProfiles=<string>,<string>&kerberosSetting=<string>&plans=<string>,<string>&packages=<string>,<string>&configurations=<string>,<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"archive"
+							],
+							"query": [
+								{
+									"key": "include-applications",
+									"value": "<string>"
+								},
+								{
+									"key": "include-users",
+									"value": "<string>"
+								},
+								{
+									"key": "include-groups",
+									"value": "<string>"
+								},
+								{
+									"key": "include-truststores",
+									"value": "<string>"
+								},
+								{
+									"key": "policies",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "apis",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "aliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "applications",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "policyActions",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "approvalConfigurations",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "outboundProxies",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "urlAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "keyStores",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "trustStores",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "JNDIProviderAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "JMSConnectionAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "JMSTriggers",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "webserviceEndpointAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "users",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "groups",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "accessProfiles",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "kerberosSetting",
+									"value": "<string>"
+								},
+								{
+									"key": "plans",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "packages",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "configurations",
+									"value": "<string>,<string>"
+								}
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "This response indicates that a request is incorrect. This can be due to identifiers that cannot be resolved.",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/archive?include-applications=<string>&include-users=<string>&include-groups=<string>&include-truststores=<string>&policies=<string>,<string>&apis=<string>,<string>&aliases=<string>,<string>&applications=<string>,<string>&policyActions=<string>,<string>&approvalConfigurations=<string>,<string>&outboundProxies=<string>,<string>&urlAliases=<string>,<string>&keyStores=<string>,<string>&trustStores=<string>,<string>&JNDIProviderAliases=<string>,<string>&JMSConnectionAliases=<string>,<string>&JMSTriggers=<string>,<string>&webserviceEndpointAliases=<string>,<string>&users=<string>,<string>&groups=<string>,<string>&accessProfiles=<string>,<string>&kerberosSetting=<string>&plans=<string>,<string>&packages=<string>,<string>&configurations=<string>,<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"archive"
+							],
+							"query": [
+								{
+									"key": "include-applications",
+									"value": "<string>"
+								},
+								{
+									"key": "include-users",
+									"value": "<string>"
+								},
+								{
+									"key": "include-groups",
+									"value": "<string>"
+								},
+								{
+									"key": "include-truststores",
+									"value": "<string>"
+								},
+								{
+									"key": "policies",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "apis",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "aliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "applications",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "policyActions",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "approvalConfigurations",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "outboundProxies",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "urlAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "keyStores",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "trustStores",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "JNDIProviderAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "JMSConnectionAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "JMSTriggers",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "webserviceEndpointAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "users",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "groups",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "accessProfiles",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "kerberosSetting",
+									"value": "<string>"
+								},
+								{
+									"key": "plans",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "packages",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "configurations",
+									"value": "<string>,<string>"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "This response indicates that invalid credentials have been provided for the request.",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/archive?include-applications=<string>&include-users=<string>&include-groups=<string>&include-truststores=<string>&policies=<string>,<string>&apis=<string>,<string>&aliases=<string>,<string>&applications=<string>,<string>&policyActions=<string>,<string>&approvalConfigurations=<string>,<string>&outboundProxies=<string>,<string>&urlAliases=<string>,<string>&keyStores=<string>,<string>&trustStores=<string>,<string>&JNDIProviderAliases=<string>,<string>&JMSConnectionAliases=<string>,<string>&JMSTriggers=<string>,<string>&webserviceEndpointAliases=<string>,<string>&users=<string>,<string>&groups=<string>,<string>&accessProfiles=<string>,<string>&kerberosSetting=<string>&plans=<string>,<string>&packages=<string>,<string>&configurations=<string>,<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"archive"
+							],
+							"query": [
+								{
+									"key": "include-applications",
+									"value": "<string>"
+								},
+								{
+									"key": "include-users",
+									"value": "<string>"
+								},
+								{
+									"key": "include-groups",
+									"value": "<string>"
+								},
+								{
+									"key": "include-truststores",
+									"value": "<string>"
+								},
+								{
+									"key": "policies",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "apis",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "aliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "applications",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "policyActions",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "approvalConfigurations",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "outboundProxies",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "urlAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "keyStores",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "trustStores",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "JNDIProviderAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "JMSConnectionAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "JMSTriggers",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "webserviceEndpointAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "users",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "groups",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "accessProfiles",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "kerberosSetting",
+									"value": "<string>"
+								},
+								{
+									"key": "plans",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "packages",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "configurations",
+									"value": "<string>,<string>"
+								}
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "This response indicates that the archive is created successfully. The response body is the zipped archive.",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/archive?include-applications=<string>&include-users=<string>&include-groups=<string>&include-truststores=<string>&policies=<string>,<string>&apis=<string>,<string>&aliases=<string>,<string>&applications=<string>,<string>&policyActions=<string>,<string>&approvalConfigurations=<string>,<string>&outboundProxies=<string>,<string>&urlAliases=<string>,<string>&keyStores=<string>,<string>&trustStores=<string>,<string>&JNDIProviderAliases=<string>,<string>&JMSConnectionAliases=<string>,<string>&JMSTriggers=<string>,<string>&webserviceEndpointAliases=<string>,<string>&users=<string>,<string>&groups=<string>,<string>&accessProfiles=<string>,<string>&kerberosSetting=<string>&plans=<string>,<string>&packages=<string>,<string>&configurations=<string>,<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"archive"
+							],
+							"query": [
+								{
+									"key": "include-applications",
+									"value": "<string>"
+								},
+								{
+									"key": "include-users",
+									"value": "<string>"
+								},
+								{
+									"key": "include-groups",
+									"value": "<string>"
+								},
+								{
+									"key": "include-truststores",
+									"value": "<string>"
+								},
+								{
+									"key": "policies",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "apis",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "aliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "applications",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "policyActions",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "approvalConfigurations",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "outboundProxies",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "urlAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "keyStores",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "trustStores",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "JNDIProviderAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "JMSConnectionAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "JMSTriggers",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "webserviceEndpointAliases",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "users",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "groups",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "accessProfiles",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "kerberosSetting",
+									"value": "<string>"
+								},
+								{
+									"key": "plans",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "packages",
+									"value": "<string>,<string>"
+								},
+								{
+									"key": "configurations",
+									"value": "<string>,<string>"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "Import API Gateway Archive",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-HTTP-Method-Override",
+						"value": "GET",
+						"description": "This parameter is used to specify that this REST call is an export operation. The value for this field is GET. If this is specified then you need to provide the filtering criteria in body to specify the asset. If empty payload specified then all assets will be exported. "
+					},
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "zipFile",
+							"description": "Zip file that contains the API Gateway asset needs to be imported",
+							"type": "file",
+							"src": "/C:/Users/gora/Desktop/Postman Collection/JWT%20Application.zip"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/archive?overwrite=true&preserveAssetState=true",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"archive"
+					],
+					"query": [
+						{
+							"key": "overwrite",
+							"value": "true",
+							"description": "This parameter specifies the import option to define the artifact types that can be overwritten during import. The parameter enables you to specify overwriting of APIs, policies, policy actions, aliases, applications, configurations, approval configurations, outbound proxies, URL aliases, keyStores, trustStores, JNDI provider aliases, JMS connection aliases, JMS triggers, webservice endpoint aliases, users, groups, teams, kerberos settings, plans and packages.   \nThe wildcard \"*\" enables you to specify all types.\nFor example, the following request enables you to overwrite APIs during import:\nPOST /rest/apigateway/archive?overwrite=apis\nWhereas, overwriting all asset types during import can be specified as follows:\nPOST /rest/apigateway/archive?overwrite=*"
+						},
+						{
+							"key": "preserveAssetState",
+							"value": "true",
+							"description": "This parameter is used to specify whether the asset state needs to be preserved after importing the assets in to API Gateway. By default this value will be true. If false specified the assets will be imported and wont preserve asset state after importing asset."
+						}
+					]
+				},
+				"description": "This method can be used for importing the API Gateway archive as well as exporting the assets as an archive. If the request is made with x-HTTP-Method-Override HTTP header with value as GET, then this method will export asset. It will require the body param using which you can specify the filtering criteria and include options for the API Gateway assets that need to be exported. \n\n If the HTTP header is not specified, then this method can be used to import the API Gateway archive. You can control the import settings with overwrite and preserveAssetState query parameters.\n\n Here are some sample payloads for different export scenarios. \n\n 1. Export all API Gateway assets. \n Payload: {} \n\n 2. Export all APIs \n Payload: { \"types\": [\"api\"] } \n\n 3. Export all APIs with registered Application \n Payload: {\r\n\"types\" : [\"api\"],\r\n\"includeOptions\" :{\r\n\"includeApplications\" :false\r\n}\r\n} \n\n 4. Export only APIs with name contains \"API Gateway\" \n Payload: {\r\n\"types\" : [\"api\"],\r\n\"scope\" : [\r\n{\"attributeName\" : \"apiName\",\r\n\"keyword\" : \".*API Gateway.*\"\r\n}],\r\n\"includeOptions\" :{\r\n\"includeApplications\" :false\r\n}\r\n} \n\n 5. Export API with specific ids only \n Payload: {\r\n\"types\" : [\"api\"],\r\n\"scope\" : [\r\n{\"attributeName\" : \"id\",\r\n\"keyword\" : \"1c36033a-ecb6-41ce-ad66-bada5cebe85e|8d505388-5524-4df5-bd3c-62c4bb5f41d0\"\r\n}],\r\n\"includeOptions\" :{\r\n\"includeApplications\" :true\r\n}\r\n} \n\n 6. Export API with name starts with API Gateway and description contains search \n Payload: {\r\n\"types\" : [\"api\"],\r\n\"scope\" : [\r\n{\"attributeName\" : \"apiName\",\r\n\"keyword\" : \"API Gateway.*\"\r\n},\r\n{\r\n\"attributeName\" : \"apiDescription\",\r\n\"keyword\" : \".*search.*\"\r\n}],\r\n\"condition\" : \"and\",\r\n\"includeOptions\" :{\r\n\"includeApplications\" :false\r\n}\r\n} \n\n 7. Export all Policy \n Payload: {\r\n\"types\" : [\"policy\"]\r\n} \n\n 8. Global Policy Alone \n Payload: {\r\n\"types\" : [\"policy\"],\r\n\"scope\":[\r\n{\r\n\"attributeName\" : \"policyScope\",\r\n\"keyword\" : \"GLOBAL\"\r\n}]\r\n} \n\n 9. Export Threat Protection Rule \n Payload: {\r\n\"types\" : [\"policy\"],\r\n\"scope\":[\r\n{\r\n\"attributeName\" : \"policyEnforcements.stageKey\",\r\n\"keyword\" : \"threatProtection\"\r\n}]\r\n} \n\n 10. Export All Policy Actions \n Payload: {\r\n\"types\" : [\"policy_action\"]\r\n} \n\n 11. Export All Threat Protection rules and policy \n Payload: {\r\n\"types\" : [\"policy_action\", \"policy\"],\r\n\"scope\":[\r\n{\r\n\"attributeName\" : \"policyEnforcements.stageKey\",\r\n\"keyword\" : \"threatProtection\"\r\n}, {\r\n\"attributeName\" : \"id\",\r\n\"keyword\" : \"globalipdos|ipdos\"\r\n}],\r\n\"condition\" : \"or\"\r\n} \n\n 12. Export all aliases \n Payload: {\r\n\"types\" : [\"alias\"]\r\n} \n\n 13. Export all applications \n Payload: {\r\n\"types\" : [\"application\"]\r\n} \n\n 14. Export all application with out including associated APIs \n Payload: {\r\n\"types\" : [\"application\"],\r\n\"includeOptions\" : {\r\n\"includeApis\": false\r\n}\r\n} \n\n 15. Export All Assertions \n Payload: {\r\n\"types\" : [\"assertion\"]\r\n} \n\n 16. Export all API Plans \n Payload: {\r\n\"types\" : [\"plan\"]\r\n} \n\n 17. Export all API Packages \n Payload: {\r\n\"types\" : [\"package\"]\r\n} \n\n 18. Export all packages along with subscription but with out the registered Applications for the associated APIs. \n Payload: {\r\n\"types\" : [\"package\"],\r\n\"includeOptions\":{\r\n\"includeApis\" : false,\r\n\"includeApplications\" : false,\r\n\"includeSubscriptions\" : true\r\n}\r\n} \n\n 19. Export all subscriptions \n Payload: {\r\n\"types\" : [\"subscription\"]\r\n} \n\n 20. Export all Administrator Settings \n Payload: {\r\n\"types\" : [\"administrator_setting\"]\r\n} \n\n 21. Export all approval configurations \n Payload: {\r\n\"types\" : [\"approval_configuration\"]\r\n} \n\n 22. Export all outbound proxy aliases \n Payload: {\r\n\"types\" : [\"outbound_proxy\"]\r\n} \n\n 23. Export all URL aliases \n Payload: {\r\n\"types\" : [\"url_alias\"]\r\n} \n\n 24. Export all keystore aliases \n Payload: {\r\n\"types\" : [\"keystore\"]\r\n} \n\n 25. Export all truststore aliases \n Payload: {\r\n\"types\" : [\"truststore\"]\r\n} \n\n 26. Export all kerberos settings \n Payload: {\r\n\"types\" : [\"kerberos_setting\"]\r\n} \n\n 27. Export all JNDI provider aliases \n Payload: {\r\n\"types\" : [\"jndi_provider_alias\"]\r\n} \n\n 28. Export all JMS connection aliases \n Payload: {\r\n\"types\" : [\"jms_connection_alias\"]\r\n} \n\n 29. Export all JMS triggers \n Payload: {\r\n\"types\" : [\"jms_trigger\"]\r\n} \n\n 30. Export all web service endpoint aliases \n Payload: {\r\n\"types\" : [\"web_service_endpoint_alias\"]\r\n} \n\n 31. Export all users \n Payload: {\r\n\"types\" : [\"users\"]\r\n} \n\n 32. Export all groups \n Payload: {\r\n\"types\" : [\"groups\"]\r\n} \n\n 33. Export all teams \n Payload: {\r\n\"types\" : [\"accessprofiles\"]\r\n}"
+			},
+			"response": [
+				{
+					"name": "This response indicates that the archive import was successful. The response body holds a detailed import log in application/json format.",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-HTTP-Method-Override",
+								"value": "<string>",
+								"description": "This parameter is used to specify that this REST call is an export operation. The value for this field is GET. If this is specified then you need to provide the filtering criteria in body to specify the asset. If empty payload specified then all assets will be exported. "
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "zipFile",
+									"value": "<binary>",
+									"description": {
+										"content": "Zip file that contains the API Gateway asset needs to be imported",
+										"type": "text/plain"
+									}
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/archive?overwrite=<string>&preserveAssetState=<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"archive"
+							],
+							"query": [
+								{
+									"key": "overwrite",
+									"value": "<string>"
+								},
+								{
+									"key": "preserveAssetState",
+									"value": "<string>"
+								}
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "\"{\\n  \\\"ArchiveResult\\\": [\\n    {\\n      \\\"PolicyAction\\\": {\\n        \\\"name\\\": \\\"Straight Through Routing\\\",\\n        \\\"id\\\": \\\"bc7c75ba-ad5e-4dd7-adb7-a62bcd60593d\\\",\\n        \\\"status\\\": \\\"Failed\\\",\\n        \\\"explanation\\\": \\\"Asset already exists.\\\",\\n        \\\"overwritten\\\": false\\n      }\\n    },\\n    {\\n      \\\"PolicyAction\\\": {\\n        \\\"name\\\": \\\"Require HTTP / HTTPS\\\",\\n        \\\"id\\\": \\\"c3852da1-4e6e-440b-8fe9-7e5c1523d7f1\\\",\\n        \\\"status\\\": \\\"Failed\\\",\\n        \\\"explanation\\\": \\\"Asset already exists.\\\",\\n        \\\"overwritten\\\": false\\n      }\\n    },\\n    {\\n      \\\"API\\\": {\\n        \\\"name\\\": \\\"BayernRest\\\",\\n        \\\"id\\\": \\\"70062a02-e7f9-4ead-a66e-313752a9b111\\\",\\n        \\\"status\\\": \\\"Failed\\\",\\n        \\\"explanation\\\": \\\"Asset already exists.\\\",\\n        \\\"overwritten\\\": false\\n      }\\n    },\\n    {\\n      \\\"Policy\\\": {\\n        \\\"name\\\": \\\"Default Policy for API BayernRest\\\",\\n        \\\"id\\\": \\\"9a0d17c1-8bf1-4282-a53e-2b2ca634ba39\\\",\\n        \\\"status\\\": \\\"Failed\\\",\\n        \\\"explanation\\\": \\\"Asset already exists.\\\",\\n        \\\"overwritten\\\": false\\n      }\\n    }\\n  ]\\n}\""
+				},
+				{
+					"name": "This response indicates that the archive is created successfully. The response body is the zipped archive.",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-HTTP-Method-Override",
+								"value": "<string>",
+								"description": "This parameter is used to specify that this REST call is an export operation. The value for this field is GET. If this is specified then you need to provide the filtering criteria in body to specify the asset. If empty payload specified then all assets will be exported. "
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "zipFile",
+									"value": "<binary>",
+									"description": {
+										"content": "Zip file that contains the API Gateway asset needs to be imported",
+										"type": "text/plain"
+									}
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/archive?overwrite=<string>&preserveAssetState=<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"archive"
+							],
+							"query": [
+								{
+									"key": "overwrite",
+									"value": "<string>"
+								},
+								{
+									"key": "preserveAssetState",
+									"value": "<string>"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "This response  indicates that invalid credentials have been provided for the request.",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-HTTP-Method-Override",
+								"value": "<string>",
+								"description": "This parameter is used to specify that this REST call is an export operation. The value for this field is GET. If this is specified then you need to provide the filtering criteria in body to specify the asset. If empty payload specified then all assets will be exported. "
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "zipFile",
+									"value": "<binary>",
+									"description": {
+										"content": "Zip file that contains the API Gateway asset needs to be imported",
+										"type": "text/plain"
+									}
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/archive?overwrite=<string>&preserveAssetState=<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"archive"
+							],
+							"query": [
+								{
+									"key": "overwrite",
+									"value": "<string>"
+								},
+								{
+									"key": "preserveAssetState",
+									"value": "<string>"
+								}
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "This response indicates that the request payload is invalid or that no objects with the specified search parameters were found",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-HTTP-Method-Override",
+								"value": "<string>",
+								"description": "This parameter is used to specify that this REST call is an export operation. The value for this field is GET. If this is specified then you need to provide the filtering criteria in body to specify the asset. If empty payload specified then all assets will be exported. "
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "zipFile",
+									"value": "<binary>",
+									"description": {
+										"content": "Zip file that contains the API Gateway asset needs to be imported",
+										"type": "text/plain"
+									}
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/archive?overwrite=<string>&preserveAssetState=<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"archive"
+							],
+							"query": [
+								{
+									"key": "overwrite",
+									"value": "<string>"
+								},
+								{
+									"key": "preserveAssetState",
+									"value": "<string>"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				},
+				{
+					"name": "This response indicates that the server has encountered an error while exporting or importing  API Gateway Asset",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-HTTP-Method-Override",
+								"value": "<string>",
+								"description": "This parameter is used to specify that this REST call is an export operation. The value for this field is GET. If this is specified then you need to provide the filtering criteria in body to specify the asset. If empty payload specified then all assets will be exported. "
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "zipFile",
+									"value": "<binary>",
+									"description": {
+										"content": "Zip file that contains the API Gateway asset needs to be imported",
+										"type": "text/plain"
+									}
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/archive?overwrite=<string>&preserveAssetState=<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"archive"
+							],
+							"query": [
+								{
+									"key": "overwrite",
+									"value": "<string>"
+								},
+								{
+									"key": "preserveAssetState",
+									"value": "<string>"
+								}
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "manage",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Administrator",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"id": "bf6e0f82-3ca1-4774-aec3-1187c04e70d5",
+			"key": "baseURL",
+			"value": "http://localhost:5555/rest/apigateway",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
