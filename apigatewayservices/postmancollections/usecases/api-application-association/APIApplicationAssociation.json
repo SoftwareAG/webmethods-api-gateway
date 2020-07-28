@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cbd3c599-fc24-408b-8a63-35912fb28876",
+		"_postman_id": "7bc8bc4b-c1bb-4b37-a9e3-2ad68a6cc588",
 		"name": "API Application association",
 		"description": "Explanation:\r\n\r\nThis postman collection contains API Gateway REST service to create an API with IAM and LMT policy and associate application with it.\r\n\r\nStep 1:\r\nCreate API using file\r\n\r\nStep 2:\r\nCreate IAM Policy Action\r\n\r\nStep 3:\r\nCreate Log Invocation LMT Policy Action\r\n\r\nStep 4:\r\nGet Policy details by policyID\r\n\r\nStep 5:\r\nAssociate the created policy action with it\r\n\r\nStep 6:\r\nCreate Application with username identifier\r\n\r\nStep 7:\r\nAssociate created application with API\r\n\r\nStep 8:\r\nActivate the API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -12,7 +12,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0d0cbfce-d337-4563-a057-bb72b51c6811",
+						"id": "f0eb3a85-6c69-4f18-b726-8947c7591e82",
 						"exec": [
 							"let apiResponse=JSON.parse(responseBody);",
 							"pm.environment.set(\"apiID\", apiResponse.apiResponse.api.id);",
@@ -63,7 +63,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8643f6da-606e-4d64-a4ff-1c80497ef978",
+						"id": "df6ec85e-0979-4a79-9db5-eb2502de8067",
 						"exec": [
 							"let policyActionResponse=JSON.parse(responseBody);",
 							"pm.environment.set(\"iamPolicyActionID\", policyActionResponse.policyAction.id);"
@@ -114,7 +114,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e286da28-3fca-453a-8a9a-965fd3ee5859",
+						"id": "ab2b16a2-2bd5-4510-84c9-8412e01bd6a8",
 						"exec": [
 							"let policyActionResponse=JSON.parse(responseBody);",
 							"pm.environment.set(\"logInvocationPolicyActionID\", policyActionResponse.policyAction.id);"
@@ -165,7 +165,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1af24fd7-8266-4deb-86a0-ecd0442a68a9",
+						"id": "120965b6-4763-4430-9693-2bea28948c74",
 						"exec": [
 							"let policyResponse=JSON.parse(responseBody);",
 							"pm.environment.set()",
@@ -254,7 +254,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "235376ca-2ade-4d19-9c6b-7dfbe5044bf9",
+						"id": "8fd6b123-dd05-48fb-b6fb-666225d9245d",
 						"exec": [
 							"let applicatonResponse=JSON.parse(responseBody);",
 							"pm.environment.set(\"applicationID\", applicatonResponse.id);"
@@ -399,7 +399,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "77e958d1-0ff2-4d74-91d3-8023c2c0e561",
+				"id": "66341f27-6d2c-4782-b482-4e8909cbf01c",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -409,7 +409,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "180ca19e-279d-4ea4-9fc4-1b230bff8898",
+				"id": "ce8dc3f7-fcf4-4eed-81b7-3c53cc9790b2",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -419,10 +419,24 @@
 	],
 	"variable": [
 		{
-			"id": "877f3f66-fb5d-4d56-bd6d-24ede08d5dbd",
+			"id": "113c5bc6-a21a-4a6e-ac6d-ce194335e78d",
 			"key": "baseURL",
-			"value": "http://localhost:5555/rest/apigateway",
-			"type": "string"
+			"value": "http://localhost:5555/rest/apigateway"
+		},
+		{
+			"id": "88bc0906-5159-4250-914b-564919b5dfad",
+			"key": "apiID",
+			"value": "Value gets updated during runtime"
+		},
+		{
+			"id": "6c479aa9-bde8-45aa-b8df-628c65276de5",
+			"key": "policyID",
+			"value": "Value gets updated during runtime"
+		},
+		{
+			"id": "baf21545-93fb-494f-8d40-28c1a08d23b9",
+			"key": "applicationID",
+			"value": "Value gets updated during runtime"
 		}
 	],
 	"protocolProfileBehavior": {}

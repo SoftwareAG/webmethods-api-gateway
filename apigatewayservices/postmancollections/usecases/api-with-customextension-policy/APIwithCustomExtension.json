@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b8d0cb79-1ccf-4a7e-b5ad-abeaa90b9053",
+		"_postman_id": "6bb6f148-69bb-4ffc-80c6-def3b0ededca",
 		"name": "API with Custom Extension",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9a7ae71d-b67a-4bd6-bfb2-f2375c8cebd3",
+						"id": "cb826246-5ac7-4114-b0da-95fab9efecc9",
 						"exec": [
 							"let apiResponse=JSON.parse(responseBody);",
 							"pm.environment.set(\"apiID\", apiResponse.apiResponse.api.id);",
@@ -62,7 +62,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "dbab1007-c0da-43c5-adb0-15330591c38a",
+						"id": "877f9097-fc49-4605-b32a-8913231a601b",
 						"exec": [
 							"let apiResponse=JSON.parse(responseBody);",
 							"pm.environment.set(\"policyActionID\",apiResponse.policyAction.id);"
@@ -107,7 +107,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0c797267-9449-4642-978f-203a56af6f59",
+						"id": "9332ea13-b3ee-4bab-b694-a70fe3c35e6d",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"",
@@ -233,12 +233,43 @@
 			}
 		]
 	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f47db98a-d7fd-4294-a6b4-9b5a71fde446",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "cf38307e-873f-4378-bb49-e28269e606be",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
-			"id": "bca28f02-beb1-4e17-a16b-963b0c13944d",
+			"id": "2bfd847e-e44e-44d4-a6ff-b74d87e22caf",
 			"key": "baseURL",
-			"value": "http://localhost:5555/rest/apigateway",
-			"type": "string"
+			"value": "http://localhost:5555/rest/apigateway"
+		},
+		{
+			"id": "61313260-ea84-423d-92c6-37d02e8aaee0",
+			"key": "policyID",
+			"value": "Value gets updated during runtime"
+		},
+		{
+			"id": "98473061-18ac-448b-807f-37f182ea10b1",
+			"key": "apiID",
+			"value": "Value gets updated during runtime"
 		}
 	],
 	"protocolProfileBehavior": {}

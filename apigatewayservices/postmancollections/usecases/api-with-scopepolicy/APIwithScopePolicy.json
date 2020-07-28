@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6b74b8b6-a007-4962-9b75-9bf5125b55c3",
+		"_postman_id": "17339ca5-74f4-4846-9657-5df6fd291fef",
 		"name": "API with Scope Policy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "743a1355-2b4f-4557-9311-c5cf9b48dd21",
+						"id": "398dccf7-968a-4214-b558-f4e157dc25e8",
 						"exec": [
 							"let apiResponse=JSON.parse(responseBody);",
 							"pm.environment.set(\"apiID\", apiResponse.apiResponse.api.id);"
@@ -62,7 +62,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "20cd5214-1bb3-4fbb-a14f-f3fc1278e6f6",
+						"id": "84ab8e7e-e335-407e-ab4d-533db3654641",
 						"exec": [
 							""
 						],
@@ -98,7 +98,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d4510251-0c15-4f89-aac1-7a6231bc9cc7",
+						"id": "4ac5af36-c8b9-460f-be70-40a9fcb911bb",
 						"exec": [
 							"let policyActionResponse=JSON.parse(responseBody);",
 							"pm.environment.set(\"logInvocationPolicyActionID\", policyActionResponse.policyAction.id);"
@@ -143,7 +143,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "cccde6dc-74f5-483c-97f5-597aea3d287b",
+						"id": "07e88862-a9d6-47ea-8c04-49a68172c508",
 						"exec": [
 							"let policyResponse=JSON.parse(responseBody);",
 							"pm.environment.set(\"scopePolicyID\", policyResponse.policy.id);"
@@ -258,12 +258,43 @@
 			}
 		]
 	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9d9f1b37-4893-47c7-8763-e66f2f996ab6",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f17c37f5-9dcd-4900-b205-064e4e9e8ac6",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
-			"id": "32b9678a-6f19-42e6-ac12-51d782de35b9",
+			"id": "84a31626-6a54-44b0-b0ad-b00dd256f33f",
 			"key": "baseURL",
-			"value": "http://localhost:5555/rest/apigateway",
-			"type": "string"
+			"value": "http://localhost:5555/rest/apigateway"
+		},
+		{
+			"id": "e0075b98-b683-4d7e-a707-f3ce7589114f",
+			"key": "apiID",
+			"value": "Value gets updated during runtime"
+		},
+		{
+			"id": "9f1bfd82-386a-4738-8e8b-a61b1269352a",
+			"key": "policyID",
+			"value": "Value gets updated during runtime"
 		}
 	],
 	"protocolProfileBehavior": {}

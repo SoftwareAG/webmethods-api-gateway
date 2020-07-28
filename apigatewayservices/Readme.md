@@ -21,3 +21,5 @@ Below are the list of swagger files for each of the components available in API 
 * Service Management
 * Transaction Data Service
 * User Management
+
+###### Note: These collections are exported in v2. So, it is recommended to use the latest version of Postman.
