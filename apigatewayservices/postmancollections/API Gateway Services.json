@@ -16167,7 +16167,7 @@
 											"raw": "{\n\t\"description\": \"description flows here\",\n\t\"name\": \"ProdPromotion\",\n\t\"destinationStages\": [\n\t\t\"93663d49-4b1c-4c61-8b0a-4116cde6d8c6\"\n\t],\n\t\"promotedAssets\": {\n\t\t\"api\": [\n\t\t\t\"2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0\"\n\t\t],\n\t\t\"application\": [\n\t\t\t\"039778fc-dd3b-442b-a799-181a9dda1265\"\n\t\t],\n\t\t\"alias\": [\n\t\t\t\"32e09ad8-e180-4b6e-86ac-4026e6aa8f3b\"\n\t\t],\n\t\t\"package\": [\n\t\t\t\"3b221626-16c2-4573-bd62-37eff0dbd782\"\n\t\t],\n\t\t\"policy\": [\n\t\t\t\"GlobalLogInvocationPolicy\",\n\t\t\t\"073340a5-f759-42db-a31c-adbdb8e5c40b\"\n\t\t],\n\t\t\"users\": [\n\t\t\t\"Administrator\"\n\t\t],\n\t\t\"groups\": [\n\t\t\t\"Administrators\",\n\t\t\t\"API-Gateway-Providers\"\n\t\t],\n\t\t\"accessprofiles\": [\n\t\t\t\"0b6859ba-8bb9-4f41-ba8e-42b617337566\"\n\t\t],\n\t\t\"gateway_scope\": [\n\t\t\t\"bfc07c60-047e-408a-b310-59b0ac61be0d\"\n\t\t]\n\t}\n}"
 										},
 										"url": {
-											"raw": "{{baseURL}}/promotion?overwrite=true&fixingMissingVersions=true",
+											"raw": "{{baseURL}}/promotion?overwrite=true&overwriteAlias=false&fixingMissingVersions=true",
 											"host": [
 												"{{baseURL}}"
 											],
@@ -16177,7 +16177,13 @@
 											"query": [
 												{
 													"key": "overwrite",
-													"value": "true"
+													"value": "true",
+													"description": "This parameter determines whether any existing assets on the target stage (except for aliases) will be overwritten"
+												},
+												{
+													"key": "overwriteAlias",
+													"value": "false",
+													"description": "This parameter determines whether any existing aliases on the target stage will be overwritten"
 												},
 												{
 													"key": "fixingMissingVersions",
