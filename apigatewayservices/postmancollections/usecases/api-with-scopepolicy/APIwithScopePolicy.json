@@ -37,7 +37,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"apiVersion\": \"1.0\",\r\n    \"type\": \"swagger\",\r\n    \"url\": \"http://petstore.swagger.io/v2/swagger.json\",\r\n    \"apiName\": \"API_with_Scope_Policy\",\r\n    \"apiDescription\": \"Petstore API with Log Invocation Traffic Monitoring Policy at Scope Level\"\r\n}",
+					"raw": "{\r\n    \"apiVersion\": \"1.0\",\r\n    \"type\": \"swagger\",\r\n    \"url\": \"https://petstore.swagger.io/v2/swagger.json\",\r\n    \"apiName\": \"API_with_Scope_Policy\",\r\n    \"apiDescription\": \"Petstore API with Log Invocation Traffic Monitoring Policy at Scope Level\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

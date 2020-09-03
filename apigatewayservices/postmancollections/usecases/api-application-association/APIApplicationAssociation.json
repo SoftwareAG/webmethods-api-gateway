@@ -38,7 +38,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"apiVersion\": \"1.0\",\n    \"type\": \"swagger\",\n    \"url\": \"http://petstore.swagger.io/v2/swagger.json\",\n    \"apiName\": \"Petstore\",\n    \"apiDescription\": \"Create policy actions, applications and associate it with API\"\n}",
+					"raw": "{\n    \"apiVersion\": \"1.0\",\n    \"type\": \"swagger\",\n    \"url\": \"https://petstore.swagger.io/v2/swagger.json\",\n    \"apiName\": \"Petstore\",\n    \"apiDescription\": \"Create policy actions, applications and associate it with API\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
