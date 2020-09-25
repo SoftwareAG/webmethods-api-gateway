@@ -97,7 +97,7 @@ If the source Elasticsearch is protected with HTTPS, add the source certificates
 
 Below is a sample command to import the truststore of source Elasticsearch in to target Elasticsearch JVM.
 
-_**$<TARGET>\\jvm\\jvm\\bin\\keytool -import -keystore <TARGET>\\jvm\\jvm\\jre\\lib\\security\\cacerts -file <truststore.jks>-alias <alias>**_
+_**$<TARGET>\\jvm\\jvm\\bin\\keytool -import -keystore <TARGET>\\jvm\\jvm\\jre\\lib\\security\\cacerts -file <truststore.jks> -alias <alias>**_
 
 | **Property**     | **Detail**                                                   | **Example**             |
 | ---------------- | ------------------------------------------------------------ | ----------------------- |
