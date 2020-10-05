@@ -194,6 +194,25 @@ PUT http://server:port/gateway\_default\_analytics\_transactionalevents/\_settin
 }
 ```
 
+#### Dynamic field mapping
+
+Typically the field mappings of an index are predefined. However Elasticsearch does not stop you from adding new fields to the index at runtime. Elasticsearch can automatically create mapping for such fields even though they are not predefined in the index field mapping. This flexibility enables the user to search on such dynamically added fields. However it can lead to "mapping explosion" where we end up with way too many field mappings defined for an index. This in turn will create significant memory and performance issues.
+
+To avoid the mapping explosions, for those indices where we expect many dynamic fields, it is recommended to set the "dynamic" attribute of an index mappings to false. For such indices, if you update the "dynamic" property to "true", it will result in mapping explosion.
+
+Updating the dynamic property for an index :
+```
+PUT index_name/_mappings
+{
+   "mappings" : {
+       "dynamic" : false,
+        ...
+        static field mapping definitions
+        ...
+    }
+}
+```
+
 ### Elasticsearch Log Configurations
 
 Elasticsearch uses log4j 2 for logging. Log4j 2 can be configured using the log4j2.properties file which is located in <IS\_Installed\_Location/InternalDataStore/config/log4j2.properties.
