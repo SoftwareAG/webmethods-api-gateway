@@ -66,6 +66,10 @@ Few points to remember before trying out the keystore tool for Elasticsearch
 Obfuscating passwords in Elasticsearch configuration file
 ---------------------------------------------------------
 
+> **Note:**
+> 
+> There is a limitation from API Gateway version 10.5 in which search guard related sensitive information cannot be obfusticated using the elasticsearch Keystore.  Only the elasticsearch password can be obfusticated.
+
 ### Creating a keystore in Elasticsearch
 
 The below command creates a keystore. All the secrets will be stored inside this store.
