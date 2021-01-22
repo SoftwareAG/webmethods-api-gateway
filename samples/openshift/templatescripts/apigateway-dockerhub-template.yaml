@@ -1,0 +1,181 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: apigateway-dockerhub-template
+
+parameters:
+- name: NAME
+  description: the application name
+  value: apigateway
+  required: true
+- name: IMAGE_TAG
+  description: the image tag of the API Gateway container
+  value: "10.5"
+  required: true
+- name: CLUSTER_BASE_URL
+  description: the base URL of this OpenShift cluster
+  value: myopenshift.org
+  required: true
+- name: GATEWAY_ROUTE_NAME
+  description: the route name for the API Gateway UI
+  value: apigateway-ui
+  required: true
+- name: IS_ROUTE_NAME
+  description: the route name for the Integration Server UI
+  value: is-ui
+  required: true
+
+labels:
+  app: ${NAME}
+  app.kubernetes.io/component: ${NAME}
+  app.kubernetes.io/instance: ${NAME}
+  template: apigateway-template
+
+
+objects:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${NAME}
+  spec:
+    ports:
+    - name: 5555-tcp
+      port: 5555
+      protocol: TCP
+      targetPort: 5555
+    - name: 9072-tcp
+      port: 9072
+      protocol: TCP
+      targetPort: 9072
+    - name: 9999-tcp
+      port: 9999
+      protocol: TCP
+      targetPort: 9999
+    selector:
+      deploymentconfig: ${NAME}
+    sessionAffinity: None
+    type: ClusterIP
+    
+    
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    name: ${NAME}
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      deploymentconfig: ${NAME}
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          deploymentconfig: ${NAME}
+          tuned.openshift.io/elasticsearch: ""
+      spec:
+        containers:
+        - imagePullPolicy: IfNotPresent
+          name: ${NAME}
+          ports:
+          - containerPort: 5555
+            protocol: TCP
+          - containerPort: 9072
+            protocol: TCP
+          - containerPort: 9999
+            protocol: TCP
+          resources:
+            requests:
+              memory: 4G
+              cpu: 100m
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          livenessProbe:
+            failureThreshold: 4
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 5555
+            timeoutSeconds: 2
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /rest/apigateway/health
+              port: 5555
+              scheme: HTTP
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            successThreshold: 2
+            timeoutSeconds: 2
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${NAME}
+        from:
+          kind: ImageStreamTag
+          name: apigateway-trial:${IMAGE_TAG}
+      type: ImageChange
+      
+- kind: ImageStream
+  apiVersion: image.openshift.io/v1
+  metadata:
+    name: apigateway-trial
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - from:
+        kind: DockerImage
+        name: store/softwareag/apigateway-trial:${IMAGE_TAG}
+      importPolicy: {}
+      name: '10.5'
+      referencePolicy:
+        type: Source
+    
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    name: ${GATEWAY_ROUTE_NAME}
+  spec:
+    host: ${GATEWAY_ROUTE_NAME}.apps.${CLUSTER_BASE_URL}
+    port:
+      targetPort: 9072-tcp
+    subdomain: ""
+    to:
+      kind: Service
+      name: ${NAME}
+      weight: 100
+    wildcardPolicy: None
+      
+      
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    name: ${IS_ROUTE_NAME}
+  spec:
+    host: ${IS_ROUTE_NAME}.apps.${CLUSTER_BASE_URL}
+    port:
+      targetPort: 5555-tcp
+    subdomain: ""
+    to:
+      kind: Service
+      name: ${NAME}
+      weight: 100
+    wildcardPolicy: None
+    
