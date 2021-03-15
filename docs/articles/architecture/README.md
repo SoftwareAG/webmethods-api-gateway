@@ -28,7 +28,9 @@ This tutorial helps to understand how the EventDataStore (or a simple Elasticsea
 
 For 10.4 and below versions, **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Securing%20Elasticsearch%20for%20API%20Gateway%2010.2)**
 
-For 10.5 and above versions, **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Securing%20Elasticsearch%20for%20API%20Gateway%2010.5)**
+For 10.5, **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Securing%20Elasticsearch%20for%20API%20Gateway%2010.5)**
+
+For 10.7, **[Read on...](https://tech.forums.softwareag.com/t/securing-elasticsearch-for-api-gateway-10-7/239655)**
 
 Dismantling API Gateway
 -----------------------
