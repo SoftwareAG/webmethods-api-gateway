@@ -15,7 +15,7 @@ need to be injected from outside, see the [Required Values](#required-values) se
 Once the prerequisites are fulfilled and the required values as well as any optional values have been provided run helm:
 
 ```
-helm install <your-release-name> api-gateway -f my-values.yaml
+helm install <your-release-name> apigateway -f my-values.yaml
 ```
 
 # Prerequisites
