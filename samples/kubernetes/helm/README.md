@@ -10,4 +10,4 @@ be started by the Helm chart.
 
 The [cluster-deployment](cluster-deployment) folder provides a Helm chart that will startup an API Gateway cluster together with an external
 ElasticSearch cluster, a separate Kibana instance, and a Terracotta Server (active/passive setup). The chart is supposed to provide a quick
-start for trial and demo purposed, and it can of course also serve as a first step when setting up production scenario.
+start for trial and demo purposes, and it can of course also serve as a first step when setting up a production scenario.

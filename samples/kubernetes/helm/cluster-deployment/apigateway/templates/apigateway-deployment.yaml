@@ -66,7 +66,7 @@ spec:
         env:
         - name:  apigw_cluster_tsaUrls
           {{- $fullSsName := printf "%s%s" ( include "apigateway.customPrefix" . ) .Values.terracotta.statefulsetName }}
-            {{- $fullServiceName := printf "%s%s" ( include "apigateway.customPrefix" . ) .Values.terracotta.serviceName }}
+          {{- $fullServiceName := printf "%s%s" ( include "apigateway.customPrefix" . ) .Values.terracotta.serviceName }}
           value: "{{ $fullSsName }}-0.{{ $fullServiceName }}.{{ .Release.Namespace }}.svc.cluster.local:{{ int .Values.terracotta.port }},{{ $fullSsName }}-1.{{ $fullServiceName }}.{{ .Release.Namespace }}.svc.cluster.local:{{ int .Values.terracotta.port }}"
         - name:  apigw_cluster_name
           value: APIGatewayTSAcluster

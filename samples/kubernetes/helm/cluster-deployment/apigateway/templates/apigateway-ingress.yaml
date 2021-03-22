@@ -26,7 +26,6 @@ metadata:
     {{- include "apigateway.labels" . | nindent 4 }}
   annotations:                                    
     nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/proxy-redirect-from: "default"
 spec:
   rules:
   - host: {{ .Values.global.app }}-rt-{{ .Release.Namespace }}{{ .Values.k8sClusterSuffix }}
