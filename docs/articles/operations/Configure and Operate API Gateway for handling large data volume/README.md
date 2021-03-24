@@ -106,29 +106,11 @@ Kibana Configuration
 
 If External Kibana is used, perform the following steps to turn off internal Kibana and use external Kibana
 
-Configuration
-
-Explanation
-
-Autostart
-
-Go to: <installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration \\system-settings.yml and set apigw.kibana.autostart=false and update the apigw.kibana.elasticsearch.hosts=http(s)://<eshost>:<esport>
-
-Follow this in all API Gateway nodes.
-
-Dashboard Instance
-
-Go to: <installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration \\system-settings.yml and set apigw.kibana.dashboardInstance=http://<host>:<kibanaport> (eg: [http://localhost:9405](http://localhost:9405))
-
-Request Timeout
-
-Perform this step irrespective of whether you use external Kibana or the one bundled with API Gateway. Change timeout setting for Kibana. Go to kibana.yml, **elasticsearch.requestTimeout** property changed from the default value (30s) to 120s.
-
-This timeout setting is responsible to make Kibana waits for responses from Elasticsearch.
-
-For rendering analytics for high volume (say 500Mn or 1Bn transactions) change this.
-
-**Note**: This setting worked till 1.6Bn after which we increased it to 180s.
+|**Configuration**|**Explanation**|
+|-----------------|---------------|
+|Autostart|Go to: \<installlocation>\\IntegrationServer\\instances\\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration\\system-settings.yml and set apigw.kibana.autostart=false and update the apigw.kibana.elasticsearch.hosts=http(s)://\<eshost>:\<esport> <br/> Follow this in all API Gateway nodes.|
+|Dashboard Instance|Go to: \<installlocation>\\IntegrationServer\\instances\\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration\\system-settings.yml and set apigw.kibana.dashboardInstance=http:\//\<host>:\<kibanaport> (eg: http://localhost:9405)|
+|Request Timeout|Perform this step irrespective of whether you use external Kibana or the one bundled with API Gateway. Change timeout setting for Kibana. Go to kibana.yml, **elasticsearch.requestTimeout** property changed from the default value (30s) to 120s.<br/>This timeout setting is responsible to make Kibana waits for responses from Elasticsearch. For rendering analytics for high volume (say 500Mn or 1Bn transactions) change this.<br/>**Note**: This setting worked till 1.6Bn after which we increased it to 180s.|
 
 API Gateway Configuration
 -------------------------
