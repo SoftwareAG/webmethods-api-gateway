@@ -216,10 +216,10 @@ Users can perform the purge operation through UI. Go to API Gateway -> Administr
 
 *   **Schedule Periodic Purge:**
 
-It is important to schedule the purge operation using the rest endpoint periodically based on your analytics retention time
+    It is important to schedule the purge operation using the rest endpoint periodically based on your analytics retention time
 
   
->**Note**: Elasticsearch purging is a time, memory, and disk space consuming process. Do this whenever there is less load on the server.
+    >**Note**: Elasticsearch purging is a time, memory, and disk space consuming process. Do this whenever there is less load on the server.
 
 
 #### **Alternate Approach**
@@ -234,33 +234,33 @@ Rollover index options:
 
 *   **Daily rollover**:
 
-If the user daily rollover the index, user should check the number of shards across the cluster while rollover. Daily roll over the index will increase the shards. Elasticsearch recommends, it is best practice to have 20 shards per GB of heap space allocated.
+    If the user daily rollover the index, user should check the number of shards across the cluster while rollover. Daily roll over the index will increase the shards. Elasticsearch recommends, it is best practice to have 20 shards per GB of heap space allocated.
 
-To overcome the shards increasing rate, based on the above experiment for 200 days 2.9 TB of disk space used. Hence on an average per day 15 GB of disk space is used to store for primary and replica. Based on the above values, for events user can set 1 primary and 1 replica for daily roll over. During the rollover of an index, user can specify the number of primary and replicas for roll over index (new index).
+    To overcome the shards increasing rate, based on the above experiment for 200 days 2.9 TB of disk space used. Hence on an average per day 15 GB of disk space is used to store for primary and replica. Based on the above values, for events user can set 1 primary and 1 replica for daily roll over. During the rollover of an index, user can specify the number of primary and replicas for roll over index (new index).
 
 *   **Based on Disk Size**
 
-If user doesn’t want to alter the number of shards, then they can decide the period based on disk size. Whenever the events index size reaches 25 GB per shard or ( number of shards \* 25 GB) then they can roll over the events to new index. But in this approach, the events will be stored in periods and user can delete events in period.
+    If user doesn’t want to alter the number of shards, then they can decide the period based on disk size. Whenever the events index size reaches 25 GB per shard or ( number of shards \* 25 GB) then they can roll over the events to new index. But in this approach, the events will be stored in periods and user can delete events in period.
 
-For example: If the transaction events, to reach 125 GB ( 5 primary shards)  it takes 10 days then the events will be stored in 10 days period.  So, every tenth day user can roll over the index ( create new index to store events ) and delete the oldest index that crosses the retention period.
+    For example: If the transaction events, to reach 125 GB ( 5 primary shards)  it takes 10 days then the events will be stored in 10 days period.  So, every tenth day user can roll over the index ( create new index to store events ) and delete the oldest index that crosses the retention period.
 
-User can rollover the events related index periodically and can provide index name in the format _gateway\_<tenant>\_<eventType>\_yyyymmdd_ format during rollover
+    User can rollover the events related index periodically and can provide index name in the format _gateway\_<tenant>\_<eventType>\_yyyymmdd_ format during rollover
 
-Example to rollover transactional event by date. Creating a new index with date to store data that are generated after 6th Jan 2021 to new index.
+    Example to rollover transactional event by date. Creating a new index with date to store data that are generated after 6th Jan 2021 to new index.
 
-```
-curl -X POST  "http://localhost:9240/gateway_default_analytics_transactionalevents/_rollover/gateway_default_analytics_transactionalevents_20210106"-H "content-type: application/json"  -d "{}"
-```
+    ```
+    curl -X POST  "http://localhost:9240/gateway_default_analytics_transactionalevents/_rollover/gateway_default_analytics_transactionalevents_20210106"-H "content-type: application/json"  -d "{}"
+    ```
 
-By this way, whenever we roll over, we can delete the oldest index based on date instead of purging old events.
+    By this way, whenever we roll over, we can delete the oldest index based on date instead of purging old events.
 
-For example, we can delete the index from 4th October 2020  by just computing the index name as following gateway\_default\_transactionalevents\_20201004. We can delete the index that is older than 90 days (retention period) by just computing the index name. This will be very simple as deletion of index happens instantly and can be done any time.
+    For example, we can delete the index from 4th October 2020  by just computing the index name as following gateway\_default\_transactionalevents\_20201004. We can delete the index that is older than 90 days (retention period) by just computing the index name. This will be very simple as deletion of index happens instantly and can be done any time.
 
-All events indices beyond a particular month can be easily identified and deleted. If the user wants to delete all events indices created on October2020, they can use the below query to list all the events indices that belongs to October2020  and can delete the listed indices
+    All events indices beyond a particular month can be easily identified and deleted. If the user wants to delete all events indices created on October2020, they can use the below query to list all the events indices that belongs to October2020  and can delete the listed indices
 
-```
-http://localhost:9240/_cat/indices/gateway_default_analytics_*events_202010*?v&s=i
-```
+    ```
+    http://localhost:9240/_cat/indices/gateway_default_analytics_*events_202010*?v&s=i
+    ```
 
 Logs Housekeeping
 -----------------
@@ -347,37 +347,37 @@ This will display all the shards with disk space sorted in descending order  Fr
 
 Any one of the below actions can be taken to recover disk space
 
-*   Purge the data corresponding to that index if it is events. Refer purge section
+*   Purge the data corresponding to that index if it is events. Refer [purge section](Configure%20and%20Operate%20API%20Gateway%20for%20handling%20large%20data%20volume#purge)
 
 (or)
 
 *   [Roll over the index](https://www.elastic.co/guide/en/elasticsearch/reference/7.2/indices-rollover-index.html)
 
-By default, the API gateway has created an alias for all events. Below are the aliases ([http://localhost:9240/\_cat/aliases?v](http://localhost:9240/_cat/aliases?v)) and you can find the corresponding index by checking [http://localhost:9240/<aliasname](http://localhost:9240/%3caliasname)\>. It will display the current write index and below is the list of aliases in API Gateway 10.5
+    By default, the API gateway has created an alias for all events. Below are the aliases ([http://localhost:9240/\_cat/aliases?v](http://localhost:9240/_cat/aliases?v)) and you can find the corresponding index by checking [http://localhost:9240/<aliasname](http://localhost:9240/%3caliasname)\>. It will display the current write index and below is the list of aliases in API Gateway 10.5
 
-  *   gateway\_\<tenant>\_analytics\_transactionalevents
-  *   gateway\_\<tenant>\_analytics\_performancemetrics
-  *   gateway\_\<tenant>\_analytics\_policyviolationevents
-  *   gateway\_\<tenant>\_analytics\_lifecycleevents
-  *   gateway\_\<tenant>\_analytics\_errorevents
-  *   gateway\_\<tenant>\_audit\_auditlogs
-  *   gateway\_\<tenant>\_analytics\_monitorevents
-  *   gateway\_\<tenant>\_log
-  *   gateway\_\<tenant>\_analytics\_threatprotectionevents
+      *   gateway\_\<tenant>\_analytics\_transactionalevents
+      *   gateway\_\<tenant>\_analytics\_performancemetrics
+      *   gateway\_\<tenant>\_analytics\_policyviolationevents
+      *   gateway\_\<tenant>\_analytics\_lifecycleevents
+      *   gateway\_\<tenant>\_analytics\_errorevents
+      *   gateway\_\<tenant>\_audit\_auditlogs
+      *   gateway\_\<tenant>\_analytics\_monitorevents
+      *   gateway\_\<tenant>\_log
+      *   gateway\_\<tenant>\_analytics\_threatprotectionevents
 
-To rollover, an index, follow the below steps - creating a new index to write all data to that index, and the old index will become read-only.
+    To rollover, an index, follow the below steps - creating a new index to write all data to that index, and the old index will become read-only.
 
-```
-curl -X POST "http://localhost:9240/<alias>/_rollover/<new_index_name>" -d "{}"
-```
+    ```
+    curl -X POST "http://localhost:9240/<alias>/_rollover/<new_index_name>" -d "{}"
+    ```
 
-**Note**: API Gateway already created templates for adding mappings and settings for rollover index created automatically. Hence new index name should start with an alias name appended with any applicable character allowed by Elasticsearch.
+    **Note**: API Gateway already created templates for adding mappings and settings for rollover index created automatically. Hence new index name should start with an alias name appended with any applicable character allowed by Elasticsearch.
 
-Example: To rollover transactional events the request should be
+    Example: To rollover transactional events the request should be
 
-```
-curl -X POST  "http://localhost:9240/gateway_default_analytics_transactionalevents/_rollover/gateway_default_analytics_transactionalevents-000002"-H "content-type: application/json"  -d "{}"
-```
+    ```
+    curl -X POST  "http://localhost:9240/gateway_default_analytics_transactionalevents/_rollover/gateway_default_analytics_transactionalevents-000002"-H "content-type: application/json"  -d "{}"
+    ```
 
 ### Monitor Disk Space 
 
