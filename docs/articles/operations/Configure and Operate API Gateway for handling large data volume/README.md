@@ -71,11 +71,11 @@ API Gateway - Elasticsearch/Internal Datastore communication 
 
 This section defines the configurations needed to make API Gateway connect to desired Elasticsearch cluster. Set the below properties in _system-settings.yml_ available _<install location>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration_ in all API Gateway nodes.
 
-***
+```
 **Note**
 
 By default, the externalized configuration won't be available. A default template available under <installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration. You need to add the desired settings in **system-settings.yml**. Then you have to let API Gateway know that this is a configuration file by enabling the file in **config-source.yml** by uncommenting the appropriate lines. Please refer to the attached files for reference - [config-sources.yml](attachments/722053401/722053402.yml) and [system-settings.yml](attachments/722053401/722053403.yml)
-***
+```
   
 
 |**Configuration**|**Explanation**|
@@ -218,7 +218,7 @@ Users can perform the purge operation through UI. Go to API Gateway -> Administr
     time: <number>h<number>m<number>s \[example: 14h30m2s\]
     ***
   
-    Example: Purging data that are older than 90days and 2hours 3minutes old
+**Example:** Purging data that are older than 90days and 2hours 3minutes old
     
 ***    
 **Purge**
