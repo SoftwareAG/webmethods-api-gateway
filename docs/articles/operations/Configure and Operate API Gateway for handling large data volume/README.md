@@ -128,22 +128,22 @@ Data house keeping
 
 Customer can use the below command to back up the API Gateway data. Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command periodically (daily or weekly)
 
-***
+```
 **Backup**
 
-apigatewayUtil.bat/sh create backup -name <backupName> -tenant <default or configured tenant name> -repo <repo\_name>
-***
+apigatewayUtil.bat/sh create backup -name <backupName> -tenant <default or configured tenant name> -repo <repo_name>
+```
   
 
 **2\. Verify the backup**
 
 Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command
 
-***
+```
 **Backup**
 
-apigatewayUtil.bat/sh status backup -name <backupName> -tenant <default or configured tenant name> -repo <repo\_name>
-***
+apigatewayUtil.bat/sh status backup -name <backupName> -tenant <default or configured tenant name> -repo <repo_name>
+```
   
 **Note**
 For periodical backup, the backup name should be different and meaningful to use it for restore.
@@ -154,19 +154,19 @@ Generally, we will take snapshots periodically either daily or weekly or some de
 
 *   **List the backups** - Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command
     
-    ***
+    ```
     **Backup**
     
-     apigatewayUtil.bat/sh  list backup -tenant <default or configured tenant name> -repo <repo\_name>
-    ***
+     apigatewayUtil.bat/sh  list backup -tenant <default or configured tenant name> -repo <repo_name>
+    ```
     
 *   **Delete the old backups** -  Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command
     
-    ***
+    ```
     **Backup**
     
-    apigatewayUtil.bat/sh  delete backup -name <name of the backup to delete> -tenant <default or configured tenant name> -repo <repo\_name>
-    ***
+    apigatewayUtil.bat/sh  delete backup -name <name of the backup to delete> -tenant <default or configured tenant name> -repo <repo_name>
+    ```
 
 **4\. Schedule Periodic backup:**
 
@@ -176,11 +176,11 @@ Refer to this article [https://techcommunity.softwareag.com/pwiki/-/wiki/Main/Pe
 
 To Restore a backup using API Gateway utility tool.
 
-***
+```
 **Restore**
 
-apigatewayUtil.bat/sh restore backup -name <backupName> -tenant <default or configured tenant name> -repo <repo\_name>
-***
+apigatewayUtil.bat/sh restore backup -name <backupName> -tenant <default or configured tenant name> -repo <repo_name>
+```
   
  User can restore specific assets. Use _apigatewayUtil.bat/sh_ -help to get to know more about commands and its options
 
@@ -196,7 +196,7 @@ Users can perform the purge operation through UI. Go to API Gateway -> Administr
     
     Purge the events using below endpoint
     
-    ***
+    ```
     **Purge**
     
     http://localhost:5555/rest/apigateway/apitransactions?eventType=<eventtype>&objectType=Analytics&olderThan=<timeline>
@@ -212,34 +212,31 @@ Users can perform the purge operation through UI. Go to API Gateway -> Administr
     days: <number>d \[example: 90d\]\\
     
     time: <number>h<number>m<number>s \[example: 14h30m2s\]
-    ***
+    ```
   
 **Example:** Purging data that are older than 90days and 2hours 3minutes old
     
-***    
+```    
 **Purge**
 
 curl -X DELETE -H "Authorization: Basic QWRtaW5pc3RyYXRvcjptYW5hZ2U=" -H "Accept: application/json"  "http://localhost:5555/rest/apigateway/apitransactions?eventType=ALL&objectType=Analytics&olderThan=90d2h3m"
-***
+```
 
 The rest endpoint will return the job id if the request for the purge is successful. Check whether the purge is successful using the below endpoint
 
-***
+```
 **Purge**
 
-http://localhost:5555/rest/apigateway/apitransactions/jobs/<job\_id>
-***
+http://localhost:5555/rest/apigateway/apitransactions/jobs/<job_id>
+```
 
 *   **Schedule Periodic Purge:**
 
 It is important to schedule the purge operation using the rest endpoint periodically based on your analytics retention time
 
   
-***
-**Note**
+>**Note**: Elasticsearch purging is a time, memory, and disk space consuming process. Do this whenever there is less load on the server.
 
-Elasticsearch purging is a time, memory, and disk space consuming process. Do this whenever there is less load on the server.
-***
 
 #### **Alternate Approach**
 
@@ -267,11 +264,11 @@ User can rollover the events related index periodically and can provide index na
 
 Example to rollover transactional event by date. Creating a new index with date to store data that are generated after 6th Jan 2021 to new index.
 
-***
+```
 **Rollover**
 
 curl -X POST  "http://localhost:9240/gateway_default_analytics_transactionalevents/_rollover/gateway_default_analytics_transactionalevents_20210106"-H "content-type: application/json"  -d "{}"
-***
+```
 
 By this way, whenever we roll over, we can delete the oldest index based on date instead of purging old events.
 
@@ -279,11 +276,11 @@ For example, we can delete the index from 4th October 2020  by just computing t
 
 All events indices beyond a particular month can be easily identified and deleted. If the user wants to delete all events indices created on October2020, they can use the below query to list all the events indices that belongs to October2020  and can delete the listed indices
 
-***
+```
 **Rollover**
 
-http://localhost:9240/\_cat/indices/gateway\_default\_analytics\_\*events\_202010\*?v&s=i
-***
+http://localhost:9240/_cat/indices/gateway_default_analytics_*events_202010*?v&s=i
+```
 
 Logs Housekeeping
 -----------------
@@ -360,11 +357,11 @@ Monitoring and Alerting
 
 #### Monitor Criteria
 
-***
+```
 **Monitor**
 
-curl -X "GET" "http://localhost:9240/\_cat/shards?v&s=store:desc"
-***
+curl -X "GET" "http://localhost:9240/_cat/shards?v&s=store:desc"
+```
 
 This will display all the shards with disk space sorted in descending order  From the response, get the disk size used by each shard. If the shard disk size is about to reach 25GB or equals to or more than 25 GB, then take the below actions.
 
@@ -400,21 +397,21 @@ gateway\_<tenant>\_analytics\_threatprotectionevents
 
 To rollover, an index, follow the below steps - creating a new index to write all data to that index, and the old index will become read-only.
 
-***
+```
 **Rollover**
 
-curl -X POST "http://localhost:9240/<alias>/\_rollover/<new\_index\_name>" -d "{}"
-***
+curl -X POST "http://localhost:9240/<alias>/_rollover/<new_index_name>" -d "{}"
+```
 
 **Note**: API Gateway already created templates for adding mappings and settings for rollover index created automatically. Hence new index name should start with an alias name appended with any applicable character allowed by Elasticsearch.
 
 Example: To rollover transactional events the request should be
 
-***
+```
 **Rollover**
 
-curl -X POST  "http://localhost:9240/gateway\_default\_analytics\_transactionalevents/\_rollover/gateway\_default\_analytics\_transactionalevents-000002"-H "content-type: application/json"  -d "{}"
-***
+curl -X POST  "http://localhost:9240/gateway_default_analytics_transactionalevents/_rollover/gateway_default_analytics_transactionalevents-000002"-H "content-type: application/json"  -d "{}"
+```
 
 ### Monitor Disk Space 
 
@@ -422,11 +419,11 @@ curl -X POST  "http://localhost:9240/gateway\_default\_analytics\_transactional
 
 Use below curl command to get the [disk space of es nodes](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-nodes-stats.html)
 
-***
+```
 **Monitor**
 
-curl -X GET http://localhost:9240/\_nodes/stats/fs
-***
+curl -X GET http://localhost:9240/_nodes/stats/fs
+```
 
 It will list disk space available in all nodes. To get the disk space use the below json path expression
 
@@ -438,11 +435,11 @@ Available diskspace -> $.nodes.<nodeId>.fs.total.available\_in\_bytes
 
 To know the configured disk watermark in Elasticsearch use the below command
 
-***
+```
 **Monitor**
 
-curl -X GET http://localhost:9240/\_cluster/settings?pretty
-***
+curl -X GET http://localhost:9240/_cluster/settings?pretty
+```
 
 It will return the configured disk watermark as response
 
@@ -458,11 +455,11 @@ Convert the disk space in bytes to GB (bytes/ (1024\*1024\*1024))and calculate t
 
 To know about any metrics customer check process specific metrics customer can use below curl command
 
-***
+```
 **Monitor**
 
-curl -X GET http://localhost:9240/\_nodes/stats/<metric>
-***
+curl -X GET http://localhost:9240/_nodes/stats/<metric>
+```
   
 List of metrics can be found [https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-nodes-stats.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-nodes-stats.html)
 
@@ -480,11 +477,11 @@ If the available disk space matches the criteria defined in disk watermark, if t
 
 To Know the cluster health use below
 
-***
+```
 **Monitor**
 
-curl -X GET http://localhost:9240/\_cluster/health?pretty
-***
+curl -X GET http://localhost:9240/_cluster/health?pretty
+```
 
 It will respond with cluster health status.
 
@@ -500,19 +497,19 @@ If cluster health is any of the below colors
     *   If there are unassigned shards, then need to know the shard unassigned status and act accordingly.
         *   Execute this command to check the list of shards unassigned.
             
-            ***            
+            ```            
             **Monitor**
             
-            curl -X GET “http://localhost:9240/\_cat/shards?h=index,shard,primaryOrReplica,state,docs,store,ip,node,segments.count,unassigned.at,unassigned.details,unassigned.for,unassigned.reason,help,s=index&v”
-            ***
+            curl -X GET “http://localhost:9240/_cat/shards?h=index,shard,primaryOrReplica,state,docs,store,ip,node,segments.count,unassigned.at,unassigned.details,unassigned.for,unassigned.reason,help,s=index&v”
+            ```
             
         *   Execute this command to check un allocation reason for specific shards
             
-            ***
+            ```
             **Monitor**
             
-            curl -X GET "http://localhost:9240/\_cluster/allocation/explain" -d ‘{ "index" :"<index name>","primary" : "<true|false>","shard": "<shardnumber>"}’
-            ***
+            curl -X GET "http://localhost:9240/_cluster/allocation/explain" -d ‘{ "index" :"<index name>","primary" : "<true|false>","shard": "<shardnumber>"}’
+            ```
   
 *   **Red**: This might occur when Elasticsearch nodes are down or not reachable or master is not discovered.  If the number of nodes does not match the number of Elasticsearch nodes configured, identify the node that didn’t join the cluster and check that node.
 
@@ -522,11 +519,11 @@ If cluster health is any of the below colors
 
 To get the number of shards on Elasticsearch use the below command
 
-***
+```
 **Monitor**
 
-curl -X GET "http://localhost:9240/\_cluster/health?pretty"
-***
+curl -X GET "http://localhost:9240/_cluster/health?pretty"
+```
 
 If the total number of active shards from the response exceeds the (heap space \* nodes \* 20 ) then we need to increase the heap space of Elasticsearch nodes or add a new Elasticsearch node.
 
@@ -543,12 +540,12 @@ As per Elasticsearch recommendation, max 20 active shards per GB of heap space i
 
 API Gateway provides 2 key endpoints for monitoring API Gateway health. Refer to the details of these endpoints in the user guide.
 
-***
+```
 **Monitor**
 
 curl -X GET "http://localhost:5555/rest/apigateway/health/engine"
 curl -X GET "http://localhost:5555/rest/apigateway/health/admin"
-***
+```
 
 Additionally API Gateway also provides endpoints for metrics - [http://localhost:5555/](http://localhost:5555/rest/apigateway/health/engine)metrics 
 
