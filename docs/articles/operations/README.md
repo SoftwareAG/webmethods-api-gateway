@@ -25,3 +25,7 @@ Periodical Data backup
 
 The purpose of this tutorial is to list down the detailed steps of Configuring Task Scheduler for a periodical data backup. **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Periodical%20Data%20backup)**
 
+Configure and Operate API Gateway for handling large data volume
+----------------------------------------------------------------
+
+The purpose of this document is to share product configurations and recommendations that are required to setup API Gateway to handle large volumes of data. These are recommendations arrived at as an outcome of SOAK testing.  **[Read on...](Configure%20and%20Operate%20API%20Gateway%20for%20handling%20large%20data%20volume/)**
