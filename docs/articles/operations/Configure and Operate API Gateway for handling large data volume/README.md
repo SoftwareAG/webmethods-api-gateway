@@ -72,34 +72,17 @@ API Gateway - Elasticsearch/Internal Datastore communication 
 This section defines the configurations needed to make API Gateway connect to desired Elasticsearch cluster. Set the below properties in _system-settings.yml_ available _<install location>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration_ in all API Gateway nodes.
 
 ***
-Note
+**Note**
 
 By default, the externalized configuration won't be available. A default template available under <installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration. You need to add the desired settings in **system-settings.yml**. Then you have to let API Gateway know that this is a configuration file by enabling the file in **config-source.yml** by uncommenting the appropriate lines. Please refer to the attached files for reference - [config-sources.yml](attachments/722053401/722053402.yml) and [system-settings.yml](attachments/722053401/722053403.yml)
 ***
   
 
-Configuration
-
-Explanation
-
-apigw.elasticsearch.autostart =**false**
-
-Since the Elasticsearch cluster will be started before API Gateway, setting this to false so that API Gateway won’t try to start Internal data store.
-
-apigw.elasticsearch.hosts=**<ElasticsearchLB or Elasticsearchhost>:<es port>**
-
-Example -  apigw.elasticsearch.hosts=localhost:9240
-
-It is enough to provide one host and port, provided all the Elasticsearch can be connected via publish address set in Elasticsearch. 
-
-apigw.elasticsearch.sniff.enable=**false**
-
-By default, this value will be true. So that it will get the list of Elasticsearch nodes available in the Elasticsearch cluster and send request from API Gateway to all Elasticsearch nodes to balance the request across all the nodes.
-
-Set this value to false only on below scenarios
-
-1.  If Load balancer host and port of Elasticsearch is specified for apigw.elasticsearch.hosts, then this should be set to false.
-2.  Check the publish address of Elasticsearch clusters. If they are not accessible, then set this to false and provide all host and port in **apigw.elasticsearch.hosts** property. The publish address can be find using http://<eshost>:<esport>/\_nodes/http
+|**Configuration**|**Explanation**|
+|-----------------|---------------|
+|apigw.elasticsearch.autostart =**false**|Since the Elasticsearch cluster will be started before API Gateway, setting this to false so that API Gateway won’t try to start Internal data store.|
+|apigw.elasticsearch.hosts=**\<ElasticsearchLB or Elasticsearchhost>\:\<es port>**|Example -  apigw.elasticsearch.hosts=localhost:9240<br/>It is enough to provide one host and port, provided all the Elasticsearch can be connected via publish address set in Elasticsearch.|
+|apigw.elasticsearch.sniff.enable=**false**|By default, this value will be true. So that it will get the list of Elasticsearch nodes available in the Elasticsearch cluster and send request from API Gateway to all Elasticsearch nodes to balance the request across all the nodes.<br/><br/> Set this value to false only on below scenarios<br/> 1.  If Load balancer host and port of Elasticsearch is specified for apigw.elasticsearch.hosts, then this should be set to false. <br/> 2.  Check the publish address of Elasticsearch clusters. If they are not accessible, then set this to false and provide all host and port in **apigw.elasticsearch.hosts** property. The publish address can be find using http://<eshost>:<esport>/\_nodes/http|
 
 Elasticsearch/InternalDataStore configuration
 ---------------------------------------------
