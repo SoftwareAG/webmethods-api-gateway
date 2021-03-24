@@ -115,29 +115,10 @@ If External Kibana is used, perform the following steps to turn off internal Ki
 API Gateway Configuration
 -------------------------
 
-Configuration
-
-Explanation
-
-Watt properties for handling high volumes
-
-watt.security.ssl.cacheClientSessions=true
-
-[watt.net](http://watt.net).maxClientKeepaliveConns=500
-
-watt.server.threadPool=900
-
-watt.server.threadPoolMin=200
-
-[watt.net](http://watt.net).clientKeepaliveUsageLimit= 10000000
-
-API Gateway extended settings for handling high volumes
-
-To handle high TPS between API Gateway and Elasticsearch for logging transactions
-
-events.collectionPool.maxThreads = 16
-
-events.ReportingPool.maxThreads = 8
+|**Configuration**|**Explanation**|
+|-----------------|---------------|
+|Watt properties for handling high volumes|watt.security.ssl.cacheClientSessions=true<br/>watt.net.maxClientKeepaliveConns=500<br/>watt.server.threadPool=900<br/>watt.server.threadPoolMin=200<br/>watt.net.clientKeepaliveUsageLimit= 10000000|
+|API Gateway extended settings for handling high volumes|To handle high TPS between API Gateway and Elasticsearch for logging transactions<br/><br/>events.collectionPool.maxThreads = 16<br/>events.ReportingPool.maxThreads = 8|
 
 Operating API Gateway
 =====================
