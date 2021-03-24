@@ -1,90 +1,9 @@
 Configure and Operate API Gateway for handling large data volume
 =====================================================================================
 
-*   [Purpose](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Purpose) 
-*   [Test Details](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-TestDetails)
-    
-    *   [Tests done](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Testsdone) 
-    *   [Test Environment Details](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-TestEnvironmentDetails)
-    
-*   [General recommendation on startup/shutdown sequence](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Generalrecommendationonstartup/shutdownsequence) 
-    
-    *   [Startup Sequence](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-StartupSequence)
-    *   [Shutdown Sequence](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-ShutdownSequence)
-    
-*   [Product Configurations](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-ProductConfigurations)
-    
-    *   [API Gateway - Elasticsearch/Internal Datastore communication](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-APIGateway-Elasticsearch/InternalDatastorecommunication) 
-    *   [Elasticsearch/InternalDataStore configuration](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Elasticsearch/InternalDataStoreconfiguration)
-    *   [Kibana Configuration](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-KibanaConfiguration)
-    *   [API Gateway Configuration](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-APIGatewayConfiguration)
-    
-*   [Operating API Gateway](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-OperatingAPIGateway)
-    
-    *   [Data house keeping](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Datahousekeeping)
-        
-        *   [Backup](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Backup)
-        *   [Restore](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Restore)
-        *   [Purge](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Purge)
-            
-            *   [Default Approach](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-DefaultApproach)
-            *   [Alternate Approach](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-AlternateApproach)
-            
-        
-    *   [Logs Housekeeping](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-LogsHousekeeping)
-        
-        *   [Log File Rotation Settings:](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-LogFileRotationSettings:)
-            
-            *   [Elasticsearch](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Elasticsearch)
-            *   [API Gateway](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-APIGateway)
-            *    [Kibana configuration](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Kibanaconfiguration)
-            
-        
-    *   [Monitoring and Alerting](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-MonitoringandAlerting)
-        
-        *   [Monitor Elasticsearch Shards](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-MonitorElasticsearchShards)
-            
-            *   [Monitor Criteria](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-MonitorCriteria)
-            *   [Actions](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Actions)
-            
-        *   [Monitor Disk Space](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-MonitorDiskSpace) 
-            
-            *   [Monitor Criteria](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-MonitorCriteria.1)
-            *   [Actions](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Actions.1)
-            
-        *   [Monitor Elasticsearch Cluster Health](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-MonitorElasticsearchClusterHealth)
-            
-            *   [Monitor Criteria](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-MonitorCriteria.2)
-            *   [Actions](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Actions.2)
-            
-        *   [Monitor the number of shards](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Monitorthenumberofshards)
-            
-            *   [Monitor Criteria](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-MonitorCriteria.3)
-            *   [Actions](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Actions.3)
-            
-        *   [Monitor API Gateway Health](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-MonitorAPIGatewayHealth)
-            
-            *   [Monitor Criteria](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-MonitorCriteria.4) 
-            *   [Actions](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Actions.4)
-            
-        
-    *   [Scaling](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Scaling)
-        
-        *   [Scale Elasticsearch nodes](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-ScaleElasticsearchnodes)
-            
-            *   [Scaling Criteria](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-ScalingCriteria)
-            *   [Steps to scale up](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Stepstoscaleup)
-            *   [Steps to scale down](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Stepstoscaledown)
-            
-        *   [Scale API Gateway nodes](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-ScaleAPIGatewaynodes)
-            
-            *   [Scaling Criteria](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-ScalingCriteria.1)
-            *   [Steps to scale up](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Stepstoscaleup.1)
-            *   [Steps to scale down](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-Stepstoscaledown.1)
-            
-        
-    *   [Data Separation](#ConfigureandOperateAPIGatewayforhandlinglargedatavolume-DataSeparation)
-    
+Authors: Narayanan, Lakshmanan (lnar@softwareag.com), Vaidhyanadhan, Praveen (pravai@softwareag.com), Chandrasekaran, Vallab (vac@softwareag.com)
+
+Supported Versions: 10.5 and above  
 
 Purpose 
 ========
@@ -1003,15 +922,3 @@ Data Separation
 ---------------
 
 Separation of core data and analytics data is recommended for customers managing large transactions volume. Customers can use the external Elasticsearch destination feature to store all the events to separate Elasticsearch instances. This way users can separate runtime events and API Gateway core data. API Gateway core data generally will be in very less size when compared to events. Taking backup of core data will be easy and restoring the core data alone will be fast and easier to manage.
-
-  
-
-Attachments:
-------------
-
-![](images/icons/bullet_blue.gif) [config-sources.yml](attachments/722053401/722053402.yml) (application/octet-stream)  
-![](images/icons/bullet_blue.gif) [system-settings.yml](attachments/722053401/722053403.yml) (application/octet-stream)  
-
-Document generated by Confluence on Mar 24, 2021 07:57
-
-[Atlassian](http://www.atlassian.com/)
