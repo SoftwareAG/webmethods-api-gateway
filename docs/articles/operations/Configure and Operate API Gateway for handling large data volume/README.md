@@ -347,7 +347,7 @@ This will display all the shards with disk space sorted in descending order  Fr
 
 Any one of the below actions can be taken to recover disk space
 
-*   Purge the data corresponding to that index if it is events. Refer [purge section](Configure%20and%20Operate%20API%20Gateway%20for%20handling%20large%20data%20volume#purge)
+*   Purge the data corresponding to that index if it is events. Refer [purge section](#purge)
 
 (or)
 
