@@ -132,24 +132,24 @@ Data house keeping
 
 Customer can use the below command to back up the API Gateway data. Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command periodically (daily or weekly)
 
+***
 **Backup**
 
 apigatewayUtil.bat/sh create backup -name <backupName> -tenant <default or configured tenant name> -repo <repo\_name>
-
+***
   
 
 **2\. Verify the backup**
 
 Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command
 
+***
 **Backup**
 
 apigatewayUtil.bat/sh status backup -name <backupName> -tenant <default or configured tenant name> -repo <repo\_name>
-
+***
   
-
-Note
-
+**Note**
 For periodical backup, the backup name should be different and meaningful to use it for restore.
 
 **3\. Housekeeping of backup**
@@ -158,16 +158,19 @@ Generally, we will take snapshots periodically either daily or weekly or some de
 
 *   **List the backups** - Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command
     
+    ***
     **Backup**
     
      apigatewayUtil.bat/sh  list backup -tenant <default or configured tenant name> -repo <repo\_name>
+    ***
     
-*   **Delete the old backups** -  _Go to <Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command
+*   **Delete the old backups** -  Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command
     
+    ***
     **Backup**
     
     apigatewayUtil.bat/sh  delete backup -name <name of the backup to delete> -tenant <default or configured tenant name> -repo <repo\_name>
-    
+    ***
 
 **4\. Schedule Periodic backup:**
 
@@ -177,10 +180,12 @@ Refer to this article [https://techcommunity.softwareag.com/pwiki/-/wiki/Main/Pe
 
 To Restore a backup using API Gateway utility tool.
 
+***
 **Restore**
 
 apigatewayUtil.bat/sh restore backup -name <backupName> -tenant <default or configured tenant name> -repo <repo\_name>
-
+***
+  
  User can restore specific assets. Use _apigatewayUtil.bat/sh_ -help to get to know more about commands and its options
 
 ### Purge
@@ -195,6 +200,7 @@ Users can perform the purge operation through UI. Go to API Gateway -> Administr
     
     Purge the events using below endpoint
     
+    ***
     **Purge**
     
     http://localhost:5555/rest/apigateway/apitransactions?eventType=<eventtype>&objectType=Analytics&olderThan=<timeline>
@@ -210,29 +216,34 @@ Users can perform the purge operation through UI. Go to API Gateway -> Administr
     days: <number>d \[example: 90d\]\\
     
     time: <number>h<number>m<number>s \[example: 14h30m2s\]
-    
+    ***
+  
     Example: Purging data that are older than 90days and 2hours 3minutes old
     
-
+***    
 **Purge**
 
 curl -X DELETE -H "Authorization: Basic QWRtaW5pc3RyYXRvcjptYW5hZ2U=" -H "Accept: application/json"  "http://localhost:5555/rest/apigateway/apitransactions?eventType=ALL&objectType=Analytics&olderThan=90d2h3m"
+***
 
 The rest endpoint will return the job id if the request for the purge is successful. Check whether the purge is successful using the below endpoint
 
+***
 **Purge**
 
 http://localhost:5555/rest/apigateway/apitransactions/jobs/<job\_id>
+***
 
 *   **Schedule Periodic Purge:**
 
 It is important to schedule the purge operation using the rest endpoint periodically based on your analytics retention time
 
   
+***
+**Note**
 
-Note
-
-**Note**: Elasticsearch purging is a time, memory, and disk space consuming process. Do this whenever there is less load on the server.
+Elasticsearch purging is a time, memory, and disk space consuming process. Do this whenever there is less load on the server.
+***
 
 #### **Alternate Approach**
 
@@ -260,9 +271,11 @@ User can rollover the events related index periodically and can provide index na
 
 Example to rollover transactional event by date. Creating a new index with date to store data that are generated after 6th Jan 2021 to new index.
 
+***
 **Rollover**
 
 curl -X POST  "http://localhost:9240/gateway\_default\_analytics\_transactionalevents/\_rollover/gateway\_default\_analytics\_transactionalevents\_20210106"-H "content-type: application/json"  -d "{}"
+***
 
 By this way, whenever we roll over, we can delete the oldest index based on date instead of purging old events.
 
@@ -270,9 +283,11 @@ For example, we can delete the index from 4th October 2020  by just computing t
 
 All events indices beyond a particular month can be easily identified and deleted. If the user wants to delete all events indices created on October2020, they can use the below query to list all the events indices that belongs to October2020  and can delete the listed indices
 
+***
 **Rollover**
 
 http://localhost:9240/\_cat/indices/gateway\_default\_analytics\_\*events\_202010\*?v&s=i
+***
 
 Logs Housekeeping
 -----------------
