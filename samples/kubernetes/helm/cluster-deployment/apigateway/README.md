@@ -3,7 +3,7 @@
 This chart sets up an API Gateway cluster which by default consists of
 * 3 API Gateway cluster nodes,
 * an ElasticSearch cluster with 3 nodes,
-* a standalone Kibana node,
+* 2 Kibana nodes,
 * a Terracotta cluster with 2 nodes,
 * 1 Ingress providing public access to the API Gateay UI and runtime ports.
 

@@ -37,6 +37,7 @@ elasticTag:                     "7.2.0"
 
 clusterSize:                    3
 initialMasterCount:             3
+kibanaCount:                    2
 
 storageClassName:               ""
 storageRequest:                 50Gi

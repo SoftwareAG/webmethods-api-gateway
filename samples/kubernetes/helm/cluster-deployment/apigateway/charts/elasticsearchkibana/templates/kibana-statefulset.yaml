@@ -28,7 +28,7 @@ metadata:
   name: {{ include "apigateway.customPrefix" . }}kibana-ss
 spec:
   podManagementPolicy: OrderedReady
-  replicas: 1
+  replicas: {{ .Values.kibanaCount }}
   revisionHistoryLimit: 10
   selector:
     matchLabels:
