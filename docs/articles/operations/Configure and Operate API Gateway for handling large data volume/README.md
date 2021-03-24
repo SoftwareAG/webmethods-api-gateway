@@ -274,7 +274,7 @@ Example to rollover transactional event by date. Creating a new index with date 
 ***
 **Rollover**
 
-curl -X POST  "http://localhost:9240/gateway\_default\_analytics\_transactionalevents/\_rollover/gateway\_default\_analytics\_transactionalevents\_20210106"-H "content-type: application/json"  -d "{}"
+curl -X POST  "http://localhost:9240/gateway_default_analytics_transactionalevents/_rollover/gateway_default_analytics_transactionalevents_20210106"-H "content-type: application/json"  -d "{}"
 ***
 
 By this way, whenever we roll over, we can delete the oldest index based on date instead of purging old events.
@@ -308,33 +308,12 @@ Please set the properties for each component to enable automatic log rotation
 
 Go to <install location>\\InternalDataStore\\config\\log4j2.properties and set the below properties
 
-**Key**
-
-**Value**
-
-**Possible values**
-
-appender.rolling.strategy.action.condition.nested\_condition.type
-
-IfAny
-
-IfAny/IfAccumulatedFileSize
-
-appender.rolling.strategy.action.condition.nested\_condition.exceeds
-
-256MB
-
-File Size units : MB/GB
-
-appender.rolling.strategy.action.condition.nested\_condition.lastMod.type
-
-IfLastModified
-
-  
-
-appender.rolling.strategy.action.condition.nested\_condition.lastMod.age
-
-7D
+|**Key**|**Value**|**Possible values**|
+|-------|---------|-------------------|
+|appender.rolling.strategy.action.condition.nested\_condition.type|IfAny|IfAny/IfAccumulatedFileSize|
+|appender.rolling.strategy.action.condition.nested\_condition.exceeds|256MB|File Size units : MB/GB|
+|appender.rolling.strategy.action.condition.nested\_condition.lastMod.type|IfLastModified||
+|appender.rolling.strategy.action.condition.nested\_condition.lastMod.age|7D||
 
   
 
@@ -342,33 +321,12 @@ appender.rolling.strategy.action.condition.nested\_condition.lastMod.age
 
 Change the below watt properties to enable log rotation for the Integration server
 
-**Key**
-
-**Value**
-
-**Comments**
-
-watt.server.serverlogFilesToKeep
-
-100
-
-  
-
-watt.server.serverlogRotateSize
-
-10MB
-
-File Size units : MB/GB
-
-watt.server.audit.logFilesToKeep
-
-100
-
-  
-
-watt.server.audit.logRotateSize
-
-10MB
+|**Key**|**Value**|**Comments**|
+|-------|---------|------------|
+|watt.server.serverlogFilesToKeep|100||
+|watt.server.serverlogRotateSize|10MB|File Size units : MB/GB|
+|watt.server.audit.logFilesToKeep|100||
+|watt.server.audit.logRotateSize|10MB||
 
   
 
@@ -376,76 +334,27 @@ To enable log rotation for OSGI and wrapper set the below properties
 
 **OSGI Logs** : /opt/softwareag/profiles/IS\_APIGateway/configuration/logging/log4j2.properties
 
-**Key**
-
-**Value**
-
-**Comments**
-
-appender.rolling.policies.size
-
-10MB
-
-  
-
-appender.rolling.strategy.max
-
-30
-
-  
+|**Key**|**Value**|
+|-------|---------|
+|appender.rolling.policies.size|10MB|
+|appender.rolling.strategy.max|30|
 
 **Wrapper Logs**: IS\_APIGateway/configuration/custom\_wrapper.conf
 
-**Key**
-
-**Value**
-
-**Comments**
-
-wrapper.logfile.maxfiles
-
-30
-
-  
-
-wrapper.logfile.maxsize
-
-10MB
-
-  
+|**Key**|**Value**|
+|-------|---------|
+|wrapper.logfile.maxfiles|30|
+|wrapper.logfile.maxsize|10MB|
 
 ####  Kibana configuration
 
 To enable log rotation for kibana please set the below properties in <install location>\\profiles\\IS\_default\\apigateway\\dashboard\\config\\kibana.yml
-
-**Key**
-
-**Value**
-
-**Comments**
-
-logging.dest
-
-./kibana.log
-
-  
-
-logging.rotate.enabled
-
-true
-
-  
-
-logging.rotate.everyBytes
-
-10485760
-
-  
-
-logging.rotate.keepFiles
-
-30
-
+|**Key**|**Value**|
+|-------|---------|
+|logging.dest|./kibana.log|
+|logging.rotate.enabled|true|
+|logging.rotate.everyBytes|10485760|
+|logging.rotate.keepFiles|30|
   
 
 Monitoring and Alerting
