@@ -71,7 +71,7 @@ API Gateway - Elasticsearch/Internal Datastore communication 
 
 This section defines the configurations needed to make API Gateway connect to desired Elasticsearch cluster. Set the below properties in _system-settings.yml_ available _<install location>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration_ in all API Gateway nodes.
 
-> **Note**: By default, the externalized configuration won't be available. A default template available under <installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration. You need to add the desired settings in **system-settings.yml**. Then you have to let API Gateway know that this is a configuration file by enabling the file in **config-source.yml** by uncommenting the appropriate lines. Please refer to the attached files for reference - [config-sources.yml](config-source.yml) and [system-settings.yml](system-settings.yml)
+> **Note**: By default, the externalized configuration won't be available. A default template available under <installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration. You need to add the desired settings in **system-settings.yml**. Then you have to let API Gateway know that this is a configuration file by enabling the file in **config-sources.yml** by uncommenting the appropriate lines. Please refer to the attached files for reference - [config-sources.yml](config-sources.yml) and [system-settings.yml](system-settings.yml)
   
 
 |**Configuration**|**Explanation**|
