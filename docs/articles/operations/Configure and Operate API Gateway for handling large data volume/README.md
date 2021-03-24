@@ -22,7 +22,7 @@ The configurations and recommendations provided in this document are based on ob
 | ---- | --------------------------------- | -------------------------------------- | ---------------------------- | 
 |   1  | Soak testing                      | Test Duration	                        | 100 days                     |
 |      |                                   | Transaction per second (TPS)           | 200                     |
-|      |                                   | Transaction size	                      | 10 KB                   |
+|      |                                   | Transaction size	  F                    | 10 KB                   |
 |      |                                   | Test completion target	                | 2 Billion transactions  |
 |      |                                   | ES Store size	                        | 2940 GB (with 1 replica)  <br/>i.e., 1470 GB primary data |
 |  2   | Backup	                           | Backup type	                          | Incremental backup (every 8 hours)|
@@ -128,11 +128,9 @@ Data house keeping
 
 Customer can use the below command to back up the API Gateway data. Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command periodically (daily or weekly)
 
-<code>
-<b>Backup</b>
-
+```
 apigatewayUtil.bat/sh create backup -name <backupName> -tenant <default or configured tenant name> -repo <repo_name>
-  </code>
+```  
   
 
 **2\. Verify the backup**
@@ -140,8 +138,6 @@ apigatewayUtil.bat/sh create backup -name <backupName> -tenant <default or confi
 Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command
 
 ```
-**Backup**
-
 apigatewayUtil.bat/sh status backup -name <backupName> -tenant <default or configured tenant name> -repo <repo_name>
 ```
   
@@ -155,16 +151,12 @@ Generally, we will take snapshots periodically either daily or weekly or some de
 *   **List the backups** - Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command
     
     ```
-    **Backup**
-    
      apigatewayUtil.bat/sh  list backup -tenant <default or configured tenant name> -repo <repo_name>
     ```
     
 *   **Delete the old backups** -  Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command
     
     ```
-    **Backup**
-    
     apigatewayUtil.bat/sh  delete backup -name <name of the backup to delete> -tenant <default or configured tenant name> -repo <repo_name>
     ```
 
@@ -177,8 +169,6 @@ Refer to this article [https://techcommunity.softwareag.com/pwiki/-/wiki/Main/Pe
 To Restore a backup using API Gateway utility tool.
 
 ```
-**Restore**
-
 apigatewayUtil.bat/sh restore backup -name <backupName> -tenant <default or configured tenant name> -repo <repo_name>
 ```
   
@@ -197,8 +187,6 @@ Users can perform the purge operation through UI. Go to API Gateway -> Administr
     Purge the events using below endpoint
     
     ```
-    **Purge**
-    
     http://localhost:5555/rest/apigateway/apitransactions?eventType=<eventtype>&objectType=Analytics&olderThan=<timeline>
     
     eventType: \[ "ALL", "transactionalEvents", "lifecycleEvents", "performanceMetrics", "monitorEvents", "threatProtectionEvents" ,"policyViolationEvents", "errorEvents", "auditlogs", "applicationlogs"\]
@@ -214,19 +202,15 @@ Users can perform the purge operation through UI. Go to API Gateway -> Administr
     time: <number>h<number>m<number>s \[example: 14h30m2s\]
     ```
   
-**Example:** Purging data that are older than 90days and 2hours 3minutes old
+    **Example:** Purging data that are older than 90days and 2hours 3minutes old
     
-```    
-**Purge**
+    ```    
+    curl -X DELETE -H "Authorization: Basic QWRtaW5pc3RyYXRvcjptYW5hZ2U=" -H "Accept: application/json"  "http://localhost:5555/rest/apigateway/apitransactions?eventType=ALL&objectType=Analytics&olderThan=90d2h3m"
+    ```
 
-curl -X DELETE -H "Authorization: Basic QWRtaW5pc3RyYXRvcjptYW5hZ2U=" -H "Accept: application/json"  "http://localhost:5555/rest/apigateway/apitransactions?eventType=ALL&objectType=Analytics&olderThan=90d2h3m"
-```
-
-The rest endpoint will return the job id if the request for the purge is successful. Check whether the purge is successful using the below endpoint
+    The rest endpoint will return the job id if the request for the purge is successful. Check whether the purge is successful using the below endpoint
 
 ```
-**Purge**
-
 http://localhost:5555/rest/apigateway/apitransactions/jobs/<job_id>
 ```
 
@@ -265,8 +249,6 @@ User can rollover the events related index periodically and can provide index na
 Example to rollover transactional event by date. Creating a new index with date to store data that are generated after 6th Jan 2021 to new index.
 
 ```
-**Rollover**
-
 curl -X POST  "http://localhost:9240/gateway_default_analytics_transactionalevents/_rollover/gateway_default_analytics_transactionalevents_20210106"-H "content-type: application/json"  -d "{}"
 ```
 
@@ -277,8 +259,6 @@ For example, we can delete the index from 4th October 2020  by just computing t
 All events indices beyond a particular month can be easily identified and deleted. If the user wants to delete all events indices created on October2020, they can use the below query to list all the events indices that belongs to October2020  and can delete the listed indices
 
 ```
-**Rollover**
-
 http://localhost:9240/_cat/indices/gateway_default_analytics_*events_202010*?v&s=i
 ```
 
@@ -358,8 +338,6 @@ Monitoring and Alerting
 #### Monitor Criteria
 
 ```
-**Monitor**
-
 curl -X "GET" "http://localhost:9240/_cat/shards?v&s=store:desc"
 ```
 
@@ -377,29 +355,19 @@ Any one of the below actions can be taken to recover disk space
 
 By default, the API gateway has created an alias for all events. Below are the aliases ([http://localhost:9240/\_cat/aliases?v](http://localhost:9240/_cat/aliases?v)) and you can find the corresponding index by checking [http://localhost:9240/<aliasname](http://localhost:9240/%3caliasname)\>. It will display the current write index and below is the list of aliases in API Gateway 10.5
 
-gateway\_<tenant>\_analytics\_transactionalevents
-
-gateway\_<tenant>\_analytics\_performancemetrics
-
-gateway\_<tenant>\_analytics\_policyviolationevents
-
-gateway\_<tenant>\_analytics\_lifecycleevents
-
-gateway\_<tenant>\_analytics\_errorevents
-
-gateway\_<tenant>\_audit\_auditlogs
-
-gateway\_<tenant>\_analytics\_monitorevents
-
-gateway\_<tenant>\_log
-
-gateway\_<tenant>\_analytics\_threatprotectionevents
+  *   gateway\_\<tenant>\_analytics\_transactionalevents
+  *   gateway\_\<tenant>\_analytics\_performancemetrics
+  *   gateway\_\<tenant>\_analytics\_policyviolationevents
+  *   gateway\_\<tenant>\_analytics\_lifecycleevents
+  *   gateway\_\<tenant>\_analytics\_errorevents
+  *   gateway\_\<tenant>\_audit\_auditlogs
+  *   gateway\_\<tenant>\_analytics\_monitorevents
+  *   gateway\_\<tenant>\_log
+  *   gateway\_\<tenant>\_analytics\_threatprotectionevents
 
 To rollover, an index, follow the below steps - creating a new index to write all data to that index, and the old index will become read-only.
 
 ```
-**Rollover**
-
 curl -X POST "http://localhost:9240/<alias>/_rollover/<new_index_name>" -d "{}"
 ```
 
@@ -408,8 +376,6 @@ curl -X POST "http://localhost:9240/<alias>/_rollover/<new_index_name>" -d "{}"
 Example: To rollover transactional events the request should be
 
 ```
-**Rollover**
-
 curl -X POST  "http://localhost:9240/gateway_default_analytics_transactionalevents/_rollover/gateway_default_analytics_transactionalevents-000002"-H "content-type: application/json"  -d "{}"
 ```
 
@@ -420,8 +386,6 @@ curl -X POST  "http://localhost:9240/gateway_default_analytics_transactionaleve
 Use below curl command to get the [disk space of es nodes](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-nodes-stats.html)
 
 ```
-**Monitor**
-
 curl -X GET http://localhost:9240/_nodes/stats/fs
 ```
 
@@ -436,8 +400,6 @@ Available diskspace -> $.nodes.<nodeId>.fs.total.available\_in\_bytes
 To know the configured disk watermark in Elasticsearch use the below command
 
 ```
-**Monitor**
-
 curl -X GET http://localhost:9240/_cluster/settings?pretty
 ```
 
@@ -456,8 +418,6 @@ Convert the disk space in bytes to GB (bytes/ (1024\*1024\*1024))and calculate t
 To know about any metrics customer check process specific metrics customer can use below curl command
 
 ```
-**Monitor**
-
 curl -X GET http://localhost:9240/_nodes/stats/<metric>
 ```
   
@@ -478,8 +438,6 @@ If the available disk space matches the criteria defined in disk watermark, if t
 To Know the cluster health use below
 
 ```
-**Monitor**
-
 curl -X GET http://localhost:9240/_cluster/health?pretty
 ```
 
@@ -498,16 +456,12 @@ If cluster health is any of the below colors
         *   Execute this command to check the list of shards unassigned.
             
             ```            
-            **Monitor**
-            
             curl -X GET “http://localhost:9240/_cat/shards?h=index,shard,primaryOrReplica,state,docs,store,ip,node,segments.count,unassigned.at,unassigned.details,unassigned.for,unassigned.reason,help,s=index&v”
             ```
             
         *   Execute this command to check un allocation reason for specific shards
             
             ```
-            **Monitor**
-            
             curl -X GET "http://localhost:9240/_cluster/allocation/explain" -d ‘{ "index" :"<index name>","primary" : "<true|false>","shard": "<shardnumber>"}’
             ```
   
@@ -520,8 +474,6 @@ If cluster health is any of the below colors
 To get the number of shards on Elasticsearch use the below command
 
 ```
-**Monitor**
-
 curl -X GET "http://localhost:9240/_cluster/health?pretty"
 ```
 
@@ -541,8 +493,6 @@ As per Elasticsearch recommendation, max 20 active shards per GB of heap space i
 API Gateway provides 2 key endpoints for monitoring API Gateway health. Refer to the details of these endpoints in the user guide.
 
 ```
-**Monitor**
-
 curl -X GET "http://localhost:5555/rest/apigateway/health/engine"
 curl -X GET "http://localhost:5555/rest/apigateway/health/admin"
 ```
