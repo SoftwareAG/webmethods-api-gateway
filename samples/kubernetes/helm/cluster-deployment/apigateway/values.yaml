@@ -44,7 +44,7 @@ apigwLicenseFilename:  "licenseKey.xml"
 k8sClusterSuffix:      "specify-the-cluster-suffix-for-ingress-urls"
 
 
-nginxRequired:         false
+externalLoadBalancer:  false
 nginxService:          "nginx-service"
 
 

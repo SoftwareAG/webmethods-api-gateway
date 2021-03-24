@@ -73,10 +73,27 @@ Both the API Gateway and the Kibana containers depend on ElasticSearch being rea
 whole API Gateway and Kibana come with an init container. The init container basically has a sleep/retry loop that uses a simple curl command
 to check whether ElasticSearch is ready. The init container will stop once ElasticSearch responds successfully.
 
+### Access to the API Gateway cluster
+
+By default, this chart establishes an Ingress to provide access to the API Gateway UI and runtime ports from outside the Kubernetes cluster.
+The Ingress refers to services which in turn refer to the API Gateway pods. Due to the API Gateway UI requiring sticky sessions ([see also below](#sticky-ui-sessions)) the Ingress
+is configured accordingly. However this default setup works only if the Kubernetes cluster runs with the wide-spread nginx-ingress controller which
+can handle sticky sessions.
+
+If the nginx-ingress controller is not present, or another ingress controller is preferred, an accordingly configured external load balancer can be used to
+achieve sticky sessions. The chart can easily be switched to use a load balancer, for details see the [chart readme](apigateway/README.md).
+When doing so, the chart will still establish an Ingress which then refers to the load balancer service, and the load balancer in turn is
+configured as a proxy for the API Gateway services.
+
+For the latter purpose the chart comes with an nginx deployment and appropriate configuration. Please note that API Gateway does not
+rely on or prefer nginx. In order to use a different load balancer the chart needs to be adapted manually: replace the `nginx-*.yaml` files
+in the [template folder](apigateway/templates) as desired, and keep in mind to configure the load balancer with sticky sessions for the
+API Gateway UI port.
+
 ### Sticky UI sessions
 
 The API Gateway web interface requires sticky sessions in order to function correctly. This is achieved by configuring the API Gateway service
-for the UI port as well as the Ingress with sticky behaviour:
+for the UI port as well as the Ingress with sticky behaviour. The relevant parts of the service and the Ingress look like this:
 
 ```
 ---

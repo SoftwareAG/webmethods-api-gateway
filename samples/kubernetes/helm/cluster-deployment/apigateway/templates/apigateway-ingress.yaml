@@ -32,13 +32,13 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: {{ include "apigateway.customPrefix" . }}{{ .Values.nginxRequired | ternary .Values.nginxService .Values.apigwRtService }}
+          serviceName: {{ include "apigateway.customPrefix" . }}{{ .Values.externalLoadBalancer | ternary .Values.nginxService .Values.apigwRtService }}
           servicePort: {{ int .Values.apigwRuntimePort }}
         path: /
   - host: {{ .Values.global.app }}-ui-{{ .Release.Namespace }}{{ .Values.k8sClusterSuffix }}
     http:
       paths:
       - backend:
-          serviceName: {{ include "apigateway.customPrefix" . }}{{ .Values.nginxRequired | ternary .Values.nginxService .Values.apigwUiService }}
+          serviceName: {{ include "apigateway.customPrefix" . }}{{ .Values.externalLoadBalancer | ternary .Values.nginxService .Values.apigwUiService }}
           servicePort: {{ int .Values.apigwUiPort }}
         path: /

@@ -1,4 +1,4 @@
-{{- if .Values.nginxRequired }}
+{{- if .Values.externalLoadBalancer }}
 ---
 # /*
 #  * Copyright (c) 2021 Software AG, Darmstadt, Germany and/or its licensors

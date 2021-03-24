@@ -128,27 +128,27 @@ elasticsearchkibana:
         memory: 4Gi
 ```
 
-## Ingress setup
+## Using an external load balancer
 
 The Ingress provides two entrypoints for accessing the API Gateway cluster, one for the UI port to
-allow access to the administration UI, the other for the runtime port to allow for example REST access
+allow access to the administration UI, and another one for the runtime port to allow for example REST access
 to the services.
 
 The API Gateway UI requires session stickiness and therefore both the Ingress and the Kubernetes
 service in front of the API Gateway pods are correspondingly configured.
 
-In some cases, depending on the Ingress Controller available in the Kubernetes system, the stickiness
+In some cases, typically if the nginx-ingress controller is not available in the Kubernetes system, the stickiness
 settings are not correctly respected, and the API Gateway will not work. In particular the login to the UI
 will fail.
 
-This can be handled by starting an explicit nginx pod which is configured to use the API Gateway as
-backend. And the Ingress is then defined against the nginx.
+This can be handled by using an external load balancer which is configured to use the API Gateway as
+backend. And the Ingress is then defined against the load balancer service.
 
-In order to enable the explicit nginx:
+In order to enable the external load balancer:
 
 ```
 # my-values.yaml
-nginxRequired:         true
+externalLoadBalancer:         true
 ```
 
 Just make sure _not_ to quote the value, the chart expects a boolean value.
