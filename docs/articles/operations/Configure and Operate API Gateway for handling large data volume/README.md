@@ -208,11 +208,11 @@ Users can perform the purge operation through UI. Go to API Gateway -> Administr
     curl -X DELETE -H "Authorization: Basic QWRtaW5pc3RyYXRvcjptYW5hZ2U=" -H "Accept: application/json"  "http://localhost:5555/rest/apigateway/apitransactions?eventType=ALL&objectType=Analytics&olderThan=90d2h3m"
     ```
 
-    The rest endpoint will return the job id if the request for the purge is successful. Check whether the purge is successful using the below endpoint
+    The above rest endpoint will return the job id if the request for the purge is successful. Check whether the purge is successful using the below endpoint
 
-```
-http://localhost:5555/rest/apigateway/apitransactions/jobs/<job_id>
-```
+    ```
+    http://localhost:5555/rest/apigateway/apitransactions/jobs/<job_id>
+    ```
 
 *   **Schedule Periodic Purge:**
 
