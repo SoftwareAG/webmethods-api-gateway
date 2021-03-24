@@ -128,11 +128,11 @@ Data house keeping
 
 Customer can use the below command to back up the API Gateway data. Go to _<Installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\cli_ and execute below command periodically (daily or weekly)
 
-```
-**Backup**
+<code>
+<b>Backup</b>
 
 apigatewayUtil.bat/sh create backup -name <backupName> -tenant <default or configured tenant name> -repo <repo_name>
-```
+  </code>
   
 
 **2\. Verify the backup**
