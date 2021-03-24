@@ -138,7 +138,7 @@ The API Gateway UI requires session stickiness and therefore both the Ingress an
 service in front of the API Gateway pods are correspondingly configured.
 
 In some cases, typically if the nginx-ingress controller is not available in the Kubernetes system, the stickiness
-settings are not correctly respected, and the API Gateway will not work. In particular the login to the UI
+settings are not correctly respected, and the API Gateway UI will not work. In particular the login to the UI
 will fail.
 
 This can be handled by using an external load balancer which is configured to use the API Gateway as
