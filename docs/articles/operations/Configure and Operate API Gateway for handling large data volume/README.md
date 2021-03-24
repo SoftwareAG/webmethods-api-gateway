@@ -89,108 +89,17 @@ Elasticsearch/InternalDataStore configuration
 
 OOTB, Elasticsearch, or internal data store will have a default configuration.  Please see the below recommendation to set up the initial Elasticsearch cluster
 
-Configuration
-
-Explanation
-
-Minimum number of nodes
-
-Minimum number of nodes required is 3
-
-Set all three nodes as master. 
-
-By default, all nodes will be master unless explicitly set node.master as false
-
-Set minimum heap space as 2gb
-
-Follow below steps to increase or decrease heap space of Elasticsearch node
-
-1.  Go to -> <Install\_location>\\InternalDataStore\\config\\jvm.options
-2.  Change the value of property -Xmx<number>g.ex: to increase from 2g to 4g, customer can set the value as -Xmx4g
-
-node.name
-
-Set a human readable node name by setting [node.name](http://node.name) in elasticsearch.yml in all nodes
-
-Initial master nodes
-
-Add all the three node names in [initial.master\_nodes](https://www.elastic.co/guide/en/elasticsearch/reference/master/modules-discovery-bootstrap-cluster.html) in elasticsearch.yml. These are the nodes that are responsible for forming a single cluster for the very first when we start Elasticsearch cluster. As per Elasticsearch recommendation add at least three master eligible nodes in cluster.initial.master\_nodes
-
-Discovery seed hosts
-
-Add the three nodes host:httpport as discovery.seed\_hosts. Elasticsearch will discover the cluster nodes using the hosts specified in this property.
-
-Path Repo
-
-Configure the **repo** to common location that is accessible for all Elasticsearch nodes. All the backups taken using either Elasticsearch snapshot or API Gateway backup utility will be stored here. Refer this article [https://techcommunity.softwareag.com/pwiki/-/wiki/Main/Periodical%20Data%20backup](https://techcommunity.softwareag.com/pwiki/-/wiki/Main/Periodical%20Data%20backup)
-
-1.  Backup to [AWS S3](https://www.elastic.co/guide/en/elasticsearch/plugins/current/repository-s3.html) bucket or shared file system options are available, so that the local disk space will not be occupied.
-
-Refresh Interval
-
-After starting the API Gateway, set the [refresh](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-refresh.html) interval for events index type as below
-
-1.  Go to API Gateway UI -> Administration -> Extended settings -> **eventRefreshInterval** to 60s and save it. In Elasticsearch, the operation that makes any updates to the data visible to search is called a refresh . It is costly operation when there are large volumes of data and calling it often while there is ongoing indexing activity can impact indexing speed. The below queries will make the index refresh every 1 minute
-
-[Disk based shard allocation settings](https://www.elastic.co/guide/en/elasticsearch/reference/current/disk-allocator.html)
-
-If node disk spaces are equal, then provide the percentage
-
-Elasticsearch uses the below settings to consider the available disk space on a node before deciding whether to allocate new shards to that node or to actively relocate shards away from that node. 
-
-1.  cluster.routing.allocation.disk.watermark.low
-
-**Default: 85%** which means Elasticsearch will stop allocating new shards to nodes that have more than 85% disk used
-
-1.  cluster.routing.allocation.disk.watermark.high
-
-**Default: 90%** which means Elasticsearch will attempt to relocate shards away from a node whose disk usage is above 90%
-
-iii.    cluster.routing.allocation.disk.watermark.flood\_stage
-
-**Default: 95%** which means Elasticsearch enforces a read-only index block (index.blocks.read\_only\_allow\_delete) on every index that has one or more shards allocated on the node that has at least one disk exceeding the flood stage. This is the last resort to prevent nodes from running out of disk space.
-
-The values can be set in percentage and absolute. If the nodes have equal space, then the customer can configure the values in
-
-curl -X PUT "[http://localhost:9240/\_cluster/settings?pretty](http://localhost:9240/_cluster/settings?pretty)" -H 'Content-Type: application/json' -d'
-
-{
-
-    "persistent" : {
-
-    "cluster.routing.allocation.disk.watermark.low": "75%",
-
-    "cluster.routing.allocation.disk.watermark.high": "85%",
-
-    "cluster.routing.allocation.disk.watermark.flood\_stage": "95%",
-
-    "[cluster.info](http://cluster.info).update.interval": "1m"
-
-  }
-
-}
-
-  
-
-If the node disk spaces are not equal, then provide in absolute value. Set the absolute value based on disk size available. Ex:
-
-curl -X PUT "[http://localhost:9240/\_cluster/settings?pretty](http://localhost:9240/_cluster/settings?pretty)" " -H 'Content-Type: application/json' -d'
-
-{
-
-  " persistent" : {
-
-    "cluster.routing.allocation.disk.watermark.low": "100gb ",
-
-    "cluster.routing.allocation.disk.watermark.high": "50gb",
-
-    "cluster.routing.allocation.disk.watermark.flood\_stage": "10gb",
-
-    "[cluster.info](http://cluster.info).update.interval": "1m"
-
-  }
-
-}'
+|**Configuration**|**Explanation**|
+|-----------------|---------------|
+|Minimum number of nodes|Minimum number of nodes required is 3|
+|Set all three nodes as master.|By default, all nodes will be master unless explicitly set node.master as false|
+|Set minimum heap space as 2gb|Follow below steps to increase or decrease heap space of Elasticsearch node<br/> 1.  Go to -> \<Install\_location>\\InternalDataStore\\config\\jvm.options<br/> 2.  Change the value of property -Xmx\<number>g.ex: to increase from 2g to 4g, customer can set the value as -Xmx4g|
+|node.name|Set a human readable node name by setting [node.name](http://node.name) in elasticsearch.yml in all nodes|
+|Initial master nodes|Add all the three node names in [initial.master\_nodes](https://www.elastic.co/guide/en/elasticsearch/reference/master/modules-discovery-bootstrap-cluster.html) in elasticsearch.yml. These are the nodes that are responsible for forming a single cluster for the very first when we start Elasticsearch cluster. As per Elasticsearch recommendation add at least three master eligible nodes in cluster.initial.master\_nodes|
+|Discovery seed hosts|Add the three nodes host:httpport as discovery.seed\_hosts. Elasticsearch will discover the cluster nodes using the hosts specified in this property.|
+|Path Repo|Configure the **repo** to common location that is accessible for all Elasticsearch nodes. All the backups taken using either Elasticsearch snapshot or API Gateway backup utility will be stored here. Refer this article [https://techcommunity.softwareag.com/pwiki/-/wiki/Main/Periodical%20Data%20backup](https://techcommunity.softwareag.com/pwiki/-/wiki/Main/Periodical%20Data%20backup) <br/> 1.  Backup to [AWS S3](https://www.elastic.co/guide/en/elasticsearch/plugins/current/repository-s3.html) bucket or shared file system options are available, so that the local disk space will not be occupied.|
+|Refresh Interval|After starting the API Gateway, set the [refresh](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-refresh.html) interval for events index type as below<br/><br/> 1.  Go to API Gateway UI -> Administration -> Extended settings -> **eventRefreshInterval** to 60s and save it. In Elasticsearch, the operation that makes any updates to the data visible to search is called a refresh . It is costly operation when there are large volumes of data and calling it often while there is ongoing indexing activity can impact indexing speed. The below queries will make the index refresh every 1 minute|
+|[Disk based shard allocation settings](https://www.elastic.co/guide/en/elasticsearch/reference/current/disk-allocator.html)|If node disk spaces are equal, then provide the percentage <br/> Elasticsearch uses the below settings to consider the available disk space on a node before deciding whether to allocate new shards to that node or to actively relocate shards away from that node. <br/><br/> 1.  cluster.routing.allocation.disk.watermark.low <br/> **Default: 85%** which means Elasticsearch will stop allocating new shards to nodes that have more than 85% disk used <br/> 2.  cluster.routing.allocation.disk.watermark.high <br/> **Default: 90%** which means Elasticsearch will attempt to relocate shards away from a node whose disk usage is above 90% <br/>  3.    cluster.routing.allocation.disk.watermark.flood\_stage <br/> **Default: 95%** which means Elasticsearch enforces a read-only index block (index.blocks.read\_only\_allow\_delete) on every index that has one or more shards allocated on the node that has at least one disk exceeding the flood stage. This is the last resort to prevent nodes from running out of disk space. <br/><br/> The values can be set in percentage and absolute. If the nodes have equal space, then the customer can configure the values in percentage <br/> curl -X PUT "[http://localhost:9240/\_cluster/settings?pretty](http://localhost:9240/_cluster/settings?pretty)" -H 'Content-Type: application/json' -d' <br/> { <br/>    "persistent" : {<br/>    "cluster.routing.allocation.disk.watermark.low": "75%",<br/>    "cluster.routing.allocation.disk.watermark.high": "85%",<br/>    "cluster.routing.allocation.disk.watermark.flood\_stage": "95%",<br/>    "[cluster.info](http://cluster.info).update.interval": "1m"<br/>  }<br/>} <br/><br/> If the node disk spaces are not equal, then provide in absolute value. Set the absolute value based on disk size available. Ex: <br/> curl -X PUT "[http://localhost:9240/\_cluster/settings?pretty](http://localhost:9240/_cluster/settings?pretty)" " -H 'Content-Type: application/json' -d' <br/>{<br/>  " persistent" : {<br/>    "cluster.routing.allocation.disk.watermark.low": "100gb ",<br/>    "cluster.routing.allocation.disk.watermark.high": "50gb",<br/>    "cluster.routing.allocation.disk.watermark.flood\_stage": "10gb",<br/>    "[cluster.info](http://cluster.info).update.interval": "1m"<br/>  }<br/>}'|
 
 Kibana Configuration
 --------------------
