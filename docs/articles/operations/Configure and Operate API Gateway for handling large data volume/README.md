@@ -16,146 +16,35 @@ Test Details
 Tests done 
 -----------
 
-The configurations and recommendations provided in this document are based on observations from a soak testing done on a API Gateway cluster. In addition, other tests done are backup, restore, archive & purge (events), restoring events from the archive. Here are the test details 
+The configurations and recommendations provided in this document are based on observations from a soak testing done on a API Gateway cluster. In addition, other tests done are backup, restore, archive & purge (events), restoring events from the archive. Here are the test details                            |
+
+|**No**|         **Test type**             |            **Test Details**            |          **Value**           |
+| ---- | --------------------------------- | -------------------------------------- | ---------------------------- | 
+|   1  | Soak testing                      | Test Duration	                        | 100 days                     |
+|      |                                   | Transaction per second (TPS)           | 200                     |
+|      |                                   | Transaction size	                      | 10 KB                   |
+|      |                                   | Test completion target	                | 2 Billion transactions  |
+|      |                                   | ES Store size	                        | 2940 GB (with 1 replica)  <br/>i.e., 1470 GB primary data |
+|  2   | Backup	                           | Backup type	                          | Incremental backup (every 8 hours)|
+|  3   | Restore                           | Transactions count in snapshot (backup) when the restore was attempted |	1.377 Billion transactions |
+|      |                                   | Snapshot size	                        | 960 GB          |
+|  4   | Archive & Purge (events)          | Transactions count in Elasticsearch when archive & purge was attempted	 | 1.377 Billion  |
+|  5   | Restoring events from the archive | Transactions count in the archive when it was restored	| 1.377 Billion |
 
   
 
-Test type
 
-Test Details
-
-1
-
-Soak testing  
-  
-  
-
-Test Duration
-
-100 days
-
-Transaction per second (TPS)
-
-200
-
-Transaction size
-
-10 KB
-
-Test completion target
-
-2 Billion transactions
-
-ES Store size
-
-2940 GB (with 1 replica)  
-i.e., 1470 GB primary data
-
-2
-
-Backup
-
-Backup type
-
-Incremental backup (every 8 hours)
-
-3
-
-Restore
-
-Transactions count in snapshot (backup) when the restore was attempted
-
-1.377 Billion transactions
-
-Snapshot size
-
-960 GB
-
-4
-
-Archive & Purge (events)
-
-Transactions count in Elasticsearch when archive & purge was attempted
-
-1.377 Billion
-
-5
-
-Restoring events from the archive
-
-Transactions count in the archive when it was restored
-
-1.377 Billion
 
 Test Environment Details
 ------------------------
 
-Purpose
-
-No of  
-nodes
-
-Node configurations
-
-RAM
-
-CPU
-
-Disk space
-
-API Gateway with Internal datastore
-
-Version 10.5
-
-3
-
-8 GB
-
-2 GHz \* 2
-
-250 GB
-
-Terracotta cluster.
-
-Nginx Load balancer was installed in one of the Terracotta nodes
-
-2
-
-4 GB
-
-2 GHz \* 2
-
-50 GB
-
-Client - JMeter
-
-1
-
-8 GB
-
-2 GHz \* 2
-
-50 GB
-
-Native server (Integration Server)
-
-2
-
-4 GB
-
-2 GHz \* 2
-
-50GB
-
-Elasticsearch Horizontal scaleup (These VMs are available in a VM pool and added to the ES cluster only when needed)
-
-6
-
-4 GB
-
-2 GHz \* 2
-
-500GB
+|**Purpose**                                                                      |**No of<br/> nodes**|**RAM**|**CPU**  |**Disk space**|
+| ------------------------------------------------------------------------------- | ------ | --------------- | ----------| ------------ | 
+|API Gateway with Internal datastore<br/>Version 10.5                             |3       |8 GB             |2 GHz \* 2 |250 GB        |
+|Terracotta cluster<br/> Nginx Load balancer was installed in one of the Terracotta nodes|2|4 GB             |2 GHz \* 2 |50 GB         |
+|Client - JMeter                                                                  |1       |8 GB             |2 GHz \* 2 |50 GB         |
+|Native server (Integration Server)                                               |2       |4 GB             |2 GHz \* 2 |50GB          |
+|Elasticsearch Horizontal scaleup (These VMs are available <br/>in a VM pool and added to the ES cluster only when needed)|6|4 GB|2 GHz \* 2|500GB|
 
 General recommendation on startup/shutdown sequence 
 ====================================================
@@ -181,11 +70,11 @@ API Gateway - Elasticsearch/Internal Datastore communication 
 -------------------------------------------------------------
 
 This section defines the configurations needed to make API Gateway connect to desired Elasticsearch cluster. Set the below properties in _system-settings.yml_ available _<install location>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration_ in all API Gateway nodes.
-
+---
 Note
 
 By default, the externalized configuration won't be available. A default template available under <installlocation>\\IntegrationServer\\instances\\<tenant>\\packages\\WmAPIGateway\\resources\\configuration. You need to add the desired settings in **system-settings.yml**. Then you have to let API Gateway know that this is a configuration file by enabling the file in **config-source.yml** by uncommenting the appropriate lines. Please refer to the attached files for reference - [config-sources.yml](attachments/722053401/722053402.yml) and [system-settings.yml](attachments/722053401/722053403.yml)
-
+---
   
 
 Configuration
