@@ -1,7 +1,7 @@
 Configure and Operate API Gateway for handling large data volume
 =====================================================================================
 
-Authors: Narayanan, Lakshmanan (lnar@softwareag.com), Vaidhyanadhan, Praveen (pravai@softwareag.com), Chandrasekaran, Vallab (vac@softwareag.com)
+Authors: Narayanan, Lakshmanan (lnar@softwareag.com), Vaidyanathan, Praveen (pravai@softwareag.com), Chandrasekaran, Vallab (vac@softwareag.com)
 
 Supported Versions: 10.5 and above  
 
