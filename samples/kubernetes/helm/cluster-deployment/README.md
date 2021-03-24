@@ -13,7 +13,7 @@ Users need to create their own Docker image from an on-premise installation of T
 product documentation. The Terracotta installation comes with a Dockerfile for this purpose.
 
 Apart from that, the chart by default pulls the API Gateway trial image from [Dockerhub](https://hub.docker.com/_/softwareag-apigateway), and it pulls
-open source images for ElasticSearch and Kibana from the [ElasticSearch Docker reposiory](https://www.docker.elastic.co/).
+open source images for ElasticSearch and Kibana from the [ElasticSearch Docker repository](https://www.docker.elastic.co/).
 
 ## Technical details
 
