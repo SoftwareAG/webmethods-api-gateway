@@ -18,7 +18,7 @@ Do the following stesps to deploy an API Gateway Kubernetes pod that communicate
 
 3. Run the following command to deploy API Gateway in the Kubernetes setup:
 
-``` kubectl create -f api-gateway-deployment-external-elasticsearch.yaml ```
+   ``` kubectl create -f api-gateway-deployment-external-elasticsearch.yaml ```
 
    Ensure that you have specified the required information such as container name, the path to your API Gateway image stored in a docker registry, container port, details of the external elastic search and how to access it in the Kubernetes sample file  [api-gateway-deployment-external-elasticsearch.yaml](api-gateway-deployment-external-elasticsearch.yaml). For details on Kubernetes YAML files, see Kubernetes documentation. 
    

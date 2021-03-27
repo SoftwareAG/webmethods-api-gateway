@@ -1,0 +1,276 @@
+{
+	"info": {
+		"_postman_id": "09c4bdeb-441f-46f1-ba3e-1ea220c40abc",
+		"name": "API with Custom Extension",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d5a1ec56-d65a-44fa-b5b3-b47dbb30cbac",
+						"exec": [
+							"let apiResponse=JSON.parse(responseBody);",
+							"pm.environment.set(\"apiID\", apiResponse.apiResponse.api.id);",
+							"pm.environment.set(\"policyID\", apiResponse.apiResponse.api.policies[0]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"apiVersion\": \"1.0\",\n    \"type\": \"swagger\",\n    \"url\": \"https://petstore.swagger.io/v2/swagger.json\",\n    \"apiName\": \"custom extension\",\n    \"apiDescription\": \"API Gateway to provide Custom Extension support to allow the customer to implement a custom logic and make a call out to it by configuring a Custom Extension policy in the API Gateway policy enforcement.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/apis",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"apis"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create External callout Custom Extension Policy Action",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "81610021-1b0f-42a3-a577-77b228677e0a",
+						"exec": [
+							"let apiResponse=JSON.parse(responseBody);",
+							"pm.environment.set(\"policyActionID\",apiResponse.policyAction.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"policyAction\": {\r\n       \r\n        \"names\": [\r\n            {\r\n                \"value\": \"Custom Extension\",\r\n                \"locale\": \"en\"\r\n            }\r\n        ],\r\n        \"templateKey\": \"customPolicy\",\r\n        \"parameters\": [\r\n            {\r\n                \"templateKey\": \"customExtensionType\",\r\n                \"values\": [\r\n                    \"externalCallout\"\r\n                ]\r\n            },\r\n            {\r\n                \"templateKey\": \"externalEndpoint\",\r\n                \"parameters\": [\r\n                    {\r\n                        \"templateKey\": \"endpointUri\",\r\n                        \"values\": [\r\n                            \"http://localhost:8090/services/jsonTransformation\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"templateKey\": \"externalEndpointMethod\",\r\n                        \"values\": [\r\n                            \"CUSTOM\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"templateKey\": \"endpointSSLConfig\",\r\n                        \"parameters\": [\r\n                            {\r\n                                \"templateKey\": \"keyStoreAlias\",\r\n                                \"values\": [\r\n                                    \"DEFAULT_IS_KEYSTORE\"\r\n                                ]\r\n                            },\r\n                            {\r\n                                \"templateKey\": \"keyAlias\",\r\n                                \"values\": [\r\n                                    \"ssos\"\r\n                                ]\r\n                            },\r\n                            {\r\n                                \"templateKey\": \"truststoreAlias\",\r\n                                \"values\": [\r\n                                    \"DEFAULT_IS_TRUSTSTORE\"\r\n                                ]\r\n                            }\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"templateKey\": \"connectTimeout\",\r\n                        \"values\": [\r\n                            \"3\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"templateKey\": \"readTimeout\",\r\n                        \"values\": [\r\n                            \"4\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"templateKey\": \"mashupPathParamTransformation\",\r\n                        \"parameters\": [\r\n                            {\r\n                                \"templateKey\": \"mashupPathParams\",\r\n                                \"parameters\": [\r\n                                    {\r\n                                        \"templateKey\": \"mashupPathParamName\",\r\n                                        \"values\": [\r\n                                            \"accept\"\r\n                                        ]\r\n                                    },\r\n                                    {\r\n                                        \"templateKey\": \"mashupPathParamValue\",\r\n                                        \"values\": [\r\n                                            \"${request.headers.HEADER_NAME}\"\r\n                                        ]\r\n                                    }\r\n                                ]\r\n                            }\r\n                        ]\r\n                    }\r\n                ]\r\n            },\r\n            {\r\n                \"templateKey\": \"mashupHeaderTransformation\",\r\n                \"parameters\": [\r\n                    {\r\n                        \"templateKey\": \"useIncomingHeaders\",\r\n                        \"values\": [\r\n                            \"true\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"templateKey\": \"customHeaders\",\r\n                        \"parameters\": [\r\n                            {\r\n                                \"templateKey\": \"headerName\",\r\n                                \"values\": [\r\n                                    \"Content-type\"\r\n                                ]\r\n                            },\r\n                            {\r\n                                \"templateKey\": \"headerValue\",\r\n                                \"values\": [\r\n                                    \"${request.headers.HEADER_NAME}\"\r\n                                ]\r\n                            }\r\n                        ]\r\n                    }\r\n                ]\r\n            },\r\n            {\r\n                \"templateKey\": \"mashupQueryParamsTransformation\",\r\n                \"parameters\": [\r\n                    {\r\n                        \"templateKey\": \"mashupQueryParams\",\r\n                        \"parameters\": [\r\n                            {\r\n                                \"templateKey\": \"mashupQueryParamName\",\r\n                                \"values\": [\r\n                                    \"accept\"\r\n                                ]\r\n                            },\r\n                            {\r\n                                \"templateKey\": \"mashupQueryParamValue\",\r\n                                \"values\": [\r\n                                    \"${request.headers.HEADER_NAME}\"\r\n                                ]\r\n                            }\r\n                        ]\r\n                    }\r\n                ]\r\n            },\r\n            {\r\n                \"templateKey\": \"customExtensionResponseProcessing\",\r\n                \"parameters\": [\r\n                    {\r\n                        \"templateKey\": \"copyEntireResponse\",\r\n                        \"values\": [\r\n                            \"true\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"templateKey\": \"abortInCaseOfFailure\",\r\n                        \"values\": [\r\n                            \"true\"\r\n                        ]\r\n                    }\r\n                ]\r\n            },\r\n            {\r\n                \"templateKey\": \"customExtensionRequestProcessing\",\r\n                \"parameters\": [\r\n                    {\r\n                        \"templateKey\": \"requestPayload\",\r\n                        \"values\": [\r\n                            \"{\\n\\\"id\\\":2048057393,\\n\\\"category\\\":{\\n\\\"id\\\":780937122,\\n\\\"name\\\":\\\"bBcyJsVIPs\\\",\\n},\\n\\\"name\\\":\\\"i\\\",\\n\\\"photoUrls\\\":[],\\n\\\"tags\\\":[\\n{\\n\\\"id\\\":1543548e65,\\n\\\"name\\\":\\\"jjuyfguyliou\\\"\\n}\\n],\\n\\\"status\\\":\\\"njiyhbuv\\\"\\n\\n}\"\r\n                        ]\r\n                    }\r\n                ]\r\n            }\r\n        ],\r\n        \"active\": false\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/policyActions",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"policyActions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Policy details by PolicyID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9ccb39aa-9c33-43eb-9bda-5eff06e81ae0",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"routing\", jsonData.policy.policyEnforcements[1].enforcements[0].enforcementObjectId);",
+							"pm.environment.set(\"transport\", jsonData.policy.policyEnforcements[0].enforcements[0].enforcementObjectId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/policies/{{policyID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"policies",
+						"{{policyID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update API Policy with Custom Extension",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"policy\": {\r\n        \r\n        \"names\": [\r\n            {\r\n                \"value\": \"Default Policy for API custom extension\",\r\n                \"locale\": \"English\"\r\n            }\r\n        ],\r\n        \"descriptions\": [\r\n            {\r\n                \"value\": \"\",\r\n                \"locale\": \"English\"\r\n            }\r\n        ],\r\n        \"scope\": {\r\n            \"scopeConditions\": []\r\n        },\r\n        \"policyEnforcements\": [\r\n            {\r\n                \"enforcements\": [\r\n                    {\r\n                        \"enforcementObjectId\": \"{{policyActionID}}\",\r\n                        \"order\": \"0\"\r\n                    }\r\n                ],\r\n                \"stageKey\": \"requestPayloadProcessing\"\r\n            },\r\n            {\r\n                \"enforcements\": [\r\n                    {\r\n                        \"enforcementObjectId\": \"{{routing}}\",\r\n                        \"order\": \"0\"\r\n                    }\r\n                ],\r\n                \"stageKey\": \"routing\"\r\n            },\r\n            {\r\n                \"enforcements\": [\r\n                    {\r\n                        \"enforcementObjectId\": \"{{transport}}\",\r\n                        \"order\": \"0\"\r\n                    }\r\n                ],\r\n                \"stageKey\": \"transport\"\r\n            }\r\n        ],\r\n        \"policyScope\": \"SERVICE\",\r\n        \"active\": false,\r\n        \"global\": false,\r\n        \"systemPolicy\": false\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/policies/{{policyID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"policies",
+						"{{policyID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activate API",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/apis/{{apiID}}/activate",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"apis",
+						"{{apiID}}",
+						"activate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "manage",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Administrator",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4ce35818-ed67-4362-87fb-cd840353b5e1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4435a559-4a0d-477a-bac8-da240fe8c11b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "2ef5ac4d-a037-48e9-aef7-7169e24035a4",
+			"key": "baseURL",
+			"value": "http://localhost:5555/rest/apigateway"
+		},
+		{
+			"id": "adccdb5a-8c69-4116-a9af-112b763cc742",
+			"key": "apiID",
+			"value": "Value gets updated during runtime"
+		},
+		{
+			"id": "627376a7-28ff-4fae-954c-b2da580d2506",
+			"key": "policyID",
+			"value": "Value gets updated during runtime"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

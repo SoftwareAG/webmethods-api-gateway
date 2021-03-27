@@ -1,0 +1,1975 @@
+{
+	"info": {
+		"_postman_id": "f70e6f39-0d15-4c33-96e0-b2f9090337d6",
+		"name": "User Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "The method retrieves list of all users in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the list of users is successfully retrieved.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"users\\\": [\\r\\n        {\\r\\n            \\\"id\\\": \\\"Administrator\\\",\\r\\n            \\\"loginId\\\": \\\"Administrator\\\",\\r\\n            \\\"firstName\\\": \\\"Administrator\\\",\\r\\n            \\\"password\\\": \\\"********************************\\\",\\r\\n            \\\"type\\\": \\\"local\\\",\\r\\n            \\\"allowDigestAuth\\\": false,\\r\\n            \\\"active\\\": true,\\r\\n            \\\"systemDefined\\\": true,\\r\\n            \\\"language\\\": \\\"en\\\",\\r\\n             \\\"emailAddresses\\\": []\\r\\n        },\\r\\n        {\\r\\n            \\\"id\\\": \\\"15fbeeb2-745c-4988-b7b6-61f359ecbfc8\\\",\\r\\n            \\\"loginId\\\": \\\"testUser\\\",\\r\\n            \\\"firstName\\\": \\\"User\\\",\\r\\n            \\\"lastName\\\": \\\"Test\\\",\\r\\n            \\\"password\\\": \\\"********************************\\\",\\r\\n            \\\"type\\\": \\\"local\\\",\\r\\n            \\\"allowDigestAuth\\\": false,\\r\\n            \\\"active\\\": true,\\r\\n            \\\"systemDefined\\\": false,\\r\\n            \\\"language\\\": \\\"ja\\\",\\r\\n            \\\"emailAddresses\\\": [\\r\\n                \\\"noreply@softwareag.com\\\"\\r\\n            ]\\r\\n        }\\r\\n    ]\\r\\n}\\r\\n\""
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Gokul Raj\",\n    \"lastName\": \"Shanmugam\",\n    \"organization\": \"\",\n    \"loginId\": \"GatewayUser\",\n    \"emailAddresses\": [\n        \"gora@softwareag.com\"\n    ],\n    \"password\": \"manage\",\n    \"groups\": [],\n    \"groupIds\": [\n        \"Administrators\"\n    ],\n    \"language\": \"\",\n    \"teams\": [],\n    \"currentUserTeams\": [],\n    \"active\": null,\n    \"allowDigestAuth\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "The method creates an user in API Gateway. The API request body must contain the payload for the user."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that an user with the given loginId already exists in API Gateway or the request body is not correct.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"loginId\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddresses\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"allowDigestAuth\": \"<boolean>\",\n    \"active\": \"<boolean>\",\n    \"language\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the user has been successfully created in API Gateway, and the newly created user is available in the response body.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"loginId\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddresses\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"allowDigestAuth\": \"<boolean>\",\n    \"active\": \"<boolean>\",\n    \"language\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n            \\\"id\\\": \\\"15fbeeb2-745c-4988-b7b6-61f359ecbfc8\\\",\\r\\n            \\\"loginId\\\": \\\"testUser\\\",\\r\\n            \\\"firstName\\\": \\\"User\\\",\\r\\n            \\\"lastName\\\": \\\"Test\\\",\\r\\n            \\\"password\\\": \\\"********************************\\\",\\r\\n            \\\"type\\\": \\\"local\\\",\\r\\n            \\\"allowDigestAuth\\\": false,\\r\\n            \\\"active\\\": true,\\r\\n            \\\"language\\\": \\\"en\\\",\\r\\n            \\\"emailAddresses\\\": [\\r\\n                \\\"noreply@softwareag.com\\\"\\r\\n            ]\\r\\n        }\""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"loginId\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddresses\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"allowDigestAuth\": \"<boolean>\",\n    \"active\": \"<boolean>\",\n    \"language\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/users/:userId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"description": "(Required) The path parameter specifies the id of an user whose details are to be retrieved.",
+									"key": "userId",
+									"value": "d120a8a4-7d54-4cae-aab4-758e7f39f6b2"
+								}
+							]
+						},
+						"description": "The method retrieves the details of an user in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the details of the user is successfully retrieved.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"users\\\": [\\r\\n        {\\r\\n            \\\"id\\\": \\\"15fbeeb2-745c-4988-b7b6-61f359ecbfc8\\\",\\r\\n            \\\"loginId\\\": \\\"testUser\\\",\\r\\n            \\\"firstName\\\": \\\"User\\\",\\r\\n            \\\"lastName\\\": \\\"Test\\\",\\r\\n            \\\"password\\\": \\\"********************************\\\",\\r\\n            \\\"type\\\": \\\"local\\\",\\r\\n            \\\"allowDigestAuth\\\": false,\\r\\n            \\\"active\\\": true,\\r\\n            \\\"emailAddresses\\\": [\\r\\n                \\\"noreply@softwareag.com\\\"\\r\\n            ]\\r\\n        }\\r\\n    ]\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that an user with the given id could not be found in API Gateway.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"errorDetails\\\": \\\" User with id: 15fbeeb2-745c-4988-b7b6-61f359ecbfc8 does not exist.\\\"\\r\\n}\""
+						}
+					]
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"d5233ce1-2b50-4c24-aec3-6dcc60a98876\",\r\n    \"loginId\": \"GatewayUser\",\r\n    \"firstName\": \"Admin\",\r\n    \"lastName\": \"Sales\",\r\n    \"language\": \"\",\r\n    \"password\": \"manage\",\r\n    \"type\": \"local\",\r\n    \"allowDigestAuth\": true,\r\n    \"active\": true,\r\n    \"emailAddresses\": [\r\n        \"gora@softwareag.com\"\r\n    ]\r\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/users/:userId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"description": "(Required) The path parameter specifies the id of an user whose detail is to be updated in API Gateway.",
+									"key": "userId",
+									"value": "d5233ce1-2b50-4c24-aec3-6dcc60a98876"
+								}
+							]
+						},
+						"description": "The method updates the details of a specified user in API Gateway. The API request body must contain the payload for the updated user."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"loginId\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddresses\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"allowDigestAuth\": \"<boolean>\",\n    \"active\": \"<boolean>\",\n    \"language\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the user has been successfully updated in API Gateway, and the updated user is available in the response body.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"loginId\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddresses\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"allowDigestAuth\": \"<boolean>\",\n    \"active\": \"<boolean>\",\n    \"language\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n  \\\"id\\\": \\\"15fbeeb2-745c-4988-b7b6-61f359ecbfc8\\\",\\r\\n            \\\"loginId\\\": \\\"testUser\\\",\\r\\n            \\\"firstName\\\": \\\"User\\\",\\r\\n            \\\"lastName\\\": \\\"Test\\\",\\r\\n            \\\"password\\\": \\\"test\\\",\\r\\n            \\\"type\\\": \\\"local\\\",\\r\\n            \\\"allowDigestAuth\\\": false,\\r\\n            \\\"emailAddresses\\\": [\\r\\n                \\\"noreply@softwareag.com\\\"\\r\\n            ]\\r\\n        }\""
+						},
+						{
+							"name": "This status code indicates that the request body is invalid.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"loginId\": \"<string>\",\n    \"firstName\": \"<string>\",\n    \"lastName\": \"<string>\",\n    \"emailAddresses\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"allowDigestAuth\": \"<boolean>\",\n    \"active\": \"<boolean>\",\n    \"language\": \"<string>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/users/:userId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "d120a8a4-7d54-4cae-aab4-758e7f39f6b2",
+									"description": "(Required) This parameter specifies the ID of an application that is to be deleted in API Gateway."
+								}
+							]
+						},
+						"description": "This HTTP request deletes the specified application in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that an user with the given id could not be found in API Gateway.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"errorDetails\\\": \\\" User with id: 732c4526-db9a-4ef9-9782-edda1a6aa9bc does not exist.\\\"\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the specified user has been successfully deleted from API Gateway.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "32f6df15-9616-4aa8-aef2-4e4c642e2521",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a9b65dfe-6eca-4da1-87a0-1347fee6a4d3",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Groups",
+			"item": [
+				{
+					"name": "Get All Groups",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/groups",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"groups"
+							]
+						},
+						"description": "The method retrieves list of all groups in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the list of groups is successfully retrieved.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/groups",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"groups\\\": [\\r\\n        {\\r\\n            \\\"id\\\": \\\"Administrators\\\",\\r\\n            \\\"name\\\": \\\"Administrators\\\",\\r\\n            \\\"description\\\": \\\"Users added to this group can perform similar local administrative tasks.\\\",\\r\\n            \\\"type\\\": \\\"local\\\",\\r\\n            \\\"systemDefined\\\": true,\\r\\n            \\\"userIds\\\": [\\r\\n                \\\"Administrator\\\"\\r\\n            ]\\r\\n        },\\r\\n        {\\r\\n            \\\"id\\\": \\\"API-Gateway-Administrators\\\",\\r\\n            \\\"name\\\": \\\"API-Gateway-Administrators\\\",\\r\\n            \\\"description\\\": \\\"Users added to this group can perform similar API Gateway Administrative tasks.\\\",\\r\\n            \\\"type\\\": \\\"local\\\",\\r\\n            \\\"systemDefined\\\": true,\\r\\n            \\\"userIds\\\": [\\r\\n                \\\"Administrator\\\"\\r\\n            ]\\r\\n        },\\r\\n        {\\r\\n            \\\"id\\\": \\\"API-Gateway-Providers\\\",\\r\\n            \\\"name\\\": \\\"API-Gateway-Providers\\\",\\r\\n            \\\"description\\\": \\\"Users added to this group can perform similar API Gateway Providers tasks.\\\",\\r\\n            \\\"type\\\": \\\"local\\\",\\r\\n            \\\"systemDefined\\\": true,\\r\\n            \\\"userIds\\\": []\\r\\n        },\\r\\n        {\\r\\n            \\\"id\\\": \\\"be9147a8-6e53-4472-b1bd-16337a84d314\\\",\\r\\n            \\\"name\\\": \\\"TestGrp\\\",\\r\\n            \\\"description\\\": \\\"\\\",\\r\\n            \\\"type\\\": \\\"local\\\",\\r\\n            \\\"systemDefined\\\": false,\\r\\n            \\\"userIds\\\": [\\r\\n                \\\"69aa914e-fbfc-4c74-87f1-2d48f589e115\\\"\\r\\n            ]\\r\\n        }\\r\\n    ]\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/groups",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Create Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userIds\": [\n        \"d5233ce1-2b50-4c24-aec3-6dcc60a98876\"\n    ],\n    \"name\": \"GatewayGroup\",\n    \"description\": \"description flows here\"\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/groups",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"groups"
+							]
+						},
+						"description": "The method creates a group in API Gateway. The API request body must contain the payload for the group."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"userIds\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/groups",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the group has been successfully created in API Gateway, and the newly created group is available in the response body.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"userIds\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/groups",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n\\t\\\"id\\\": \\\"be9147a8-6e53-4472-b1bd-16337a84d314\\\",\\r\\n\\t\\\"name\\\": \\\"TestGrp\\\",\\r\\n\\t\\\"description\\\": \\\"Group has all QA Members\\\",\\r\\n\\t\\\"type\\\": \\\"local\\\",\\r\\n\\t\\\"userIds\\\": [\\r\\n\\t\\t\\\"69aa914e-fbfc-4c74-87f1-2d48f589e115\\\"\\r\\n\\t]\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that a group with the given name already exists in API Gateway or the request body is not correct.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"userIds\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/groups",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Group details by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/groups/:groupId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"groups",
+								":groupId"
+							],
+							"variable": [
+								{
+									"description": "(Required) The path parameter specifies the id of a group whose details are to be retrieved.",
+									"key": "groupId",
+									"value": "af738f07-f32a-4101-9cc4-e697bec4a9d9"
+								}
+							]
+						},
+						"description": "The method retrieves the details of a group in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that a group with the given id could not be found in API Gateway.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/groups/:groupId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups",
+										":groupId"
+									],
+									"variable": [
+										{
+											"key": "groupId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"errorDetails\\\": \\\" Group with id: 15fbeeb2-745c-4988-b7b6-61f359ecbfc8 does not exist.\\\"\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that the details of the group is successfully retrieved.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/groups/:groupId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups",
+										":groupId"
+									],
+									"variable": [
+										{
+											"key": "groupId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"groups\\\": [\\r\\n        {\\r\\n            \\\"id\\\": \\\"be9147a8-6e53-4472-b1bd-16337a84d314\\\",\\r\\n            \\\"name\\\": \\\"TestGrp\\\",\\r\\n            \\\"description\\\": \\\"Group has all QA Members\\\",\\r\\n            \\\"type\\\": \\\"local\\\",\\r\\n            \\\"userIds\\\": [\\r\\n                \\\"69aa914e-fbfc-4c74-87f1-2d48f589e115\\\"\\r\\n            ]\\r\\n        }\\r\\n    ]\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that either group didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/groups/:groupId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups",
+										":groupId"
+									],
+									"variable": [
+										{
+											"key": "groupId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Update Group",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"af738f07-f32a-4101-9cc4-e697bec4a9d9\",\n    \"userIds\": [\n        \"d5233ce1-2b50-4c24-aec3-6dcc60a98876\"\n    ],\n    \"name\": \"GatewayGroup\",\n    \"description\": \"description flows here\"\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/groups/:groupId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"groups",
+								":groupId"
+							],
+							"variable": [
+								{
+									"description": "(Required) The path parameter specifies the id of a group whose detail is to be updated in API Gateway.",
+									"key": "groupId",
+									"value": "af738f07-f32a-4101-9cc4-e697bec4a9d9"
+								}
+							]
+						},
+						"description": "The method updates the details of a specified group in API Gateway. The API request body must contain the payload for the updated group."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the group has been successfully updated in API Gateway, and the updated group is available in the response body.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"userIds\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/groups/:groupId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups",
+										":groupId"
+									],
+									"variable": [
+										{
+											"key": "groupId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n\\t\\\"id\\\": \\\"be9147a8-6e53-4472-b1bd-16337a84d314\\\",\\r\\n\\t\\\"name\\\": \\\"TestGrp\\\",\\r\\n\\t\\\"description\\\": \\\"Group has all QA Members\\\",\\r\\n\\t\\\"type\\\": \\\"local\\\",\\r\\n\\t\\\"userIds\\\": [\\r\\n\\t\\t\\\"69aa914e-fbfc-4c74-87f1-2d48f589e115\\\"\\r\\n\\t]\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that the request body is invalid.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"userIds\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/groups/:groupId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups",
+										":groupId"
+									],
+									"variable": [
+										{
+											"key": "groupId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"userIds\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/groups/:groupId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups",
+										":groupId"
+									],
+									"variable": [
+										{
+											"key": "groupId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Delete Group",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/groups/:groupId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"groups",
+								":groupId"
+							],
+							"variable": [
+								{
+									"description": "(Required) The path parameter specifies the id of a group that is to be deleted from API Gateway.",
+									"key": "groupId",
+									"value": "af738f07-f32a-4101-9cc4-e697bec4a9d9"
+								}
+							]
+						},
+						"description": "The method deletes a group from API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that group with the given id could not be found in API Gateway.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/groups/:groupId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups",
+										":groupId"
+									],
+									"variable": [
+										{
+											"key": "groupId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"errorDetails\\\": \\\" Group with id: 732c4526-db9a-4ef9-9782-edda1a6aa9bc does not exist.\\\"\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/groups/:groupId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups",
+										":groupId"
+									],
+									"variable": [
+										{
+											"key": "groupId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the specified group has been successfully deleted from API Gateway.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/groups/:groupId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups",
+										":groupId"
+									],
+									"variable": [
+										{
+											"key": "groupId"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2a26a6b6-6c06-4e10-8ea9-bc74983dfbfe",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "60dcfc33-e258-4477-9a2f-6a973206c214",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Access Profiles",
+			"item": [
+				{
+					"name": "Get All Access Profiles",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/accessProfiles",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"accessProfiles"
+							]
+						},
+						"description": "The method retrieves list of all teams in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the list of teams is successfully retrieved.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"accessProfiles\\\": [\\r\\n        {\\r\\n            \\\"id\\\": \\\"Administrators\\\",\\r\\n            \\\"name\\\": \\\"Administrators\\\",\\r\\n            \\\"description\\\": \\\"Groups associated to this team are allowed to perform all the administration related tasks. \\\",\\r\\n            \\\"systemDefined\\\": true,\\r\\n            \\\"privilege\\\": \\\"1111111111111111111111111111111111111111111111111111111111111111\\\",\\r\\n            \\\"groupIds\\\": [\\r\\n                \\\"Administrators\\\",\\r\\n                \\\"API-Gateway-Administrators\\\"\\r\\n            ]\\r\\n        },\\r\\n        {\\r\\n            \\\"id\\\": \\\"API-Gateway-Providers\\\",\\r\\n            \\\"name\\\": \\\"API-Gateway-Providers\\\",\\r\\n            \\\"description\\\": \\\"Groups associated to this team are allowed to access an asset based on the functional privileges assigned to this team.\\\",\\r\\n            \\\"systemDefined\\\": true,\\r\\n            \\\"privilege\\\": \\\"111100101101100000001\\\",\\r\\n            \\\"groupIds\\\": [\\r\\n                \\\"API-Gateway-Providers\\\"\\r\\n            ]\\r\\n        },\\r\\n        {\\r\\n            \\\"id\\\": \\\"8b6f2e10-1d82-4813-b927-4c1cf4a4d029\\\",\\r\\n            \\\"name\\\": \\\"TestProfile\\\",\\r\\n            \\\"description\\\": \\\"Test\\\",\\r\\n            \\\"systemDefined\\\": false,\\r\\n            \\\"privilege\\\": \\\"101110000001100000110101\\\",\\r\\n            \\\"groupIds\\\": [\\r\\n                \\\"be9147a8-6e53-4472-b1bd-16337a84d314\\\"\\r\\n            ],\\r\\n            \\\"teamAdmin\\\": {\\r\\n                \\\"userIds\\\": [\\r\\n                    \\\"user1\\\"\\r\\n                ],\\r\\n                \\\"groupIds\\\": [\\r\\n                    \\\"group1\\\"\\r\\n                ]\\r\\n            }\\r\\n\\r\\n        }\\r\\n    ]\\r\\n}\""
+						}
+					]
+				},
+				{
+					"name": "Create Access Profile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"groupIds\": [\n        \"API-Gateway-Providers\"\n    ],\n    \"groups\": [],\n    \"privilege\": \"111111111111111111111111111\",\n    \"name\": \"GatewayTeam\",\n    \"description\": \"description flows here\",\n    \"teamAdmin\": {\n        \"userIds\": [\n            \"d5233ce1-2b50-4c24-aec3-6dcc60a98876\"\n        ],\n        \"groupIds\": [\n            \"af738f07-f32a-4101-9cc4-e697bec4a9d9\"\n        ],\n        \"users\": [],\n        \"groups\": []\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/accessProfiles",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"accessProfiles"
+							]
+						},
+						"description": "The method creates a team in API Gateway. The API request body must contain the payload for the team. Each bit infers the applicability of the functional privilege permission. Value 1 implies permission granted for that functional privilege. Value  0 implies denied permission. Function Privileges and its positions from left most bit to the right most bit. 1.Manage APIs2.Activate / Deactivate APIs3.Manage applications4.Manage aliases5.Manage global policies6.Activate / Deactivate global policies7.Manage policy templates8.Manage threat protection configurations9.Manage packages and plans10.Activate / Deactivate packages11.Publish to API Portal12.Import assets13.Export assets14.View administration configurations15.Manage general administration configurations16.Manage security configurations17.Manage destination configurations18.Manage system settings19.Manage user administration20.Manage purge and restore runtime events21.Execute service result cache APIs22.Manage Promotion23.Publish API to Service Registry24.Manage Service Registries"
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"privilege\": {\n        \"empty\": \"<boolean>\"\n    },\n    \"groupIds\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"teamAdmin\": {\n        \"userIds\": [\n            \"<string>\",\n            \"<string>\"\n        ],\n        \"groupIds\": [\n            \"<string>\",\n            \"<string>\"\n        ]\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the team has been successfully created in API Gateway, and the newly created team is available in the response body.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"privilege\": {\n        \"empty\": \"<boolean>\"\n    },\n    \"groupIds\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"teamAdmin\": {\n        \"userIds\": [\n            \"<string>\",\n            \"<string>\"\n        ],\n        \"groupIds\": [\n            \"<string>\",\n            \"<string>\"\n        ]\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"id\\\": \\\"8b6f2e10-1d82-4813-b927-4c1cf4a4d029\\\",\\r\\n    \\\"name\\\": \\\"TestProfile\\\",\\r\\n    \\\"description\\\": \\\"Test\\\",\\r\\n    \\\"privilege\\\": \\\"101110000001100000110101\\\",\\r\\n    \\\"groupIds\\\": [\\r\\n        \\\"be9147a8-6e53-4472-b1bd-16337a84d314\\\"\\r\\n    ],\\r\\n    \\\"teamAdmin\\\": {\\r\\n        \\\"userIds\\\": [\\r\\n    \\\"Administrator\\\"\\r\\n        ],\\r\\n        \\\"groupIds\\\": [\\r\\n    \\\"Administrators\\\"\\r\\n        ]\\r\\n    }\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that a team with the given name already exists in API Gateway or the request body is not correct.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"privilege\": {\n        \"empty\": \"<boolean>\"\n    },\n    \"groupIds\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"teamAdmin\": {\n        \"userIds\": [\n            \"<string>\",\n            \"<string>\"\n        ],\n        \"groupIds\": [\n            \"<string>\",\n            \"<string>\"\n        ]\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Access Profile details by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/accessProfiles/:accessProfileId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"accessProfiles",
+								":accessProfileId"
+							],
+							"variable": [
+								{
+									"description": "(Required) The path parameter specifies the id of a team whose details are to be retrieved.",
+									"key": "accessProfileId",
+									"value": "d20206ad-dc30-43f6-9f04-b92f9a31139c"
+								}
+							]
+						},
+						"description": "The method retrieves the details of a team in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the details of the team is successfully retrieved.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles/:accessProfileId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles",
+										":accessProfileId"
+									],
+									"variable": [
+										{
+											"key": "accessProfileId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"id\\\": \\\"8b6f2e10-1d82-4813-b927-4c1cf4a4d029\\\",\\r\\n    \\\"name\\\": \\\"TestProfile\\\",\\r\\n    \\\"description\\\": \\\"Test\\\",\\r\\n    \\\"systemDefined\\\": false,\\r\\n    \\\"privilege\\\": \\\"1011100000011000001\\\",\\r\\n    \\\"groupIds\\\": [\\r\\n        \\\"be9147a8-6e53-4472-b1bd-16337a84d314\\\"\\r\\n    ],\\r\\n    \\\"teamAdmin\\\": {\\r\\n        \\\"userIds\\\": [\\r\\n            \\\"Administrator\\\"\\r\\n        ],\\r\\n        \\\"groupIds\\\": [\\r\\n            \\\"Administrators\\\"\\r\\n        ]\\r\\n    }\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that a team with the given id could not be found in API Gateway.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles/:accessProfileId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles",
+										":accessProfileId"
+									],
+									"variable": [
+										{
+											"key": "accessProfileId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"errorDetails\\\": \\\" AccessProfile with id: 15fbeeb2-745c-4988-b7b6-61f359ecbfc8 does not exist.\\\"\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles/:accessProfileId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles",
+										":accessProfileId"
+									],
+									"variable": [
+										{
+											"key": "accessProfileId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Update Access Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"d20206ad-dc30-43f6-9f04-b92f9a31139c\",\n    \"groupIds\": [\n        \"API-Gateway-Providers\"\n    ],\n    \"groups\": [],\n    \"privilege\": \"111111111111111111111111111\",\n    \"name\": \"GatewayTeam\",\n    \"description\": \"description flows here\",\n    \"teamAdmin\": {\n        \"userIds\": [\n            \"d5233ce1-2b50-4c24-aec3-6dcc60a98876\"\n        ],\n        \"groupIds\": [\n            \"af738f07-f32a-4101-9cc4-e697bec4a9d9\"\n        ],\n        \"users\": [],\n        \"groups\": []\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/accessProfiles/:accessProfileId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"accessProfiles",
+								":accessProfileId"
+							],
+							"variable": [
+								{
+									"description": "(Required) The path parameter specifies the id of a team whose detail is to be updated in API Gateway.",
+									"key": "accessProfileId",
+									"value": "d20206ad-dc30-43f6-9f04-b92f9a31139c"
+								}
+							]
+						},
+						"description": "The method updates the details of a specified team in API Gateway. The API request body must contain the payload for the updated accessProfile."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"privilege\": {\n        \"empty\": \"<boolean>\"\n    },\n    \"groupIds\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"teamAdmin\": {\n        \"userIds\": [\n            \"<string>\",\n            \"<string>\"\n        ],\n        \"groupIds\": [\n            \"<string>\",\n            \"<string>\"\n        ]\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles/:accessProfileId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles",
+										":accessProfileId"
+									],
+									"variable": [
+										{
+											"key": "accessProfileId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the request body is invalid.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"privilege\": {\n        \"empty\": \"<boolean>\"\n    },\n    \"groupIds\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"teamAdmin\": {\n        \"userIds\": [\n            \"<string>\",\n            \"<string>\"\n        ],\n        \"groupIds\": [\n            \"<string>\",\n            \"<string>\"\n        ]\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles/:accessProfileId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles",
+										":accessProfileId"
+									],
+									"variable": [
+										{
+											"key": "accessProfileId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the team has been successfully updated in API Gateway, and the updated team is available in the response body.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"privilege\": {\n        \"empty\": \"<boolean>\"\n    },\n    \"groupIds\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"teamAdmin\": {\n        \"userIds\": [\n            \"<string>\",\n            \"<string>\"\n        ],\n        \"groupIds\": [\n            \"<string>\",\n            \"<string>\"\n        ]\n    }\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles/:accessProfileId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles",
+										":accessProfileId"
+									],
+									"variable": [
+										{
+											"key": "accessProfileId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"id\\\": \\\"8b6f2e10-1d82-4813-b927-4c1cf4a4d029\\\",\\r\\n    \\\"name\\\": \\\"TestProfile\\\",\\r\\n    \\\"description\\\": \\\"Test\\\",\\r\\n    \\\"systemDefined\\\": false,\\r\\n    \\\"privilege\\\": \\\"1011100000011000001\\\",\\r\\n    \\\"groupIds\\\": [\\r\\n        \\\"be9147a8-6e53-4472-b1bd-16337a84d314\\\"\\r\\n    ],\\r\\n    \\\"teamAdmin\\\": {\\r\\n        \\\"userIds\\\": [\\r\\n            \\\"Administrator\\\"\\r\\n        ],\\r\\n        \\\"groupIds\\\": [\\r\\n            \\\"Administrators\\\"\\r\\n        ]\\r\\n    }\\r\\n}\""
+						}
+					]
+				},
+				{
+					"name": "Delete Access Profile",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/accessProfiles/:accessProfileId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"accessProfiles",
+								":accessProfileId"
+							],
+							"variable": [
+								{
+									"description": "(Required) This parameter specifies the ID of a team that is to be deleted in API Gateway.",
+									"key": "accessProfileId",
+									"value": "d20206ad-dc30-43f6-9f04-b92f9a31139c"
+								}
+							]
+						},
+						"description": "The method deletes a team from API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that team with the given id could not be found in API Gateway.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles/:accessProfileId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles",
+										":accessProfileId"
+									],
+									"variable": [
+										{
+											"key": "accessProfileId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"errorDetails\\\": \\\" AccessProfile with id: 732c4526-db9a-4ef9-9782-edda1a6aa9bc does not exist.\\\"\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that the specified team has been successfully deleted from API Gateway.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles/:accessProfileId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles",
+										":accessProfileId"
+									],
+									"variable": [
+										{
+											"key": "accessProfileId"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/accessProfiles/:accessProfileId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"accessProfiles",
+										":accessProfileId"
+									],
+									"variable": [
+										{
+											"key": "accessProfileId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3d5ee17d-667d-4f96-a80c-05cb314fe6c4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "fd869e44-31c2-44e7-8d1f-59a0873c0d32",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "manage",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Administrator",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"id": "750d9b18-16a5-4465-9793-2e98e5d306e8",
+			"key": "baseURL",
+			"value": "http://localhost:5555/rest/apigateway",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

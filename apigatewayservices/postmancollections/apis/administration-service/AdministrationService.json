@@ -1,0 +1,4529 @@
+{
+	"info": {
+		"_postman_id": "2b1dc6c7-b42c-42fc-b876-7afb0c1de83b",
+		"name": "Administration Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "URL Aliases",
+			"item": [
+				{
+					"name": "Get URL Aliases",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/urlaliases",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"urlaliases"
+							]
+						},
+						"description": "Retrieves all URL Aliases"
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the fetching of the requested URL alias(es) from API Gateway have been successful.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"urlAliases\": [\n  {\n   \"alias\": \"<string>\",\n   \"package\": \"WmAPIGateway\",\n   \"id\": \"<string>\",\n   \"urlPath\": \"<string>\",\n   \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n   \"association\": \"1\"\n  },\n  {\n   \"alias\": \"<string>\",\n   \"package\": \"WmAPIGateway\",\n   \"id\": \"<string>\",\n   \"urlPath\": \"<string>\",\n   \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n   \"association\": \"1\"\n  }\n ]\n}"
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the requested HTTP method is not supported for the resource.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Method Not Allowed",
+							"code": 405,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the requested resource is not found.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates an error occurred while retrieving the URL Alias from API Gateway.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates invalid request or bad input.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get URL Aliases by Alias",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/urlaliases?alias=test",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"urlaliases"
+							],
+							"query": [
+								{
+									"key": "alias",
+									"value": "test"
+								}
+							]
+						},
+						"description": "Retrieves all URL Aliases"
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the requested HTTP method is not supported for the resource.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Method Not Allowed",
+							"code": 405,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates an error occurred while retrieving the URL Alias from API Gateway.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the requested resource is not found.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the fetching of the requested URL alias(es) from API Gateway have been successful.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"urlAliases\": [\n  {\n   \"alias\": \"<string>\",\n   \"package\": \"WmAPIGateway\",\n   \"id\": \"<string>\",\n   \"urlPath\": \"<string>\",\n   \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n   \"association\": \"1\"\n  },\n  {\n   \"alias\": \"<string>\",\n   \"package\": \"WmAPIGateway\",\n   \"id\": \"<string>\",\n   \"urlPath\": \"<string>\",\n   \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n   \"association\": \"1\"\n  }\n ]\n}"
+						},
+						{
+							"name": "This status code indicates invalid request or bad input.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Create URL Alias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"alias\": \"URLAlias\",\n    \"urlPath\": \"gateway/getUsers\",\n    \"association\": \"1\",\n    \"package\": \"WmAPIGateway\",\n    \"portMapStringList\": [\n        \"5555#getUser\",\n        \"3334#getUsers\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/urlaliases",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"urlaliases"
+							]
+						},
+						"description": "Creates a new URL Alias in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the requested HTTP method is not supported for the resource.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"<string>\",\n    \"package\": \"WmAPIGateway\",\n    \"urlPath\": \"<string>\",\n    \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n    \"association\": \"1\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									]
+								}
+							},
+							"status": "Method Not Allowed",
+							"code": 405,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the requested resource is not found.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"<string>\",\n    \"package\": \"WmAPIGateway\",\n    \"urlPath\": \"<string>\",\n    \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n    \"association\": \"1\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates an error occurred while persisting the URL Alias in the API Gateway.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"<string>\",\n    \"package\": \"WmAPIGateway\",\n    \"urlPath\": \"<string>\",\n    \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n    \"association\": \"1\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"<string>\",\n    \"package\": \"WmAPIGateway\",\n    \"urlPath\": \"<string>\",\n    \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n    \"association\": \"1\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the URL alias has been successfully created in API Gateway.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"<string>\",\n    \"package\": \"WmAPIGateway\",\n    \"urlPath\": \"<string>\",\n    \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n    \"association\": \"1\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"alias\": \"<string>\",\n \"package\": \"WmAPIGateway\",\n \"id\": \"<string>\",\n \"urlPath\": \"<string>\",\n \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n \"association\": \"1\"\n}"
+						},
+						{
+							"name": "This status code indicates invalid request or bad input.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"<string>\",\n    \"package\": \"WmAPIGateway\",\n    \"urlPath\": \"<string>\",\n    \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n    \"association\": \"1\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Update URL Alias",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"alias\": \"URLAlias\",\n    \"urlPath\": \"gateway/getUser\",\n    \"association\": \"1\",\n    \"package\": \"WmAPIGateway\",\n    \"portMapStringList\": [\n        \"5555#getUser\",\n        \"3334#getUsers\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/urlaliases",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"urlaliases"
+							]
+						},
+						"description": "Updates an existing URL Alias in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates invalid request or bad input.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"<string>\",\n    \"package\": \"WmAPIGateway\",\n    \"urlPath\": \"<string>\",\n    \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n    \"association\": \"1\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates an error occurred while persisting the URL Alias in the API Gateway.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"<string>\",\n    \"package\": \"WmAPIGateway\",\n    \"urlPath\": \"<string>\",\n    \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n    \"association\": \"1\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the URL alias has been successfully updated in API Gateway.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"<string>\",\n    \"package\": \"WmAPIGateway\",\n    \"urlPath\": \"<string>\",\n    \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n    \"association\": \"1\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"alias\": \"<string>\",\n \"package\": \"WmAPIGateway\",\n \"id\": \"<string>\",\n \"urlPath\": \"<string>\",\n \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n \"association\": \"1\"\n}"
+						},
+						{
+							"name": "This status code indicates that the requested resource is not found.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"<string>\",\n    \"package\": \"WmAPIGateway\",\n    \"urlPath\": \"<string>\",\n    \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n    \"association\": \"1\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the requested HTTP method is not supported for the resource.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"<string>\",\n    \"package\": \"WmAPIGateway\",\n    \"urlPath\": \"<string>\",\n    \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n    \"association\": \"1\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									]
+								}
+							},
+							"status": "Method Not Allowed",
+							"code": 405,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"alias\": \"<string>\",\n    \"package\": \"WmAPIGateway\",\n    \"urlPath\": \"<string>\",\n    \"portList\": \"[5555#gateway/ws/soapapi/v1/getOperation,5556#gateway/ws/soapapi/v2/testOp]\",\n    \"association\": \"1\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Delete URL Alias by Alias",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/urlaliases?alias=URLAlias",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"urlaliases"
+							],
+							"query": [
+								{
+									"key": "alias",
+									"value": "URLAlias",
+									"description": "(Required) The name of the URL alias to be deleted."
+								}
+							]
+						},
+						"description": "The method deletes an URL alias in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the requested resource is not found.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates an error occurred while persisting the URL Alias in the API Gateway.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the requested HTTP method is not supported for the resource.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Method Not Allowed",
+							"code": 405,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the URL alias has been successfully deleted in API Gateway.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates invalid request or bad input.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/urlaliases?alias=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"urlaliases"
+									],
+									"query": [
+										{
+											"key": "alias",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6cd4a3e5-dba5-4168-a244-c6499bdd369c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a2340733-74e9-4f02-995f-e575fbdcd77e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Portal Gateways",
+			"item": [
+				{
+					"name": "Get All API Portal Configuration",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/portalGateways",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"portalGateways"
+							]
+						},
+						"description": "This API allows you to retrieve API Portal configurations available in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that all the API Portal configurations are retrieved successfully.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n\\t\\\"portalGatewayResponse\\\": [{\\r\\n\\t\\t\\t\\\"id\\\": \\\"c7059719-e434-4b45-9b09-b5176fa8b787\\\",\\r\\n\\t\\t\\t\\\"gatewayName\\\": \\\"myportal\\\",\\r\\n\\t\\t\\t\\\"gatewayUsername\\\": \\\"adminUser\\\",\\r\\n\\t\\t\\t\\\"gatewayPassword\\\": \\\"*****\\\",\\r\\n\\t\\t\\t\\\"gatewayURL\\\": \\\"http://apigateway_host:5555\\\",\\r\\n\\t\\t\\t\\\"refId\\\": \\\"2609fc40-87d2-11e7-1298-d481d790920c\\\",\\r\\n\\t\\t\\t\\\"externalPortal\\\": {\\r\\n\\t\\t\\t\\t\\\"type\\\": \\\"apiportal\\\",\\r\\n\\t\\t\\t\\t\\\"endpointTenant\\\": \\\"default\\\",\\r\\n\\t\\t\\t\\t\\\"endpointURL\\\": \\\"http://api_portal_host/\\\",\\r\\n\\t\\t\\t\\t\\\"endpointUsername\\\": \\\"adminUser\\\",\\r\\n\\t\\t\\t\\t\\\"endpointPassword\\\": \\\"*****\\\"\\r\\n\\t\\t\\t},\\r\\n\\t\\t\\t\\\"version\\\": \\\"1.0\\\",\\r\\n\\t\\t\\t\\\"published\\\": true\\r\\n\\t\\t}\\r\\n\\r\\n\\t]\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Create API Portal Configuration",
+					"request": {
+						"auth": {
+							"type": "basic"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gatewayName\": \"API Portal\",\n    \"gatewayUsername\": \"Administrator\",\n    \"gatewayPassword\": \"********************************\",\n    \"gatewayURL\": \"http://localhost:5555\",\n    \"externalPortal\": {\n        \"endpointTenant\": \"default\",\n        \"endpointURL\": \"https://apiportal.com/\",\n        \"endpointUsername\": \"support@softwareag.com\",\n        \"endpointPassword\": \"********************************\",\n        \"type\": \"apiportal\"\n    },\n    \"version\": \"10.5.0.0.1\",\n    \"published\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/portalGateways",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"portalGateways"
+							]
+						},
+						"description": "This method allows you to create the API Portal configuration in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that an error occurred while processing the information in API Gateway or while communicating with API Portal.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the API Portal configuration is created successfully.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n\\t\\\"portalGatewayResponse\\\": [{\\r\\n\\t\\t\\\"id\\\": \\\"c7059719-e434-4b45-9b09-b5176fa8b787\\\",\\r\\n\\t\\t\\\"gatewayName\\\": \\\"myportal\\\",\\r\\n\\t\\t\\\"gatewayUsername\\\": \\\"adminUser\\\",\\r\\n\\t\\t\\\"gatewayPassword\\\": \\\"*****\\\",\\r\\n\\t\\t\\\"gatewayURL\\\": \\\"http://apigateway_host:5555\\\",\\r\\n\\t\\t\\\"refId\\\": \\\"2609fc40-87d2-11e7-1298-d481d790920c\\\",\\r\\n\\t\\t\\\"externalPortal\\\": {\\r\\n\\t\\t\\t\\\"type\\\": \\\"apiportal\\\",\\r\\n\\t\\t\\t\\\"endpointTenant\\\": \\\"default\\\",\\r\\n\\t\\t\\t\\\"endpointURL\\\": \\\"http://apiportal_host/\\\",\\r\\n\\t\\t\\t\\\"endpointUsername\\\": \\\"adminUser\\\",\\r\\n\\t\\t\\t\\\"endpointPassword\\\": \\\"*****\\\"\\r\\n\\t\\t},\\r\\n\\t\\t\\\"version\\\": \\\"1.0\\\",\\r\\n\\t\\t\\\"published\\\": true\\r\\n\\t}]\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that the user has missed some mandatory field that is required to create the API Portal configuration.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get API Portal Metadata",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/portalGateways/communities?portalGatewayId=d663e093-b39a-4330-93b9-fcb68d1a2c3d&apiId=2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"portalGateways",
+								"communities"
+							],
+							"query": [
+								{
+									"key": "portalGatewayId",
+									"value": "d663e093-b39a-4330-93b9-fcb68d1a2c3d",
+									"description": "(Required) Id of the API Portal configuration for retrieval of the community information"
+								},
+								{
+									"key": "apiId",
+									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0",
+									"description": "(Required) Id of the API published from API Gateway to API Portal"
+								}
+							]
+						},
+						"description": "This API allows you to retrieve the details about communities in API Portal. An API can be published from API Gateway to any of the communities available in API Portal"
+					},
+					"response": [
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/communities?portalGatewayId=<string>&apiId=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										"communities"
+									],
+									"query": [
+										{
+											"key": "portalGatewayId",
+											"value": "<string>"
+										},
+										{
+											"key": "apiId",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the the community information from the API Portal is retrieved successfully.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/communities?portalGatewayId=<string>&apiId=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										"communities"
+									],
+									"query": [
+										{
+											"key": "portalGatewayId",
+											"value": "<string>"
+										},
+										{
+											"key": "apiId",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n\\t\\\"portalGatewayResponse\\\": {\\r\\n\\t\\t\\\"provider\\\": \\\"mcprga02\\\",\\r\\n\\t\\t\\\"communities\\\": {\\r\\n\\t\\t\\t\\\"portalCommunities\\\": [{\\r\\n\\t\\t\\t\\t\\\"id\\\": \\\"3bdf8005-5685-3ef5-b132-de4681963fb6\\\",\\r\\n\\t\\t\\t\\t\\\"name\\\": \\\"Public Community\\\",\\r\\n\\t\\t\\t\\t\\\"description\\\": \\\"Public Community\\\",\\r\\n\\t\\t\\t\\t\\\"status\\\": \\\"NEW\\\"\\r\\n\\t\\t\\t}]\\r\\n\\t\\t}\\r\\n\\t}\\r\\n}\""
+						}
+					]
+				},
+				{
+					"name": "Get Published Packages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/portalGateways/packages?portalGatewayId=d663e093-b39a-4330-93b9-fcb68d1a2c3d&apiId=2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"portalGateways",
+								"packages"
+							],
+							"query": [
+								{
+									"key": "portalGatewayId",
+									"value": "d663e093-b39a-4330-93b9-fcb68d1a2c3d",
+									"description": "(Required) Id of the API Portal configuration for retrieval of published packages information"
+								},
+								{
+									"key": "apiId",
+									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0",
+									"description": "(Required) Id of the API published from API Gateway to API Portal"
+								}
+							]
+						},
+						"description": "This API allows you to retrieve the details of the published packages that the API is part of"
+					},
+					"response": [
+						{
+							"name": "Untitled Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/packages?portalGatewayId=<string>&apiId=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										"packages"
+									],
+									"query": [
+										{
+											"key": "portalGatewayId",
+											"value": "<string>"
+										},
+										{
+											"key": "apiId",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n \"<object>\"\n]"
+						},
+						{
+							"name": "Untitled Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/packages?portalGatewayId=<string>&apiId=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										"packages"
+									],
+									"query": [
+										{
+											"key": "portalGatewayId",
+											"value": "<string>"
+										},
+										{
+											"key": "apiId",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get API Portal Configuration",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/portalGateways/:portalGatewayId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"portalGateways",
+								":portalGatewayId"
+							],
+							"variable": [
+								{
+									"description": "(Required) Id of the API Portal configuration for retrieval",
+									"key": "portalGatewayId",
+									"value": "9fc21565-8cb0-48b9-9616-695c120fda09"
+								}
+							]
+						},
+						"description": "This API allows you to retrieve an API Portal configuration in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the API Portal configuration is retrieved successfully.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/:portalGatewayId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										":portalGatewayId"
+									],
+									"variable": [
+										{
+											"key": "portalGatewayId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n\\t\\\"portalGatewayResponse\\\": {\\r\\n\\t\\t\\\"id\\\": \\\"c7059719-e434-4b45-9b09-b5176fa8b787\\\",\\r\\n\\t\\t\\\"gatewayName\\\": \\\"mygateway\\\",\\r\\n\\t\\t\\\"gatewayUsername\\\": \\\"adminUser\\\",\\r\\n\\t\\t\\\"gatewayPassword\\\": \\\"*****\\\",\\r\\n\\t\\t\\\"gatewayURL\\\": \\\"http://apigateway_host:5555\\\",\\r\\n\\t\\t\\\"refId\\\": \\\"2609fc40-87d2-11e7-1298-d481d790920c\\\",\\r\\n\\t\\t\\\"externalPortal\\\": {\\r\\n\\t\\t\\t\\\"type\\\": \\\"apiportal\\\",\\r\\n\\t\\t\\t\\\"endpointTenant\\\": \\\"default\\\",\\r\\n\\t\\t\\t\\\"endpointURL\\\": \\\"http://apiportal_host/\\\",\\r\\n\\t\\t\\t\\\"endpointUsername\\\": \\\"adminUser\\\",\\r\\n\\t\\t\\t\\\"endpointPassword\\\": \\\"*****\\\"\\r\\n\\t\\t},\\r\\n\\t\\t\\\"version\\\": \\\"1.0\\\",\\r\\n\\t\\t\\\"published\\\": true\\r\\n\\t}\\r\\n}\""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/:portalGatewayId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										":portalGatewayId"
+									],
+									"variable": [
+										{
+											"key": "portalGatewayId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the API Portal configuration is not available.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/:portalGatewayId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										":portalGatewayId"
+									],
+									"variable": [
+										{
+											"key": "portalGatewayId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Update API Portal Configuration",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"9fc21565-8cb0-48b9-9616-695c120fda09\",\n    \"gatewayName\": \"API Portal\",\n    \"gatewayUsername\": \"Administrator\",\n    \"gatewayPassword\": \"********************************\",\n    \"gatewayURL\": \"http://localhost:5555\",\n    \"externalPortal\": {\n        \"endpointTenant\": \"default\",\n        \"endpointURL\": \"https://apiportal.com/\",\n        \"endpointUsername\": \"support@softwareag.com\",\n        \"endpointPassword\": \"********************************\",\n        \"type\": \"apiportal\"\n    },\n    \"version\": \"10.5.0.0.1\",\n    \"published\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/portalGateways/:portalGatewayId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"portalGateways",
+								":portalGatewayId"
+							],
+							"variable": [
+								{
+									"description": "(Required) Id of the API Portal configuration for update",
+									"key": "portalGatewayId",
+									"value": "9fc21565-8cb0-48b9-9616-695c120fda09"
+								}
+							]
+						},
+						"description": "This API allows you to update API Portal configuration information in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the API Portal configuration is not available.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/:portalGatewayId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										":portalGatewayId"
+									],
+									"variable": [
+										{
+											"key": "portalGatewayId"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/:portalGatewayId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										":portalGatewayId"
+									],
+									"variable": [
+										{
+											"key": "portalGatewayId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the user has missed some mandatory field that is required to update the API Portal configuration.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/:portalGatewayId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										":portalGatewayId"
+									],
+									"variable": [
+										{
+											"key": "portalGatewayId"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that an error occurred while processing the information in API Gateway or while communicating with API Portal.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/:portalGatewayId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										":portalGatewayId"
+									],
+									"variable": [
+										{
+											"key": "portalGatewayId"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the API Portal configuration is updated successfully.",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/:portalGatewayId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										":portalGatewayId"
+									],
+									"variable": [
+										{
+											"key": "portalGatewayId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n\\t\\\"portalGatewayResponse\\\": [{\\r\\n\\t\\t\\\"id\\\": \\\"c7059719-e434-4b45-9b09-b5176fa8b787\\\",\\r\\n\\t\\t\\\"gatewayName\\\": \\\"myportal\\\",\\r\\n\\t\\t\\\"gatewayUsername\\\": \\\"adminUser\\\",\\r\\n\\t\\t\\\"gatewayPassword\\\": \\\"*****\\\",\\r\\n\\t\\t\\\"gatewayURL\\\": \\\"http://apigateway_host:5555\\\",\\r\\n\\t\\t\\\"refId\\\": \\\"2609fc40-87d2-11e7-1298-d481d790920c\\\",\\r\\n\\t\\t\\\"externalPortal\\\": {\\r\\n\\t\\t\\t\\\"type\\\": \\\"apiportal\\\",\\r\\n\\t\\t\\t\\\"endpointTenant\\\": \\\"default\\\",\\r\\n\\t\\t\\t\\\"endpointURL\\\": \\\"http://apiportal_host/\\\",\\r\\n\\t\\t\\t\\\"endpointUsername\\\": \\\"adminUser\\\",\\r\\n\\t\\t\\t\\\"endpointPassword\\\": \\\"*****\\\"\\r\\n\\t\\t},\\r\\n\\t\\t\\\"version\\\": \\\"1.0\\\",\\r\\n\\t\\t\\\"published\\\": true\\r\\n\\t}]\\r\\n}\""
+						}
+					]
+				},
+				{
+					"name": "Delete API Portal Configuration",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/portalGateways/:portalGatewayId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"portalGateways",
+								":portalGatewayId"
+							],
+							"variable": [
+								{
+									"key": "portalGatewayId",
+									"value": "9fc21565-8cb0-48b9-9616-695c120fda09",
+									"description": "(Required) Id of the API Portal configuration for delete."
+								}
+							]
+						},
+						"description": "This API allows you to delete an API Portal configuration in API Gateway."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the API Portal configuration is deleted successfully.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/:portalGatewayId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										":portalGatewayId"
+									],
+									"variable": [
+										{
+											"key": "portalGatewayId"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portalGateways/:portalGatewayId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portalGateways",
+										":portalGatewayId"
+									],
+									"variable": [
+										{
+											"key": "portalGatewayId"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0b568a18-de97-40dd-a262-93bdf8481f3e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9ed81d92-8fa6-4d31-a481-9ad09d104676",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "API Transactions",
+			"item": [
+				{
+					"name": "Download API Transaction",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/apitransactions?duration=3d&startDate=2020-04-18 00:00:00&endDate=2020-04-21 00:00:00&eventType=ALL",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"apitransactions"
+							],
+							"query": [
+								{
+									"key": "duration",
+									"value": "3d",
+									"description": "All the api transactions that are older than the value specified will be downloaded. Ex: duration='2d'. Possible values are d(days),M(months),y(years), lets say a. 2d means 2days   b. 1M  means 1 month   c. 1y means 1 year. Either one of (startDate&endDate) or duration is a mandatory parameter"
+								},
+								{
+									"key": "startDate",
+									"value": "2020-04-18 00:00:00",
+									"description": "(Required) This is a date parameter. All the specified api transactions which satiesfies the startDate and endDate criteria will be downloaded. Example value: startDate=2017-12-18 00:00:00 and endDate=2017-12-19 00:00:00. Either one of (startDate and endDate) or duration is a mandatory parameter"
+								},
+								{
+									"key": "endDate",
+									"value": "2020-04-21 00:00:00",
+									"description": "(Required) This is a date parameter. All the specified api transactions which satiesfies the startDate and endDate criteria will be downloaded. Example value: startDate=2017-12-18 00:00:00 and endDate=2017-12-19 00:00:00. Either one of (startDate and endDate) or duration is a mandatory parameter"
+								},
+								{
+									"key": "eventType",
+									"value": "ALL",
+									"description": "(Required) This parameter is used to specify the event type that needs to be downloaded. specify any specific type to download that particular event type alone. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditLogs 9.applicationlogs"
+								}
+							]
+						},
+						"description": "The GET method is used to download the api transactions data and data to be downloaded is filtered based on the input parameters. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."
+					},
+					"response": [
+						{
+							"name": "This response indicates that the server has encountered an error while downloading the api transactions. ",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions?duration=<string>&startDate=<string>&endDate=<string>&eventType=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions"
+									],
+									"query": [
+										{
+											"key": "duration",
+											"value": "<string>"
+										},
+										{
+											"key": "startDate",
+											"value": "<string>"
+										},
+										{
+											"key": "endDate",
+											"value": "<string>"
+										},
+										{
+											"key": "eventType",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that invalid credentials have been provided for the request.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions?duration=<string>&startDate=<string>&endDate=<string>&eventType=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions"
+									],
+									"query": [
+										{
+											"key": "duration",
+											"value": "<string>"
+										},
+										{
+											"key": "startDate",
+											"value": "<string>"
+										},
+										{
+											"key": "endDate",
+											"value": "<string>"
+										},
+										{
+											"key": "eventType",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the request URL is not valid.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions?duration=<string>&startDate=<string>&endDate=<string>&eventType=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions"
+									],
+									"query": [
+										{
+											"key": "duration",
+											"value": "<string>"
+										},
+										{
+											"key": "startDate",
+											"value": "<string>"
+										},
+										{
+											"key": "endDate",
+											"value": "<string>"
+										},
+										{
+											"key": "eventType",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that the api transactions zip file has been downloaded successfully.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions?duration=<string>&startDate=<string>&endDate=<string>&eventType=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions"
+									],
+									"query": [
+										{
+											"key": "duration",
+											"value": "<string>"
+										},
+										{
+											"key": "startDate",
+											"value": "<string>"
+										},
+										{
+											"key": "endDate",
+											"value": "<string>"
+										},
+										{
+											"key": "eventType",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/zip"
+								}
+							],
+							"cookie": [],
+							"body": "attachment; filename=\"auditlogs.zip\""
+						}
+					]
+				},
+				{
+					"name": "Purge API Transactions",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/apitransactions?action=purge&until=2020-04-21%2008:00:00&olderThan=&eventType=ALL",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"apitransactions"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "purge",
+									"description": "This is an optional query parameter. Sometimes its better to take backup before purging the data . If you specify the action value as \"archiveAndPurge\", API Gateway will perform an archive before purging the data."
+								},
+								{
+									"key": "until",
+									"value": "2020-04-21%2008:00:00",
+									"description": "(Required) This is a date parameter. All the specified api transactions until the given date will be purged. Example value: until=2017-12-18 00:00:00. Either one of until or duration is a mandatory parameter"
+								},
+								{
+									"key": "olderThan",
+									"value": "",
+									"description": "All the api transactions that are older than the value specified will be purged. Ex: olderThan='2d'. Possible values are d(days),M(months),y(years), lets say a. 2d means 2days   b. 1M  means 1 month   c. 1y means 1 year"
+								},
+								{
+									"key": "eventType",
+									"value": "ALL",
+									"description": "(Required) This parameter is used to specify the event type that needs to be purged. Specify eventType=ALL to purge all the events and specify any specific type to purge that particular event type alone. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditLogs 9.applicationlogs"
+								}
+							]
+						},
+						"description": "The DELETE method is used to purge the api transactions data and data to be purged is filtered based on the input parameters. This method returns the job id as response and the job id is used to track the job status. See /apitransactions/jobs/{jobId} for more details. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."
+					},
+					"response": [
+						{
+							"name": "This status code indicates that the request URL is not valid.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions?action=<string>&until=<string>&olderThan=<string>&eventType=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions"
+									],
+									"query": [
+										{
+											"key": "action",
+											"value": "<string>"
+										},
+										{
+											"key": "until",
+											"value": "<string>"
+										},
+										{
+											"key": "olderThan",
+											"value": "<string>"
+										},
+										{
+											"key": "eventType",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that the purge process has been started and returned the jobId to track it further.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions?action=<string>&until=<string>&olderThan=<string>&eventType=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions"
+									],
+									"query": [
+										{
+											"key": "action",
+											"value": "<string>"
+										},
+										{
+											"key": "until",
+											"value": "<string>"
+										},
+										{
+											"key": "olderThan",
+											"value": "<string>"
+										},
+										{
+											"key": "eventType",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"jobId\\\": \\\"1504177213671\\\"\\r\\n}\""
+						},
+						{
+							"name": "This response indicates that the server has encountered an error while purging the api transactions. ",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions?action=<string>&until=<string>&olderThan=<string>&eventType=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions"
+									],
+									"query": [
+										{
+											"key": "action",
+											"value": "<string>"
+										},
+										{
+											"key": "until",
+											"value": "<string>"
+										},
+										{
+											"key": "olderThan",
+											"value": "<string>"
+										},
+										{
+											"key": "eventType",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that invalid credentials have been provided for the request.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions?action=<string>&until=<string>&olderThan=<string>&eventType=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions"
+									],
+									"query": [
+										{
+											"key": "action",
+											"value": "<string>"
+										},
+										{
+											"key": "until",
+											"value": "<string>"
+										},
+										{
+											"key": "olderThan",
+											"value": "<string>"
+										},
+										{
+											"key": "eventType",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Mappings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/apitransactions/typedefinitions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"apitransactions",
+								"typedefinitions"
+							]
+						},
+						"description": "Returns the list of runtime event types. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditLogs 9.applicationlogs. You can use these eventType to scope the archive/purge operation.  The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."
+					},
+					"response": [
+						{
+							"name": "This response indicates that the server has encountered an error while returning the list of type definitions. ",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/typedefinitions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"typedefinitions"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that the list of type definitions has been returned to the requestor.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/typedefinitions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"typedefinitions"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"Mappings\\\": [\\r\\n        \\\"performanceMetrics\\\",\\r\\n        \\\"monitorEvents\\\",\\r\\n        \\\"transactionalEvents\\\",\\r\\n        \\\"policyViolationEvents\\\",\\r\\n        \\\"errorEvents\\\",\\r\\n        \\\"threatProtectionEvents\\\",\\r\\n        \\\"lifecycleEvents\\\",\\r\\n        \\\"auditLogs\\\"\\r\\n,\\r\\n        \\\"applicationlogs\\\"\\r\\n     ]\\r\\n}\""
+						},
+						{
+							"name": "This response indicates that invalid credentials have been provided for the request.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/typedefinitions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"typedefinitions"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "List All Archives",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/apitransactions/archives",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"apitransactions",
+								"archives"
+							]
+						},
+						"description": "This GET method is used to fetch the details of existing archive files and response of this method would be the list of archive file names. Select one from the list of archive file names returned by this method and use the POST /apitransactions/archives/{fileName} method to restore.The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."
+					},
+					"response": [
+						{
+							"name": "This response indicates that the server has encountered an error while returning the list of archive file names",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/archives",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"archives"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that the list of archive file names returned successfully. The response body is the list of archive file names.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/archives",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"archives"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"archiveFiles\\\": [\\r\\n        \\\"default-2017-08-29-1504011306456\\\",\\r\\n        \\\"default-2017-08-29-1504012415981\\\"\\r\\n    ]\\r\\n}\""
+						},
+						{
+							"name": "This response indicates that invalid credentials have been provided for the request.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/archives",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"archives"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "API Transactions Archive Based On Duration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/apitransactions/archives?until=2020-04-21%2008:00:00&olderThan=&eventType=ALL",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"apitransactions",
+								"archives"
+							],
+							"query": [
+								{
+									"key": "until",
+									"value": "2020-04-21%2008:00:00",
+									"description": "(Required) This is a date parameter. All the specified api transactions until the given date will be purged. Example value: until=2017-12-18 00:00:00. Either one of until or duration is a mandatory parameter"
+								},
+								{
+									"key": "olderThan",
+									"value": "",
+									"description": "All the api transactions that are older than the value specified will be purged. Ex: olderThan='2d'. Possible values are d(days),M(months),y(years), lets say a. 2d means 2days b. 1M means 1 month c. 1y means 1 year"
+								},
+								{
+									"key": "eventType",
+									"value": "ALL",
+									"description": "(Required) This parameter is used to specify the api transaction type. Specify eventType=ALL to archive all the events and specify any specific type to archive that particular event type alone. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditLogs 9.applicationlogs"
+								}
+							]
+						},
+						"description": "This method is used to archive the runtime events and metrics. You can additionally scope the archive data using input parameter filters. This method returns the job id as the response which will be used to know the status of the job. \n\nUse the GET /apitransactions/jobs/{jobId} to know the status, file name and use POST /apitransactions/archives/{fileName} method to restore. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."
+					},
+					"response": [
+						{
+							"name": "This response indicates that the server has encountered an error while archiving the api transactions. ",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/archives?until=<string>&olderThan=<string>&eventType=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"archives"
+									],
+									"query": [
+										{
+											"key": "until",
+											"value": "<string>"
+										},
+										{
+											"key": "olderThan",
+											"value": "<string>"
+										},
+										{
+											"key": "eventType",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This status code indicates that the request URL is not valid.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/archives?until=<string>&olderThan=<string>&eventType=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"archives"
+									],
+									"query": [
+										{
+											"key": "until",
+											"value": "<string>"
+										},
+										{
+											"key": "olderThan",
+											"value": "<string>"
+										},
+										{
+											"key": "eventType",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that invalid credentials have been provided for the request.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/archives?until=<string>&olderThan=<string>&eventType=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"archives"
+									],
+									"query": [
+										{
+											"key": "until",
+											"value": "<string>"
+										},
+										{
+											"key": "olderThan",
+											"value": "<string>"
+										},
+										{
+											"key": "eventType",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that the archiving process has been started and returned the jobId to track it further.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/archives?until=<string>&olderThan=<string>&eventType=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"archives"
+									],
+									"query": [
+										{
+											"key": "until",
+											"value": "<string>"
+										},
+										{
+											"key": "olderThan",
+											"value": "<string>"
+										},
+										{
+											"key": "eventType",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"jobId\\\": \\\"1504177213671\\\"\\r\\n}\""
+						}
+					]
+				},
+				{
+					"name": "Restore Data",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/apitransactions/archives/:fileName",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"apitransactions",
+								"archives",
+								":fileName"
+							],
+							"variable": [
+								{
+									"key": "fileName",
+									"value": "default-2020-04-21-1587455014170",
+									"description": "(Required) This parameter indicates the file name to restore. Ex: fileName=default-2017-08-29-1504011306456."
+								}
+							]
+						},
+						"description": "This method is used to restore the runtime data by specifying the archive file name. See GET /apitransactions/archives/ to know how to get the existing archive file names for more details. This method returns the job id as a response to track the status further. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."
+					},
+					"response": [
+						{
+							"name": "This response indicates that the server has encountered an error while restoring the archive file. ",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/archives/:fileName",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"archives",
+										":fileName"
+									],
+									"variable": [
+										{
+											"key": "fileName"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that invalid credentials have been provided for the request.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/archives/:fileName",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"archives",
+										":fileName"
+									],
+									"variable": [
+										{
+											"key": "fileName"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that the restore process has been started and returned the jobId to track it further.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/archives/:fileName",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"archives",
+										":fileName"
+									],
+									"variable": [
+										{
+											"key": "fileName"
+										}
+									]
+								}
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"jobId\\\": \\\"1504177213671\\\"\\r\\n}\""
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b7f36ba5-aec1-460e-9325-3be6e67fe25d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7f530204-47a1-4ca1-a0c6-8bbf4a2fdccf",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Configurations",
+			"item": [
+				{
+					"name": "Load Balancer",
+					"item": [
+						{
+							"name": "Get Load Balancers",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}/configurations/loadBalancer",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"configurations",
+										"loadBalancer"
+									]
+								},
+								"description": "The method retrieves the details of the Load Balancer configuration in API Gateway."
+							},
+							"response": [
+								{
+									"name": "This status code indicates that the user is not a valid API Gateway user for retrieving the Load Balancer configuration.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/loadBalancer",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"loadBalancer"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "This status code indicates that the loadBalancer not mentioned in API access uri path.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/loadBalancer",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"loadBalancer"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"errorDetails\\\": \\\"Missing mandatory field configId in request.\\\"\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that the Load Balancer configurations are retrieved successfully. ",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/loadBalancer",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"loadBalancer"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"webAppUrl\\\": \\\"\\\",\\r\\n    \\\"httpUrls\\\": [\\r\\n        \\\"http://localhost:8080\\\"\\r\\n    ],\\r\\n    \\\"httpsUrls\\\": [\\r\\n        \\\"https://localhost:443\\\"\\r\\n    ],\\r\\n    \\\"websocketUrls\\\": []\\r\\n}\""
+								}
+							]
+						},
+						{
+							"name": "Update Load Balancers",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"webAppUrl\": \"http://localhost:9072\",\n    \"websocketUrls\": [\n        \"ws://localhost:4532\"\n    ],\n    \"httpsUrls\": [\n        \"https://localhost:5555\"\n    ],\n    \"httpUrls\": [\n        \"http://localhost:5555\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseURL}}/configurations/loadBalancer",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"configurations",
+										"loadBalancer"
+									]
+								},
+								"description": "The method is used to update the details of the load Balancer configuration in API Gateway."
+							},
+							"response": [
+								{
+									"name": "This status code indicates that either user didn't provide right credentials or user doesn't have \"Manage General Administration\" functional privilege to access this API.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"httpUrls\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"httpsUrls\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"websocketUrls\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"webAppUrl\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/loadBalancer",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"loadBalancer"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "This status code indicates that the Load Balancer configuration has been successfully updated in API Gateway, and the updated configuration is available in the response body.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"httpUrls\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"httpsUrls\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"websocketUrls\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"webAppUrl\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/loadBalancer",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"loadBalancer"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"webAppUrl\\\": \\\"\\\",\\r\\n    \\\"httpUrls\\\": [\\r\\n        \\\"http://localhost:8080\\\"\\r\\n    ],\\r\\n    \\\"httpsUrls\\\": [\\r\\n        \\\"https://localhost:443\\\"\\r\\n    ],\\r\\n    \\\"websocketUrls\\\": []\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that the request body is invalid.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"httpUrls\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"httpsUrls\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"websocketUrls\": [\n        \"<string>\",\n        \"<string>\"\n    ],\n    \"webAppUrl\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/loadBalancer",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"loadBalancer"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n\\\"errorDetails\\\": \\\" Invalid property key found in request payload.\\\"\\r\\n}\""
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "677ee79e-0f3d-43c3-9c3c-f47faefe4675",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "6bcfb87d-4d80-49ab-b1e5-4b5f3f4fb7f2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "White Listing IPs",
+					"item": [
+						{
+							"name": "Get White Listed IPs",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}/configurations/whiteListingIPs",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"configurations",
+										"whiteListingIPs"
+									]
+								},
+								"description": "The method retrieves the details of the whitelisting IPs configuration in API Gateway."
+							},
+							"response": [
+								{
+									"name": "This status code indicates that the whitelistingIPs configurations are retrieved successfully.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/whiteListingIPs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"whiteListingIPs"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"privateIPs\\\": [\\r\\n        \\\"127.0.0.1\\\",\\r\\n        \\\"10.0.0.0-10.255.255.255\\\",\\r\\n        \\\"172.16.0.0-172.31.255.255 \\\",\\r\\n        \\\"192.168.0.0-192.168.255.255\\\"\\r\\n    ]\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that the user is not a valid API Gateway user for retrieving the whitelistingIPs configuration.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/whiteListingIPs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"whiteListingIPs"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Update Whitelisted IPs",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"privateIPs\": [\r\n        \"0.0.0.0-0.255.255.255\",\r\n        \"10.0.0.0-10.255.255.255\",\r\n        \"100.64.0.0-100.127.255.255\",\r\n        \"127.0.0.0-127.255.255.255\",\r\n        \"172.16.0.0-172.31.255.255\",\r\n        \"192.168.0.0-192.168.255.255\"\r\n    ],\r\n    \"privateV6IPs\": [\r\n        \"fc00:0:0:0:0:0:0:0-fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff\",\r\n        \"0:0:0:0:0:0:0:0-0:0:0:0:0:0:0:1\"\r\n    ]\r\n}"
+								},
+								"url": {
+									"raw": "{{baseURL}}/configurations/whiteListingIPs",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"configurations",
+										"whiteListingIPs"
+									]
+								},
+								"description": "The method is used to update the details of the whitelisting IPs configuration in API Gateway."
+							},
+							"response": [
+								{
+									"name": "This status code indicates that the request body is invalid.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"privateIPs\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/whiteListingIPs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"whiteListingIPs"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "This status code indicates that either user didn't provide right credentials or user doesn't have \"Manage General Administration\" functional privilege to access this API.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"privateIPs\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/whiteListingIPs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"whiteListingIPs"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "This status code indicates that the whitelisting IPs configuration has been successfully updated in API Gateway, and the updated configuration is available in the response body.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"privateIPs\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/whiteListingIPs",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"whiteListingIPs"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"privateIPs\\\": [\\r\\n        \\\"127.0.0.1\\\",\\r\\n        \\\"10.0.0.0-10.255.255.255\\\",\\r\\n        \\\"172.16.0.0-172.31.255.255 \\\",\\r\\n        \\\"192.168.0.0-192.168.255.255\\\"\\r\\n    ]\\r\\n}\""
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b64e6943-41e1-4dfd-912e-bf7f0d1e2ec9",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "2a7612ad-5026-47da-90f0-0a8a08bf34e2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Gateway Destination Config",
+					"item": [
+						{
+							"name": "Get Gateway As Destination",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}/configurations/gatewayDestinationConfig",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"configurations",
+										"gatewayDestinationConfig"
+									]
+								},
+								"description": "The method retrieves the details of the API Gateway destination. API Gateway can publish runtime events(example: policy violation, log invocation, error events etc), design time events (example: audit log events) and metrics data. By default, error events, lifecycle events, policy violation event, audit logs and performance data are published to API Gateway."
+							},
+							"response": [
+								{
+									"name": "This status code indicates that the API Gateway destination configurations are retrieved successfully. SendErrorEvent indicates whether API Gateway has to send error events to API Gateway destination. SendLifecycleEvent indicates whether API Gateway has to send lifecycle events to API Gateway destination. SendPolicyViolationEvent indicates whether API Gateway has to send policy violation events to API Gateway destination. SendPerformanceMetrics indicates whether API Gateway has to send performance metrics to API Gateway destination. MetricsPublishInterval indicates the interval at which the performance metrics will be published (value has to be between 1-60), default being 60. sendAuditlogAliasManagementEvent indicates whether API Gateway has to send Alias Management related audit logs to API Gateway destination. sendAuditlogPackageManagementEvent indicates whether API Gateway has to send Package Management related audit logs to API Gateway destination. sendAuditlogRuntimeDataManagementEvent indicates whether API Gateway has to send RuntimeData Management related audit logs to API Gateway destination. sendAuditlogPolicyManagementEvent indicates whether API Gateway has to send Policy Management related audit logs to API Gateway destination. sendAuditlogPlanManagementEvent indicates whether API Gateway has to send Plan Management related audit logs to API Gateway destination.  sendAuditlogApprovalManagementEvent indicates whether API Gateway has to send Approval Management related audit logs to API Gateway destination. sendAuditlogUserManagementEvent indicates whether API Gateway has to send User Management related audit logs to API Gateway destination. sendAuditlogApplicationManagementEvent indicates whether API Gateway has to send Application Management related audit logs to API Gateway destination. sendAuditlogAdministrationEvent indicates whether API Gateway has to send Administration related audit logs to API Gateway destination. sendAuditlogGroupManagementEvent indicates whether API Gateway has to send Group Management related audit logs to API Gateway destination. sendAuditlogAccessProfileManagementEvent indicates whether API Gateway has to send Team Management related audit logs to API Gateway destination. sendAuditlogAPIManagementEvent indicates whether API Gateway has to send API Management related audit logs to API Gateway destination. sendAuditlogPromotionManagementEvent indicates whether API Gateway has to send Promotion Management related audit logs to API Gateway destination.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/gatewayDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"gatewayDestinationConfig"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"sendAuditlogAliasManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendLifecycleEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPackageManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogRuntimeDataManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPolicyManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPlanManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogApprovalManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogUserManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendPerformanceMetrics\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogApplicationManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogAdministrationEvent\\\": \\\"true\\\",\\r\\n    \\\"sendPolicyViolationEvent\\\": \\\"true\\\",\\r\\n    \\\"sendErrorEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogGroupManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"metricsPublishInterval\\\": \\\"60\\\",\\r\\n    \\\"sendAuditlogAccessProfileManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogAPIManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPromotionManagementEvent\\\": \\\"true\\\"\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that the provided configuration id is invalid.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/gatewayDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"gatewayDestinationConfig"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"errorDetails\\\": \\\" Invalid configId value in request. configId: gatewayDestinationConfigg.\\\"\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that the user is not a valid API Gateway user for retrieving the API Gateway destination configuration.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/gatewayDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"gatewayDestinationConfig"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Update Gateway As Destination",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sendAuditlogAliasManagementEvent\": \"true\",\r\n    \"sendAuditlogAccessControlListManagementEvent\": \"true\",\r\n    \"sendLifecycleEvent\": \"true\",\r\n    \"sendAuditlogPackageManagementEvent\": \"true\",\r\n    \"sendAuditlogRuntimeDataManagementEvent\": \"true\",\r\n    \"sendAuditlogPolicyManagementEvent\": \"true\",\r\n    \"sendAuditlogPlanManagementEvent\": \"true\",\r\n    \"sendAuditlogApprovalManagementEvent\": \"true\",\r\n    \"sendAuditlogUserManagementEvent\": \"true\",\r\n    \"sendPerformanceMetrics\": \"true\",\r\n    \"sendAuditlogApplicationManagementEvent\": \"true\",\r\n    \"sendAuditlogAdministrationEvent\": \"true\",\r\n    \"sendPolicyViolationEvent\": \"true\",\r\n    \"sendErrorEvent\": \"true\",\r\n    \"sendAuditlogGroupManagementEvent\": \"true\",\r\n    \"sendAuditlogRuleManagementEvent\": \"true\",\r\n    \"metricsPublishInterval\": \"60\",\r\n    \"sendAuditlogAccessProfileManagementEvent\": \"true\",\r\n    \"sendAuditlogAPIManagementEvent\": \"true\",\r\n    \"sendAuditlogPromotionManagementEvent\": \"true\"\r\n}"
+								},
+								"url": {
+									"raw": "{{baseURL}}/configurations/gatewayDestinationConfig",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"configurations",
+										"gatewayDestinationConfig"
+									]
+								},
+								"description": "The method is used to update the details of the API Gateway destination in API Gateway."
+							},
+							"response": [
+								{
+									"name": "This status code indicates that the specified HTTP method is not allowed for the requested destination configuration in API Gateway.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/gatewayDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"gatewayDestinationConfig"
+											]
+										}
+									},
+									"status": "Method Not Allowed",
+									"code": 405,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n\\t\\\"errorDetails\\\": \\\" Unable to process the PUT request for API Gateway destination configuration. Error occurred while processing the payload. Error Message: Method: PUT is not allowed on resource: gatewayDestinationConfig\\\"\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that either user didn't provide right credentials or user doesn't have \"Manage Destination Administration\" functional privilege to access this API.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/gatewayDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"gatewayDestinationConfig"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "This status code indicates that the request body is invalid.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/gatewayDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"gatewayDestinationConfig"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n\\\"errorDetails\\\": \\\" Invalid property key found in request payload.\\\"\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that the API Gateway destination configuration has been successfully updated in API Gateway, and the updated configuration is available in the response body.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/gatewayDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"gatewayDestinationConfig"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"sendAuditlogAliasManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendLifecycleEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPackageManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogRuntimeDataManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPolicyManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPlanManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogApprovalManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogUserManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendPerformanceMetrics\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogApplicationManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogAdministrationEvent\\\": \\\"true\\\",\\r\\n    \\\"sendPolicyViolationEvent\\\": \\\"true\\\",\\r\\n    \\\"sendErrorEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogGroupManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"metricsPublishInterval\\\": \\\"60\\\",\\r\\n    \\\"sendAuditlogAccessProfileManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogAPIManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPromotionManagementEvent\\\": \\\"true\\\"\\r\\n}\""
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "a14f4c93-78f8-499a-b1d6-9fbc04e2860d",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "ecceeb19-2357-40ea-b84f-4f643b379989",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Audit Log Destination Config",
+					"item": [
+						{
+							"name": "Get Audit Log As Destination",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}/configurations/auditlogDestinationConfig",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"configurations",
+										"auditlogDestinationConfig"
+									]
+								},
+								"description": "The method retrieves the details of the Transaction Logger destination in API Gateway. Transaction Logger captures the API runtime invocations performed in API Gateway. The transaction logger data is written to a file or a database based on the configurations. Transactions events are written to the transaction logger only when the Transaction Logger is selected as a destination in Log Invocation Policy."
+							},
+							"response": [
+								{
+									"name": "This status code indicates that the Transaction Logger destination configurations are retrieved successfully.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/auditlogDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"auditlogDestinationConfig"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"name\\\": \\\"API Gateway Transaction Logger\\\",\\r\\n    \\\"enabled\\\": \\\"false\\\",\\r\\n    \\\"mode\\\": \\\"synchronous\\\",\\r\\n    \\\"guaranteed\\\": \\\"false\\\",\\r\\n    \\\"destination\\\": \\\"file\\\",\\r\\n    \\\"maximumQueueSize\\\": \\\"100000\\\",\\r\\n    \\\"maximumRetries\\\": \\\"3\\\",\\r\\n    \\\"waitBetweenRetries\\\": \\\"5\\\"\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that the provided configuration id is invalid.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/auditlogDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"auditlogDestinationConfig"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"errorDetails\\\": \\\" Invalid configId value in request. configId: auditlogDestinationConfigg.\\\"\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that the user is not a valid API Gateway user for retrieving the Transaction Logger destination configuration.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/auditlogDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"auditlogDestinationConfig"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Update Audit Log As Destination",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"mode\": \"synchronous\",\r\n    \"maximumRetries\": \"3\",\r\n    \"waitBetweenRetries\": \"5\",\r\n    \"maximumQueueSize\": \"100000\",\r\n    \"name\": \"API Gateway Transaction Logger\",\r\n    \"destination\": \"file\",\r\n    \"guaranteed\": \"false\",\r\n    \"enabled\": \"false\"\r\n}"
+								},
+								"url": {
+									"raw": "{{baseURL}}/configurations/auditlogDestinationConfig",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"configurations",
+										"auditlogDestinationConfig"
+									]
+								},
+								"description": "The method is used to update the details of the Transaction Logger destination in API Gateway."
+							},
+							"response": [
+								{
+									"name": "This status code indicates that the Transaction Logger destination configuration has been successfully updated in API Gateway, and the updated configuration is available in the response body.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"<string>\",\n    \"enable\": \"<string>\",\n    \"mode\": \"<string>\",\n    \"guaranteed\": \"<string>\",\n    \"destination\": \"<string>\",\n    \"maximumQueueSize\": \"<string>\",\n    \"maximumRetries\": \"<string>\",\n    \"waitBetweenRetries\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/auditlogDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"auditlogDestinationConfig"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"name\\\": \\\"API Gateway Transaction Logger\\\",\\r\\n    \\\"enabled\\\": \\\"false\\\",\\r\\n    \\\"mode\\\": \\\"synchronous\\\",\\r\\n    \\\"guaranteed\\\": \\\"false\\\",\\r\\n    \\\"destination\\\": \\\"file\\\",\\r\\n    \\\"maximumQueueSize\\\": \\\"100000\\\",\\r\\n    \\\"maximumRetries\\\": \\\"3\\\",\\r\\n    \\\"waitBetweenRetries\\\": \\\"5\\\"\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that the specified HTTP method is not allowed for the requested destination configuration in API Gateway.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"<string>\",\n    \"enable\": \"<string>\",\n    \"mode\": \"<string>\",\n    \"guaranteed\": \"<string>\",\n    \"destination\": \"<string>\",\n    \"maximumQueueSize\": \"<string>\",\n    \"maximumRetries\": \"<string>\",\n    \"waitBetweenRetries\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/auditlogDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"auditlogDestinationConfig"
+											]
+										}
+									},
+									"status": "Method Not Allowed",
+									"code": 405,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n\\t\\\"errorDetails\\\": \\\" Unable to process the PUT request for Audit Log destination configuration. Error occurred while processing the payload. Error Message: Method: PUT is not allowed on resource: auditlogDestinationConfig\\\"\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that either user didn't provide right credentials or user doesn't have \"Manage Destination Administration\" functional privilege to access this API.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"<string>\",\n    \"enable\": \"<string>\",\n    \"mode\": \"<string>\",\n    \"guaranteed\": \"<string>\",\n    \"destination\": \"<string>\",\n    \"maximumQueueSize\": \"<string>\",\n    \"maximumRetries\": \"<string>\",\n    \"waitBetweenRetries\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/auditlogDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"auditlogDestinationConfig"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "This status code indicates that the request body is invalid.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"<string>\",\n    \"enable\": \"<string>\",\n    \"mode\": \"<string>\",\n    \"guaranteed\": \"<string>\",\n    \"destination\": \"<string>\",\n    \"maximumQueueSize\": \"<string>\",\n    \"maximumRetries\": \"<string>\",\n    \"waitBetweenRetries\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/auditlogDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"auditlogDestinationConfig"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n\\\"errorDetails\\\": \\\" Invalid property key found in request payload.\\\"\\r\\n}\""
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7e5a3617-4785-4850-8b3f-31f325e5b153",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "ecc57c18-f252-490c-9aeb-1407c92177a9",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Elasticsearch Destination Config",
+					"item": [
+						{
+							"name": "Get Elasticsearch As Destination",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}/configurations/elasticsearchDestinationConfig",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"configurations",
+										"elasticsearchDestinationConfig"
+									]
+								},
+								"description": "The method retrieves the details of the Elasticsearch destination in API Gateway. API Gateway can publish runtime events(example: policy violation, log invocation, error events etc), design time events (example: audit log events) and metrics to the configured Elasticsearch destination."
+							},
+							"response": [
+								{
+									"name": "This status code indicates that the provided configuration id is invalid.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/elasticsearchDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"elasticsearchDestinationConfig"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"errorDetails\\\": \\\" Invalid configId value in request. configId: elasticsearchdestinationConfigg.\\\"\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that the user is not a valid API Gateway user for retrieving the Elasticsearch destination configuration.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/elasticsearchDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"elasticsearchDestinationConfig"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "This status code indicates that the Elastic search destination configurations are retrieved successfully. SendErrorEvent indicates whether API Gateway has to send error events to API Gateway destination. SendLifecycleEvent indicates whether API Gateway has to send lifecycle events to API Gateway destination. SendPolicyViolationEvent indicates whether API Gateway has to send policy violation events to API Gateway destination. SendPerformanceMetrics indicates whether API Gateway has to send performance metrics to API Gateway destination. MetricsPublishInterval indicates the interval at which the performance metrics will be published (value has to be between 1-60), default being 60. sendAuditlogAliasManagementEvent indicates whether API Gateway has to send Alias Management related audit logs to API Gateway destination. sendAuditlogPackageManagementEvent indicates whether API Gateway has to send Package Management related audit logs to API Gateway destination. sendAuditlogRuntimeDataManagementEvent indicates whether API Gateway has to send RuntimeData Management related audit logs to API Gateway destination. sendAuditlogPolicyManagementEvent indicates whether API Gateway has to send Policy Management related audit logs to API Gateway destination. sendAuditlogPlanManagementEvent indicates whether API Gateway has to send Plan Management related audit logs to API Gateway destination.  sendAuditlogApprovalManagementEvent indicates whether API Gateway has to send Approval Management related audit logs to API Gateway destination. sendAuditlogUserManagementEvent indicates whether API Gateway has to send User Management related audit logs to API Gateway destination. sendAuditlogApplicationManagementEvent indicates whether API Gateway has to send Application Management related audit logs to API Gateway destination. sendAuditlogAdministrationEvent indicates whether API Gateway has to send Administration related audit logs to API Gateway destination. sendAuditlogGroupManagementEvent indicates whether API Gateway has to send Group Management related audit logs to API Gateway destination. sendAuditlogAccessProfileManagementEvent indicates whether API Gateway has to send Team Management related audit logs to API Gateway destination. sendAuditlogAPIManagementEvent indicates whether API Gateway has to send API Management related audit logs to API Gateway destination. sendAuditlogPromotionManagementEvent indicates whether API Gateway has to send Promotion Management related audit logs to API Gateway destination.",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/configurations/elasticsearchDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"elasticsearchDestinationConfig"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"sendAuditlogAliasManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendLifecycleEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPackageManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogRuntimeDataManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPolicyManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPlanManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogApprovalManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogUserManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendPerformanceMetrics\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogApplicationManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogAdministrationEvent\\\": \\\"true\\\",\\r\\n    \\\"sendPolicyViolationEvent\\\": \\\"true\\\",\\r\\n    \\\"sendErrorEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogGroupManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"metricsPublishInterval\\\": \\\"60\\\",\\r\\n    \\\"sendAuditlogAccessProfileManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogAPIManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPromotionManagementEvent\\\": \\\"true\\\"\\r\\n}\""
+								}
+							]
+						},
+						{
+							"name": "Update Elasticsearch As Destination",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"hostName\": \"localhost\",\r\n    \"sendAuditlogPackageManagementEvent\": \"false\",\r\n    \"sendAuditlogPlanManagementEvent\": \"false\",\r\n    \"sendPerformanceMetrics\": \"false\",\r\n    \"sendAuditlogApplicationManagementEvent\": \"false\",\r\n    \"protocol\": \"http\",\r\n    \"password\": \"manage\",\r\n    \"sendAuditlogRuleManagementEvent\": \"false\",\r\n    \"sendAuditlogAliasManagementEvent\": \"false\",\r\n    \"sendAuditlogAccessControlListManagementEvent\": \"false\",\r\n    \"sendLifecycleEvent\": \"false\",\r\n    \"sendAuditlogRuntimeDataManagementEvent\": \"false\",\r\n    \"sendAuditlogPolicyManagementEvent\": \"false\",\r\n    \"sendAuditlogApprovalManagementEvent\": \"false\",\r\n    \"sendAuditlogUserManagementEvent\": \"false\",\r\n    \"indexName\": \"default\",\r\n    \"sendAuditlogAdministrationEvent\": \"false\",\r\n    \"userName\": \"Administrator\",\r\n    \"sendPolicyViolationEvent\": \"false\",\r\n    \"sendErrorEvent\": \"false\",\r\n    \"port\": \"9240\",\r\n    \"sendAuditlogGroupManagementEvent\": \"false\",\r\n    \"metricsPublishInterval\": \"60\",\r\n    \"sendAuditlogAccessProfileManagementEvent\": \"false\",\r\n    \"sendAuditlogAPIManagementEvent\": \"false\",\r\n    \"sendAuditlogPromotionManagementEvent\": \"false\"\r\n}"
+								},
+								"url": {
+									"raw": "{{baseURL}}/configurations/elasticsearchDestinationConfig",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"configurations",
+										"elasticsearchDestinationConfig"
+									]
+								},
+								"description": "The method is used to update the details of the Elasticsearch destination in API Gateway."
+							},
+							"response": [
+								{
+									"name": "This status code indicates that either user didn't provide right credentials or user doesn't have \"Manage Destination Administration\" functional privilege to access this API.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"protocol\": \"<string>\",\n    \"hostname\": \"<string>\",\n    \"port\": \"<string>\",\n    \"indexName\": \"<string>\",\n    \"username\": \"<string>\",\n    \"password\": \"<string>\",\n    \"sendErrorEvent\": \"<string>\",\n    \"sendLifecycleEvent\": \"<string>\",\n    \"sendPolicyViolationEvent\": \"<string>\",\n    \"sendPerformanceMetrics\": \"<string>\",\n    \"metricsPublishInterval\": \"<string>\",\n    \"sendAuditlogPackageManagementEvent\": \"<string>\",\n    \"sendAuditlogPolicyManagementEvent\": \"<string>\",\n    \"sendAuditlogRuntimeDataManagementEvent\": \"<string>\",\n    \"sendAuditlogPlanManagementEvent\": \"<string>\",\n    \"sendAuditlogApprovalManagementEvent\": \"<string>\",\n    \"sendAuditlogUserManagementEvent\": \"<string>\",\n    \"sendAuditlogApplicationManagementEvent\": \"<string>\",\n    \"sendAuditlogGroupManagementEvent\": \"<string>\",\n    \"sendAuditlogAccessProfileManagementEvent\": \"<string>\",\n    \"sendAuditlogPromotionManagementEvent\": \"<string>\",\n    \"sendAuditlogAPIManagementEvent\": \"<string>\",\n    \"sendAuditlogAliasManagementEvent\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/elasticsearchDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"elasticsearchDestinationConfig"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "This status code indicates that the request body is invalid.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"protocol\": \"<string>\",\n    \"hostname\": \"<string>\",\n    \"port\": \"<string>\",\n    \"indexName\": \"<string>\",\n    \"username\": \"<string>\",\n    \"password\": \"<string>\",\n    \"sendErrorEvent\": \"<string>\",\n    \"sendLifecycleEvent\": \"<string>\",\n    \"sendPolicyViolationEvent\": \"<string>\",\n    \"sendPerformanceMetrics\": \"<string>\",\n    \"metricsPublishInterval\": \"<string>\",\n    \"sendAuditlogPackageManagementEvent\": \"<string>\",\n    \"sendAuditlogPolicyManagementEvent\": \"<string>\",\n    \"sendAuditlogRuntimeDataManagementEvent\": \"<string>\",\n    \"sendAuditlogPlanManagementEvent\": \"<string>\",\n    \"sendAuditlogApprovalManagementEvent\": \"<string>\",\n    \"sendAuditlogUserManagementEvent\": \"<string>\",\n    \"sendAuditlogApplicationManagementEvent\": \"<string>\",\n    \"sendAuditlogGroupManagementEvent\": \"<string>\",\n    \"sendAuditlogAccessProfileManagementEvent\": \"<string>\",\n    \"sendAuditlogPromotionManagementEvent\": \"<string>\",\n    \"sendAuditlogAPIManagementEvent\": \"<string>\",\n    \"sendAuditlogAliasManagementEvent\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/elasticsearchDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"elasticsearchDestinationConfig"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n\\\"errorDetails\\\": \\\" Invalid property key found in request payload.\\\"\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that the Elasticsearch destination configuration has been successfully updated in API Gateway, and the updated configuration is available in the response body.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"protocol\": \"<string>\",\n    \"hostname\": \"<string>\",\n    \"port\": \"<string>\",\n    \"indexName\": \"<string>\",\n    \"username\": \"<string>\",\n    \"password\": \"<string>\",\n    \"sendErrorEvent\": \"<string>\",\n    \"sendLifecycleEvent\": \"<string>\",\n    \"sendPolicyViolationEvent\": \"<string>\",\n    \"sendPerformanceMetrics\": \"<string>\",\n    \"metricsPublishInterval\": \"<string>\",\n    \"sendAuditlogPackageManagementEvent\": \"<string>\",\n    \"sendAuditlogPolicyManagementEvent\": \"<string>\",\n    \"sendAuditlogRuntimeDataManagementEvent\": \"<string>\",\n    \"sendAuditlogPlanManagementEvent\": \"<string>\",\n    \"sendAuditlogApprovalManagementEvent\": \"<string>\",\n    \"sendAuditlogUserManagementEvent\": \"<string>\",\n    \"sendAuditlogApplicationManagementEvent\": \"<string>\",\n    \"sendAuditlogGroupManagementEvent\": \"<string>\",\n    \"sendAuditlogAccessProfileManagementEvent\": \"<string>\",\n    \"sendAuditlogPromotionManagementEvent\": \"<string>\",\n    \"sendAuditlogAPIManagementEvent\": \"<string>\",\n    \"sendAuditlogAliasManagementEvent\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/elasticsearchDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"elasticsearchDestinationConfig"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n    \\\"sendAuditlogAliasManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendLifecycleEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPackageManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogRuntimeDataManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPolicyManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPlanManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogApprovalManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogUserManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendPerformanceMetrics\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogApplicationManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogAdministrationEvent\\\": \\\"true\\\",\\r\\n    \\\"sendPolicyViolationEvent\\\": \\\"true\\\",\\r\\n    \\\"sendErrorEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogGroupManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"metricsPublishInterval\\\": \\\"60\\\",\\r\\n    \\\"sendAuditlogAccessProfileManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogAPIManagementEvent\\\": \\\"true\\\",\\r\\n    \\\"sendAuditlogPromotionManagementEvent\\\": \\\"true\\\"\\r\\n}\""
+								},
+								{
+									"name": "This status code indicates that the specified HTTP method is not allowed for the requested destination configuration in API Gateway.",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"protocol\": \"<string>\",\n    \"hostname\": \"<string>\",\n    \"port\": \"<string>\",\n    \"indexName\": \"<string>\",\n    \"username\": \"<string>\",\n    \"password\": \"<string>\",\n    \"sendErrorEvent\": \"<string>\",\n    \"sendLifecycleEvent\": \"<string>\",\n    \"sendPolicyViolationEvent\": \"<string>\",\n    \"sendPerformanceMetrics\": \"<string>\",\n    \"metricsPublishInterval\": \"<string>\",\n    \"sendAuditlogPackageManagementEvent\": \"<string>\",\n    \"sendAuditlogPolicyManagementEvent\": \"<string>\",\n    \"sendAuditlogRuntimeDataManagementEvent\": \"<string>\",\n    \"sendAuditlogPlanManagementEvent\": \"<string>\",\n    \"sendAuditlogApprovalManagementEvent\": \"<string>\",\n    \"sendAuditlogUserManagementEvent\": \"<string>\",\n    \"sendAuditlogApplicationManagementEvent\": \"<string>\",\n    \"sendAuditlogGroupManagementEvent\": \"<string>\",\n    \"sendAuditlogAccessProfileManagementEvent\": \"<string>\",\n    \"sendAuditlogPromotionManagementEvent\": \"<string>\",\n    \"sendAuditlogAPIManagementEvent\": \"<string>\",\n    \"sendAuditlogAliasManagementEvent\": \"<string>\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/configurations/elasticsearchDestinationConfig",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"configurations",
+												"elasticsearchDestinationConfig"
+											]
+										}
+									},
+									"status": "Method Not Allowed",
+									"code": 405,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"{\\r\\n\\t\\\"errorDetails\\\": \\\" Unable to process the PUT request for Elasticsearch destination configuration. Error occurred while processing the payload. Error Message: Method: PUT is not allowed on resource: elasticsearchDestinationConfigg\\\"\\r\\n}\""
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9f4cdd44-29dd-4b24-b63b-c158ef34647b",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "25b71e9e-525e-497f-8557-754ec85ed18b",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "manage",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Administrator",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"id": "891a74be-77e6-42ff-9a67-fffb86e504e4",
+			"key": "baseURL",
+			"value": "http://localhost:5555/rest/apigateway",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

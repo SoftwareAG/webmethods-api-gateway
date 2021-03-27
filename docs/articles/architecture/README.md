@@ -19,7 +19,7 @@ API Gateway uses [Elasticsearch](https://www.elastic.co/products/elasticsearch) 
 
 For versions <=10.4, **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Elasticsearch%20best%20practices)** 
 
-For versions >=10.5, **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Elasticsearch%20best%20practices%20for%20API%20Gateway%2010.5)**
+For versions >=10.5, **[Read on...](Elasticsearch%20Best%20Practices%20(v7.2.0)/)**
 
 Securing Elasticsearch for API Gateway
 --------------------------------------
@@ -28,7 +28,9 @@ This tutorial helps to understand how the EventDataStore (or a simple Elasticsea
 
 For 10.4 and below versions, **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Securing%20Elasticsearch%20for%20API%20Gateway%2010.2)**
 
-For 10.5 and above versions, **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Securing%20Elasticsearch%20for%20API%20Gateway%2010.5)**
+For 10.5, **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Securing%20Elasticsearch%20for%20API%20Gateway%2010.5)**
+
+For 10.7, **[Read on...](https://tech.forums.softwareag.com/t/securing-elasticsearch-for-api-gateway-10-7/239655)**
 
 Dismantling API Gateway
 -----------------------
@@ -63,7 +65,7 @@ This tutorial helps to understand how a Command Central (CC) administrator can c
 Handling Clear text passwords
 -----------------------------
 
-API Gateway uses multiple external components for its various functionalities like persistence, dashboards,log aggregation etc .Some of the external components have config files containing the product related configurations which will be picked during startup. Passwords are also part of this configurations files and user should configure the secret in these configuration files as plain text. Any user who have the access to the file system can view the passwords and access these components and can tamper the data. Since they are external components, we don't have control over their configuration files and startup procedure to mask these secrets and hence we planned to utilize their obfuscation method/settings storage for hiding the passwords from the yaml files. **[Read on](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Handling+of+clear+text+passwords+in+external+components+of+API+Gateway)...**
+API Gateway uses multiple external components for its various functionalities like persistence, dashboards,log aggregation etc .Some of the external components have config files containing the product related configurations which will be picked during startup. Passwords are also part of this configurations files and user should configure the secret in these configuration files as plain text. Any user who have the access to the file system can view the passwords and access these components and can tamper the data. Since they are external components, we don't have control over their configuration files and startup procedure to mask these secrets and hence we planned to utilize their obfuscation method/settings storage for hiding the passwords from the yaml files. **[Read on](https://github.com/SoftwareAG/webmethods-api-gateway/tree/master/docs/articles/architecture/handling-clear-text-passwords)...**
 
 Configure Reverse Invoke in webMethods API Gateway
 --------------------------------------------------

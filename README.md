@@ -12,24 +12,22 @@ Get API Gateway
 
 webMethods API Gateway can be provisioned in multiple ways based on the users needs. Choose the one which works the best for you. 
 
-*   **[WEBMETHODS.io](https://www.softwareag.cloud/site/product/webmethods-api.html)** \-  A _30 day free trail_ cloud account can be provisioned in less than 15 minutes. Visit SoftwareAG cloud and get your instance running in a region of your choice.
-*   [**Docker**](https://hub.docker.com/_/softwareag-apigateway) \- A _90 day free trail_ version of API Gateway docker image can be pulled from the docker hub**.** 
-*   **[Classic Installation](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Guide%20to%20Downloading%20and%20installing%20the%20webMethods%20Free%20Trial%20Version)** \- Download and install webMethods API Gateway _free trial version_.                      
+*   **[WEBMETHODS.io](https://www.softwareag.cloud/site/product/webmethods-api.html)** \-  A _30 day free trial_ cloud account can be provisioned in less than 15 minutes. Visit SoftwareAG cloud and get your instance running in a region of your choice.
+*   [**Docker**](https://hub.docker.com/_/softwareag-apigateway) \- A _90 day free trial_ version of API Gateway docker image can be pulled from the docker hub.                     
 
 Get Started
 -----------
 
 Hope, everything went well in product provisioning . Lets now get started to explore the product capabilities. 
 
-*   ****WEBMETHODS.io****  - You would have received a mail from Software AG with a link to login to your cloud account. Login and start the free trail of the products. In few mins, your cloud instance would be up and running. 
-*   **Docker** - After the checkout, you would have landed in the "_How to use_" page which lists the detailed steps for spinning a container with the docker image. Please follow the steps and get your instance started in few minutes.
-*   **Classic Installation** \- Navigate to <SoftwareAG\_InstallDir>/IntegrationServer/instances/default/bin/ and run startup.bat/sh to launch the product.
+*   ****WEBMETHODS.io****  - You would have received a mail from Software AG with a link to login to your cloud account. Login and start the free trial of the products. In few mins, your cloud instance would be up and running. 
+*   **Docker** - After the checkout, you would have landed in the "_How to use_" page which lists the detailed steps for spinning up a container with the docker image. Please follow the steps and get your instance started in few minutes.
 
 ![](attachments/651659260/651661280.png)
 
 ### Assets creation
 
-Hurrah!!!!.. Now that the product is up and running and lets get into the real action of using it. First let us create an API and add some enforcement to it.
+Hurrah!!!!.. Now that the product is up and running and let's get into the real action of using it. First let us create an API and add some enforcement to it.
 
 1.  Login to the webapp ([http://localhost:9072/)](http://localhost:9072/)) using the default credentials (Administrator/manage). If you are using API cloud, make sure to launch the "API Gateway" app. 
     
@@ -45,7 +43,7 @@ Hurrah!!!!.. Now that the product is up and running and lets get into the real a
 
 Now, its all set for the runtime execution. If you have an API Portal instance available, you can publish this API to API Portal and try it out.
 
-If not, no worries,we will just create an application in API Gateway itself. Under the _Applications_ section,create a new application, provide a name, consume the API(add our DateAPI under the APIs subsection) and click save. This will create an application and automatically provisions an API Key. Copy the API access key from the application details page for invoking the API. Using any REST client, you can invoke the gateway endpoint(can be obtained from the API details page in Gateway) and pass the access key with the header _"x-Gateway-APIKey"._
+If not, no worries,we will just create an application in API Gateway itself. Under the _Applications_ section,create a new application, provide a name, consume the API(add our DateAPI under the APIs subsection) and click save. This will create an application and automatically provision an API Key. Copy the API access key from the application details page for invoking the API. Using any REST client, you can invoke the gateway endpoint(can be obtained from the API details page in Gateway) and pass the access key with the header _"x-Gateway-APIKey"._
 
  _![](attachments/651659260/651661279.png)_ 
 
@@ -86,6 +84,7 @@ References
 ----------
 
 *   [API Management Home](https://github.com/SoftwareAG/API-Management) 
+*   [API Gateway DevOps Repo](https://github.com/SoftwareAG/webmethods-api-gateway-devops)
 *   [DevOps Templates](https://github.com/SoftwareAG/sagdevops-templates) 
 *   [Product Documentation](https://docs.webmethods.io/) 
 *   [Tech community](http://techcommunity.softwareag.com/pwiki/-/wiki/tag/api-gateway) 
