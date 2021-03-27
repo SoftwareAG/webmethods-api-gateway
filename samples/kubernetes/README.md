@@ -18,3 +18,8 @@ the IS metrics endpoint /metrics to gather the required metrics. When the metric
 called, Microservices Runtime gathers metrics and returns the data in a Prometheus format.
 Prometheus is an open source monitoring and alerting toolkit, which is frequently used for
 monitoring containers. 
+
+The Kubernetes samples for API gateway are shown in two flavours:
+
+* The [deploymentscripts](deploymentscripts) folder describes individual yaml scripts which can be applied via `kubectl apply -f ...`.
+* The [helm](helm) folder contains Helm charts which can be applied via `helm install ...`.

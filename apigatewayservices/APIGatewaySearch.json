@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "The search API allows you to execute a search query in API Gateway and receive search results that match the search query. You can perform search across different objects such as API, Application, Alias, Assertions, Users and User Groups.",
-    "version" : "10.7",
+    "version" : "10.5",
     "title" : "API Gateway Search Service"
   },
   "host" : "localhost:5555",
