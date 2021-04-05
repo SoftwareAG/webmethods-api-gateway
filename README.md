@@ -88,7 +88,7 @@ References
 *   [API Management Home](https://github.com/SoftwareAG/API-Management) 
 *   [DevOps Templates](https://github.com/SoftwareAG/sagdevops-templates) 
 *   [Product Documentation](https://docs.webmethods.io/) 
-*   [Tech community](http://techcommunity.softwareag.com/pwiki/-/wiki/tag/api-gateway) 
+*   [Tech community](https://tech.forums.softwareag.com/tags/c/knowledge-base/6/API-Gateway) 
 *   [Software AG Devcast Videos](https://www.youtube.com/results?search_query=software+ag+devcast) 
 
 ______________________
