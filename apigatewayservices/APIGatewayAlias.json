@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway Alias Management Service allows you to manage aliases in the API Gateway. Any user with the 'Manage aliases' functional previlige can manage the aliases in API Gateway. By default, the users who are part of API-Gateway-Administrators group will have this privilege. \n\n An alias in API Gateway holds environment-specific property values that can be used in policy routing configurations. The aliases can be referred to in routing endpoints, routing rules, endpoint connection properties, outbound authentication tokens, and outbound HTTP headers instead of providing an actual value. The corresponding alias value based on the stage is obtained and is substituted in place of an alias name during run-time. Thus the same alias can be referred to in multiple policies and the change in a particular alias would affect all the policy properties in which it is being referred. \n\n There are mainly six types of alias \n 1. Simple alias - Holds a simple value \n 2. Endpoint alias - Holds the endpoint value along with additional properties such as connection timeout, read timeout, whether to pass security headers or not, keystore alias, key alias \n 3. HTTP Transport security alias - Contains the transport level security information required while accessing the native API. Used in the outbound policies \n 4. SOAP message security alias - Contains message level security information that is required to access the native API \n 5. webMethods Integration Server alias - Holds the ESB service value. Can be used in the Invoke webMethods IS policy for request and response processing.\n 6. Transformation alias - Holds a list of XSLT style sheets. Can be used in the XSLT Transformation policies for request and response processing.\n\n In addition to the above alias types, the configurations for \n SAML issuer - which holds the configuration to communicate to STS (Security Token Service) to retrieve the SAML token. Used in the Outbound policies, \n Authorization server - which holds configuration of authorization server(internal/external)for introspection/Dynamic client registration. Used in the token validation and OAuth2 client creation, \n Client metadata mapping - which holds the authorization service provider metadata information. Used in the Dynamic client registration for the authorization server alias and \n Service Registry- which holds registry endpoint and service paths information. Used in the client side and server side discovery \n are internally stored as aliases.\n AWS Configuration Alias- which holds AWS instance configuaration details. This can be configured in any custom policies for invoking a lambda service\n running in any AWS cloud instance.\n Integration servers - This holds webMethods Integration Server accounts details. This configuration will be used to create connection to the integration server when publishing APIs to an integration server for implementing the API. You can refer to API Gateway Service Management Swagger documentation for information about how to publish API Gateway APIs to Integration servers.",
-    "version" : "10.5",
+    "version" : "10.7",
     "title" : "API Gateway Alias Management Service"
   },
   "host" : "localhost:5555",
@@ -103,14 +103,14 @@
               "$ref" : "#/definitions/Alias"
             }
           },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
           "404" : {
             "description" : "This status code indicates that an alias with the given id could not be found in API Gateway.",
             "examples" : {
               "application/json" : "{\r\n    \"errorDetails\": \" Alias with id: 732c4526-db9a-4ef9-9782-edda1a6aa9bc does not exist.\"\r\n}"
             }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
         "security" : [ {
@@ -151,6 +151,12 @@
               "$ref" : "#/definitions/Alias"
             }
           },
+          "400" : {
+            "description" : "This status code indicates that the request body is invalid."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
           "404" : {
             "description" : "This status code indicates that an alias with the specified id could not be found in API Gateway.",
             "examples" : {
@@ -162,12 +168,6 @@
             "examples" : {
               "application/json" : "{\r\n  \"errorDetails\": \" Unable to process the PUT request for alias. Error occurred while processing the payload. Error Message:\\n Method: PUT is not allowed on resource: alias\"\r\n}"
             }
-          },
-          "400" : {
-            "description" : "This status code indicates that the request body is invalid."
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
         "security" : [ {
@@ -189,6 +189,9 @@
           "204" : {
             "description" : "This status code indicates that the specified alias has been successfully deleted from API Gateway."
           },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
           "404" : {
             "description" : "This status code indicates that an alias with the given id could not be found in API Gateway.",
             "examples" : {
@@ -197,9 +200,6 @@
           },
           "405" : {
             "description" : "This status code indicates that the specified HTTP method is not allowed for the requested alias in API Gateway."
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
         "security" : [ {
@@ -221,13 +221,13 @@
       }, {
         "type" : "object",
         "properties" : {
-          "region" : {
-            "type" : "string",
-            "description" : "The configured AWS instance region detail"
-          },
           "accessKey" : {
             "type" : "string",
             "description" : "The access key ID for the AWS instance. This is used to sign the requests"
+          },
+          "region" : {
+            "type" : "string",
+            "description" : "The configured AWS instance region detail"
           },
           "secretKey" : {
             "type" : "string",
@@ -240,6 +240,10 @@
       "type" : "object",
       "discriminator" : "type",
       "properties" : {
+        "description" : {
+          "type" : "string",
+          "description" : "A description about the alias"
+        },
         "id" : {
           "type" : "string",
           "description" : "A unique ID for the alias",
@@ -249,22 +253,18 @@
           "type" : "string",
           "description" : "A unique name for the assertion"
         },
-        "description" : {
+        "owner" : {
           "type" : "string",
-          "description" : "A description about the alias"
-        },
-        "type" : {
-          "type" : "string",
-          "description" : "Type of the alias",
-          "enum" : [ "simple", "endpoint", "httpTransportSecurityAlias", "soapMessageSecurityAlias", "samlIssuerAlias", "authServerAlias", "webmethodsAlias", "transformationAlias", "serviceRegistryAlias", "clientMetadataMapping", "awsConfigurationAlias", "isConfigurationAlias" ]
+          "description" : "Owner of the alias"
         },
         "stage" : {
           "type" : "string",
           "description" : "Stage for which this alias needs to be used"
         },
-        "owner" : {
+        "type" : {
           "type" : "string",
-          "description" : "Owner of the alias"
+          "description" : "Type of the alias",
+          "enum" : [ "simple", "endpoint", "httpTransportSecurityAlias", "soapMessageSecurityAlias", "samlIssuerAlias", "authServerAlias", "webmethodsAlias", "transformationAlias", "serviceRegistryAlias", "clientMetadataMapping", "awsConfigurationAlias", "isConfigurationAlias" ]
         }
       }
     },
@@ -278,23 +278,29 @@
       }, {
         "type" : "object",
         "properties" : {
-          "localIntrospectionConfig" : {
-            "$ref" : "#/definitions/LocalIntrospectionConfig"
-          },
-          "remoteIntrospectionConfig" : {
-            "$ref" : "#/definitions/RemoteIntrospectionConfig"
+          "authServerType" : {
+            "type" : "string",
+            "description" : "Type of the authorization server",
+            "enum" : [ "LOCAL_IS", "REMOTE_IS", "EXTERNAL" ]
           },
           "dcrEndpoint" : {
             "$ref" : "#/definitions/DynamicClientRegistrationEndpoint"
           },
-          "tokenGeneratorConfig" : {
-            "$ref" : "#/definitions/TokenGeneratorConfig"
-          },
-          "sslConfig" : {
-            "$ref" : "#/definitions/SSLConfig"
+          "localIntrospectionConfig" : {
+            "$ref" : "#/definitions/LocalIntrospectionConfig"
           },
           "metadata" : {
             "$ref" : "#/definitions/Metadata"
+          },
+          "providerName" : {
+            "type" : "string",
+            "description" : "Name of the provider which was created using ClientMetadataMapping alias, used in the Dynamic client registration"
+          },
+          "remoteISConfig" : {
+            "$ref" : "#/definitions/RemoteISConfig"
+          },
+          "remoteIntrospectionConfig" : {
+            "$ref" : "#/definitions/RemoteIntrospectionConfig"
           },
           "scopes" : {
             "type" : "array",
@@ -303,6 +309,9 @@
               "$ref" : "#/definitions/Scope"
             }
           },
+          "sslConfig" : {
+            "$ref" : "#/definitions/SSLConfig"
+          },
           "supportedGrantTypes" : {
             "type" : "array",
             "description" : "List of grant types supported by the authorization server",
@@ -310,17 +319,8 @@
               "type" : "string"
             }
           },
-          "providerName" : {
-            "type" : "string",
-            "description" : "Name of the provider which was created using ClientMetadataMapping alias, used in the Dynamic client registration"
-          },
-          "authServerType" : {
-            "type" : "string",
-            "description" : "Type of the authorization server",
-            "enum" : [ "LOCAL_IS", "REMOTE_IS", "EXTERNAL" ]
-          },
-          "remoteISConfig" : {
-            "$ref" : "#/definitions/RemoteISConfig"
+          "tokenGeneratorConfig" : {
+            "$ref" : "#/definitions/TokenGeneratorConfig"
           }
         }
       } ]
@@ -331,13 +331,35 @@
       }, {
         "type" : "object",
         "properties" : {
+          "password" : {
+            "$ref" : "#/definitions/GatewaySecret"
+          },
           "username" : {
             "type" : "string",
             "description" : "Username for the basic authentication"
+          }
+        }
+      } ]
+    },
+    "ClientCredentialsAuth" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/AuthInfo"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "clientId" : {
+            "type" : "string"
           },
-          "password" : {
+          "clientSecret" : {
+            "$ref" : "#/definitions/GatewaySecret"
+          },
+          "scope" : {
+            "type" : "string"
+          },
+          "tokenType" : {
             "type" : "string",
-            "description" : "password of the corresponding username"
+            "example" : "SSWS/Bearer",
+            "description" : "Type of token"
           }
         }
       } ]
@@ -348,9 +370,16 @@
       }, {
         "type" : "object",
         "properties" : {
-          "providerName" : {
-            "type" : "string",
-            "description" : "Name of the provider"
+          "extendedValuesV2" : {
+            "type" : "array",
+            "description" : "List of headers that needs to be sent along with the client management request",
+            "items" : {
+              "$ref" : "#/definitions/ExtendedValue"
+            }
+          },
+          "generateCredentials" : {
+            "type" : "boolean",
+            "description" : "Specifies whether API Gateway should generate clientId and client secret"
           },
           "implNames" : {
             "type" : "object",
@@ -359,11 +388,15 @@
               "type" : "string"
             }
           },
-          "extendedValuesV2" : {
+          "providerName" : {
+            "type" : "string",
+            "description" : "Name of the provider"
+          },
+          "supportedApplicationTypes" : {
             "type" : "array",
-            "description" : "List of headers that needs to be sent along with the client management request",
+            "description" : "List of application_type values supported by the authorization server provider",
             "items" : {
-              "$ref" : "#/definitions/ExtendedValue"
+              "type" : "string"
             }
           }
         }
@@ -372,17 +405,17 @@
     "Credentials" : {
       "type" : "object",
       "properties" : {
-        "userName" : {
+        "domain" : {
           "type" : "string",
-          "description" : "Specify a username to access the native API"
+          "description" : "Specify a domain to access the native API"
         },
         "password" : {
           "type" : "string",
           "description" : "Specify a password to access the native API"
         },
-        "domain" : {
+        "userName" : {
           "type" : "string",
-          "description" : "Specify a domain to access the native API"
+          "description" : "Specify a username to access the native API"
         }
       }
     },
@@ -403,19 +436,22 @@
       }, {
         "type" : "object",
         "properties" : {
-          "endPointURI" : {
-            "type" : "string",
-            "description" : "the default URI or components of the URI such as service name"
-          },
           "connectionTimeout" : {
             "type" : "integer",
             "format" : "int32",
             "description" : "time interval (in seconds) after which a connection attempt times out"
           },
-          "readTimeout" : {
-            "type" : "integer",
-            "format" : "int32",
-            "description" : "time interval (in seconds) after which a socket read attempt times out"
+          "endPointURI" : {
+            "type" : "string",
+            "description" : "the default URI or components of the URI such as service name"
+          },
+          "keyAlias" : {
+            "type" : "string",
+            "description" : "Key alias in the particular keyStore"
+          },
+          "keystoreAlias" : {
+            "type" : "string",
+            "description" : "Keystore alias name that is used for the signing/encryption"
           },
           "optimizationTechnique" : {
             "type" : "string",
@@ -426,13 +462,14 @@
             "type" : "boolean",
             "description" : "Boolean value whether to pass security headers or not"
           },
-          "keystoreAlias" : {
-            "type" : "string",
-            "description" : "Keystore alias name that is used for the signing/encryption"
+          "readTimeout" : {
+            "type" : "integer",
+            "format" : "int32",
+            "description" : "time interval (in seconds) after which a socket read attempt times out"
           },
-          "keyAlias" : {
+          "truststoreAlias" : {
             "type" : "string",
-            "description" : "Key alias in the particular keyStore"
+            "description" : "Truststore alias name is used to validate the server certificate"
           }
         }
       } ]
@@ -455,21 +492,24 @@
         }
       }
     },
+    "GatewaySecret" : {
+      "type" : "object"
+    },
     "HTTPTransportSecurityAlias" : {
       "allOf" : [ {
         "$ref" : "#/definitions/Alias"
       }, {
         "type" : "object",
         "properties" : {
-          "authType" : {
-            "type" : "string",
-            "description" : "type of authentication you want to use while communicating with the native API",
-            "enum" : [ "HTTP_BASIC", "NTLM", "OAUTH2", "KERBEROS", "JWT", "ALIAS", "REMOVE_INCOMING_HTTP_HEADERS" ]
-          },
           "authMode" : {
             "type" : "string",
             "description" : "Mode of authentication that needs to be used",
             "enum" : [ "NEW", "INCOMING_HTTP_BASIC_AUTH", "INCOMING_WSS_USER", "INCOMING_X509", "DELEGATE_INCOMING", "INCOMING_OAUTH_TOKEN", "INCOMING_JWT", "TRANSPARENT", "INCOMING_KERBEROS" ]
+          },
+          "authType" : {
+            "type" : "string",
+            "description" : "type of authentication you want to use while communicating with the native API",
+            "enum" : [ "HTTP_BASIC", "NTLM", "OAUTH2", "KERBEROS", "JWT", "ALIAS", "REMOVE_INCOMING_HTTP_HEADERS" ]
           },
           "httpAuthCredentials" : {
             "$ref" : "#/definitions/Credentials"
@@ -490,6 +530,37 @@
       }, {
         "type" : "object",
         "properties" : {
+          "contentModelComplianceForWSDL" : {
+            "type" : "string",
+            "enum" : [ "STRICT", "LAX", "NONE" ]
+          },
+          "enableMTOM" : {
+            "type" : "boolean"
+          },
+          "enforceWSICompliance" : {
+            "type" : "boolean"
+          },
+          "folderName" : {
+            "type" : "string"
+          },
+          "importSwaggerBasedOnTags" : {
+            "type" : "boolean"
+          },
+          "keyAlias" : {
+            "type" : "string",
+            "description" : "The alias of the private key that is stored in the keystore specified by the keystore alias.\nThe Key alias field contains a list of the available aliases in the selected keystore. If there are no configured keystores, this field is empty"
+          },
+          "keystoreAlias" : {
+            "type" : "string",
+            "description" : "The Keystore alias field contains a list of the available keystore aliases in API Gateway. If there are no configured keystore aliases, this field lists the default Integration Server keystore, DEFAULT_IS_KEYSTORE ."
+          },
+          "packageName" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string",
+            "description" : "A valid password of the Integration Server user identified by the attribute Username"
+          },
           "url" : {
             "type" : "string"
           },
@@ -497,17 +568,8 @@
             "type" : "string",
             "description" : "The username of a registered Integration Server user who has the functional privilege to create the service"
           },
-          "password" : {
-            "type" : "string",
-            "description" : "A valid password of the Integration Server user identified by the attribute Username"
-          },
-          "keystoreAlias" : {
-            "type" : "string",
-            "description" : "The Keystore alias field contains a list of the available keystore aliases in API Gateway. If there are no configured keystore aliases, this field lists the default Integration Server keystore, DEFAULT_IS_KEYSTORE ."
-          },
-          "keyAlias" : {
-            "type" : "string",
-            "description" : "The alias of the private key that is stored in the keystore specified by the keystore alias.\nThe Key alias field contains a list of the available aliases in the selected keystore. If there are no configured keystores, this field is empty"
+          "validateSchemaWithXerces" : {
+            "type" : "boolean"
           }
         }
       } ]
@@ -515,13 +577,17 @@
     "KerberosCredentials" : {
       "type" : "object",
       "properties" : {
+        "clientPassword" : {
+          "type" : "string",
+          "description" : "password for the client principal"
+        },
         "clientPrincipal" : {
           "type" : "string",
           "description" : "a unique identity to which Kerberos can assign tickets"
         },
-        "clientPassword" : {
-          "type" : "string",
-          "description" : "password for the client principal"
+        "requestDelegateToken" : {
+          "type" : "boolean",
+          "description" : "Boolean value whether the token needs to be delegated or not"
         },
         "servicePrincipal" : {
           "type" : "string",
@@ -531,48 +597,44 @@
           "type" : "string",
           "description" : "the format in which you want to specify the principal name of the service that is registered with the principal database",
           "enum" : [ "HOST_BASED", "USERNAME_BASED" ]
-        },
-        "requestDelegateToken" : {
-          "type" : "boolean",
-          "description" : "Boolean value whether the token needs to be delegated or not"
         }
       }
     },
     "LocalIntrospectionConfig" : {
       "type" : "object",
       "properties" : {
-        "issuer" : {
-          "type" : "string",
-          "description" : "Third party issuer name"
-        },
-        "trustStoreAlias" : {
-          "type" : "string",
-          "description" : "The truststore to be used by API Gateway when validating the token issued by the authorization server. Truststore is a repository that holds all the trusted public certificates"
-        },
         "certificateAlias" : {
           "type" : "string",
           "description" : "Select the certificate from the truststore that is used to validate the token."
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Third party issuer description"
+        },
+        "issuer" : {
+          "type" : "string",
+          "description" : "Third party issuer name"
         },
         "jwksuri" : {
           "type" : "string",
           "description" : "JSON Web Key URI"
         },
-        "description" : {
+        "trustStoreAlias" : {
           "type" : "string",
-          "description" : "Third party issuer description"
+          "description" : "The truststore to be used by API Gateway when validating the token issued by the authorization server. Truststore is a repository that holds all the trusted public certificates"
         }
       }
     },
     "Metadata" : {
       "type" : "object",
       "properties" : {
-        "authorizeURL" : {
-          "type" : "string",
-          "description" : "URL to get the approval from the resource owner"
-        },
         "accessTokenURL" : {
           "type" : "string",
           "description" : "URL to get the access token from the authorization server"
+        },
+        "authorizeURL" : {
+          "type" : "string",
+          "description" : "URL to get the approval from the resource owner"
         },
         "refreshTokenURL" : {
           "type" : "string",
@@ -580,20 +642,19 @@
         }
       }
     },
+    "NoAuth" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/AuthInfo"
+      }, {
+        "type" : "object"
+      } ]
+    },
     "OAuth2Endpoint" : {
       "type" : "object",
       "properties" : {
         "endpoint" : {
           "type" : "string",
           "description" : "Client registration endpoint in the authorization server"
-        },
-        "keyStoreAlias" : {
-          "type" : "string",
-          "description" : "Specify the keystore that needs to be used by API Gateway while sending the request to the authorization server. A keystore is a repository of private key and its corresponding public certificate"
-        },
-        "keyAlias" : {
-          "type" : "string",
-          "description" : "The key alias is the private key that is used sign the request sent to the authorization server"
         },
         "headers" : {
           "type" : "object",
@@ -603,6 +664,14 @@
         },
         "https" : {
           "type" : "boolean"
+        },
+        "keyAlias" : {
+          "type" : "string",
+          "description" : "The key alias is the private key that is used sign the request sent to the authorization server"
+        },
+        "keyStoreAlias" : {
+          "type" : "string",
+          "description" : "Specify the keystore that needs to be used by API Gateway while sending the request to the authorization server. A keystore is a repository of private key and its corresponding public certificate"
         }
       }
     },
@@ -615,10 +684,10 @@
             "$ref" : "#/definitions/OAuth2Endpoint"
           }
         },
-        "keyStoreAlias" : {
+        "keyAlias" : {
           "type" : "string"
         },
-        "keyAlias" : {
+        "keyStoreAlias" : {
           "type" : "string"
         }
       }
@@ -629,30 +698,8 @@
       }, {
         "type" : "object",
         "properties" : {
-          "issuer" : {
-            "type" : "string"
-          },
           "authorizationEndpoint" : {
             "type" : "string"
-          },
-          "tokenEndpoint" : {
-            "type" : "string"
-          },
-          "userinfoEndpoint" : {
-            "type" : "string"
-          },
-          "jwksUri" : {
-            "type" : "string"
-          },
-          "openIDScopes" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          },
-          "openIDResponseType" : {
-            "type" : "string",
-            "enum" : [ "code", "id_token", "token_id_token", "id_token_token" ]
           },
           "clientId" : {
             "type" : "string"
@@ -660,24 +707,43 @@
           "clientSecret" : {
             "type" : "string"
           },
-          "prompt" : {
-            "type" : "string",
-            "enum" : [ "none", "login", "consent", "select_account" ]
+          "includeUserinfoClaims" : {
+            "type" : "boolean"
           },
-          "openIDGrantType" : {
-            "type" : "string",
-            "enum" : [ "authorization_code" ]
+          "issuer" : {
+            "type" : "string"
+          },
+          "jwksUri" : {
+            "type" : "string"
+          },
+          "maxAge" : {
+            "type" : "string"
           },
           "openIDDisplayValue" : {
             "type" : "string",
             "enum" : [ "none", "page", "popup", "touch", "wap" ]
           },
+          "openIDGrantType" : {
+            "type" : "string",
+            "enum" : [ "authorization_code" ]
+          },
+          "openIDResponseType" : {
+            "type" : "string",
+            "enum" : [ "code", "id_token", "token_id_token", "id_token_token" ]
+          },
+          "openIDScopes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
           "openIDTokenEndpointAuthMode" : {
             "type" : "string",
             "enum" : [ "client_secret_basic", "client_secret_post", "none" ]
           },
-          "maxAge" : {
-            "type" : "string"
+          "prompt" : {
+            "type" : "string",
+            "enum" : [ "none", "login", "consent", "select_account" ]
           },
           "redirectionEndpointHost" : {
             "type" : "string"
@@ -685,14 +751,40 @@
           "redirectionEndpointPort" : {
             "type" : "string"
           },
-          "uiLocales" : {
+          "tokenEndpoint" : {
             "type" : "string"
-          },
-          "includeUserinfoClaims" : {
-            "type" : "boolean"
           },
           "trustStoreAlias" : {
             "type" : "string"
+          },
+          "uiLocales" : {
+            "type" : "string"
+          },
+          "userinfoEndpoint" : {
+            "type" : "string"
+          }
+        }
+      } ]
+    },
+    "RefreshTokenAuth" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/AuthInfo"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "clientId" : {
+            "type" : "string"
+          },
+          "clientSecret" : {
+            "$ref" : "#/definitions/GatewaySecret"
+          },
+          "token" : {
+            "$ref" : "#/definitions/GatewaySecret"
+          },
+          "tokenType" : {
+            "type" : "string",
+            "example" : "SSWS/Bearer",
+            "description" : "Type of token"
           }
         }
       } ]
@@ -700,9 +792,22 @@
     "RemoteISConfig" : {
       "type" : "object",
       "properties" : {
+        "acl" : {
+          "type" : "string",
+          "description" : "ACL that governs which user groups on your server can use this alias for the remote server. Select an ACL from the drop down list. By default, only members of groups governed by the Internal ACL can use this alias."
+        },
         "host" : {
           "type" : "string",
           "description" : "Host name or IP address of the remote server for which you are creating an alias"
+        },
+        "keepAlive" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Sets the default number of client keep alive connections to retain for a given target endpoint. If not specified, five keep alive connections are retained."
+        },
+        "password" : {
+          "type" : "string",
+          "description" : "Password of the corresponding user in remote IS authorization server"
         },
         "port" : {
           "type" : "integer",
@@ -710,48 +815,34 @@
           "example" : 5555,
           "description" : "Port number on which the remote server listens for incoming requests from your server"
         },
-        "username" : {
-          "type" : "string",
-          "description" : "User name for a user account on the remote server. When you invoke a service using this alias, the remote server uses this user account for authentication and access control."
-        },
-        "password" : {
-          "type" : "string",
-          "description" : "Password of the corresponding user in remote IS authorization server"
-        },
-        "useSSL" : {
-          "type" : "boolean",
-          "description" : "Whether you want your server to connect to the remote server using Secure Sockets Layer (SSL)."
-        },
-        "acl" : {
-          "type" : "string",
-          "description" : "ACL that governs which user groups on your server can use this alias for the remote server. Select an ACL from the drop down list. By default, only members of groups governed by the Internal ACL can use this alias."
-        },
         "timeout" : {
           "type" : "integer",
           "format" : "int32",
           "description" : "Specifies the length of time (in minutes) that your server maintains an idle connection to a remote server."
         },
-        "keepAlive" : {
-          "type" : "integer",
-          "format" : "int32",
-          "description" : "Sets the default number of client keep alive connections to retain for a given target endpoint. If not specified, five keep alive connections are retained."
+        "useSSL" : {
+          "type" : "boolean",
+          "description" : "Whether you want your server to connect to the remote server using Secure Sockets Layer (SSL)."
+        },
+        "username" : {
+          "type" : "string",
+          "description" : "User name for a user account on the remote server. When you invoke a service using this alias, the remote server uses this user account for authentication and access control."
         }
       }
     },
     "RemoteIntrospectionConfig" : {
       "type" : "object",
       "properties" : {
-        "introspectionEndpoint" : {
-          "type" : "string",
-          "description" : "Endpoint of the authorization server to do the introspection"
-        },
         "clientId" : {
           "type" : "string",
           "description" : "ClientId of a client in the authorization server"
         },
         "clientSecret" : {
+          "$ref" : "#/definitions/GatewaySecret"
+        },
+        "introspectionEndpoint" : {
           "type" : "string",
-          "description" : "Client Secret of the corresponding clientId in the authorization server"
+          "description" : "Endpoint of the authorization server to do the introspection"
         },
         "user" : {
           "type" : "string",
@@ -765,6 +856,34 @@
       }, {
         "type" : "object",
         "properties" : {
+          "appliesTo" : {
+            "type" : "string",
+            "description" : "Specify the scope for which this security token is required"
+          },
+          "assertionId" : {
+            "type" : "string"
+          },
+          "endpoint" : {
+            "type" : "string",
+            "description" : "The endpoint URI of the STS"
+          },
+          "extendedParameters" : {
+            "type" : "object",
+            "description" : "Extensions to the <wst:RequestSecurityToken> element for requesting specific types of keys, algorithms, or key and algorithms, as specified by a given policy in the return token(s)",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          },
+          "issuerAuthMode" : {
+            "type" : "string",
+            "description" : "Mode of communication",
+            "enum" : [ "NEW", "INCOMING_HTTP_BASIC_AUTH", "INCOMING_WSS_USER", "INCOMING_X509", "DELEGATE_INCOMING", "INCOMING_OAUTH_TOKEN", "INCOMING_JWT", "TRANSPARENT", "INCOMING_KERBEROS" ]
+          },
+          "issuerAuthScheme" : {
+            "type" : "string",
+            "description" : "The authentication type used for communicating to STS",
+            "enum" : [ "BASIC_AUTH", "WSS_USERNAME", "KERBEROS", "X509" ]
+          },
           "issuerCommunicationMode" : {
             "type" : "string",
             "description" : "Mode of communication to the STS",
@@ -774,52 +893,24 @@
             "type" : "string",
             "description" : "The webMethods Integration Server service name"
           },
-          "issuerAuthScheme" : {
-            "type" : "string",
-            "description" : "The authentication type used for communicating to STS",
-            "enum" : [ "BASIC_AUTH", "WSS_USERNAME", "KERBEROS", "X509" ]
-          },
-          "issuerAuthMode" : {
-            "type" : "string",
-            "description" : "Mode of communication",
-            "enum" : [ "NEW", "INCOMING_HTTP_BASIC_AUTH", "INCOMING_WSS_USER", "INCOMING_X509", "DELEGATE_INCOMING", "INCOMING_OAUTH_TOKEN", "INCOMING_JWT", "TRANSPARENT", "INCOMING_KERBEROS" ]
-          },
-          "wssCredentials" : {
-            "$ref" : "#/definitions/WssCredentials"
-          },
           "kerberosCredentials" : {
             "$ref" : "#/definitions/KerberosCredentials"
-          },
-          "endpoint" : {
-            "type" : "string",
-            "description" : "The endpoint URI of the STS"
           },
           "samlVersion" : {
             "type" : "string",
             "description" : "SAML version to be used for authentication",
             "enum" : [ "SAML1_1", "SAML_2_0" ]
           },
+          "signAndEncryptConfig" : {
+            "$ref" : "#/definitions/SignAndEncryptConfig"
+          },
           "wsTrustVersion" : {
             "type" : "string",
             "description" : "WS-Trust version that API Gateway must use to send the RST to the SAML issuer",
             "enum" : [ "WS_TRUST_1_0", "WS_TRUST_1_3" ]
           },
-          "appliesTo" : {
-            "type" : "string",
-            "description" : "Specify the scope for which this security token is required"
-          },
-          "extendedParameters" : {
-            "type" : "object",
-            "description" : "Extensions to the <wst:RequestSecurityToken> element for requesting specific types of keys, algorithms, or key and algorithms, as specified by a given policy in the return token(s)",
-            "additionalProperties" : {
-              "type" : "string"
-            }
-          },
-          "signAndEncryptConfig" : {
-            "$ref" : "#/definitions/SignAndEncryptConfig"
-          },
-          "assertionId" : {
-            "type" : "string"
+          "wssCredentials" : {
+            "$ref" : "#/definitions/WssCredentials"
           }
         }
       } ]
@@ -830,18 +921,15 @@
       }, {
         "type" : "object",
         "properties" : {
-          "authType" : {
-            "type" : "string",
-            "description" : "Type of authentication that needs to be used",
-            "enum" : [ "WSS_USERNAME", "SAML", "KERBEROS", "ALIAS", "REMOVE_WSS_HEADERS", "NONE" ]
-          },
           "authMode" : {
             "type" : "string",
             "description" : "Mode of authentication",
             "enum" : [ "NEW", "INCOMING_HTTP_BASIC_AUTH", "INCOMING_WSS_USER", "INCOMING_X509", "DELEGATE_INCOMING", "INCOMING_OAUTH_TOKEN", "INCOMING_JWT", "TRANSPARENT", "INCOMING_KERBEROS" ]
           },
-          "wssCredentials" : {
-            "$ref" : "#/definitions/WssCredentials"
+          "authType" : {
+            "type" : "string",
+            "description" : "Type of authentication that needs to be used",
+            "enum" : [ "WSS_USERNAME", "SAML", "KERBEROS", "ALIAS", "REMOVE_WSS_HEADERS", "NONE" ]
           },
           "kerberosCredentials" : {
             "$ref" : "#/definitions/KerberosCredentials"
@@ -852,6 +940,9 @@
           },
           "signAndEncryptConfig" : {
             "$ref" : "#/definitions/SignAndEncryptConfig"
+          },
+          "wssCredentials" : {
+            "$ref" : "#/definitions/WssCredentials"
           }
         }
       } ]
@@ -859,13 +950,13 @@
     "SSLConfig" : {
       "type" : "object",
       "properties" : {
-        "keyStoreAlias" : {
-          "type" : "string",
-          "description" : "Specify the keystore that needs to be used by API Gateway while sending the request to the authorization server. A keystore is a repository of private key and its corresponding public certificate"
-        },
         "keyAlias" : {
           "type" : "string",
           "description" : "The key alias is the private key that is used sign the request sent to the authorization server"
+        },
+        "keyStoreAlias" : {
+          "type" : "string",
+          "description" : "Specify the keystore that needs to be used by API Gateway while sending the request to the authorization server. A keystore is a repository of private key and its corresponding public certificate"
         },
         "trustStoreAlias" : {
           "type" : "string",
@@ -876,27 +967,27 @@
     "Scope" : {
       "type" : "object",
       "properties" : {
-        "name" : {
-          "type" : "string",
-          "description" : "Name of the oauth2 scope"
-        },
         "description" : {
           "type" : "string",
           "description" : "Description of the oauth2 scope"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name of the oauth2 scope"
         }
       }
     },
     "ServiceRegistryCommunication" : {
       "type" : "object",
       "properties" : {
-        "path" : {
-          "type" : "string",
-          "description" : "Resource path that will be appened with base endpoint while communicating with service registry"
-        },
         "httpMethod" : {
           "type" : "string",
           "description" : "HttpMethod that is used while communicating with the service registry",
           "enum" : [ "GET", "POST", "PUT", "DELETE", "HEAD", "PATCH", "OPTIONS", "TRACE", "CUSTOM" ]
+        },
+        "path" : {
+          "type" : "string",
+          "description" : "Resource path that will be appened with base endpoint while communicating with service registry"
         }
       }
     },
@@ -906,6 +997,24 @@
       }, {
         "type" : "object",
         "properties" : {
+          "ConnectionTimeout" : {
+            "type" : "integer",
+            "format" : "int32",
+            "description" : "The time interval (in seconds) after which a connection attempt times out while communicating with service registry"
+          },
+          "customHeaders" : {
+            "type" : "object",
+            "description" : "Custom headers that needs be sent while communicating with the service registry",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          },
+          "deRegistrationInfo" : {
+            "$ref" : "#/definitions/ServiceRegistryCommunication"
+          },
+          "discoveryInfo" : {
+            "$ref" : "#/definitions/ServiceRegistryCommunication"
+          },
           "endpointURI" : {
             "type" : "string",
             "description" : "Endpoint that is used to communicate with the service registry"
@@ -915,40 +1024,24 @@
             "format" : "int32",
             "description" : "APIGateway will ping the service registry on the configured interval for every API"
           },
-          "username" : {
+          "keyAlias" : {
             "type" : "string",
-            "description" : "Username that is used in the Basic authentication when communicating with the service registry"
-          },
-          "password" : {
-            "type" : "string",
-            "description" : "Password that is used in the Basic authentication when communicating with the service registry"
+            "description" : "The key alias is the private key that is used for signing when using SSL communication with the Service Registry."
           },
           "keystoreAlias" : {
             "type" : "string",
             "description" : "A keystore is a repository of private key. This keystore contains the private key used for the SSL communication with the Service Registry. For information on how to configure the keystore aliases, refer API Gateway Administration swagger"
           },
-          "keyAlias" : {
+          "password" : {
             "type" : "string",
-            "description" : "The key alias is the private key that is used for signing when using SSL communication with the Service Registry."
+            "description" : "Password that is used in the Basic authentication when communicating with the service registry"
           },
-          "trustStoreAlias" : {
-            "type" : "string",
-            "description" : "A truststore is a repository of public keys. This truststore contains the public key of the Service Registry used for the SSL communication with the Service Registry. For information on how to configure the truststore aliases, refer API Gateway Administration swagger"
-          },
-          "customHeaders" : {
-            "type" : "object",
-            "description" : "Custom headers that needs be sent while communicating with the service registry",
-            "additionalProperties" : {
-              "type" : "string"
-            }
-          },
-          "discoveryInfo" : {
-            "$ref" : "#/definitions/ServiceRegistryCommunication"
+          "readTimeout" : {
+            "type" : "integer",
+            "format" : "int32",
+            "description" : "The time interval (in seconds) after which a socket read attempt times out while communicating with service registry"
           },
           "registrationInfo" : {
-            "$ref" : "#/definitions/ServiceRegistryCommunication"
-          },
-          "deRegistrationInfo" : {
             "$ref" : "#/definitions/ServiceRegistryCommunication"
           },
           "serviceRegistryType" : {
@@ -956,15 +1049,13 @@
             "description" : "It contains the information about the type of service registry",
             "enum" : [ "SERVICE_CONSUL", "EUREKA" ]
           },
-          "ConnectionTimeout" : {
-            "type" : "integer",
-            "format" : "int32",
-            "description" : "The time interval (in seconds) after which a connection attempt times out while communicating with service registry"
+          "trustStoreAlias" : {
+            "type" : "string",
+            "description" : "A truststore is a repository of public keys. This truststore contains the public key of the Service Registry used for the SSL communication with the Service Registry. For information on how to configure the truststore aliases, refer API Gateway Administration swagger"
           },
-          "readTimeout" : {
-            "type" : "integer",
-            "format" : "int32",
-            "description" : "The time interval (in seconds) after which a socket read attempt times out while communicating with service registry"
+          "username" : {
+            "type" : "string",
+            "description" : "Username that is used in the Basic authentication when communicating with the service registry"
           }
         }
       } ]
@@ -972,21 +1063,21 @@
     "SignAndEncryptConfig" : {
       "type" : "object",
       "properties" : {
-        "keyStoreAlias" : {
+        "certificateAlias" : {
           "type" : "string",
-          "description" : "Specify the keystore that needs to be used by API Gateway while sending the request to the native API. A keystore is a repository of private key and its corresponding public certificate"
+          "description" : "Select the certificate from the truststore that is used to validate the request that is sent to the native API."
         },
         "keyAlias" : {
           "type" : "string",
           "description" : "The key alias is the private key that is used sign the request sent to the native API"
         },
+        "keyStoreAlias" : {
+          "type" : "string",
+          "description" : "Specify the keystore that needs to be used by API Gateway while sending the request to the native API. A keystore is a repository of private key and its corresponding public certificate"
+        },
         "truststoreAlias" : {
           "type" : "string",
           "description" : "The truststore to be used by API Gateway when sending the request to the native API. Truststore is a repository that holds all the trusted public certificates"
-        },
-        "certificateAlias" : {
-          "type" : "string",
-          "description" : "Select the certificate from the truststore that is used to validate the request that is sent to the native API."
         }
       }
     },
@@ -1009,17 +1100,17 @@
       }, {
         "type" : "object",
         "properties" : {
-          "providerName" : {
-            "type" : "string"
+          "authInfo" : {
+            "$ref" : "#/definitions/AuthInfo"
           },
           "endpointDetails" : {
             "$ref" : "#/definitions/OAuth2Endpoints"
           },
-          "authInfo" : {
-            "$ref" : "#/definitions/AuthInfo"
-          },
           "metadata" : {
             "$ref" : "#/definitions/Metadata"
+          },
+          "providerName" : {
+            "type" : "string"
           }
         }
       } ]
@@ -1030,14 +1121,13 @@
       }, {
         "type" : "object",
         "properties" : {
+          "token" : {
+            "$ref" : "#/definitions/GatewaySecret"
+          },
           "tokenType" : {
             "type" : "string",
             "example" : "SSWS/Bearer",
             "description" : "Type of token"
-          },
-          "token" : {
-            "type" : "string",
-            "description" : "Corresponding token value"
           }
         }
       } ]
@@ -1045,29 +1135,29 @@
     "TokenGeneratorConfig" : {
       "type" : "object",
       "properties" : {
-        "audience" : {
-          "type" : "string",
-          "description" : "Default audience value that needs to be added in the generated JWT"
-        },
-        "expiry" : {
+        "accessTokenExpInterval" : {
           "type" : "integer",
-          "format" : "int64",
-          "description" : "Expiry interval of the JWT in minutes"
+          "format" : "int32",
+          "description" : "Expiry interval in seconds for the generated access token "
         },
         "algorithm" : {
           "type" : "string",
           "description" : "Type of algorithm that needs to be used for signing the JWT",
           "enum" : [ "RS256", "RS384", "RS512" ]
         },
-        "accessTokenExpInterval" : {
-          "type" : "integer",
-          "format" : "int32",
-          "description" : "Expiry interval in seconds for the generated access token "
+        "audience" : {
+          "type" : "string",
+          "description" : "Default audience value that needs to be added in the generated JWT"
         },
         "authCodeExpInterval" : {
           "type" : "integer",
           "format" : "int32",
           "description" : "Expiry interval in seconds for the generated authorization code in Authorization code grant type"
+        },
+        "expiry" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Expiry interval of the JWT in minutes"
         }
       }
     },
@@ -1077,13 +1167,13 @@
       }, {
         "type" : "object",
         "properties" : {
-          "fileName" : {
-            "type" : "string",
-            "description" : "the name of the file"
-          },
           "content" : {
             "type" : "string",
             "description" : "content of the file"
+          },
+          "fileName" : {
+            "type" : "string",
+            "description" : "the name of the file"
           }
         }
       } ]
@@ -1094,17 +1184,17 @@
       }, {
         "type" : "object",
         "properties" : {
-          "serviceName" : {
-            "type" : "string",
-            "description" : "the webMethods Integration Server service name"
+          "complyToISSpec" : {
+            "type" : "boolean",
+            "description" : "A boolean value wheather the given service complies to the IS sepcification"
           },
           "runAsUser" : {
             "type" : "string",
             "description" : "User in gateway under whom you want to invoke this service"
           },
-          "complyToISSpec" : {
-            "type" : "boolean",
-            "description" : "A boolean value wheather the given service complies to the IS sepcification"
+          "serviceName" : {
+            "type" : "string",
+            "description" : "the webMethods Integration Server service name"
           }
         }
       } ]
@@ -1112,10 +1202,6 @@
     "WssCredentials" : {
       "type" : "object",
       "properties" : {
-        "userName" : {
-          "type" : "string",
-          "description" : "a username used to generate the WSS username token"
-        },
         "password" : {
           "type" : "string",
           "description" : "password for the username"
@@ -1124,6 +1210,10 @@
           "type" : "string",
           "description" : "type of password",
           "enum" : [ "NONE", "TEXT", "DIGEST" ]
+        },
+        "userName" : {
+          "type" : "string",
+          "description" : "a username used to generate the WSS username token"
         }
       }
     }

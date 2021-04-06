@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway User Management Service allows you to manage Users, Groups and Access profiles in the API Gateway. Any user with the 'Manage user administration' functional privilege can manage the Users, Groups and Access profiles in API Gateway. By default, the users who are part of API-Gateway-Administrators groups will have this privilege.\n\nAPI Gateway allows you to manage the password restrictions settings. For security purposes, API Gateway places length and character restrictions on passwords for administrator and non-administrator users. API Gateway contains a default set of password requirements. However, you can change these using the API Gateway Administration Service. Refer the REST resource '/configurations/passwordRestrictions' in the API Gateway Administration Service. \n\nAPI Gateway allows you to manage the password expiration settings. For security purposes, API Gateway allows administrators to set password expiration requirements on passwords for administrator and non-administrator users. API Gateway contains a default set of password expiry settings. However, you can change these with the API Gateway Administration service. Refer the REST resource '/configurations/passwordExpiry' in the API Gateway Administration Service. \n\nAPI Gateway allows you to manage the account locking settings. For security purposes, it is important to lock a user account when the user fails to provide the correct password after a specified number of failed login attempts to API Gateway. A locked user account remains locked for a specific period of time, after which the account gets unlocked. API Gateway allows administrators to configure these account locking settings for administrator and non-administrator users. Using API Gateway Administration Service, you can set the values for number of attempts by a user before locking the account and also the duration of the lock interval. Refer the REST resource '/configurations/accountLockSettings' in the API Gateway Administration Service.\n\nAPI Gateway allows you to view the locked user accounts and also allows to manually unlock locked user accounts before the automatic unlocking period. This can be achieved using the REST resource '/is/lockedAccounts' in the API Gateway User Management Service. \n\nAPI Gateway allows you to configure LDAP directories. If your server uses Lightweight Directory Access Protocol (LDAP) for user and group information, you can configure API Gateway to obtain user and group information from the external LDAP directory. You can configure API Gateway to use more than one LDAP directory at a time, allowing API Gateway to work with different LDAP directories for users in different locations or different organizations. You can manage the LDAP directories and LDAP configurations using the API Gateway Administration service. Refer the REST resource '/configurations/ldapConfig' in the API Gateway Administration Service.\n\nGlobal Team Assignments : When Teamwork feature is enabled, one can automate the team assignment for assets, by defining Global Team Assignment rules. Rules are defined by specifying one or more asset based conditions, and by configuring the rule output if the conditions are met. Management of such rules are exposed through an REST API. Refer the REST resource '/rule' in the API Gateway Administration Service.",
-    "version" : "10.5",
+    "version" : "10.7",
     "title" : "API Gateway User Management Service"
   },
   "host" : "localhost:5555",
@@ -11,34 +11,6 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
-    "/installedLanguages" : {
-      "get" : {
-        "description" : "The method retrieves list of installed language packs in API Gateway.",
-        "operationId" : "getInstalledLanguages",
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the list of installed language packs is successfully retrieved.",
-            "examples" : {
-              "application/json" : "{\r\n    \"installedLanguages\": [\r\n        \"ja\"\r\n    ]\r\n}"
-            },
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "type" : "string"
-              }
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
     "/accessProfiles" : {
       "get" : {
         "description" : "The method retrieves list of all teams in API Gateway.",
@@ -124,14 +96,14 @@
               "$ref" : "#/definitions/AccessProfile"
             }
           },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
           "404" : {
             "description" : "This status code indicates that a team with the given id could not be found in API Gateway.",
             "examples" : {
               "application/json" : "{\r\n    \"errorDetails\": \" AccessProfile with id: 15fbeeb2-745c-4988-b7b6-61f359ecbfc8 does not exist.\"\r\n}"
             }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
         "security" : [ {
@@ -194,11 +166,11 @@
           "type" : "string"
         } ],
         "responses" : {
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          },
           "204" : {
             "description" : "This status code indicates that the specified team has been successfully deleted from API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           },
           "404" : {
             "description" : "This status code indicates that team with the given id could not be found in API Gateway.",
@@ -212,60 +184,33 @@
         } ]
       }
     },
-    "/is/lockedAccounts" : {
-      "get" : {
-        "description" : "Retrieves the locked accounts in API Gateway",
-        "operationId" : "getLockedAccounts",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "",
-            "examples" : {
-              "application/json" : "{\r\n\t\"lockedAccounts\":[\"a\",\"b\"]\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/LockedAccounts"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
+    "/authenticate" : {
       "post" : {
-        "description" : "Unlock user account(s) locked by API Gateway",
-        "operationId" : "unLockUserAccounts",
+        "description" : "This HTTP request authenticates an User in API Gateway.",
+        "operationId" : "authorizeUser",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "body",
           "name" : "body",
-          "description" : "",
+          "description" : "This parameter describes the request payload of a user that is to be created in API Gateway.",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/UnlockAccountsRequest"
-          },
-          "x-examples" : {
-            "application/json" : "{\r\n\t\"unLockAccounts\": { \r\n\t\t\"userName\": [\"c\"]\r\n\t}\r\n}"
+            "$ref" : "#/definitions/User"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "",
-            "examples" : {
-              "application/json" : "{\r\n\t\"lockedAccounts\":[\"a\",\"b\"]\r\n}"
-            },
+            "description" : "This status code indicates that the user was successfully authenticated.",
             "schema" : {
-              "$ref" : "#/definitions/LockedAccounts"
+              "$ref" : "#/definitions/User"
             }
           },
+          "400" : {
+            "description" : "This status code indicates that the request payload is not correct or User is already exists"
+          },
           "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+            "description" : "This status code indicates that authorization has been refused for this HTTP request. This is possibly because, the user has not specified the required credentials (username and password), or has specified invalid credentials."
           }
         },
         "security" : [ {
@@ -358,14 +303,14 @@
               "$ref" : "#/definitions/Group"
             }
           },
+          "401" : {
+            "description" : "This status code indicates that either group didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
           "404" : {
             "description" : "This status code indicates that a group with the given id could not be found in API Gateway.",
             "examples" : {
               "application/json" : "{\r\n    \"errorDetails\": \" Group with id: 15fbeeb2-745c-4988-b7b6-61f359ecbfc8 does not exist.\"\r\n}"
             }
-          },
-          "401" : {
-            "description" : "This status code indicates that either group didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
         "security" : [ {
@@ -428,17 +373,106 @@
           "type" : "string"
         } ],
         "responses" : {
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          },
           "204" : {
             "description" : "This status code indicates that the specified group has been successfully deleted from API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           },
           "404" : {
             "description" : "This status code indicates that group with the given id could not be found in API Gateway.",
             "examples" : {
               "application/json" : "{\r\n    \"errorDetails\": \" Group with id: 732c4526-db9a-4ef9-9782-edda1a6aa9bc does not exist.\"\r\n}"
             }
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/installedLanguages" : {
+      "get" : {
+        "description" : "The method retrieves list of installed language packs in API Gateway.",
+        "operationId" : "getInstalledLanguages",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the list of installed language packs is successfully retrieved.",
+            "examples" : {
+              "application/json" : "{\r\n    \"installedLanguages\": [\r\n        \"ja\"\r\n    ]\r\n}"
+            },
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/is/lockedAccounts" : {
+      "get" : {
+        "description" : "Retrieves the locked accounts in API Gateway",
+        "operationId" : "getLockedAccounts",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "examples" : {
+              "application/json" : "{\r\n\t\"lockedAccounts\":[\"a\",\"b\"]\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/LockedAccounts"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "Unlock user account(s) locked by API Gateway",
+        "operationId" : "unLockUserAccounts",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/UnlockAccountsRequest"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\t\"unLockAccounts\": { \r\n\t\t\"userName\": [\"c\"]\r\n\t}\r\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "examples" : {
+              "application/json" : "{\r\n\t\"lockedAccounts\":[\"a\",\"b\"]\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/LockedAccounts"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
         "security" : [ {
@@ -512,7 +546,7 @@
     "/users/authenticate" : {
       "post" : {
         "description" : "This HTTP request authenticates an User in API Gateway.",
-        "operationId" : "authenticateUser",
+        "operationId" : "authorizeUser",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -565,14 +599,14 @@
               "$ref" : "#/definitions/User"
             }
           },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
           "404" : {
             "description" : "This status code indicates that an user with the given id could not be found in API Gateway.",
             "examples" : {
               "application/json" : "{\r\n    \"errorDetails\": \" User with id: 15fbeeb2-745c-4988-b7b6-61f359ecbfc8 does not exist.\"\r\n}"
             }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
         "security" : [ {
@@ -635,51 +669,17 @@
           "type" : "string"
         } ],
         "responses" : {
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          },
           "204" : {
             "description" : "This status code indicates that the specified user has been successfully deleted from API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           },
           "404" : {
             "description" : "This status code indicates that an user with the given id could not be found in API Gateway.",
             "examples" : {
               "application/json" : "{\r\n    \"errorDetails\": \" User with id: 732c4526-db9a-4ef9-9782-edda1a6aa9bc does not exist.\"\r\n}"
             }
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/authenticate" : {
-      "post" : {
-        "description" : "This HTTP request authenticates an User in API Gateway.",
-        "operationId" : "authorizeUser",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "This parameter describes the request payload of a user that is to be created in API Gateway.",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/User"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the user was successfully authenticated.",
-            "schema" : {
-              "$ref" : "#/definitions/User"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicates that the request payload is not correct or User is already exists"
-          },
-          "401" : {
-            "description" : "This status code indicates that authorization has been refused for this HTTP request. This is possibly because, the user has not specified the required credentials (username and password), or has specified invalid credentials."
           }
         },
         "security" : [ {
@@ -698,6 +698,17 @@
     "AccessProfile" : {
       "type" : "object",
       "properties" : {
+        "description" : {
+          "type" : "string",
+          "description" : "description of the accessprofile"
+        },
+        "groupIds" : {
+          "type" : "array",
+          "description" : "list of groupIds assigned to the accessprofile",
+          "items" : {
+            "type" : "string"
+          }
+        },
         "id" : {
           "type" : "string",
           "description" : "AccessProfile ID",
@@ -707,19 +718,8 @@
           "type" : "string",
           "description" : "name of the accessprofile"
         },
-        "description" : {
-          "type" : "string",
-          "description" : "description of the accessprofile"
-        },
         "privilege" : {
           "$ref" : "#/definitions/BitSet"
-        },
-        "groupIds" : {
-          "type" : "array",
-          "description" : "list of groupIds assigned to the accessprofile",
-          "items" : {
-            "type" : "string"
-          }
         },
         "teamAdmin" : {
           "$ref" : "#/definitions/TeamAdmin"
@@ -735,19 +735,57 @@
         }
       }
     },
+    "Group" : {
+      "type" : "object",
+      "properties" : {
+        "description" : {
+          "type" : "string",
+          "description" : "description of the group"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "Group ID",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "name of the group"
+        },
+        "userIds" : {
+          "type" : "array",
+          "description" : "list of user's Ids assigned to the group",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "description" : "This model contains details about a group in API Gateway"
+    },
+    "LockedAccounts" : {
+      "type" : "object",
+      "properties" : {
+        "lockedAccounts" : {
+          "type" : "array",
+          "description" : "Comma separated list of user accounts which are locked.",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
     "TeamAdmin" : {
       "type" : "object",
       "properties" : {
-        "userIds" : {
+        "groupIds" : {
           "type" : "array",
-          "description" : "list of userIds to be assigned as the team administrator.",
+          "description" : "list of groupIds to be assigned as the team administrator. All users in the group will become team administrator.",
           "items" : {
             "type" : "string"
           }
         },
-        "groupIds" : {
+        "userIds" : {
           "type" : "array",
-          "description" : "list of groupIds to be assigned as the team administrator. All users in the group will become team administrator.",
+          "description" : "list of userIds to be assigned as the team administrator.",
           "items" : {
             "type" : "string"
           }
@@ -774,63 +812,16 @@
         }
       }
     },
-    "LockedAccounts" : {
-      "type" : "object",
-      "properties" : {
-        "lockedAccounts" : {
-          "type" : "array",
-          "description" : "Comma separated list of user accounts which are locked.",
-          "items" : {
-            "type" : "string"
-          }
-        }
-      }
-    },
-    "Group" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "type" : "string",
-          "description" : "Group ID",
-          "readOnly" : true
-        },
-        "name" : {
-          "type" : "string",
-          "description" : "name of the group"
-        },
-        "description" : {
-          "type" : "string",
-          "description" : "description of the group"
-        },
-        "userIds" : {
-          "type" : "array",
-          "description" : "list of user's Ids assigned to the group",
-          "items" : {
-            "type" : "string"
-          }
-        }
-      },
-      "description" : "This model contains details about a group in API Gateway"
-    },
     "User" : {
       "type" : "object",
       "properties" : {
-        "id" : {
-          "type" : "string",
-          "description" : "unique identifier of a user",
-          "readOnly" : true
+        "active" : {
+          "type" : "boolean",
+          "description" : "active status of the user"
         },
-        "loginId" : {
-          "type" : "string",
-          "description" : "login name"
-        },
-        "firstName" : {
-          "type" : "string",
-          "description" : "first name of the user"
-        },
-        "lastName" : {
-          "type" : "string",
-          "description" : "last name of the user"
+        "allowDigestAuth" : {
+          "type" : "boolean",
+          "description" : "list of email addresses of the user"
         },
         "emailAddresses" : {
           "type" : "array",
@@ -839,20 +830,29 @@
             "type" : "string"
           }
         },
-        "allowDigestAuth" : {
-          "type" : "boolean",
-          "description" : "list of email addresses of the user"
+        "firstName" : {
+          "type" : "string",
+          "description" : "first name of the user"
         },
-        "active" : {
-          "type" : "boolean",
-          "description" : "active status of the user"
+        "id" : {
+          "type" : "string",
+          "description" : "unique identifier of a user",
+          "readOnly" : true
         },
         "language" : {
           "type" : "string",
           "description" : "preferred language of the user"
+        },
+        "lastName" : {
+          "type" : "string",
+          "description" : "last name of the user"
+        },
+        "loginId" : {
+          "type" : "string",
+          "description" : "login name"
         }
       },
-      "description" : "This model contains details about an User in API Gateway"
+      "description" : "This model contains details about a User in API Gateway"
     }
   }
 }
