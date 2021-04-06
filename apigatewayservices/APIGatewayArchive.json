@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "The API Gateway archive service exposes the interface to the API Gateway export archives. An API Gateway export archive is a ZIP file that contains APIs, policies, global policies, users, groups, access profiles, aliases, keystores, trustores, ports, JMS connections, JMS providers, JMS triggers, service registries, various administrative configurations like approval configurations, keystore/trustore configurations, cache configurations, log configurations, LDAP configurations, user account settings and all the other assets in API Gateway. You can use this service to export/import all type of assets into API Gateway. \n\n In general, for any asset being exported, all the dependent assets are automatically exported. For example, when exporting APIs,  the export archive contains the APIs, the API level policies, the policy actions associated with the API level policies, and the aliases referenced by the policy actions. Additionally, the archive may also contain the applications registered to the exported APIs.\n When exporting global policy the archive contains the global policies, the policy actions associated with the global policies, and the aliases referenced to the policy actions.\n When exporting approval configuration the archive contains the approval configuration and the access profile associated with the approval configuration. \n When exporting port the archive contains the port, the keystore and trustore associated with the port. \n When exporting LDAP configuration the archive contains the LDAP configuration, the group associated with the LDAP configuration. \n\nEach artifact in an archive is associated with a universally unique identifier (UUID) across all API Gateway installations. When importing an archive, the UUID helps in determining whether the corresponding artifact is already available in API Gateway. In such a situation, you can specify whether to overwrite an already existing artifact during the import process. \n\n Any user with the 'Export assets' functional privilege can export  archives in API Gateway and any user with the 'Import assets' privilege can import the archives. By default, the users who are part of API-Gateway-Administrators group will have these privileges.",
-    "version" : "10.5",
+    "version" : "10.7",
     "title" : "API Gateway Archive Service"
   },
   "host" : "localhost:5555",
@@ -275,16 +275,27 @@
           },
           "collectionFormat" : "multi",
           "x-example" : "configurations=loadBalancer,customContentTypes"
+        }, {
+          "name" : "gatewayScopes",
+          "in" : "query",
+          "description" : "This parameter identifies the oauth scopes to be exported. \nThe wildcard \"*\" selects all the oauth scopes. \nFor example, a single oauth scope can be exported using the following request:\nGET /rest/apigateway/archive?gatewayScopes=73c93393-1477-4a99-9e44-c9b3e679de0c\n\nWhereas, all the oauth scopes can be exported using the following request:\nGET /rest/apigateway/archive?gatewayScopes=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "gatewayScopes=5f388f25-2a57-46b9-b199-9d58fc02a8c1,c98805c4-9c05-47c0-84f0-c0855c0a9032"
         } ],
         "responses" : {
           "200" : {
             "description" : "This response indicates that the archive is created successfully. The response body is the zipped archive."
           },
+          "400" : {
+            "description" : "This response indicates that a request is incorrect. This can be due to the API or Policy identifiers that cannot be resolved."
+          },
           "401" : {
             "description" : "This response indicates that invalid credentials have been provided for the request."
-          },
-          "400" : {
-            "description" : "This response indicates that a request is incorrect. This can be due to identifiers that cannot be resolved."
           },
           "500" : {
             "description" : "This response indicates that the server has encountered an error while exporting API Gateway Asset"
@@ -306,6 +317,12 @@
           "required" : false,
           "type" : "string",
           "enum" : [ "apis", "policies", "policyactions", "applications", "aliases", "plans", "packages", "subscriptions", "administrator_settings", "portal_gateway", "assertions", "configurations", "outboundProxies", "urlAliases", "keyStores", "trustStores", "JNDIProviderAliases", "JMSConnectionAliases", "JMSTriggers", "webserviceEndpointAliases", "users", "groups", "accessProfiles", "kerberosSetting", "*" ]
+        }, {
+          "name" : "fixingMissingVersions",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "true", "false" ]
         }, {
           "name" : "preserveAssetState",
           "in" : "query",
@@ -336,6 +353,9 @@
           "type" : "file"
         } ],
         "responses" : {
+          "200" : {
+            "description" : "This response indicates that the archive is created successfully. The response body is the zipped archive."
+          },
           "201" : {
             "description" : "This response indicates that the archive import was successful. The response body holds a detailed import log in application/json format.",
             "examples" : {
@@ -348,17 +368,14 @@
               }
             }
           },
-          "200" : {
-            "description" : "This response indicates that the archive is created successfully. The response body is the zipped archive."
+          "400" : {
+            "description" : "This response indicates that the request is invalid or faulty, for example, the request body may contain an invalid archive."
           },
           "401" : {
             "description" : "This response  indicates that invalid credentials have been provided for the request."
           },
           "500" : {
             "description" : "This response indicates that the server has encountered an error while exporting or importing  API Gateway Asset"
-          },
-          "400" : {
-            "description" : "This response indicates that the request payload is invalid or that no objects with the specified search parameters were found"
           }
         },
         "security" : [ {
@@ -374,22 +391,48 @@
     }
   },
   "definitions" : {
+    "ArchiveResult" : {
+      "type" : "object",
+      "properties" : {
+        "dependencyFailed" : {
+          "type" : "boolean"
+        },
+        "explanation" : {
+          "type" : "string"
+        },
+        "importedOK" : {
+          "type" : "boolean"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "overwritten" : {
+          "type" : "boolean"
+        },
+        "warning" : {
+          "type" : "boolean"
+        }
+      }
+    },
     "ExportContext" : {
       "type" : "object",
       "required" : [ "types" ],
       "properties" : {
-        "types" : {
-          "type" : "string",
-          "description" : "List of allowed types that can be searched across API Gateway.",
-          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS" ]
-        },
-        "scope" : {
-          "$ref" : "#/definitions/SearchField"
+        "aggregations" : {
+          "$ref" : "#/definitions/IAggregation"
         },
         "condition" : {
           "type" : "string",
           "description" : "Condition between scope specified. The value can be either 'and' or 'or'",
           "enum" : [ "and", "or" ]
+        },
+        "from" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The starting index of the record to be fetched. Default value is 0 which fetches from the start. The index is applied to each type separately. For each type the first n records are skipped as specified in from field. If the value specified is less than zero then the default value is taken for fetching records"
+        },
+        "includeOptions" : {
+          "$ref" : "#/definitions/IncludeOptions"
         },
         "responseFields" : {
           "type" : "array",
@@ -398,10 +441,8 @@
             "type" : "string"
           }
         },
-        "from" : {
-          "type" : "integer",
-          "format" : "int32",
-          "description" : "The starting index of the record to be fetched. Default value is 0 which fetches from the start. The index is applied to each type separately. For each type the first n records are skipped as specified in from field. If the value specified is less than zero then the default value is taken for fetching records"
+        "scope" : {
+          "$ref" : "#/definitions/SearchField"
         },
         "size" : {
           "type" : "integer",
@@ -424,54 +465,142 @@
             "type" : "string"
           }
         },
-        "includeOptions" : {
-          "$ref" : "#/definitions/IncludeOptions"
+        "types" : {
+          "type" : "string",
+          "description" : "List of allowed types that can be searched across API Gateway.",
+          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS", "GATEWAY_SCOPE", "OAUTH2MATERIALIZEDTOKEN", "TRANSACTION_EVENTS", "LIFECYCLE_EVENTS", "POLICYVIOLATION_EVENTS", "MONITOR_EVENTS", "ERROR_EVENTS", "THREATPROTECTION_EVENTS", "PERFORMANCE_METRICS", "QUOTA_USAGE", "DASHBOARD", "AUDIT_LOG" ]
         }
       },
       "description" : "This defines the request structure to export the specific assets across API Gateway"
     },
+    "GroupingAggregation" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/IAggregation"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "fields" : {
+            "type" : "string",
+            "description" : "Input aggregation fields"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Name of the aggregation in the search aggregation response"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "Type of the aggregation.",
+            "enum" : [ "metrics", "timeseries", "group" ]
+          }
+        },
+        "description" : "This defines the aggregation structure to search across API Gateway"
+      } ]
+    },
+    "IAggregation" : {
+      "type" : "object",
+      "discriminator" : "type",
+      "properties" : {
+        "fields" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        }
+      },
+      "description" : "This defines the aggregation structure to search across API Gateway"
+    },
     "IncludeOptions" : {
       "type" : "object",
       "properties" : {
+        "includeAccessProfiles" : {
+          "type" : "boolean"
+        },
         "includeAll" : {
           "type" : "boolean",
           "description" : "Include all dependent assets for all asset type specified"
-        },
-        "includeApplications" : {
-          "type" : "boolean",
-          "description" : "Include application as dependent asset for asset type specified if applicable"
         },
         "includeApis" : {
           "type" : "boolean",
           "description" : "Include API as dependent asset for asset type specified if applicable"
         },
+        "includeApplications" : {
+          "type" : "boolean",
+          "description" : "Include application as dependent asset for asset type specified if applicable"
+        },
         "includeDocuments" : {
           "type" : "boolean",
           "description" : "Include documents as dependent asset for asset type specified if applicable"
         },
-        "includeUsers" : {
-          "type" : "boolean",
-          "description" : "Include users as dependent asset for asset type specified if applicable"
+        "includeGatewayScopes" : {
+          "type" : "boolean"
         },
         "includeGroups" : {
           "type" : "boolean",
           "description" : "Include groups as dependent asset for asset type specified if applicable"
         },
+        "includeRegisteredApplications" : {
+          "type" : "boolean",
+          "description" : "Include registered application as dependent asset for asset type specified if applicable"
+        },
         "includeSubscriptions" : {
           "type" : "boolean",
           "description" : "Include subscriptions for the asset type specified if applicable"
         },
-        "includeAccessProfiles" : {
-          "type" : "boolean"
-        },
         "includeTruststores" : {
           "type" : "boolean"
+        },
+        "includeUsers" : {
+          "type" : "boolean",
+          "description" : "Include users as dependent asset for asset type specified if applicable"
+        },
+        "promotedGroupsList" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "promotedUsersList" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         },
         "promotion" : {
           "type" : "boolean"
         }
       },
       "description" : "It is used to specify the inclusion of dependent assets"
+    },
+    "MetricsAggregation" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/IAggregation"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "fields" : {
+            "type" : "string",
+            "description" : "Input aggregation fields"
+          },
+          "metricsType" : {
+            "type" : "string",
+            "description" : "Type of the metrics aggregation.",
+            "enum" : [ "avg", "min", "max", "sum" ]
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Name of the aggregation in the search aggregation response"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "Type of the aggregation.",
+            "enum" : [ "metrics", "timeseries", "group" ]
+          }
+        },
+        "description" : "This defines the aggregation structure to search across API Gateway"
+      } ]
     },
     "SearchField" : {
       "type" : "object",
@@ -487,31 +616,64 @@
         "orTokenKey" : {
           "type" : "boolean"
         },
+        "range" : {
+          "$ref" : "#/definitions/SearchRange"
+        },
         "rawFieldKey" : {
           "type" : "string"
         }
       },
       "description" : "A scope is filtering criteria for the list of types specified in search.It is a key/value pair. key is the field name on which the search is being done and value  contains the search string to be searched on the field specified.To get the field name for a type, user needs to access the corresponding API Gateway REST service to know about the fields available for a particular type. "
     },
-    "ArchiveResult" : {
+    "SearchRange" : {
       "type" : "object",
       "properties" : {
-        "name" : {
-          "type" : "string"
+        "from" : {
+          "type" : "object",
+          "description" : "from value is used to set the minimum value in the request criteria and it can be integer, date or datetime"
         },
-        "importedOK" : {
-          "type" : "boolean"
+        "since" : {
+          "type" : "string",
+          "example" : "30d",
+          "description" : "This field is to search the data for the last few duration in units like seconds, minutes, hours, days and weeks. Possible units are [smhdw]"
         },
-        "explanation" : {
-          "type" : "string"
-        },
-        "overwritten" : {
-          "type" : "boolean"
-        },
-        "dependencyFailed" : {
-          "type" : "boolean"
+        "to" : {
+          "type" : "object",
+          "description" : "to value is used to set the maximum value in the request criteria and it can be integer, date or datetime"
         }
-      }
+      },
+      "description" : "A range is request criteria for the search operation applicable for the data types like date, datetime and integers. Range can be specified either by providing the 'from' and 'to' field or the 'since' field.For example to find \n 1. Search the transactional events generated in between 2020-04-01 (April 1, 2020) and 2020-05-31 (May 31, 2020), we can use {\"attributeName\" : \"creationDate\", \"range\" : {\"from\" : \"2020-04-01\", \"to\" : \"2020-05-31\"}}. \n 2. Search the transactional events where the request data size in between 1000 and 4000 - {\"attributeName\" : \"apiName\", \"range\" : {\"from\" : 1000, \"to\" : 4000}}."
+    },
+    "TimeSeriesAggregation" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/IAggregation"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "fields" : {
+            "type" : "string",
+            "description" : "Input aggregation fields"
+          },
+          "interval" : {
+            "type" : "string",
+            "description" : "Interval of the time series in aggregation.",
+            "enum" : [ "second", "minute", "hour", "day", "week", "month", "quarter", "year" ]
+          },
+          "intervalTypeAsString" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Name of the aggregation in the search aggregation response"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "Type of the aggregation.",
+            "enum" : [ "metrics", "timeseries", "group" ]
+          }
+        },
+        "description" : "This defines the aggregation structure to search across API Gateway"
+      } ]
     }
   }
 }

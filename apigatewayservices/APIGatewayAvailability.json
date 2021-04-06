@@ -1,0 +1,201 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "The purpose of the availability API is to monitor the availability and health status of API Gateway. It provides endpoints for verifying the availabilty of administrative functions, the ability of processing API calls and availability of external services. The responses of the availability API display a status field as the first entry. The status can have the values green, yellow or red describing the overall status of the components to check. This means that when any of the components signals a problem, then the status is set to red. ",
+    "version" : "1.0",
+    "title" : "availability"
+  },
+  "host" : "localhost:5555",
+  "basePath" : "/rest/apigateway/health/",
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/admin" : {
+      "get" : {
+        "summary" : "Perform administration health check",
+        "description" : "Perform health check for administration parts of API Gateway, such as the UI accessibility and Kibana health.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "examples" : {
+              "application/json" : "{\"status\":\"green\",\"ui\":{\"status\":\"green\",\"response_time_ms\":\"10\"},\"kibana\":{\"status\":{\"overall\":{\"state\":\"green\",\"nickname\":\"Looking good\",\"icon\":\"success\",\"uiColor\":\"secondary\"}},\"response_time_ms\":\"11\"}}"
+            },
+            "schema" : {
+              "originalRef" : "#/definitions/HealthCheckAdminResult",
+              "$ref" : "#/definitions/HealthCheckAdminResult"
+            },
+            "responseSchema" : {
+              "originalRef" : "#/definitions/HealthCheckAdminResult",
+              "$ref" : "#/definitions/HealthCheckAdminResult"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that user didn't provide right credentials"
+          }
+        }
+      }
+    },
+    "/all" : {
+      "get" : {
+        "summary" : "Perform health check for all components of API Gateway",
+        "description" : "Perform health check for all components of API Gateway.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "originalRef" : "#/definitions/HealthCheckAllResult",
+              "$ref" : "#/definitions/HealthCheckAllResult"
+            },
+            "responseSchema" : {
+              "originalRef" : "#/definitions/HealthCheckAllResult",
+              "$ref" : "#/definitions/HealthCheckAllResult"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that user didn't provide right credentials"
+          }
+        }
+      }
+    },
+    "/engine" : {
+      "get" : {
+        "summary" : "Perform core health check",
+        "description" : "Perform health check for core parts of API Gateway, such as Elasticsearch store, cluster environment and Integration Server health.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "examples" : {
+              "application/json" : "{\"status\":\"green\",\"elasticsearch\":{\"cluster_name\":\"SAG_EventDataStore\",\"status\":\"yellow\"},\"is\":{\"status\":\"green\",\"response_time_ms\":\"30\",\"diskspace\":{\"status\":\"up\"},\"memory\":{\"status\":\"up\",\"freemem\":\"501744736\"}},\"terracotta\":{\"status\":\"green\",\"nodes\":\"1\",\"healthy_nodes\":\"1\",\"response_time_ms\":\"2\"}}"
+            },
+            "schema" : {
+              "originalRef" : "#/definitions/HealthCheckEngineResult",
+              "$ref" : "#/definitions/HealthCheckEngineResult"
+            },
+            "responseSchema" : {
+              "originalRef" : "#/definitions/HealthCheckEngineResult",
+              "$ref" : "#/definitions/HealthCheckEngineResult"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that user didn't provide right credentials"
+          }
+        }
+      }
+    },
+    "/externalServices" : {
+      "get" : {
+        "summary" : "Perform health check on all external destinations and resources",
+        "description" : "Perform health check for configured external resources.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "examples" : {
+              "application/json" : "{\"status\":\"green\",\"destinations\":[{\"type\":\"centrasite\",\"name\":\"centrasite\",\"status\":\"not configured\",\"response_time_ms\":\"0\"},{\"type\":\"centrasite\",\"name\":\"centrasite_snmp\",\"status\":\"not configured\",\"response_time_ms\":\"0\"},{\"type\":\"api_portal\",\"name\":\"api_portal\",\"status\":\"green\",\"response_time_ms\":\"687\"},{\"type\":\"snmp\",\"name\":\"snmp\",\"status\":\"green\",\"response_time_ms\":\"1\"}],\"external_accounts\":[{\"type\":\"service_registry\",\"name\":\"service_registry\",\"status\":\"green\",\"response_time_ms\":\"0\"}]}"
+            },
+            "schema" : {
+              "originalRef" : "#/definitions/HealthCheckExternalResult",
+              "$ref" : "#/definitions/HealthCheckExternalResult"
+            },
+            "responseSchema" : {
+              "originalRef" : "#/definitions/HealthCheckExternalResult",
+              "$ref" : "#/definitions/HealthCheckExternalResult"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that user didn't provide right credentials"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "HealthCheckAdminResult" : {
+      "type" : "object",
+      "properties" : {
+        "kibana" : {
+          "type" : "object",
+          "description" : "Various values for the Kibana check",
+          "properties" : { }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Either green, yellow or red"
+        },
+        "ui" : {
+          "type" : "object",
+          "description" : "Various values for the UI health check",
+          "properties" : { }
+        }
+      }
+    },
+    "HealthCheckAllResult" : {
+      "type" : "object",
+      "properties" : {
+        "admin" : {
+          "originalRef" : "#/definitions/HealthCheckAdminResult",
+          "$ref" : "#/definitions/HealthCheckAdminResult"
+        },
+        "engine" : {
+          "originalRef" : "#/definitions/HealthCheckEngineResult",
+          "$ref" : "#/definitions/HealthCheckEngineResult"
+        },
+        "external" : {
+          "originalRef" : "#/definitions/HealthCheckExternalResult",
+          "$ref" : "#/definitions/HealthCheckExternalResult"
+        }
+      }
+    },
+    "HealthCheckEngineResult" : {
+      "type" : "object",
+      "properties" : {
+        "elasticsearch" : {
+          "type" : "object",
+          "description" : "Various values for the ElasticSearch check",
+          "properties" : { }
+        },
+        "is" : {
+          "type" : "object",
+          "description" : "Various values for the Integration Server health check",
+          "properties" : { }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Either green, yellow or red"
+        },
+        "terracotta" : {
+          "type" : "object",
+          "description" : "Various values for the Terracotta cluster check",
+          "properties" : { }
+        }
+      }
+    },
+    "HealthCheckExternalResult" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "The name of the external resource / service"
+        },
+        "response_time_ms" : {
+          "type" : "integer",
+          "description" : "Response check time in milli seconds"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Either green, yellow or red"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "The type of the external resource / service"
+        }
+      }
+    }
+  }
+}
