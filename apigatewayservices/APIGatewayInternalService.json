@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Services in this category work on identified application.  API Gateway will first try to identify the application based on identifiers such as API Key, OAuth token, ip address etc (as defined in the Application) and then executes the API for that application.",
-    "version" : "10.5",
+    "version" : "10.7",
     "title" : "API Gateway Internal Service"
   },
   "host" : "localhost:5555",
@@ -93,9 +93,43 @@
     }
   },
   "definitions" : {
+    "JWTServiceInput" : {
+      "type" : "object",
+      "properties" : {
+        "claimsSet" : {
+          "type" : "object",
+          "description" : "key value pairs in the form of json map",
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      }
+    },
+    "JWTServiceOutput" : {
+      "type" : "object",
+      "properties" : {
+        "accessToken" : {
+          "type" : "string"
+        },
+        "expiresIn" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "token expiry"
+        },
+        "tokenType" : {
+          "type" : "string",
+          "description" : "type of this token"
+        }
+      }
+    },
     "ServiceInput" : {
       "type" : "object",
       "properties" : {
+        "expiry" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "preferred expiry of the access token"
+        },
         "gatewayScopes" : {
           "type" : "array",
           "description" : "array of gateway scopes",
@@ -106,11 +140,6 @@
         "idToken" : {
           "type" : "string",
           "description" : "id token"
-        },
-        "expiry" : {
-          "type" : "integer",
-          "format" : "int64",
-          "description" : "preferred expiry of the access token"
         }
       }
     },
@@ -131,35 +160,6 @@
           "description" : "scopes for which the access token is issued"
         },
         "tokenType" : {
-          "type" : "string"
-        }
-      }
-    },
-    "JWTServiceInput" : {
-      "type" : "object",
-      "properties" : {
-        "claimsSet" : {
-          "type" : "object",
-          "description" : "key value pairs in the form of json map",
-          "additionalProperties" : {
-            "type" : "object"
-          }
-        }
-      }
-    },
-    "JWTServiceOutput" : {
-      "type" : "object",
-      "properties" : {
-        "expiresIn" : {
-          "type" : "integer",
-          "format" : "int64",
-          "description" : "token expiry"
-        },
-        "tokenType" : {
-          "type" : "string",
-          "description" : "type of this token"
-        },
-        "accessToken" : {
           "type" : "string"
         }
       }
