@@ -353,7 +353,7 @@ Any one of the below actions can be taken to recover disk space
 
 *   [Roll over the index](https://www.elastic.co/guide/en/elasticsearch/reference/7.2/indices-rollover-index.html)
 
-    By default, the API gateway has created an alias for all events. Below are the aliases ([http://localhost:9240/\_cat/aliases?v](http://localhost:9240/_cat/aliases?v)) and you can find the corresponding index by checking http://localhost:9240/<aliasname\>. It will display the current write index and below is the list of aliases in API Gateway 10.5
+    By default, the API gateway has created an alias for all events. Below are the aliases (you can list them using this URL http://localhost:9240/\_cat/aliases?v) and you can find the corresponding index by checking http://localhost:9240/<aliasname\>. It will display the current write index. Below is the list of aliases in API Gateway 10.5
 
       *   gateway\_\<tenant>\_analytics\_transactionalevents
       *   gateway\_\<tenant>\_analytics\_performancemetrics
