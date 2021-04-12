@@ -21,7 +21,7 @@ The existing migration approach incurs a downtime while doing upgrade. This appr
 
 ## Prerequisite steps
 
-Complete the below prerequisites to make you ready to get into the details of the staging and promotion in API Gateway.
+Complete the below prerequisites to make you ready to get into the details of upgrading API Gateway in zero downtime.
 
 *   Old API Gateway instance should be running
 *   Create a quiesce port in old API Gateway instance. A sample is given below in the steps.
