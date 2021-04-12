@@ -24,7 +24,7 @@ The existing migration approach incurs a downtime while doing upgrade. This appr
 Complete the below prerequisites to make you ready to get into the details of the staging and promotion in API Gateway.
 
 *   Old API Gateway instance should be running
-*   Create a quiesce port in old API Gateway instance
+*   Create a quiesce port in old API Gateway instance. A sample is given below in the steps.
 
 ## Details
 

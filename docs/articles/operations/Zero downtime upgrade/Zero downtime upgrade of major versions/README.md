@@ -24,7 +24,7 @@ The existing migration approach incurs a downtime while doing upgrade. This appr
 Complete the below prerequisites to make you ready to get into the details of the staging and promotion in API Gateway.
 
 *   Old API Gateway instance(s) should be running
-*   Create a quiesce port in old API Gateway instance(s). For a cluster, this should be done for each instance. Refer IS user guide for creating a quiesce port.
+*   Create a quiesce port in old API Gateway instance(s). For a cluster, this should be done for each instance. Refer IS user guide for creating a quiesce port. Anyway a sample is given below in the steps.
 
 ## Details
 
