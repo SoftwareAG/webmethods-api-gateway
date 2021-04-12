@@ -1,0 +1,539 @@
+{
+	"info": {
+		"_postman_id": "861d0615-7516-4b7f-81f6-aee4f13c09d8",
+		"name": "Zero Downtime Upgrade",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Quiesce mode",
+			"item": [
+				{
+					"name": "Enable Quiesce mode for designtime",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"block\": \"designtime\",\r\n    \"enable\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/quiescemode",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"quiescemode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Quiesce mode for deigntime status",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/quiescemode",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"quiescemode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enable Quiesce mode for all",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"block\": \"all\",\r\n    \"flush\": [\r\n        \"license_metrics\",\r\n        \"performance_metrics\",\r\n        \"subscription_quota\"\r\n    ],\r\n    \"enable\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/quiescemode",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"quiescemode"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Quiesce port",
+			"item": [
+				{
+					"name": "Create Quiesce port",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"factoryKey\": \"webMethods/HTTP\",\r\n\t\"pkg\": \"WmRoot\",\r\n\t\"port\": \"4444\",\r\n\t\"portAlias\": \"QuiescePort\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/ports",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"ports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enable Quiesce port",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"listenerKey\": \"HTTPListener@4444\",\r\n\t\"pkg\": \"WmRoot\",\r\n\t\"requestServiceStatus\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/ports/enable",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"ports",
+								"enable"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Quiesce port",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"portAlias\": \"QuiescePort\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{isURL}}/invoke/wm.server.quiesce/setQuiescePort",
+							"host": [
+								"{{isURL}}"
+							],
+							"path": [
+								"invoke",
+								"wm.server.quiesce",
+								"setQuiescePort"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Migration",
+			"item": [
+				{
+					"name": "Clean datastore",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"action\": \"clean\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/migration",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"migration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reindex core assets",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"action\": \"reindex\",\r\n    \"indicesType\": \"core\",\r\n    \"sourceElasticsearch\": {\r\n        \"url\": \"http://localhost:9200\",\r\n        \"username\": \"username\",\r\n        \"password\": \"password\"\r\n    },\r\n    \"properties\": {\r\n        \"apigateway.migration.srcTenantName\": \"default\",\r\n        \"apigateway.migration.batchSize\": 100,\r\n        \"apigateway.migration.logLevel\": \"info\",\r\n        \"apigateway.migration.reindex.status.check.sleep.interval\": 5000,\r\n        \"apigateway.migration.batchSize.gateway_{0}_apis\": 50,\r\n        \"apigateway.migration.batchSize.gateway_{0}_log\": 100,\r\n        \"apigateway.migration.batchSize.gateway_{0}_audit_auditlogs\": 50,\r\n        \"apigateway.migration.batchSize.gateway_{0}_analytics_transactionalevents\": 50\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/migration",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"migration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reindex logs and events",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"action\": \"reindex\",\r\n    \"indicesType\": \"logsevents\",\r\n    \"sourceElasticsearch\": {\r\n        \"url\": \"http://localhost:9200\",\r\n        \"username\": \"username\",\r\n        \"password\": \"password\"\r\n    },\r\n    \"properties\": {\r\n        \"apigateway.migration.srcTenantName\": \"default\",\r\n        \"apigateway.migration.batchSize\": 100,\r\n        \"apigateway.migration.logLevel\": \"info\",\r\n        \"apigateway.migration.reindex.status.check.sleep.interval\": 5000,\r\n        \"apigateway.migration.batchSize.gateway_{0}_apis\": 50,\r\n        \"apigateway.migration.batchSize.gateway_{0}_log\": 100,\r\n        \"apigateway.migration.batchSize.gateway_{0}_audit_auditlogs\": 50,\r\n        \"apigateway.migration.batchSize.gateway_{0}_analytics_transactionalevents\": 50\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/migration",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"migration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transform assets",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"action\": \"transform\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/migration",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"migration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get migration status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/migration/status?action=reindex",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"migration",
+								"status"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "reindex"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Webhooks",
+			"item": [
+				{
+					"name": "Create webhook",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"config\": {\r\n        \"url\": \"http://apigatewaymig.free.beeceptor.com/my/api/path/test\",\r\n        \"headers\": {\r\n            \"api-key\": \"asdfg\"\r\n        },\r\n        \"username\": \"username\",\r\n        \"password\": \"password\",\r\n        \"truststoreAlias\": \"truststoreAlias\"\r\n    },\r\n    \"events\": [\r\n        \"migration:clean:datastore:completed\",\r\n        \"migration:quiesce:all:completed\"\r\n    ],\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5555/rest/apigateway/webhooks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"rest",
+								"apigateway",
+								"webhooks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all webhooks",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "manage",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "Administrator",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5555/rest/apigateway/webhooks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"rest",
+								"apigateway",
+								"webhooks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get webhook by Id",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "manage",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "Administrator",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5555/restv2/apigateway:webhooks/0b68136d-e7da-4d20-9992-2621f6813f0c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"restv2",
+								"apigateway:webhooks",
+								"0b68136d-e7da-4d20-9992-2621f6813f0c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update webhook by Id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"config\": {\r\n        \"url\": \"http://apigatewaymig.free.beeceptor.com/my/api/path/test\",\r\n        \"headers\": {\r\n            \"api-key\": \"asdfg\"\r\n        },\r\n        \"username\": \"username\",\r\n        \"password\": \"password\",\r\n        \"truststoreAlias\": \"truststoreAlias\"\r\n    },\r\n    \"events\": [\r\n        \"migration:clean:datastore:completed\",\r\n        \"migration:quiesce:all:completed\"\r\n    ],\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/webhooks/0b68136d-e7da-4d20-9992-2621f6813f0c",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"webhooks",
+								"0b68136d-e7da-4d20-9992-2621f6813f0c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete webhook by Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/webhooks/b1abc8b7-4c33-4203-8a34-b32b81291cfd",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"webhooks",
+								"b1abc8b7-4c33-4203-8a34-b32b81291cfd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shutdown API Gateway",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bounce\": true,\r\n    \"option\": \"drain\",\r\n    \"timeout\": 10,\r\n    \"quiesce\": \"false\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/shutdown",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"shutdown"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "manage",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Administrator",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "5835282a-fa80-4c25-9327-0128a76c60aa",
+			"key": "baseURL",
+			"value": "http://localhost:5555/rest/apigateway"
+		},
+		{
+			"id": "08fc0583-b9b7-44b3-9fae-10f15bd3943d",
+			"key": "isURL",
+			"value": "http://localhost:5555"
+		}
+	]
+}
