@@ -1,6 +1,6 @@
 # Custom Destination
 
-Custom Destination provides the way to send the events and metrics different destinations. 
+Custom Destination provides a way to send the events and metrics different destinations other than the predefined set of destinations. 
 
 You can configure the following four types of destinations using the custom destinations feature:
 * External endpoint
