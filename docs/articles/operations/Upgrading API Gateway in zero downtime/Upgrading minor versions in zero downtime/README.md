@@ -1,4 +1,4 @@
-# Zero downtime upgrade of minor versions
+# Upgrading minor versions in zero downtime
 
 Supported versions: 
 

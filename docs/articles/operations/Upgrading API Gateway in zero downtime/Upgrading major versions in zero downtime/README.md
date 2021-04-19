@@ -1,4 +1,4 @@
-# Zero downtime upgrade of major versions
+# Upgrading major versions in zero downtime
 
 Supported paths: 
 
