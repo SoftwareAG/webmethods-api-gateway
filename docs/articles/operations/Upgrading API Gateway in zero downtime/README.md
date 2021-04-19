@@ -314,6 +314,6 @@ API Gateway provides API to shutdown the server.
 
 ## Learn more
 
-- For details on upgrading major versions, refer **[this](Zero%20downtime%20upgrade%20of%20major%20versions/)** article
+- For details on upgrading major versions, refer **[this](Upgrading%20major%20versions%20in%20zero%20downtime/)** article
 
-- For details on upgrading minor versions, refer **[this](Zero%20downtime%20upgrade%20of%20minor%20versions%20for%20standalone/)** article
+- For details on upgrading minor versions, refer **[this](Upgrading%20minor%20versions%20in%20zero%20downtime/)** article
