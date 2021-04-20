@@ -27,6 +27,8 @@ Complete the below prerequisites to make you ready to get into the details of up
 
 ## Details
 
+API Gateway follows Blue-Green deployment approach to upgrade to newer major version in zero downtime. In such deployment scenario, old instance will be allowed to run and serve the transactions while the new version of API Gateway is being prepared with data migration. The data migration happens in two phases. In the first phase, the old instance is blocked for design time(core) data updates and all the design time(core) data would be migrated to the new datastore, while the new API Gateway version is running. Next the new version is restarted with the migrated design time data and the endpoint is added to the load balancer. At this time the transactions are served by both the old and new versions. In the second phase, all the transactions to the old version is blocked and the logs and events data are migrated to the new version while it is serving the transactions.
+
 In this section we will go through the steps for doing zero downtime upgrade of API Gateway.  The below diagram show the entire workflow for this use case.
 
 ![](attachments/Workflow.jpg)
