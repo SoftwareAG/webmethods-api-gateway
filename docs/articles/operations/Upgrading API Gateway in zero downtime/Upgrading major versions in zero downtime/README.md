@@ -41,9 +41,11 @@ Install the new API Gateway instance(s) and do the below prerequisites.
 
 As zero downtime upgrade dealt only with the migration of datastore data, the Administrator has to take care of migrating the non datastore configurations such as file system configurations, ports configurations and custom ESB packages to the new API Gateway instance(s) before running the migration of data. For a detailed list of configurations that are to be manually configured by the Administrator, please refer *Backup and Restore* section under *Data Management* chapter in the *API Gateway Configuration Guide*. 
 
-##### File system configurations
+> **Note**: Most of the configurations can be configured using externalized configurations. For information on externalization,  refer **[this](https://tech.forums.softwareag.com/t/starting-api-gateway-using-externalized-configurations/237312)** tech community article.
 
 The configurations are listed below for your convenience.
+
+##### File system configurations
 
 | Configuration                      | File name                                                    | File location                                                |
 | ---------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -79,11 +81,7 @@ If the old datastore is SSL protected, follow one of the below ways to configure
 
 ##### i).  Configuring SSL parameters in elasticsearch.yml
 
-configure the SSL related reindex settings in the new datastore's elasticsearch.yml file. Please refer 
-
-[this]: https://www.elastic.co/guide/en/elasticsearch/reference/7.x/docs-reindex.html#reindex-ssl	"this"
-
-for Elasticsearch documentation on reindex SSL settings. For a cluster this should be done in all instances.
+Configure the SSL related reindex settings in the new datastore's elasticsearch.yml file. Please refer **[this](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/docs-reindex.html#reindex-ssl)** Elasticsearch documentation for reindex SSL settings. For a cluster this should be done in all instances.
 
 ##### ii). Importing old datastore certificates into new datastore JVM
 
@@ -124,7 +122,7 @@ For safety reasons, this API will take backup of the data before cleaning it. He
 
 #### Clean action status
 
-When the clean operation is completed, API Gateway sends out a notification through webhook with the result details if a one is registered. Or you can invoke the below REST API to check for the current status of the operation.
+When the clean operation is completed, API Gateway sends out a notification with the result details through registered webhooks. Or you can invoke the below REST API to check for the current status of the operation.
 
 `GET /rest/apigateway/migration/status?action=clean`
 
@@ -172,7 +170,7 @@ Now all the design time invocations to the old instance(s) will be blocked and A
 
 #### Quiesce mode for design time operation status
 
-When the Quiesce mode for design time is complete, API Gateway sends out a notification through webhook with the result details if a one is registered. Or you can invoke the below REST API to check for the current status of the operation.
+When the Quiesce mode for design time is complete, API Gateway sends out a notification with the result details through registered webhooks. Or you can invoke the below REST API to check for the current status of the operation.
 
 `GET rest/apigateway/quiescemode`
 
@@ -218,7 +216,7 @@ Invoke the below REST API at the new API Gateway instance to migrate the design 
 
 Since this is a long operation, the REST API will initiate the action and return with 201 Accepted, if the invocation is successful.
 
-When the reindex operation is completed, API Gateway sends out a notification through webhook with the result details if a one is registered. Or you can invoke the below REST API to check for the current status of the operation.
+When the reindex operation is completed, API Gateway sends out a notification with the result details through registered webhooks. Or you can invoke the below REST API to check for the current status of the operation.
 
 `GET /rest/apigateway/migration/status?action=reindex`
 
@@ -246,7 +244,7 @@ After the design time data is migrated to new datastore, now we need to transfor
 
 Since this is a long operation, the REST API will initiate the action and return with 201 Accepted, if the invocation is successful.
 
-When the reindex operation is completed, API Gateway sends out a notification through webhook with the result details if a one is registered. Or you can invoke the below REST API to check for the current status of the operation.
+When the reindex operation is completed, API Gateway sends out a notification with the result details through registered webhooks. Or you can invoke the below REST API to check for the current status of the operation.
 
 `GET /rest/apigateway/migration/status?action=transform`
 
@@ -352,7 +350,7 @@ Invoke the below REST API to put the old instance(s) to Quiesce mode for all.
 
 Since this is a long operation, the REST API will initiate the action and return with 200 OK, if the invocation is successful.
 
-When the Quiesce mode for all is complete, API Gateway sends out a notification through webhook with the result details if a one is registered. Suppose if you are interested in retrieving the status through API, invoke the below REST API through **Quiesce port** to check if the Quiesce mode for all is completed.
+When the Quiesce mode for all is complete, API Gateway sends out a notification with the result details through registered webhooks. Suppose if you are interested in retrieving the status through API, invoke the below REST API through **Quiesce port** to check if the Quiesce mode for all is completed.
 
 `GET /rest/apigateway/health`
 
@@ -407,3 +405,7 @@ If the reindex API invocation for logs and event data fails with an error or the
 ### Step 10: Shutdown old API Gateway instance(s)
 
 If migration is successful and the new API Gateway nodes are stable, shutdown the old nodes so that they won't send any metrics to any configured destinations like API Portal, external Elasticsearch, etc. The new instance(s) is now receiving the runtime transactions. You can probably remove the old instance(s) endpoint(s) from the load balancer.
+
+## Troubleshooting
+
+For seeing the detailed logs during the upgrade process, enable the debug logs for these logging facilities 0300 Gateway Commons and 0205 MEN - Events. For the step by step progress on the migration actions (clean and reindex) please refer the logs at SAG_Install/profiles/IS_default/logs/wrapper.log.

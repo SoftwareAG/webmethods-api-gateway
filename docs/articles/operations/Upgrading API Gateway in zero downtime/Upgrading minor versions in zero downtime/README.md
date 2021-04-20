@@ -86,9 +86,11 @@ Install the new API Gateway instance, apply the desired fix and do the below pre
 
 As zero downtime upgrade dealt only with the migration of datastore data, the Administrator has to take care of migrating the non datastore configurations such as file system configurations, ports configurations and custom ESB packages to the new API Gateway instance(s) before running the migration of data. For a detailed list of configurations that are to be manually configured by the Administrator, please refer *Backup and Restore* section under *Data Management* chapter in the *API Gateway Configuration Guide*. 
 
-###### File system configurations
+> **Note**: Most of the configurations can be configured using externalized configurations. For information on externalization,  refer **[this](https://tech.forums.softwareag.com/t/starting-api-gateway-using-externalized-configurations/237312)** tech community article.
 
 The configurations are listed below for your convenience.
+
+###### File system configurations
 
 | Configuration                      | File name                                                    | File location                                                |
 | ---------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -246,3 +248,7 @@ If the Quiesce mode for all API invocation fails with an error or the status ret
 #### Step 5: Shutdown old API Gateway instance
 
 When Quiesce mode for all completed successfully in the old instance, shutdown it so that it won't send any metrics to any configured destinations like API Portal, external Elasticsearch, etc. The new instance is now receiving the runtime transactions. You can probably remove the old instance endpoint from the load balancer.
+
+## Troubleshooting
+
+For seeing the detailed logs during the upgrade process, enable the debug logs for these logging facilities 0300 Gateway Commons and 0205 MEN - Events.
