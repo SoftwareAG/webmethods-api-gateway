@@ -74,7 +74,7 @@ Repeat Steps 1 and 2 until all the nodes in the cluster becomes new nodes.
 
 In this section we will go through the steps for doing zero downtime upgrade of minor version in a standalone deployment.  The below diagram shows the entire workflow for this use case.
 
-![](attachments\Workflow-standalone.jpg)
+![](attachments/Workflow-standalone.jpg)
 
 The steps are given below.
 
