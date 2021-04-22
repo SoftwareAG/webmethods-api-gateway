@@ -17,7 +17,7 @@ API Gateway supports migration of data from older version to newer versions. In 
 
 ## Zero downtime upgrade of API Gateway 
 
-API Gateway supports upgrading from 10.5 (Fix 9) to 10.7 in zero downtime. **[Read on...](https://github.com/ClenchPaign/webmethods-api-gateway/blob/10.7/docs/articles/operations/Zero%20downtime%20upgrade/)**
+API Gateway supports upgrading from 10.5 (Fix 9) to 10.7 in zero downtime. **[Read on...](https://github.com/ClenchPaign/webmethods-api-gateway/tree/10.7/docs/articles/operations/Upgrading%20API%20Gateway%20in%20zero%20downtime)**
 
 Back up and restore of API Gateway assets
 -----------------------------------------
