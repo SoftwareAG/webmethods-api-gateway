@@ -132,7 +132,7 @@ When the clean operation is completed, API Gateway sends out a notification with
 
 #### Rollback on error
 
-If the clean API invocation fails with an error or the status returned with a failure, stop proceeding with the next steps and disable the Quiesce mode for design time in all the nodes and bring them back to normal state. Contact Software AG support team for help with all the relevant logs for further analysis.
+If the clean API invocation fails with an error or the status returned with a failure, stop proceeding with the next steps. Contact Software AG support team for help with all the relevant logs for further analysis.
 
 ### Step 3: Put old API Gateway instance(s) into Quiesce mode for design time
 
