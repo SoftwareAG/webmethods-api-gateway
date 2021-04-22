@@ -41,7 +41,7 @@ Install the new API Gateway instance(s) and do the below prerequisites.
 
 #### a. IS/File system configurations and custom packages
 
-As zero downtime upgrade dealt only with the migration of datastore data, the Administrator has to take care of migrating the non datastore configurations such as file system configurations, ports configurations and custom ESB packages to the new API Gateway instance(s) before running the migration of data. For a detailed list of configurations that are to be manually configured by the Administrator, please refer *Backup and Restore* section under *Data Management* chapter in the *API Gateway Configuration Guide*. 
+As zero downtime upgrade deals only with the migration of datastore data, the Administrator has to take care of migrating the non datastore configurations such as file system configurations, ports configurations (if port clustering is disabled) and custom ESB packages to the new API Gateway instance(s) before running the migration of data. For a detailed list of configurations that are to be manually configured by the Administrator, please refer *Backup and Restore* section under *Data Management* chapter in the *API Gateway Configuration Guide*. 
 
 > **Note**: Most of the configurations can be configured using externalized configurations. For information on externalization,  refer **[this](https://tech.forums.softwareag.com/t/starting-api-gateway-using-externalized-configurations/237312)** tech community article.
 
