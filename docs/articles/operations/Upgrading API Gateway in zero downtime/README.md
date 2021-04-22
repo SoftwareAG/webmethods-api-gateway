@@ -288,7 +288,7 @@ This deletes the webhook for the specified id.
 
 `DELETE /rest/apigateway/wehooks/{id}`
 
-### 3. Shutdown REST API
+### 4. Shutdown REST API
 
 > **Note**: This operation is performed at both older and newer versions of API Gateway.
 
