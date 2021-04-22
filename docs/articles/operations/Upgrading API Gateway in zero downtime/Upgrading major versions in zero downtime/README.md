@@ -400,7 +400,7 @@ After this, the runtime data will be added to the existing runtime data. The upg
 
 #### Rollback on error
 
-If the reindex API invocation for logs and event data fails with an error or the status returned with a failure, follow one of the two options. At first, try to solve the troubleshoot the problem by looking at the logs. If no success, reindex the logs and events indices manually using the Elasticsearch reindex API. If the issue is not solved, contact Software AG support team for help with all the relevant logs for further analysis.
+If the reindex API invocation for logs and event data fails with an error or the status returned with a failure, follow one of the two options. At first, try to troubleshoot the problem by looking at the logs. If no success, reindex the logs and events indices manually using the Elasticsearch reindex API. If the issue is not solved, contact Software AG support team for help with all the relevant logs for further analysis.
 
 > **Note**: These are the logs and events indices in the datastore. gateway_tenantId_quotaAccumulator, gateway_tenantId_analytics_performanceMetrics, gateway_tenantId_analytics_threatProtectionEvents, gateway_tenantId_analytics_lifecycleEvents, gateway_tenantId_analytics_errorEvents, gateway_tenantId_analytics_transactionalEvents, gateway_tenantId_analytics_policyViolationEvents, gateway_tenantId_analytics_monitorEvents, gateway_tenantId_license_licenseMetrics, gateway_tenantId_license_notifications, gateway_tenantId_log and gateway_tenantId_audit_auditlogs.
 
