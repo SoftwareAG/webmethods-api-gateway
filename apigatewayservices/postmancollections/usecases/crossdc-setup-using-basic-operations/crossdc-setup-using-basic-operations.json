@@ -1,0 +1,337 @@
+{
+	"info": {
+		"_postman_id": "c65423f1-071a-468f-89b8-339422689353",
+		"name": "Cross DC Setup using Basic Operations",
+		"description": "The requests in this collection can be executed in the sequence observed and they take care of:\n* Obtaining the node name for the current host\n* Configuring the listener for the local data center with the obtained node name\n* Obtains the node name for every remote data center provided\n* Configures the ring using the node names and host names\n* Activates the ring setup with the configured mode.\n\nThis collection assumes that all the data centers use the same HTTP(S) port and GRPC port for communication and have the same username and password.\n\nThe following variables must be set for the request execution to be successful:\n1. **protocol** - Possible values are http or https. The protocol that you wish to use in the request.\n1. **domain** - The hostname of the machine where API Gateway is installed or a load balancer is hosted (if configured for API Gateway). \n1. **port** - The API Gateway Integration Server port (default value 5555) or the load balancer port (default is 80 or 443) depending on the configured value for domain. \n1. **username** - The username for establishing the connection for the request. The user should have \"Manage general administration configurations\" permission.\n1. **password** - The password corresponding to the provided username\n1. **crossdc_port** - A non-standard port (user-defined) number ranging from 1000 - 65535 that will be used to establish the GRPC communication between the data centers.\n1. **crossdc_hosts** - A comma separated list of hostnames (load balancer or API Gateway) representing the data centers that will be participating in the cross DC setup.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Dataspace",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"  if (pm.response.code == 200) {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.collectionVariables.set(\"dataspace_node_name\", jsonData[\"listener.active\"].listener.nodeName);\r",
+							"  }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/dataspace",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dataspace"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Configure Local Dataspace Listener",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.collectionVariables.unset(\"dataspace_node_name\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"listener\": {\r\n    \"nodeName\": \"{{dataspace_node_name}}\",\r\n    \"host\": \"{{domain}}\",\r\n    \"port\": {{crossdc_port}}\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/dataspace/listener",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dataspace",
+						"listener"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Configure Dataspace Ring",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var remotesJson = [];\r",
+							"if (!pm.collectionVariables.get(\"crossdc_hosts\")) {\r",
+							"    pm.variables.set(\"remotes_json\", JSON.stringify(remotesJson, null, 2));\r",
+							"} else {\r",
+							"  var hosts = pm.collectionVariables.get(\"crossdc_hosts\").toString().split(\",\");\r",
+							"  if (hosts != null) {\r",
+							"    for (var host in hosts) {\r",
+							"      getRemoteNodeName(pm.collectionVariables.get(\"protocol\"), hosts[host], pm.collectionVariables.get(\"port\"), setRingConfiguration);\r",
+							"    }\r",
+							"  }\r",
+							"}\r",
+							"\r",
+							"function setRingConfiguration(remoteHost, remoteNodeName) {\r",
+							"  console.log(remoteHost + \" has a node name \" + remoteNodeName);\r",
+							"  var remoteJson = {};\r",
+							"  remoteJson.nodeName = remoteNodeName;\r",
+							"  remoteJson.host = remoteHost;\r",
+							"  remoteJson.port = pm.collectionVariables.get(\"crossdc_port\");\r",
+							"  remotesJson.push(remoteJson);\r",
+							"  pm.variables.set(\"remotes_json\", JSON.stringify(remotesJson, null, 2));\r",
+							"}\r",
+							"\r",
+							"function getRemoteNodeName(remoteProtocol, remoteHost, remotePort, callbackFn) {\r",
+							"  pm.sendRequest({\r",
+							"    url: `${remoteProtocol}://${remoteHost}:${remotePort}/rest/apigateway/dataspace`,\r",
+							"    method: 'GET',\r",
+							"    header: {\r",
+							"      'Accept': 'application/json',\r",
+							"      'Authorization': 'Basic ' + btoa(pm.variables.get(\"username\") + ':' + pm.variables.get(\"password\"))\r",
+							"    }\r",
+							"  }, function (err, response) {\r",
+							"    if (response.code == 200) {\r",
+							"      var jsonData = response.json();\r",
+							"      callbackFn(remoteHost, jsonData[\"listener.active\"].listener.nodeName);\r",
+							"    } else {\r",
+							"      throw new Error(\"The node name for the remote node \" + remoteHost + \" could not be found!\" + response.code);\r",
+							"    }\r",
+							"  });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"  pm.variables.unset(\"remotes_json\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ring\": {{remotes_json}}\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/dataspace/ring",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dataspace",
+						"ring"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activate Dataspace Ring",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"mode\": \"{{crossdc_mode}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/dataspace/activate",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dataspace",
+						"activate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"function validateCollectionVariable(varName) {",
+					"  if (!pm.collectionVariables.get(varName)) {",
+					"    console.log(\"Cannot execute the request because the collection variable \" + varName + \" is not set.\");",
+					"    throw new Error(\"Cannot execute the request because the collection variable \" + varName + \" is not set.\");",
+					"  }",
+					"}",
+					"",
+					"validateCollectionVariable(\"protocol\");",
+					"validateCollectionVariable(\"domain\");",
+					"validateCollectionVariable(\"port\");",
+					"validateCollectionVariable(\"username\");",
+					"validateCollectionVariable(\"password\");",
+					"validateCollectionVariable(\"crossdc_port\");",
+					"validateCollectionVariable(\"crossdc_hosts\");",
+					"validateCollectionVariable(\"crossdc_mode\");",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "protocol",
+			"value": ""
+		},
+		{
+			"key": "domain",
+			"value": ""
+		},
+		{
+			"key": "port",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "crossdc_port",
+			"value": ""
+		},
+		{
+			"key": "crossdc_hosts",
+			"value": ""
+		},
+		{
+			"key": "crossdc_mode",
+			"value": ""
+		},
+		{
+			"key": "endpointSuffix",
+			"value": "rest/apigateway"
+		},
+		{
+			"key": "endpoint",
+			"value": "{{protocol}}://{{domain}}:{{port}}"
+		},
+		{
+			"key": "baseUrl",
+			"value": "{{endpoint}}/{{endpointSuffix}}"
+		},
+		{
+			"key": "dataspace_node_name",
+			"value": "Value will be updated at runtime"
+		}
+	]
+}
