@@ -65,11 +65,11 @@ If the portClusteringEnabled extended setting is set to false, the server ports 
 
 ##### SAML SSO configuration
 
-Ensure that the following file locations in SAML SSO configuration are accessible to the new instance. If not, manually copy those files to the new instance.
+Ensure that the following files in SAML SSO configuration (SSO configuration done in API Gateway Admin UI) are accessible to the new instance. If not, manually copy those files to the new instance.
 
-*   IDP metadata location 
-*   Gateway metadata location
-*   Keystore location
+*   IDP metadata  
+*   Gateway metadata 
+*   Keystore 
 
 ##### Custom ESB packages
 
