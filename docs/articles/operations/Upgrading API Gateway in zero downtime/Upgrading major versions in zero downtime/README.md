@@ -63,6 +63,14 @@ The configurations are listed below for your convenience.
 
 If the portClusteringEnabled extended setting is set to false, the server ports should be created in each instance by the Administrator.
 
+##### SAML SSO Configuration
+
+Ensure that the following file locations in SAML SSO configuration are accessible to the new instance. If not, manually copy those files to the new instance.
+
+*   IDP metadata location 
+*   Gateway metadata location
+*   Keystore location
+
 ##### Custom ESB packages
 
 Also make sure that all the custom packages are installed and ready in the new instance(s).
