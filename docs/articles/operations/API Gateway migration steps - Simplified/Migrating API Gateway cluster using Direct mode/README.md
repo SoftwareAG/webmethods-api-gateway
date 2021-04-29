@@ -161,15 +161,13 @@ A sample run command is given below.
 
 _$> migrate.bat  apigateway  -srcDir  C:\\installations\\source  -instanceName  default  -newInstanceName default_
 
-#### List of configurations
+#### File system configurations
 
-Please make sure that running IS configurations migration take care of the following items. If any of them is missed out, migrate them manually. For a detailed list of configurations that are not part of the datastore data, please refer *Backup and Restore* section under *Data Management* chapter in the *API Gateway Configuration Guide*. 
+The following configurations are persisted in file system and some of them are covered using IS migration. Please verify the correctness of these configurations in the target environment once the above migration procedures are executed. Configurations changes done in elasticsearch.yml, kibana.yml etc are not covered using the migration procedure, can be migrated manually.  
 
-> **Note**: Most of the configurations can be configured using externalized configurations. For information on externalization,  refer **[this](https://tech.forums.softwareag.com/t/starting-api-gateway-using-externalized-configurations/237312)** tech community article.
+> **Note**: Most of the configurations can also be configured using externalized configurations. For information on externalization,  refer **[this](https://tech.forums.softwareag.com/t/starting-api-gateway-using-externalized-configurations/237312)** tech community article.
 
 The configurations are listed below.
-
-##### File system configurations
 
 | Configuration                      | File name                                                    | File location                                                |
 | ---------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -187,7 +185,7 @@ If the portClusteringEnabled extended setting is set to false, the server ports 
 
 ##### SAML SSO Configuration
 
-Ensure that the following file locations in SAML SSO configuration are accessible to the new instance. If not, manually copy those files to the new instance.
+Ensure that the following files in SAML SSO configuration (SSO configuration done in API Gateway Admin UI) are accessible to the new instance. If not, manually copy those files to the new instance.
 
 *   IDP metadata location 
 *   Gateway metadata location
