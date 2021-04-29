@@ -39,7 +39,7 @@ Complete the below prerequisites to make you ready to get into the details of th
 *   Install source and target API Gateway instances. The version of target API Gateway should be higher than source API Gateway. Supported source API Gateway versions are 10.1 and above
 *   If custom keystore files are used in the source API Gateway installation, copy the files to the same location in the target installation
 
-> **Important Note: To avoid known issue in 10.7 migration **
+> **Important Note**: **To avoid known issue in 10.7 migration **
 
 When you migrate from 10.5 to 10.7 version of API Gateway, the fields such as "gatewayEndpoints" and "provider" are not migrated to 10.7 from 10.5.
 
