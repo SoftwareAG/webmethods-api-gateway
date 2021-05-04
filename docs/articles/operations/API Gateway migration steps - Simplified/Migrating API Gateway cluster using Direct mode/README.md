@@ -44,15 +44,15 @@ Details
 
 In this section we will go through the steps for migrating an API Gateway cluster to a higher version using direct mode. The steps are given below.
 
-**Note:** In APIGateway 10.2 and above the the folder name _**EventDataStore**_ has been changed to _**InternalDataStore**_. Throughout this tutorial we refer source API Gateway installation directory as <SOURCE>, target API Gateway installation directory as <TARGET> and target elasticsearch is <TARGET\_ELASTIC\_SEARCH>
+**Note:** In APIGateway 10.2 and above the the folder name _**EventDataStore**_ has been changed to _**InternalDataStore**_. Throughout this tutorial we refer source API Gateway installation directory as \<SOURCE\>, target API Gateway installation directory as \<TARGET\> and target elasticsearch is <TARGET\_ELASTIC\_SEARCH>
 
 ### Step 1: Configure path.repo in source Elasticsearch
 
-Go to **_<SOURCE>\\InternalDataStore\\config_** and configure _**path.repo**_ property in _**elasticsearch.yml**_ file for all the nodes. Make sure that the path.repo is a shared network folder and should be accessible for all the Elasticsearch nodes in the cluster
+Go to **_\<SOURCE\>\\InternalDataStore\\config_** and configure _**path.repo**_ property in _**elasticsearch.yml**_ file for all the nodes. Make sure that the path.repo is a shared network folder and should be accessible for all the Elasticsearch nodes in the cluster
 
 ### Step 2: Configure reindex.remote.whitelist in target Elasticsearch instances
 
-Configure the below property in all the target Elasticsearch instance's _elasticsearch.yml_ file located at _**<TARGET>\\InternalDataStore\\config**_ for re-indexing the data in the target Elasticsearch. The below property helps to copy the documents from <SOURCE> to <TARGET> Elasticsearch instances.
+Configure the below property in all the target Elasticsearch instance's _elasticsearch.yml_ file located at _**\<TARGET\>\\InternalDataStore\\config**_ for re-indexing the data in the target Elasticsearch. The below property helps to copy the documents from <SOURCE> to <TARGET> Elasticsearch instances.
 
 ##### elasticsearch.yml
 
