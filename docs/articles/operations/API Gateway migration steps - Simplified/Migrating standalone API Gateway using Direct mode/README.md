@@ -56,11 +56,11 @@ Details
 
 In this section we will go through the steps for migrating a standalone API Gateway to a higher version using direct mode. The steps are given below.
 
-> **Note:** In APIGateway 10.2 and above the the folder name _**EventDataStore**_ has been changed to _**InternalDataStore**_. Throughout this tutorial we refer source API Gateway installation directory as \<SOURCE\>, target API Gateway installation directory as <TARGET> and target elasticsearch is <TARGET\_ELASTIC\_SEARCH>
+> **Note:** In APIGateway 10.2 and above the the folder name _**EventDataStore**_ has been changed to _**InternalDataStore**_. Throughout this tutorial we refer source API Gateway installation directory as \<SOURCE\\>, target API Gateway installation directory as \<TARGET\> and target elasticsearch is \<TARGET\_ELASTIC\_SEARCH\>
 
 ### Step 1: Configure reindex.remote.whitelist in target Elasticsearch
 
-Configure the below property in the target elasticsearch.yml file located at _**<TARGET>\\InternalDataStore\\config**_ for re-indexing the data in the target Elasticsearch. The below property helps to copy the documents from <SOURCE> to <TARGET> Elasticsearch instance.
+Configure the below property in the target elasticsearch.yml file located at _**\<TARGET\>\\InternalDataStore\\config**_ for re-indexing the data in the target Elasticsearch. The below property helps to copy the documents from \<SOURCE\> to \<TARGET\> Elasticsearch instance.
 
 ##### elasticsearch.yml
 
@@ -68,7 +68,7 @@ Configure the below property in the target elasticsearch.yml file located at _**
 reindex.remote.whitelist: <source_host>:<source_port>
 
 (This value should match with the value of the property pg.gateway.elasticsearch.hosts present in
-<SOURCE>\IntegrationServer\instances\default\packages\WmAPIGateway\config\resource\elasticsearch\config.properties)
+\<SOURCE\>\IntegrationServer\instances\default\packages\WmAPIGateway\config\resource\elasticsearch\config.properties)
 ```
 
 For example, the below file contains localhost:9240 for reindex.remote.whitelist property.
@@ -79,7 +79,7 @@ For example, the below file contains localhost:9240 for reindex.remote.whitelist
 
 > **Note:** This step is applicable only if the source API Gateway version is 10.1.  From 10.2  these values are populated automatically.
 
-Configure source Elasticsearch host and port details in the file _**config.properties**_ file which is located at _<SOURCE>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\config\\resources\\elasticsearch_.
+Configure source Elasticsearch host and port details in the file _**config.properties**_ file which is located at _\<SOURCE\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\config\\resources\\elasticsearch_.
 
 ##### config.properties
 
@@ -91,7 +91,7 @@ pg.gateway.elasticsearch.hosts=<source\_host>:<source\_port>
 
 ### Step 3: Configure basic auth credentials to connect to source Elasticsearch
 
-If the source Elasticsearch is protected with basic authentication add the below properties in _<SOURCE>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\config\\resources\\elasticsearch\\config.properties_ file.
+If the source Elasticsearch is protected with basic authentication add the below properties in _\<SOURCE\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\config\\resources\\elasticsearch\\config.properties_ file.
 
 ##### config.properties
 
@@ -102,18 +102,18 @@ pg.gateway.elasticsearch.http.password=<password>
 
 ### Step 4: Configure certificates to connect to source Elasticsearch
 
-If the source Elasticsearch is protected with HTTPS, add the source certificates (public key) in to the target Elasticsearch JVM's truststore. For e.g, In case of internal data store we need to add the public keys to the truststore cacerts file located at _**<TARGET>\\jvm\\jvm\\jre\\lib\\security**_.
+If the source Elasticsearch is protected with HTTPS, add the source certificates (public key) in to the target Elasticsearch JVM's truststore. For e.g, In case of internal data store we need to add the public keys to the truststore cacerts file located at _**\<TARGET\>\\jvm\\jvm\\jre\\lib\\security**_.
 
 > **Note:** If external Elasticsearch is used for the target API Gateway then the certificates should be imported to its corresponding JVM
 
 Below is a sample command to import the truststore of source Elasticsearch in to target Elasticsearch JVM.
 
-_**$<TARGET>\\jvm\\jvm\\bin\\keytool -import -keystore <TARGET>\\jvm\\jvm\\jre\\lib\\security\\cacerts -file <truststore.jks> -alias <alias>**_
+_**$\<TARGET\>\\jvm\\jvm\\bin\\keytool -import -keystore \<TARGET\>\\jvm\\jvm\\jre\\lib\\security\\cacerts -file \<truststore.jks\> -alias \<alias\>**_
 
 | **Property**     | **Detail**                                                   | **Example**             |
 | ---------------- | ------------------------------------------------------------ | ----------------------- |
-| <truststore.jks> | Truststore used in <SOURCE> Elasticsearch. Provide the full path of the truststore.For 10.1 it should be available at *<SOURCE>\WmAPIGateway\config\resources\bean\gateway-es-store.xml*property ***<prop key="searchguard.ssl.http.truststore_filepath">sagconfig/root-ca.jks</prop>\***For 10.2 and above it will be available at *<SOURCE>\WmAPIGateway\config\resources\elasticsearch\config.properties*property ***pg.gateway.elasticsearch.https.truststore.filepath\*** | *sagconfig/root-ca.jks* |
-| <alias>          | This is the alias used in <SOURCE> Elasticsearch             | wm.sag.com              |
+| \<truststore.jks\> | Truststore used in \<SOURCE\> Elasticsearch. Provide the full path of the truststore.For 10.1 it should be available at *\<SOURCE\>\WmAPIGateway\config\resources\bean\gateway-es-store.xml*property ***\<prop key="searchguard.ssl.http.truststore_filepath"\>sagconfig/root-ca.jks\</prop\>\***For 10.2 and above it will be available at *\<SOURCE\>\WmAPIGateway\config\resources\elasticsearch\config.properties*property ***pg.gateway.elasticsearch.https.truststore.filepath\*** | *sagconfig/root-ca.jks* |
+| \<alias\>          | This is the alias used in \<SOURCE\> Elasticsearch             | wm.sag.com              |
 
 ### Step 5: Start source and target Elasticsearch instances
 
@@ -123,25 +123,25 @@ Start both source and target Elasticsearch instances and make sure that IS insta
 >
 > If source and target API Gateway instances are running in the same machine, then the user might not able to start both the source and target Elasticsearch instances in parallel with the default port configurations. In that case the target Elasticsearch instance port can be changed temporarily for running the migration. Both HTTP and TCP ports must be changed. Follow the below steps.
 >
-> 1\. Go to **_<TARGET>/InternalDataStore/config_** directory, open the elasticsearch.yml file, and change the value of the HTTP port in the http.port property and the TCP port in the transport.tcp.port and discovery.zen.ping.unicast.hosts properties
+> 1\. Go to **_\<TARGET\>/InternalDataStore/config_** directory, open the elasticsearch.yml file, and change the value of the HTTP port in the http.port property and the TCP port in the transport.tcp.port and discovery.zen.ping.unicast.hosts properties
 >
-> 2\. Go to **_<TARGET>/IntegrationServer/instances/default/packages/WmAPIGateway/config/resources/elasticsearch_** directory, open the config.properties file and find the pg.gateway.elasticsearch.hosts property. If the property is set to changeOnInstall then you need to do nothing further. If there is a port configured already, update it to a new value
+> 2\. Go to **_\<TARGET\>/IntegrationServer/instances/default/packages/WmAPIGateway/config/resources/elasticsearch_** directory, open the config.properties file and find the pg.gateway.elasticsearch.hosts property. If the property is set to changeOnInstall then you need to do nothing further. If there is a port configured already, update it to a new value
 
 ### Step 6: Run migration for Elasticsearch data
 
-Now we will start running the migration process. The migration process consist of migration of Elasticsearch data and API Gateway configurations and both will be done by running the migration utility command at <TARGET> API Gateway machine.
+Now we will start running the migration process. The migration process consist of migration of Elasticsearch data and API Gateway configurations and both will be done by running the migration utility command at \<TARGET\> API Gateway machine.
 
 In this step we will migrate the Elasticsearch data. 
 
-Go to _<TARGET>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_ and run the below command.
+Go to _\<TARGET\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_ and run the below command.
 
 ![](attachments/image2019-5-27_16-51-52.png)
 
-_**$> migrate.bat datastore -dstoreSrc <full path to source Elasticsearch config.properties>**_
+_**$> migrate.bat datastore -dstoreSrc \<full path to source Elasticsearch config.properties\>**_
 
 | **Parameter** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
-| dstoreSrc     | If source and target API Gateway instances are running in the same network. Provide the location where <SOURCE> config.properties file is located.Sample:*migrate.bat datastore -dstoreSrc* *<SOURCE>\IntegrationServer\instances\default\packages\WmAPIGateway\config\resources\elasticsearch\config.properties* |
+| dstoreSrc     | If source and target API Gateway instances are running in the same network. Provide the location where \<SOURCE\> config.properties file is located.Sample:*migrate.bat datastore -dstoreSrc* *\<SOURCE\>\IntegrationServer\instances\default\packages\WmAPIGateway\config\resources\elasticsearch\config.properties* |
 |               | If the source and target instances are running in different machines, the the source installation directory or at least the Elasticsearch *config.properties* file must be shared in the network. Otherwise just copy and paste the source config.properties to the shared location.Sample:*migrate.bat datastore -dstoreSrc* *\\chebackup01\installations\source\IntegrationServer\instances\default\packages\WmAPIGateway\config\resources\elasticsearch\config.properties* |
 
 For e.g,
@@ -154,16 +154,16 @@ _\\\\chebackup01\\source\\IntegrationServer\\instances\\default\\packages\\WmAPI
 
 ### Step 7: Run migration for IS configurations
 
-In this step we will migrate the Integration Server's configuration to target instance. Go to <TARGET>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate and run the below command.
+In this step we will migrate the Integration Server's configuration to target instance. Go to \<TARGET\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate and run the below command.
 
-_**$> migrate.bat apigateway -srcDir <SOURCE> -instanceName <source instance name> -newInstanceName <target instance name>**_
+_**$> migrate.bat apigateway -srcDir \<SOURCE\> -instanceName \<source instance name\> -newInstanceName \<target instance name\>**_
 
 | **Parameter**   | **Description**                                              | **Sample command**                                           |
 | --------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | srcDir          | If the source API Gateway instance is installed in the same network, provide the source API Gateway installation directory | *-srcDir C:\installations\source*                            |
 |                 | If the source API Gateway instance is installed in a different network, then share the entire installation folder. | *-srcDir \\chebackup01\source*                               |
-| instanceName    | This is an optional parameter. Here we need to pass <SOURCE> instance name.If you don't provide any name then *default* will be assigned. If you want to migrate different instance other than *default* provide its name. (To know more about Integration server instances please refer its doc) | *-instanceName default**-instanceName dev**-instanceName test* |
-| newInstanceName | This is an optional parameter. Here we need to pass <TARGET> instance name.If you don't provide any name then *default* will be assigned. If you have created a new instance other than *default* in Integration server and you want to migrate to the new instance then provide its name. | *-newInstanceName default**-newInstanceName qa**-newInstanceName prod* |
+| instanceName    | This is an optional parameter. Here we need to pass \<SOURCE\> instance name.If you don't provide any name then *default* will be assigned. If you want to migrate different instance other than *default* provide its name. (To know more about Integration server instances please refer its doc) | *-instanceName default**-instanceName dev**-instanceName test* |
+| newInstanceName | This is an optional parameter. Here we need to pass \<TARGET\> instance name.If you don't provide any name then *default* will be assigned. If you have created a new instance other than *default* in Integration server and you want to migrate to the new instance then provide its name. | *-newInstanceName default**-newInstanceName qa**-newInstanceName prod* |
 
 A sample run command is given below.
 
@@ -209,12 +209,12 @@ This is a post migration step. Follow the below steps.
 
 *   Shutdown the target Elasticsearch instance
 *   Start target API Gateway server
-*   You can find the logs  at target directory  _**<TARGET>/install/logs/migrationLog.txt**_ 
-*   You can find the API Gateway migration reports at  _**<TARGET>\\install\\logs\\APIGW\_Migration\_Reports\_<date\_time>**_
+*   You can find the logs  at target directory  _**\<TARGET\>/install/logs/migrationLog.txt**_ 
+*   You can find the API Gateway migration reports at  _**\<TARGET\>\\install\\logs\\APIGW\_Migration\_Reports\_<date\_time>**_
 
 ### General Migration configurations
 
-API Gateway customers can modify certain parameters for migration based on their requirements by modifying the property file _**migration.properties**_ which is located at _<TARGET>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_. This property file is instance specific and customers can have different configurations while migrating different instances.
+API Gateway customers can modify certain parameters for migration based on their requirements by modifying the property file _**migration.properties**_ which is located at _\<TARGET\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_. This property file is instance specific and customers can have different configurations while migrating different instances.
 
 | **Property**                                             | **Description**                                              | **Default value** | **Possible values**                                          |
 | -------------------------------------------------------- | ------------------------------------------------------------ | ----------------- | ------------------------------------------------------------ |
@@ -231,22 +231,22 @@ During migration, if there is any problem in the execution or any of the handler
 
 ### Clean command
 
-> **Note (Before running clean command):** If the <TARGET> is 10.5 and the clean command is executed in a cluster, go to <SOURCE>\\InternalDataStore\\config and configure path.repo property in elasticsearch.yml file for all the nodes. Make sure that the path.repo is a shared network folder and should be accessible for all the Elasticsearch nodes in the cluster. 
+> **Note (Before running clean command):** If the \<TARGET\> is 10.5 and the clean command is executed in a cluster, go to \<SOURCE\>\\InternalDataStore\\config and configure path.repo property in elasticsearch.yml file for all the nodes. Make sure that the path.repo is a shared network folder and should be accessible for all the Elasticsearch nodes in the cluster. 
 
-Go to _<TARGET>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_ and run the below command.
+Go to _\<TARGET\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_ and run the below command.
 
 _**$> migrate.bat clean**_
 
-> **Note:** Since this command removes all the assets from data store, make sure that the target data store is properly configured in config.properties which is located at <TARGET>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\config\\resources\\elasticsearch.
+> **Note:** Since this command removes all the assets from data store, make sure that the target data store is properly configured in config.properties which is located at \<TARGET\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\config\\resources\\elasticsearch.
 
 Troubleshooting
 ---------------
 
 | **#** | **Issue Description**                                        | **Scenario name**           | **Reason**                                                   | **Remedy**                                                   |
 | ----- | ------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 1     | ElasticsearchException[Error while reindexing APIs. Error type - illegal_argument_exception,reason [localhost:1240] not whitelisted in reindex.remote.whitelist] | Direct - Standalone         | Remote re-indexing property missed in target elasticsearch.yml | Add the below property in <TARGET> elasticsearch.ymlreindex.remote.whitelist: <sourcehost>:<sourcehttpport> |
+| 1     | ElasticsearchException[Error while reindexing APIs. Error type - illegal_argument_exception,reason [localhost:1240] not whitelisted in reindex.remote.whitelist] | Direct - Standalone         | Remote re-indexing property missed in target elasticsearch.yml | Add the below property in \<TARGET\> elasticsearch.ymlreindex.remote.whitelist: \<sourcehost\>:\<sourcehttpport\> |
 | 2     | Exception thrown during migration operation. Exiting the operation.No Such command - -srcDir | Direct - Standalone         | Wrong command usage                                          | datastore/apigateway argument must be passedmigration.bat apigateway -srcDir C:\SoftwareAG_10.1 -instanceName default -newInstanceName default |
-| 3     | Deleting the backup folder before migration... Migration Process 0% [>] 0/100 (0:00:00) java.io.FileNotFoundException: 15:41:13.580 [main] ERROR com.softwareag.apigateway.utility.command.backup.instance.BackupApiGatewayInstance - Error occurred while trying to parse the Manifest file to obtain the version information. java.io.FileNotFoundException:(The system cannot find the file specified) | Backup - Standalone         | Existence of isExtract file due to migration failure of previous steps | Delete the isExtract folder in C:\<<InstallationDir>>\       |
+| 3     | Deleting the backup folder before migration... Migration Process 0% [>] 0/100 (0:00:00) java.io.FileNotFoundException: 15:41:13.580 [main] ERROR com.softwareag.apigateway.utility.command.backup.instance.BackupApiGatewayInstance - Error occurred while trying to parse the Manifest file to obtain the version information. java.io.FileNotFoundException:(The system cannot find the file specified) | Backup - Standalone         | Existence of isExtract file due to migration failure of previous steps | Delete the isExtract folder in C:\\<InstallationDir\>\       |
 | 4     | elasticsearchclient bean creation exception                  | All                         | Make sure the respective Elasticsearch nodes is running      |                                                              |
 | 5     | [2018-12-19T12:34:03,892][WARN ][o.e.r.VerifyNodeRepositoryAction][[SAG-2KXGBH2.eur.ad](http://sag-2kxgbh2.eur.ad/).sag1544697848038] [default] failed to verify repositoryorg.elasticsearch.repositories.RepositoryVerificationException: [default] a file written by master to the store [C:\SoftwareAG_10.3\InternalDataStore\dasoSnap\default] cannot be accessed on the node [{[SAG-2KXGBH2.eur.ad](http://sag-2kxgbh2.eur.ad/).sag1544697848038} {yL84xqhZQSuFfUmj0GrFbQ}{uGv-BmTBT6e8LCpOsxpGOg} {10.60.37.18}{10.60.37.18:9340}]. This might indicate that the store [C:\SoftwareAG_10.3\InternalDataStore\dasoSnap\default] is not shared between this node and the master node or that permissions on the store don't allow reading files written by the master node | Backup Mode - Cluster       | Make sure path.repo is a single common location reachable and accessible by all other nodes | Configure single common shared path in elasticsearch.yml (path.repo) |
 | 6     | The system cannot find the path specified                    | All                         | Make sure that the bat from the proper location              | Make sure that you are running the bat from the proper location |
