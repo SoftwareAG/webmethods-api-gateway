@@ -68,7 +68,7 @@ Configure the below property in the target elasticsearch.yml file located at _**
 reindex.remote.whitelist: <source_host>:<source_port>
 
 (This value should match with the value of the property pg.gateway.elasticsearch.hosts present in
-\<SOURCE\>\IntegrationServer\instances\default\packages\WmAPIGateway\config\resource\elasticsearch\config.properties)
+<SOURCE>\IntegrationServer\instances\default\packages\WmAPIGateway\config\resource\elasticsearch\config.properties)
 ```
 
 For example, the below file contains localhost:9240 for reindex.remote.whitelist property.
@@ -84,7 +84,7 @@ Configure source Elasticsearch host and port details in the file _**config.prope
 ##### config.properties
 
 ```
-pg.gateway.elasticsearch.hosts=<source\_host>:<source\_port>
+pg.gateway.elasticsearch.hosts=<source_host>:<source_port>
 ```
 
 
