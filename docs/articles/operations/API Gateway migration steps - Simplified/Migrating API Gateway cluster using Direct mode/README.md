@@ -76,7 +76,7 @@ Configure source Elasticsearch host and port details in the file _**config.prope
 ##### config.properties
 
 ```
-pg.gateway.elasticsearch.hosts=<source\_host>:<source\_port>
+pg.gateway.elasticsearch.hosts=<source_host>:<source_port>
 ```
 
 ### Step 3: Configure basic auth credentials to connect to source Elasticsearch
