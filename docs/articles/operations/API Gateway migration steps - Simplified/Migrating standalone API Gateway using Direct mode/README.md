@@ -56,7 +56,7 @@ Details
 
 In this section we will go through the steps for migrating a standalone API Gateway to a higher version using direct mode. The steps are given below.
 
-> **Note:** In APIGateway 10.2 and above the the folder name _**EventDataStore**_ has been changed to _**InternalDataStore**_. Throughout this tutorial we refer source API Gateway installation directory as <SOURCE>, target API Gateway installation directory as <TARGET> and target elasticsearch is <TARGET\_ELASTIC\_SEARCH>
+> **Note:** In APIGateway 10.2 and above the the folder name _**EventDataStore**_ has been changed to _**InternalDataStore**_. Throughout this tutorial we refer source API Gateway installation directory as \<SOURCE\>, target API Gateway installation directory as <TARGET> and target elasticsearch is <TARGET\_ELASTIC\_SEARCH>
 
 ### Step 1: Configure reindex.remote.whitelist in target Elasticsearch
 
