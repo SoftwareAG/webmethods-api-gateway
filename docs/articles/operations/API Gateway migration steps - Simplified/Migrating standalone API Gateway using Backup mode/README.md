@@ -1,4 +1,4 @@
-Migrating standalone API Gateway using Direct mode
+Migrating standalone API Gateway using Backup mode
 ==================================================
 
 Supported Versions: 10.3 Fix 4 and above
