@@ -314,7 +314,7 @@ Ensure that the following files in SAML SSO configuration (SSO configuration don
 
 Also make sure that all the custom packages are installed and ready in the new instance(s).
 
-### Step 8: Post migration steps
+### Step 14: Post migration steps
 
 This is a post migration step. Follow the below steps.
 
