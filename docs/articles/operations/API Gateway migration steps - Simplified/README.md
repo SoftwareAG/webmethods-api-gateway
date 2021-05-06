@@ -69,9 +69,9 @@ Please refer [Migrating API Gateway cluster using Direct mode](Migrating%20API%
 
 ### Migration using backup mode for standalone
 
-Please refer [Migrating standalone API Gateway using Direct mode](../Migrating%20standalone%20API%20Gateway%20using%20Backup%20mode/) for migrating to API Gateway up to 10.4 versions.  
+Please refer [Migrating standalone API Gateway using Direct mode](Migrating%20standalone%20API%20Gateway%20using%20Backup%20mode/) for migrating to API Gateway up to 10.4 versions.  
 
-For migrating to versions 10.5 and above from lower versions, please refer to [Migrating to API Gateway 10.5 using Backup mode for standalone](../Migrating%20to%20API%20Gateway%2010.5%20using%20Backup%20mode%20for%20standalone/) 
+For migrating to versions 10.5 and above from lower versions, please refer to [Migrating to API Gateway 10.5 using Backup mode for standalone](Migrating%20to%20API%20Gateway%2010.5%20using%20Backup%20mode%20for%20standalone/) 
 
 ### Migration using backup mode for cluster
 
