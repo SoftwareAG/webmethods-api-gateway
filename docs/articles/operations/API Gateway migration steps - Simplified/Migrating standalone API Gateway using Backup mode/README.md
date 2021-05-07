@@ -1,4 +1,4 @@
-Migrating standalone API Gateway using Direct mode
+Migrating standalone API Gateway using Backup mode
 ==================================================
 
 Supported Versions: 10.3 Fix 4 and above
@@ -152,7 +152,7 @@ Go to *\<TARGET\>\IntegrationServer\instances\default\packages\WmAPIGateway\bin\
 
 After command is run the data store data will be migrated.
 
-### Step 7: Run migration for IS configurations
+### Step 8: Run migration for IS configurations
 
 After successful migration of Elasticsearch data, run API Gateway configurations migration using the below command.
 
@@ -206,7 +206,7 @@ Ensure that the following files in SAML SSO configuration (SSO configuration don
 
 Also make sure that all the custom packages are installed and ready in the new instance(s).
 
-### Step 8: Post migration steps
+### Step 9: Post migration steps
 
 This is a post migration step. Follow the below steps.
 
