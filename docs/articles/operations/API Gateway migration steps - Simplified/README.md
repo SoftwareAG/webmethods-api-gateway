@@ -75,9 +75,9 @@ For migrating to versions 10.5 and above from lower versions, please refer to [
 
 ### Migration using backup mode for cluster
 
-Please refer [http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Migrating+API+Gateway+cluster+using+Backup+mode](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Migrating+API+Gateway+cluster+using+Backup+mode) for migrating to API Gateway up to 10.4 versions.  
+Please refer [Migrating API Gateway cluster using Backup mode](Migrating%20API%20Gateway%20cluster%20using%20Backup%20mode) for migrating to API Gateway up to 10.4 versions.  
 
-For migrating to versions 10.5 and above from lower versions, please refer to [http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Migrating+to+API+Gateway+10.5+using+Backup+mode+for+cluster](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Migrating+to+API+Gateway+10.5+using+Backup+mode+for+cluster)
+For migrating to versions 10.5 and above from lower versions, please refer to [Migrating to API Gateway 10.5 using Backup mode for cluster](Migrating%20to%20API%20Gateway%2010.5%20using%20Backup%20mode%20for%20cluster)
 
 ### General Migration configuration
 
