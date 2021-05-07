@@ -161,6 +161,40 @@ A sample run command is given below.
 
 _$> migrate.bat  apigateway  -srcDir  C:\\installations\\source  -instanceName  default  -newInstanceName default_
 
+#### File system configurations
+
+The following configurations are persisted in file system and some of them are covered using IS migration. Please verify the correctness of these configurations in the target environment once the above migration procedures are executed. Configurations changes done in elasticsearch.yml, kibana.yml etc are not covered using the migration procedure, can be migrated manually. 
+
+> **Note**: Most of the configurations can be configured using externalized configurations. For information on externalization,  refer **[this](https://tech.forums.softwareag.com/t/starting-api-gateway-using-externalized-configurations/237312)** tech community article.
+
+The configurations are listed below.
+
+| Configuration                      | File name                                                    | File location                                                |
+| ---------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Elasticsearch configuration        | elasticsearch.yml                                            | SAGInstallDir/InternalDataStore/config/                      |
+| Elasticsearch client configuration | config.properties                                            | SAGInstallDir/IntegrationServer/instances/<br/>instance_name/packages/WmAPIGateway/config/<br/>resources/elasticsearch/ |
+| Kibana configuration               | kibana.yml                                                   | SAGInstallDir/profiles/instance_name/<br/>apigateway/dashboard/config/ |
+| Master password                    | mpw.dat                                                      | SAGInstallDir/profiles/instance_name/<br/>configuration/security/passman/ |
+| UI configurations                  | uiconfiguration.properties                                   | SAGInstallDir/profiles/instance_name/<br/>apigateway/config/ |
+| SAML group mapping                 | saml_groups_mapping.xml                                      | SAGInstallDir/IntegrationServer/instances/<br/>instance_name/packages/WmAPIGateway/config/<br/>resources/security/ |
+| WebApp settings                    | com.softwareag.catalina.connector.http.pid-apigateway.properties<br/>com.softwareag.catalina.connector.https.pid-apigateway.properties | SAGInstallDir/profiles/instance_name/<br/>configuration/<br/>com.softwareag.platform.config.propsloader/ |
+
+##### Server ports configuration
+
+If the portClusteringEnabled extended setting is set to false, the server ports should be created in each instance by the Administrator.
+
+##### SAML SSO Configuration
+
+Ensure that the following files in SAML SSO configuration (SSO configuration done in API Gateway Admin UI) are accessible to the new instance. If not, manually copy those files to the new instance.
+
+*   IDP metadata 
+*   Gateway metadata
+*   Keystore
+
+##### Custom ESB packages
+
+Also make sure that all the custom packages are installed and ready in the new instance(s).
+
 ### Step 8: Post migration steps
 
 This is a post migration step. Follow the below steps.
