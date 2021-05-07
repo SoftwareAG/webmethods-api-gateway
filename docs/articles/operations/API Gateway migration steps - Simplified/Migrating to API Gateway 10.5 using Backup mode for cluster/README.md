@@ -1,8 +1,8 @@
-# Migrating to API Gateway 10.5 using Backup mode for standalone
+# Migrating to API Gateway 10.5 using Backup mode for cluster
 
 Supported Versions: 10.5
 
-> **Note:** For migrating to API Gateway version below 10.5 using Backup mode for standalone please refer [Migrating standalone API Gateway using Backup mode ](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Migrating standalone API Gateway using Backup mode).
+> **Note:** For migrating to API Gateway version below 10.5 using Backup mode for cluster please refer [Migrating API Gateway cluster using Backup mode ](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Migrating API Gateway cluster using Backup mode).
 
 Overview of the tutorial
 ------------------------
@@ -65,9 +65,11 @@ In this section we will go through the steps for migrating to standalone API Gat
 
 > **Note:** In APIGateway 10.2 and above the the folder name ***EventDataStore*** has been changed to ***InternalDataStore***. Throughout this tutorial we refer source API Gateway installation directory as \<SOURCE\>, target API Gateway installation directory as \<TARGET\> and the temporary elasticsearch is <TEMP_TARGET_ELASTICSEARCH>
 
-### Step 1: Start source Elasticsearch instance
+### Step 1: Start source Elasticsearch instances
 
-Go to *\<SOURCE\>\InternalDataStore\config* and configure ***path.repo*** property in ***elasticsearch.yml*** file. path.repo is an elastic search property and it helps us to create a repository in the Elasticsearch where the backup data will be stored. This step would help preparing the \<SOURCE\> Elasticsearch to store the data in this location.
+Go to ***\<SOURCE\>\InternalDataStore\config*** and configure ***path.repo*** property in ***elasticsearch.yml*** file. Note that the path.repo should be a shared network folder and should be accessible for all the Elasticsearch nodes in the cluster.
+
+> **Note:** Do this for all the nodes
 
 ![](attachments/path-repo.png)
 
@@ -75,7 +77,7 @@ Then start the <\SOURCE\> Elasticsearch instance.
 
 ### Step 2: Take source data backup
 
-Now lets take the backup of source API Gateway data. Go to *\<SOURCE\>\IntegrationServer\instances\default\packages\WmAPIGateway\cli\bin* and run the below command.
+Now lets take the backup of source API Gateway data. Go to **any one** of the API Gateway nodes location *<\SOURCE\>\IntegrationServer\instances\default\packages\WmAPIGateway\cli\bin* and run the below command.
 
 ***$> apigw-upgrade-backup.bat -backupDestinationDirectory \<path_to_data_store_backup_folder\> -backupFileName \<backup_file_name_without_spaces_for_the_zip\>***
 
@@ -100,7 +102,7 @@ After the command is run successfully, the backup directory would contain the El
 
 ### Step 3: Install and start a temporary Elasticsearch instance
 
-- After the backup command is executed and the backup is done, stop the \<SOURCE\> Elasticsearch.
+- After the backup command is executed and the backup is done, stop all the \<SOURCE\> Elasticsearch instances
 - Install a temporary Elasticsearch of a version which is supported by the \<SOURCE\> API Gateway in a machine and make it accessible to the \<TARGET\> API Gateway instance, i.e, the target Elasticsearch 7.2.0
 
 > **Note:** Hereafter the location of this temporary instance would be refered as ***\<TEMP_TARGET_ELASTICSEARCH\>***
@@ -170,9 +172,11 @@ As the restore command is asynchronous, you can check its status by using the be
 
 The restore would be completed successfully when the health status becomes yellow from red.
 
-### Step 7: Configure reindex.remote.whitelist in target Elasticsearch
+### Step 7: Configure reindex.remote.whitelist in target Elasticsearch instances
 
-Configure the below property in the target elasticsearch.yml file located at ***\<TARGET\>\InternalDataStore\config*** for re-indexing the data in the target Elasticsearch. The below property helps to copy the documents from \<TEMP_TARGET_ELASTICSEARCH\> to \<TARGET\> Elasticsearch instance.
+Configure the below property in all the target target Elasticsearch instance's elasticsearch.yml file located at ***\<TARGET\>\InternalDataStore\config*** for re-indexing the data in the target Elasticsearch instances. The below property helps to copy the documents from <TEMP_TARGET_ELASTICSEARCH> to \<TARGET\> Elasticsearch instances.
+
+> **Note:** Do this for all the nodes
 
 #### elasticsearch.yml
 
@@ -193,6 +197,8 @@ For example, the below file contains localhost:9240 for *reindex.remote.whitelis
 
 Configure temporary Elasticsearch host and port details in the file ***config.properties*** file which is located at *\<SOURCE\>\IntegrationServer\instances\default\packages\WmAPIGateway\config\resources\elasticsearch*.
 
+> **Note:** Do this for all the target API Gateway nodes.
+
 #### config.properties
 
 ```
@@ -202,6 +208,8 @@ pg.gateway.elasticsearch.hosts=<source_host>:<source_port>
 ### Step 9: Configure temporary Elasticsearch basic auth credentials in source config.properties
 
 If the temporary Elasticsearch is protected with basic authentication add the below properties in *\<SOURCE\>\IntegrationServer\instances\default\packages\WmAPIGateway\config\resources\elasticsearch\config.properties* file.
+
+> **Note:** Do this for all the target API Gateway nodes.
 
 #### config.properties
 
@@ -214,6 +222,8 @@ pg.gateway.elasticsearch.http.password=<password>
 
 If the temporary Elasticsearch is protected with HTTPS, add the temporary source certificates (public key) into the target Elasticsearch JVM's truststore. For e.g, In case of internal data store we need to add the public keys to the truststore cacerts file located at ***\<TARGET\>\jvm\jvm\jre\lib\security***.
 
+> **Note:** Do this for all the target API Gateway nodes.
+
 > **Note:** If external Elasticsearch is used for the target API Gateway then the certificates should be imported to its corresponding JVM
 
 Below is a sample command to import the truststore of temporary source Elasticsearch into target Elasticsearch JVM.
@@ -225,9 +235,9 @@ Below is a sample command to import the truststore of temporary source Elasticse
 | \<truststore.jks\> | Truststore used in \<TEMP_TARGET_ELASTICSEARCH\> Elasticsearch. Provide the full path of the truststore.For 10.1 it should be available at *\<SOURCE\>\WmAPIGateway\config\resources\bean\gateway-es-store.xml*property *\<prop key="searchguard.ssl.http.truststore_filepath"\>sagconfig/root-ca.jks\</prop\>* For 10.2 and above it will be available at *\<SOURCE\>\WmAPIGateway\config\resources\elasticsearch\config.properties*property *pg.gateway.elasticsearch.https.truststore.filepath* | *sagconfig/root-ca.jks* |
 | \<alias\>          | This is the alias used in \<TEMP_TARGET_ELASTICSEARCH\> Elasticsearch | wm.sag.com              |
 
-### Step 11: Start target Elasticsearch instance
+### Step 11: Start target Elasticsearch instances
 
-Start the target Elasticsearch instance and make sure that IS instances are NOT started. Also avoid Elasticsearch port conflict.
+Start all the target Elasticsearch instances and make sure that IS instances are NOT started. Also avoid Elasticsearch port conflict.
 
 > **Note: Avoid port conflict:** If temporary and target API Gateway instances are running in the same machine, then the user might not able to start both the temporary and target Elasticsearch instances in parallel with the default port configurations. In that case the target Elasticsearch instance port can be changed temporarily for running the migration. Both HTTP and TCP ports must be changed. Follow the below steps.
 >
@@ -237,11 +247,15 @@ Start the target Elasticsearch instance and make sure that IS instances are NOT 
 
 ### Step 12: Run migration for Elasticsearch data
 
+> **Note:** Before running the migration, setup the target Elasticsearch cluster and make sure that all the temporary and target Elasticsearch instances in the clusters are up and running. But API Gateway instances should not be started on any of the nodes.
+
 Now we will start running the migration process. The migration process consist of migration of Elasticsearch data and API Gateway configurations and both will be done by running the migration utility command at \<TARGET\> API Gateway machine.
 
 In this step we will migrate the Elasticsearch data. 
 
 Go to *\<TARGET\>\IntegrationServer\instances\default\packages\WmAPIGateway\bin\migrate* directory and run the below command.
+
+**Note:** This should be done in only one target API Gateway node of the cluster.
 
 ***$> migrate.bat datastore -dstoreSrc \<full path to source Elasticsearch config.properties\>***
 
@@ -263,6 +277,8 @@ After command is run the data store data will be migrated.
 ### Step 13: Run migration for IS configurations
 
 In this step we will migrate the Integration Server's configuration to target instance. Go to <\TARGET\>\IntegrationServer\instances\default\packages\WmAPIGateway\bin\migrate and run the below command.
+
+**Note:** Do this for all the target API Gateway nodes.
 
 ***$> migrate.bat apigateway -srcDir \<SOURCE\> -instanceName \<source instance name\> -newInstanceName \<target instance name\>***
 
@@ -315,12 +331,13 @@ Ensure that the following files in SAML SSO configuration (SSO configuration don
 
 Also make sure that all the custom packages are installed and ready in the new instance(s).
 
-### Step 8: Post migration steps
+### Step 14: Post migration steps
 
 This is a post migration step. Follow the below steps.
 
-*   Shutdown the target Elasticsearch instance
-*   Start target API Gateway server
+*   Shutdown the target Elasticsearch instances
+*   (Optional) If Elasticsearch nodes are configured externally to API Gateway nodes, Start all those externally configured Elasticsearch nodes to setup the cluster
+*   Start target API Gateway nodes
 *   You can find the logs  at target directory  _**\<TARGET\>/install/logs/migrationLog.txt**_ 
 *   You can find the API Gateway migration reports at  _**\<TARGET\>\\install\\logs\\APIGW\_Migration\_Reports\_<date\_time>**_
 
