@@ -96,13 +96,13 @@ Login to API Gateway, expand the menu options icon available in the top right in
 
 Provide a Unique Name for the Custom destination. Supported characters are [a-zA-Z0-9-_ ].
 
-![CD_Name](attachments\CD_Name.PNG)
+![CD_Name](attachments/CD_Name.PNG)
 
 ### Condition based publishing
 
 You can configure conditions based on which API Gateway filters events to  publish to a configured destination. That is, only the events that  satisfy your conditions are published to the given destination. For  example, you can configure a condition to publish the error events of an application, say app1, to a destination; and another condition to publish the error events of another application, app2, to a second destination and so on.
 
-![condition_based_publishing](attachments\condition_based_publishing.png)
+![condition_based_publishing](attachments/condition_based_publishing.png)
 
 To configure a condition, you can use variables available in the  variable framework, and specify a matching value based on which the  condition must be validated. You can specify multiple conditions and  configure whether the data to be published must satisfy all or any of  the given conditions. The use cases in this section explain the process  of configuring conditions.
 
@@ -110,7 +110,7 @@ To configure a condition, you can use variables available in the  variable frame
 
 Conditions are completely optional. One can configure multiple conditions and  everything will be validated based on the Condition type. In this case,  if the application name matches with **'Splunk HEC Application',** only then API Gateway will send the configured events to Splunk.
 
-![CD_Conditions](attachments\CD_Conditions.PNG)
+![CD_Conditions](attachments/CD_Conditions.PNG)
 
 After configuring the condition variable and value click Add.
 
@@ -118,7 +118,7 @@ After configuring the condition variable and value click Add.
 
 Select the Custom destination type as External endpoint and provide the necessary details like URL, Method, SSL, and Timeout.
 
-![CD_ExternalEndpoint](attachments\CD_ExternalEndpoint.PNG)
+![CD_ExternalEndpoint](attachments/CD_ExternalEndpoint.PNG)
 
 #### Request Processing:
 
@@ -128,13 +128,13 @@ Header Name: Authorization
 
 Header Value: Encode ***"****Splunk <<SplunkToken>>"*** and configure it as Basic <<encoded value>>, then Click Add.
 
-![CD_Header_Configure](attachments\CD_Header_Configure.PNG)
+![CD_Header_Configure](attachments/CD_Header_Configure.PNG)
 
 #### Events:
 
 Select the data that you want to publish to the configured destination.
 
-![CD_Events](attachments\CD_Events.PNG)
+![CD_Events](attachments/CD_Events.PNG)
 
 After all the successful configuration click Add to add Custom destination.
 
@@ -142,7 +142,7 @@ After all the successful configuration click Add to add Custom destination.
 
 Login to API Gateway and create a *Petstore* API from the swagger definition URL http://petstore.swagger.io/v2/swagger.json alternatively you can use the existing API which is already available in API Gateway. Edit the API, go to *Policies → Traffic Monitoring →* Add *Log Invocation → Select Splunk HEC under Destination*.
 
-![CD_API](attachments\CD_API.PNG)
+![CD_API](attachments/CD_API.PNG)
 
 After all the configuration click Save and Activate the API.
 
@@ -152,7 +152,7 @@ Invoke the API using a REST client like Postman to generate Transactional  Event
 
 Open Splunk and search for **sourcetype="httpevent",** the splunk search will look like this,
 
-![CD_Splunk_Events](attachments\CD_Splunk_Events.PNG)
+![CD_Splunk_Events](attachments/CD_Splunk_Events.PNG)
 
 From the search response you can see the Audit log for Activate and Deactivate, and Transactional events published to Splunk.
 
@@ -180,7 +180,7 @@ public class APIGatewayEvents implements RequestHandler<Object, String> {
 
 To invoke a Lambda function, we need to create a AWS account configuration in the API Gateway Administration section with the Access key ID,  Secret access key and Region. This can be created by navigating to  Administration → External accounts → AWS configuration. Configure the  AWS account details here and use it as an alias in the Custom  Destination. API Gateway supports configuration of multiple AWS  accounts.
 
-![AWS_Config](attachments\AWS_Config.PNG)
+![AWS_Config](attachments/AWS_Config.PNG)
 
 Click Add to add the AWS account in API Gateway.
 
@@ -192,7 +192,7 @@ Name, Conditions, Request Processing, and Events sections remains same for AWS L
 
 Select the Custom destination type as AWS and provide the necessary details  like Function Name, Invocation Type, AWS Alias, and Client  Configuration.
 
-![CD_AWS](attachments\CD_AWS.PNG)
+![CD_AWS](attachments/CD_AWS.PNG)
 
 ##### Function Name
 
@@ -216,7 +216,7 @@ For AWS Client Configuration please refer[ https://docs.aws.amazon.com/sdk-for-j
 
 Login to API Gateway and create a *Petstore* API from the swagger definition URL http://petstore.swagger.io/v2/swagger.json alternatively you can use the existing API which is already available in API Gateway. Edit the API, go to *Policies → Traffic Monitoring →* Add *Log Invocation → Select AWS CD under Destination*.
 
-![CD_AWS_API](attachments\CD_AWS_API.png)
+![CD_AWS_API](attachments/CD_AWS_API.png)
 
 After all the configuration click Save and Activate the API.
 
@@ -228,15 +228,15 @@ Open AWS Lambda to check the events. Login to AWS console, then Services →  La
 
 In the function overview tab Click Monitor → View logs in CloudWatch.
 
-![CloudWatch](attachments\CloudWatch.PNG)
+![CloudWatch](attachments/CloudWatch.PNG)
 
 This will open a new Cloud Watch tab. In the Log streams select any one  of the stream. It will list all the log statement along with the data  published from API Gateway.
 
-![Lambda_Transaction_Event](attachments\Lambda_Transaction_Event.PNG)
+![Lambda_Transaction_Event](attachments/Lambda_Transaction_Event.PNG)
 
-![Lambda_Audit_Log](attachments\Lambda_Audit_Log.PNG)
+![Lambda_Audit_Log](attachments/Lambda_Audit_Log.PNG)
 
-![Lambda_Performance_Metrics](attachments\Lambda_Performance_Metrics.PNG)
+![Lambda_Performance_Metrics](attachments/Lambda_Performance_Metrics.PNG)
 
 # References
 
