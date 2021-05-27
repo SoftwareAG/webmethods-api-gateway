@@ -41,6 +41,7 @@ Complete the below prerequisites to make you ready to get into the details of th
 *   If custom keystore files are used in the source API Gateway installation, copy the files to the same location in the target installation
 
 > **Important Note**: **To avoid known issue in 10.7 migration **
+
 >
 > When you migrate from 10.5 to 10.7 version of API Gateway, the fields such as "gatewayEndpoints" and "provider" are not migrated to 10.7 from 10.5.
 >
@@ -50,7 +51,7 @@ Complete the below prerequisites to make you ready to get into the details of th
 > under the property name 'typesFields' and entry key 'apis'.
 >
 > This issue will be fixed in the 10.7 fix 4.
->
+
 
 Details
 -------
@@ -69,7 +70,7 @@ Configure the below property in the target elasticsearch.yml file located at _**
 reindex.remote.whitelist: <source_host>:<source_port>
 
 (This value should match with the value of the property pg.gateway.elasticsearch.hosts present in
-<SOURCE>\IntegrationServer\instances\default\packages\WmAPIGateway\config\resource\elasticsearch\config.properties)
+\<SOURCE\>\IntegrationServer\instances\default\packages\WmAPIGateway\config\resource\elasticsearch\config.properties)
 ```
 
 For example, the below file contains localhost:9240 for reindex.remote.whitelist property.

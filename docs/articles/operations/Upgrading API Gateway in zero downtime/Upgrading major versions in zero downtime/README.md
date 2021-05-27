@@ -25,6 +25,17 @@ Complete the below prerequisites to make you ready to get into the details of up
 *   Old API Gateway instance(s) should be running
 *   Create a quiesce port in old API Gateway instance(s). For a cluster, this should be done for each instance. Refer IS user guide for creating a quiesce port. Anyway a sample is given below in the steps.
 
+> **Important Note**: **To avoid known issue in 10.7 migration **
+
+When you migrate from 10.5 to 10.7 version of API Gateway, the fields such as "gatewayEndpoints" and "provider" are not migrated to 10.7 from 10.5.
+
+Before performing the migration, add the two fields in the following location
+<Installation_Location>\IntegrationServer\instances\default\packages
+\WmAPIGateway\bin\migrate\MigrationESHandler.xml
+under the property name 'typesFields' and entry key 'apis'.
+
+This issue will be fixed in the 10.7 fix 4.
+
 ## Details
 
 API Gateway follows Blue-Green deployment approach to upgrade to newer major version in zero downtime. In such deployment scenario, old instance will be allowed to run and serve the transactions while the new version of API Gateway is being prepared with data migration. The data migration happens in two phases. In the first phase, the old instance is blocked for design time(core) data updates and all the design time(core) data would be migrated to the new datastore, while the new API Gateway version is running. Next the new version is restarted with the migrated design time data and the endpoint is added to the load balancer. At this time the transactions are served by both the old and new versions. In the second phase, all the transactions to the old version is blocked and the logs and events data are migrated to the new version while it is serving the transactions.
@@ -41,7 +52,7 @@ Install the new API Gateway instance(s) and do the below prerequisites.
 
 #### a. IS/File system configurations and custom packages
 
-As zero downtime upgrade deals only with the migration of datastore data, the Administrator has to take care of migrating the non datastore configurations such as file system configurations, ports configurations (if port clustering is disabled) and custom ESB packages to the new API Gateway instance(s) before running the migration of data. For a detailed list of configurations that are to be manually configured by the Administrator, please refer *Backup and Restore* section under *Data Management* chapter in the *API Gateway Configuration Guide*. 
+As zero downtime upgrade deals only with the migration of datastore data, the Administrator has to take care of migrating the non datastore configurations such as file system configurations, ports configurations (if port clustering is disabled) and custom ESB packages to the new API Gateway instance(s) before running the migration of data.  
 
 > **Note**: Most of the configurations can be configured using externalized configurations. For information on externalization,  refer **[this](https://tech.forums.softwareag.com/t/starting-api-gateway-using-externalized-configurations/237312)** tech community article.
 
