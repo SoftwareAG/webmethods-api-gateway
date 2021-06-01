@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "99cf2385-92cc-4855-96db-6e3243284341",
+		"_postman_id": "00d27a1c-79cf-4a96-b525-d14f19e54988",
 		"name": "Secure Cross DC Setup using Composite Operations",
 		"description": "The requests in this collection can be executed in the sequence listed and they take care of:\n* Composing the request payload with the configured crossdc_hosts variable\n* Configuring the listener for the local data center and the ring.\n* Activates the ring setup across all data centers with the configured mode.\n\nThis collection assumes that all the data centers use the same HTTP(S) port and GRPC port for communication, have the same username and password, use the same keystore, key and truststore aliases for the secure communication.\n\nThe following variables must be set for the request execution to be successful:\n1. **protocol** - Possible values are http or https. The protocol that you wish to use in the request.\n1. **domain** - The hostname of the machine where API Gateway is installed or a load balancer is hosted (if configured for API Gateway). \n1. **port** - The API Gateway Integration Server port (default value 5555) or the load balancer port (default is 80 or 443) depending on the configured value for domain. \n1. **username** - The username for establishing the connection for the request. The user should have \"Manage general administration configurations\" permission.\n1. **password** - The password corresponding to the provided username\n1. **crossdc_port** - A non-standard port (user-defined) number ranging from 1000 - 65535 that will be used to establish the GRPC communication between the data centers.\n1. **crossdc_hosts** - A comma separated list of hostnames (load balancer or API Gateway) representing the data centers that will be participating in the cross DC setup.\n1. **crossdc_keystore_alias** - The alias of the keystore (that must be configured in the API Gateway) to be used for establishing the secure cross DC communication between data centers\n1. **crossdc_key_alias** - The key alias from the provided keystore alias to be used for the secure communication.\n1. **crossdc_truststore_alias** - The alias of the truststore (that must be configured in the API Gateway) to be used for verifying the identity of the data centers during the secure communication.\n1. **crossdc_insecure_manager** - true if self-signed certificates are imported in the configured truststore. If only valid CA signed certificates are used in the truststore, then this can be set to false.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -170,6 +170,43 @@
 							"value": "ACTIVE_RING",
 							"description": "Possible values: STANDALONE, STANDBY, ACTIVE_RING"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dataspace Ring Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/dataspace/status",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dataspace",
+						"status"
 					]
 				}
 			},
