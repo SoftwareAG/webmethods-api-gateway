@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5b64a9a3-dab8-4fd9-8ea6-d531bb0fed3a",
+		"_postman_id": "5ba3cc46-6edc-47a8-81a1-4b111810673e",
 		"name": "Cross DC Setup using Composite Operations",
 		"description": "The requests in this collection can be executed in the sequence listed and they take care of:\n* Composing the request payload with the configured crossdc_hosts variable\n* Configuring the listener for the local data center and the ring.\n* Activates the ring setup across all data centers with the configured mode.\n\nThis collection assumes that all the data centers use the same HTTP(S) port and GRPC port for communication and have the same username and password.\n\nThe following variables must be set for the request execution to be successful:\n1. **protocol** - Possible values are http or https. The protocol that you wish to use in the request.\n1. **domain** - The hostname of the machine where API Gateway is installed or a load balancer is hosted (if configured for API Gateway). \n1. **port** - The API Gateway Integration Server port (default value 5555) or the load balancer port (default is 80 or 443) depending on the configured value for domain. \n1. **username** - The username for establishing the connection for the request. The user should have \"Manage general administration configurations\" permission.\n1. **password** - The password corresponding to the provided username\n1. **crossdc_port** - A non-standard port (user-defined) number ranging from 1000 - 65535 that will be used to establish the GRPC communication between the data centers.\n1. **crossdc_hosts** - A comma separated list of hostnames (load balancer or API Gateway) representing the data centers that will be participating in the cross DC setup.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -156,6 +156,43 @@
 							"value": "ACTIVE_RING",
 							"description": "Possible values: STANDALONE, STANDBY, ACTIVE_RING"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dataspace Ring Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/dataspace/status",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dataspace",
+						"status"
 					]
 				}
 			},
