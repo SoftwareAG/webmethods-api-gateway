@@ -7,8 +7,34 @@ The below figure depicts the API Gateway Kubernetes service deployment model whe
 ![single_pod_with_gateway_elasticsearch](../images/single_pod_with_gateway_elasticsearch.png)
 
 Do the following steps to deploy API Gateway Kubernetes pod that contains elasticsearch embedded in API Gateway container
-   
-1. Run the following command to deploy API Gateway in the Kubernetes setup:
+
+1. Ensure that vm.max_map_count is set to a value of at least 262144 to run an Elasticsearch container within a pod. If you don't have access to the environment setup you can do this in an init container as follows:
+
+    ```
+	  initContainers:
+	  # NOTE:
+	  # To increase the default vm.max_map_count to 262144
+	  # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-prod-mode
+	  - name: increase-the-vm-max-map-count
+		image: busybox
+		command:
+		- sysctl
+		- -w
+		- vm.max_map_count=262144
+		securityContext:
+		  privileged: true
+	  # To increase the ulimit
+	  # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#_notes_for_production_use_and_defaults
+	  - name: increase-the-ulimit
+		image: busybox
+		command:
+		- sh
+		- -c
+		- ulimit -n 65536
+		securityContext:
+		  privileged: true
+   ```   
+2. Run the following command to deploy API Gateway in the Kubernetes setup:
 
    ```
    kubectl create -f api-gateway-deployment-embedded-elasticsearch.yaml
