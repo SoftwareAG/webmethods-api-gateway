@@ -3,8 +3,8 @@ Topics on Policies in API Gateway
 
 This page contains articles explaining different policies in API Gateway. 
 
-Variables usage via request and response transformation policies and other policies in API Gateway
---------------------------------------------------------------------------------------------------
+Variables usage via request and response transformation policies and other policies
+-----------------------------------------------------------------------------------
 
 Right from the initial versions of API Gateway, there are options like Invoke webmethods IS policy in API Gateway that helps the API Provider to plugin custom logics, such as transformation of request and response contents, in the mediation flow of an API.  However the transformation policies introduced in version 10.2 provide a better and easy configuration of transformations based on conditions to a greater extent. The Provider does't need to create an IS service explicitly, instead they can use the simple UI configurations in the transformation policies to achieve the same use cases. Using the concept called "variables", a provider can access and evaluate (a condition) and/or modify the contents of request or response like headers, query parameters, path parameters, HTTP method, status code, status message and payload etc. In 10.7, usage of these "variables" are enhanced further and extended to be used across all other policy actions as well. **[Read on...](Variables%20usage%20via%20Request%20and%20Response%20Transformation%20policies%20and%20other%20policies%20in%20API%20Gateway)**
 
