@@ -1,14 +1,11 @@
-RnD API Management : Variables usage via request and response transformation policies and other policies in API Gateway
-=======================================================================================================================
+Variables usage via request and response transformation policies and other policies in API Gateway
+==================================================================================================
 
 Authors: Chandrasekaran, Vallab (vac@softwareag.com)
 
 Supported Versions: 10.7 and above (For versions 10.3 and 10.5, **[refer this...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Request%20and%20Response%20Transformation%20policies%20in%20API%20Gateway)**)
 
-
-
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 Overview of the tutorial
 ========================
