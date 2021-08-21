@@ -20,16 +20,12 @@ The tutorial assumes that the reader has,
 Why?
 ----
 
-In earlier versions of API Gateway i.e before 10.3 Fix 4 the migration commands were more complex which involves a multi step process. A lot of manual steps were needed to perform the migration and adding an overhead of restarting API Gateway server and Elasticsearch multiple times. In addition to that the user has to face few more struggles, some of them are, the migration didn't support migration of data from externally configured Elasticsearch and for any troubleshooting, the user has to look out multiple locations for the logs instead of single unified location which is far more easier.
+The migration utility introduced in API Gateway provides following support.
 
-The new migration utility introduced in API Gateway 10.3 Fix 4 will resolve the below issues.
-
-*   The commands are very simple and few
-*   Restart of Elasticsearch and API Gateway server is eliminated
-*   Migration of Elasticsearch and IS can be done separately
+*   Migration of Elasticsearch and API Gateway file configurations can be done separately
 *   Migration of data from externally configured Elasticsearch is supported
 *   Logs all the details to a standard file, migrationLog.txt, a single file for all the log data
-*   Supports reverting in case of failure in Elasticsearch migration
+*   Supports reverting in case of failure in Elasticsearch data migration
 
 Prerequisite steps
 ------------------
@@ -37,18 +33,8 @@ Prerequisite steps
 Complete the below prerequisites to make you ready to get into the details of the staging and promotion in API Gateway.
 
 *   Install source and target API Gateway instances. The version of target API Gateway should be higher than source API Gateway. Supported source API Gateway versions are 10.1 and above
+*   Install latest fixes in both source and target versions
 *   If custom keystore files are used in the source API Gateway installation, copy the files to the same location in the target installation
-
-> **Important Note**: **To avoid known issue in 10.7 migration **
-
-When you migrate from 10.5 to 10.7 version of API Gateway, the fields such as "gatewayEndpoints" and "provider" are not migrated to 10.7 from 10.5.
-
-Before performing the migration, add the two fields in the following location
-<Installation_Location>\IntegrationServer\instances\default\packages
-\WmAPIGateway\bin\migrate\MigrationESHandler.xml
-under the property name 'typesFields' and entry key 'apis'.
-
-This issue will be fixed in the 10.7 fix 4.
 
 Details
 -------
