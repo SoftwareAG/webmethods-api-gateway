@@ -21,16 +21,12 @@ The tutorial assumes that the reader has,
 Why?
 ----
 
-In earlier versions of API Gateway i.e before 10.3 Fix 4 the migration commands were more complex which involves a multi step process. A lot of manual steps were needed to perform the migration and adding an overhead of restarting API Gateway server and Elasticsearch multiple times. In addition to that the user has to face few more struggles, some of them are, the migration didn't support migration of data from externally configured Elasticsearch and for any troubleshooting, the user has to look out multiple locations for the logs instead of single unified location which is far more easier.
+The migration utility introduced in API Gateway provides following support.
 
-The new migration utility introduced in API Gateway 10.3 Fix 4 will resolve the below issues.
-
-*   The commands are very simple and few
-*   Restart of Elasticsearch and API Gateway server is eliminated
-*   Migration of Elasticsearch and IS can be done separately
+*   Migration of Elasticsearch and API Gateway file configurations can be done separately
 *   Migration of data from externally configured Elasticsearch is supported
 *   Logs all the details to a standard file, migrationLog.txt, a single file for all the log data
-*   Supports reverting in case of failure in Elasticsearch migration
+*   Supports reverting in case of failure in Elasticsearch data migration
 
 Prerequisite steps
 ------------------
