@@ -34,19 +34,8 @@ Prerequisite steps
 Complete the below prerequisites to make you ready to get into the details of the staging and promotion in API Gateway.
 
 *   Install source and target API Gateway instances. The version of target API Gateway should be higher than source API Gateway. Supported source API Gateway versions are 10.1 and above
+*   Install latest fixes in both source and target versions
 *   If custom keystore files are used in the source API Gateway installation, copy the files to the same location in the target installation
-
-> **Important Note**: **To avoid known issue in 10.7 migration **
-
->
-> When you migrate from 10.5 to 10.7 version of API Gateway, the fields such as "gatewayEndpoints" and "provider" are not migrated to 10.7 from 10.5.
->
-> Before performing the migration, add the two fields in the following location
-> <Installation_Location>\IntegrationServer\instances\default\packages
-> \WmAPIGateway\bin\migrate\MigrationESHandler.xml
-> under the property name 'typesFields' and entry key 'apis'.
->
-> This issue will be fixed in the 10.7 fix 4.
 
 
 Details
@@ -115,7 +104,7 @@ _**$\<TARGET\>\\jvm\\jvm\\bin\\keytool -import -keystore \<TARGET\>\\jvm\\jvm\\j
 
 ### Step 5: Start source and target Elasticsearch instances
 
-Start both source and target Elasticsearch instances and make sure that IS instances are NOT started. Also avoid Elasticsearch port conflict.
+Start both source and target Elasticsearch instances and make sure that API Gateway (IS) instances are NOT started. Also avoid Elasticsearch port conflict.
 
 > **Note: Avoid port conflict** 
 >
@@ -140,7 +129,7 @@ _**$> migrate.bat datastore -dstoreSrc \<full path to source Elasticsearch confi
 | **Parameter** | **Description**                                              |
 | ------------- | ------------------------------------------------------------ |
 | dstoreSrc     | If source and target API Gateway instances are running in the same network. Provide the location where \<SOURCE\> config.properties file is located.Sample:*migrate.bat datastore -dstoreSrc* *\<SOURCE\>\IntegrationServer\instances\default\packages\WmAPIGateway\config\resources\elasticsearch\config.properties* |
-|               | If the source and target instances are running in different machines, the the source installation directory or at least the Elasticsearch *config.properties* file must be shared in the network. Otherwise just copy and paste the source config.properties to the shared location.Sample:*migrate.bat datastore -dstoreSrc* *\\chebackup01\installations\source\IntegrationServer\instances\default\packages\WmAPIGateway\config\resources\elasticsearch\config.properties* |
+|               | If the source and target instances are running in different machines, then the source installation directory or at least the Elasticsearch *config.properties* file must be shared in the network. Otherwise just copy and paste the source config.properties to the shared location.Sample:*migrate.bat datastore -dstoreSrc* *\\chebackup01\installations\source\IntegrationServer\instances\default\packages\WmAPIGateway\config\resources\elasticsearch\config.properties* |
 
 For e.g,
 
@@ -171,7 +160,7 @@ _$> migrate.bat  apigateway  -srcDir  C:\\installations\\source  -instanceNa
 
 The following configurations are persisted in file system and some of them are covered using IS migration. Please verify the correctness of these configurations in the target environment once the above migration procedures are executed. Configurations changes done in elasticsearch.yml, kibana.yml etc are not covered using the migration procedure, can be migrated manually. 
 
-> **Note**: Most of the configurations can be configured using externalized configurations. For information on externalization,  refer **[this](https://tech.forums.softwareag.com/t/starting-api-gateway-using-externalized-configurations/237312)** tech community article.
+> **Note**: Most of the configurations can also be configured using externalized configurations. For information on externalization,  refer **[this](https://tech.forums.softwareag.com/t/starting-api-gateway-using-externalized-configurations/237312)** tech community article.
 
 The configurations are listed below.
 
