@@ -34,7 +34,7 @@ First we have to create API Gateway image for locally installed API Gateway. To 
 
 2. Edit the file 'Dockerfile' and replace the image name on the first line with the API Gateway image that you have created in the previous step.
 
-	``` FROM [API_GATEWAY_IMAGE_NAME] ````
+	``` FROM [API_GATEWAY_IMAGE_NAME] ```
  
 3. Run the below command to build the docker image
 
@@ -55,7 +55,7 @@ Start the API Gateway Utility image using the docker run command. Specify the el
 	
 A sample command looks as follows:
 
-	``` docker run -e apigw_elasticsearch_hosts=daeyaix1bvt01.eur.ad.sag:9240 apigwutil -c list backup ```
+   ``` docker run -e apigw_elasticsearch_hosts=daeyaix1bvt01.eur.ad.sag:9240 apigwutil -c list backup ```
 	
 ### Option 2: Keep the container alive after the command is executed
 
