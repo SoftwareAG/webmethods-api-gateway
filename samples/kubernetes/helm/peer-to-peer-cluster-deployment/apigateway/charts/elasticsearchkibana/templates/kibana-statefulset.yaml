@@ -1,0 +1,93 @@
+---
+# /*
+#  * Copyright (c) 2021 Software AG, Darmstadt, Germany and/or its licensors
+#  *
+#  * SPDX-License-Identifier: Apache-2.0
+#  *
+#  *   Licensed under the Apache License, Version 2.0 (the "License");
+#  *   you may not use this file except in compliance with the License.
+#  *   You may obtain a copy of the License at
+#  *
+#  *       http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  *   Unless required by applicable law or agreed to in writing, software
+#  *   distributed under the License is distributed on an "AS IS" BASIS,
+#  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  *   See the License for the specific language governing permissions and
+#  *   limitations under the License.
+#  *
+#  */
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  generation: 1
+  labels:
+    app: kibana-apigateway
+    {{- include "apigateway.labels" . | nindent 4 }}
+  name: {{ include "apigateway.customPrefix" . }}kibana-ss
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: {{ .Values.kibanaCount }}
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: kibana-apigateway
+  serviceName: {{ include "apigateway.customPrefix" . }}{{ .Values.kibanaService }}
+  template:
+    metadata:
+      labels:
+        app: kibana-apigateway
+        {{- include "apigateway.labels" . | nindent 8 }}
+    spec:
+      initContainers:
+      - name: waitforelasticsearch
+        image: {{ .Values.global.curlImage }}
+        imagePullPolicy: IfNotPresent
+        resources:
+          {{- toYaml .Values.resources.kibanaInitContainer | nindent 10 }}
+        command:
+          - sh
+          - -ec
+          - |
+                  pwd
+                  whoami
+                  ls -l
+                  {{- $esUrl := printf "http://%s%s:%s/_cluster/health?pretty" ( include "apigateway.customPrefix" . ) .Values.elasticSearchService ( .Values.elasticSearchPort | toString) }}
+                  curl -s {{ $esUrl }} | tee /tmp/tmpfile
+                  until  grep "number_of_nodes" /tmp/tmpfile | grep {{ int .Values.clusterSize }} || grep "status" /tmp/tmpfile | grep "green" ; do
+                    echo "waiting for {{ include "apigateway.customPrefix" . }}{{ .Values.elasticSearchService }}: status not yet 'green', or 'number_of_nodes' not yet {{ int .Values.clusterSize }}"
+                    sleep 2
+                    curl -s {{ $esUrl }} | tee /tmp/tmpfile
+                  done
+      containers:
+      - name: kibana
+        env:
+        - name: app
+          value: kibana-apigateway
+        image:  "{{ .Values.kibanaImage }}:{{ .Values.kibanaTag }}"
+        imagePullPolicy: IfNotPresent
+        resources:
+          {{- toYaml .Values.resources.kibanaContainer | nindent 10 }}
+        readinessProbe:
+          tcpSocket:
+            port: {{ int .Values.kibanaPort }}
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        ports:
+        - containerPort: {{ int .Values.kibanaPort }}
+          name: kibana
+          protocol: TCP
+        volumeMounts:
+          - name: kibana-config
+            mountPath: /usr/share/kibana/config
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: kibana-config
+          configMap:
+            name: {{ include "apigateway.customPrefix" . }}{{ .Values.kibanaConfigmap }}
+  updateStrategy:
+    type: RollingUpdate
