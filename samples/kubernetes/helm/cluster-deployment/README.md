@@ -8,12 +8,10 @@ In order to setup an API Gateway cluster:
 * follow the instructions in the [chart readme](apigateway/README.md) to provide Helm values,
 * finally run `helm install my-helm-release apigateway -f my-values.yaml`.
 
-At the time of writing this article there is no prepared Docker image for the Terracotta BigMemory product.
-Users need to create their own Docker image from an on-premise installation of Terracotta BigMemory by following the
-product documentation. The Terracotta installation comes with a Dockerfile for this purpose.
-
-Apart from that, the chart by default pulls the API Gateway trial image from [Dockerhub](https://hub.docker.com/_/softwareag-apigateway), and it pulls
-open source images for ElasticSearch and Kibana from the [ElasticSearch Docker repository](https://www.docker.elastic.co/).
+By default the chart pulls these images:
+* the API Gateway trial image from [Dockerhub](https://hub.docker.com/_/softwareag-apigateway),
+* the Terracotta Bigmemory Max trial image from [Dockerhub](https://hub.docker.com/_/software-ag-bigmemory-max),
+* the open source images for ElasticSearch and Kibana from the [ElasticSearch Docker repository](https://www.docker.elastic.co/).
 
 ## Technical details
 

@@ -28,7 +28,7 @@ provided as configmaps.
 Hence before running `helm install` create the configmaps:
 
 ```
-kubectl create configmap tc-licencse-config --from-file=terracotta-license.key=<your path to terracotta license file>
+kubectl create configmap tc-license-config --from-file=terracotta-license.key=<your path to terracotta license file>
 kubectl create configmap apigw-license-config --from-file=licenseKey.xml=<your path to API Gateway license file>
 ```
 
@@ -51,13 +51,10 @@ explicitly when running `helm install`, for example in a separate file `my-value
 ```
 # my-values.yaml
 k8sClusterSuffix:   " .. cluster suffix .. "
-
-terracotta:
-  terracottaImage:  " .. the image location .. "
-  terracottaTag:    " .. the tag .. "
 ```
 
 The cluster suffix must match the suffix of the URLs published by the Kubernetes cluster's Ingress Controller.
+The suffix needs to start with a dot `.` character.
 
 ## Trial Usage
 
