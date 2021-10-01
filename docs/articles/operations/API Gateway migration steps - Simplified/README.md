@@ -10,8 +10,6 @@ API Gateway supports migration of data from older version to newer versions. In 
 
 *   Migration using direct mode for standalone
 *   Migration using direct mode for cluster
-*   Migration using backup mode for standalone
-*   Migration using backup mode for cluster
 
 Note: This tutorial is applicable for on-premise installation only
 
@@ -49,15 +47,13 @@ Complete the below prerequisites to make you ready to get into the details of th
 Details
 -------
 
-The migration of API Gateway can be done in two ways.
+The migration of API Gateway can be done using
 
-### 1\. Direct  mode
+### Direct  mode
 
 This is done by running the migration utility by referring to source Elasticsearch connection properties for migrating Elasticsearch data and the source API Gateway installation directory for migrating the IS configuration data. If the source and target Elasticsearch instances are running in the same network and can talk to each other then this method is preferred.
 
-### 2\. Backup mode
-
-This is done by running the migration utility by referring to the backup of source Elasticsearch data and the source API Gateway configuration backup file for migrating both the Elasticsearch data and the IS configuration. If the source and target Elasticsearch instances are running in different network and not able to talk to each other then this method is preferred.
+Note: If the source and target Elasticsearch instances are running in different network and not able to talk to each other then please contact SoftwareAG Administrator.
 
 ### Migration using direct mode for standalone
 
@@ -66,18 +62,6 @@ Please refer [Migrating standalone API Gateway using Direct mode](Migrating%20s
 ### Migration using direct mode for cluster
 
 Please refer [Migrating API Gateway cluster using Direct mode](Migrating%20API%20Gateway%20cluster%20using%20Direct%20mode/)
-
-### Migration using backup mode for standalone
-
-Please refer [Migrating standalone API Gateway using Backup mode](Migrating%20standalone%20API%20Gateway%20using%20Backup%20mode/) for migrating to API Gateway up to 10.4 versions.  
-
-For migrating to versions 10.5 and above from lower versions, please refer to [Migrating to API Gateway 10.5 using Backup mode for standalone](Migrating%20to%20API%20Gateway%2010.5%20using%20Backup%20mode%20for%20standalone/) 
-
-### Migration using backup mode for cluster
-
-Please refer [Migrating API Gateway cluster using Backup mode](Migrating%20API%20Gateway%20cluster%20using%20Backup%20mode) for migrating to API Gateway up to 10.4 versions.  
-
-For migrating to versions 10.5 and above from lower versions, please refer to [Migrating to API Gateway 10.5 using Backup mode for cluster](Migrating%20to%20API%20Gateway%2010.5%20using%20Backup%20mode%20for%20cluster)
 
 ### General Migration configuration
 
