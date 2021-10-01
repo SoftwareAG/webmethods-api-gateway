@@ -13,7 +13,7 @@ API Gateway supports migration of data from older version to newer versions. In 
 *   Migration using backup mode for standalone
 *   Migration using backup mode for cluster 
 
-**[Read on...](API%20Gateway%20migration%20steps%20-%20Simplified/)**
+**[Read on...](https://github.com/SoftwareAG/webmethods-api-gateway/tree/master/docs/articles/operations/API%20Gateway%20migration%20steps%20-%20Simplified)**
 
 ## Upgrading API Gateway in zero downtime 
 
