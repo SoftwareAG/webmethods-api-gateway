@@ -53,7 +53,7 @@ The migration of API Gateway can be done using
 
 This is done by running the migration utility by referring to source Elasticsearch connection properties for migrating Elasticsearch data and the source API Gateway installation directory for migrating the IS configuration data. If the source and target Elasticsearch instances are running in the same network and can talk to each other then this method is preferred.
 
-Note: If the source and target Elasticsearch instances are running in different network and not able to talk to each other then please contact SoftwareAG Administrator.
+Note: If the source and target Elasticsearch instances are running in different network and not able to talk to each other then Contact Software AG support team for further assistance.
 
 ### Migration using direct mode for standalone
 

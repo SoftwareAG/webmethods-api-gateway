@@ -1,4 +1,4 @@
-Migrating standalone API Gateway using Direct mode
+Migrating standalone API Gateway
 ==================================================
 
 Supported Versions: 10.3 Fix 4 and above
@@ -6,7 +6,7 @@ Supported Versions: 10.3 Fix 4 and above
 Overview of the tutorial
 ------------------------
 
-This tutorial explains in detail the steps needed for migrating a **standalone** API Gateway using **Direct** mode.
+This tutorial explains in detail the steps needed for migrating a **standalone** API Gateway.
 
 > **Note:** This tutorial is applicable for on-premise installation only
 
@@ -33,19 +33,22 @@ Prerequisite steps
 
 Complete the below prerequisites to make you ready to get into the details of the staging and promotion in API Gateway.
 
-*   Install source and target API Gateway instances. The version of target API Gateway should be higher than source API Gateway. Supported source API Gateway versions are 10.1 and above
+*   Install source and target API Gateway instances in same network. The version of target API Gateway should be higher than source API Gateway. Supported source API Gateway versions are 10.1 and above
 *   Install latest fixes in both source and target versions
 *   If custom keystore files are used in the source API Gateway installation, copy the files to the same location in the target installation
 
+> **Note:** If the source Elasticsearch port is not accessible to target instance and not able to talk to each other then Contact Software AG support team for further assistance.
 
 Details
 -------
 
-In this section we will go through the steps for migrating a standalone API Gateway to a higher version using direct mode. The steps are given below.
+In this section we will go through the steps for migrating a standalone API Gateway to a higher version. The steps are given below.
 
 > **Note:** In APIGateway 10.2 and above the the folder name _**EventDataStore**_ has been changed to _**InternalDataStore**_. Throughout this tutorial we refer source API Gateway installation directory as \<SOURCE\>, target API Gateway installation directory as \<TARGET\> and target elasticsearch is \<TARGET\_ELASTIC\_SEARCH\>
 
 ### Step 1: Configure reindex.remote.whitelist in target Elasticsearch
+
+> **Note:** Remote reindexing configuration can be skipped for Managed Elasticsearch
 
 Configure the below property in the target elasticsearch.yml file located at _**\<TARGET\>\\InternalDataStore\\config**_ for re-indexing the data in the target Elasticsearch. The below property helps to copy the documents from \<SOURCE\> to \<TARGET\> Elasticsearch instance.
 
@@ -114,6 +117,24 @@ Start both source and target Elasticsearch instances and make sure that API Gate
 >
 > 2\. Go to **_\<TARGET\>/IntegrationServer/instances/default/packages/WmAPIGateway/config/resources/elasticsearch_** directory, open the config.properties file and find the pg.gateway.elasticsearch.hosts property. If the property is set to changeOnInstall then you need to do nothing further. If there is a port configured already, update it to a new value
 
+
+### Migrating high volume transaction data
+
+Follow this step only if there is large amount of transaction data else we can skip to next step.
+
+Using this method, instead of migrating full datastore, migration can be done only for core data alone and transaction data can be moved using backup and restore.
+
+Take backup of analytics indices using below command.
+
+_**$\<SOURCE\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\cli\\bin\\apigatewayUtil create backup -include analytics -name <backup_file_name>**_
+
+Copy the backup file into Target instance path.repo folder configured under \<TARGET>\IntegrationServer\InternalDataStore\config\elasticsearch.yml
+
+Execute restore command
+
+_**$\<TARGET\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\cli\\bin\\apigatewayUtil restore backup -include analytics -name <backup_file_name>**_
+
+
 ### Step 6: Run migration for Elasticsearch data
 
 Now we will start running the migration process. The migration process consist of migration of Elasticsearch data and API Gateway configurations and both will be done by running the migration utility command at \<TARGET\> API Gateway machine.
@@ -123,6 +144,8 @@ In this step we will migrate the Elasticsearch data. 
 Go to _\<TARGET\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_ and run the below command.
 
 ![](attachments/image2019-5-27_16-51-52.png)
+
+####Option 1: If there is no huge transaction data, migrate whole datastore
 
 _**$> migrate.bat datastore -dstoreSrc \<full path to source Elasticsearch config.properties\>**_
 
@@ -138,6 +161,12 @@ _$> migrate.bat datastore -dstoreSrc_
 _\\\\chebackup01\\source\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\config\\resources\\elasticsearch\\config.properties_
 
 ![](attachments/image2019-5-28_15-52-33.png)
+
+####Option 2: If there is huge transaction data, migrate only core data
+
+Run below command,
+
+_**$> migrate.bat reindex -sourceESHostUrl \<source Elastic search host url\>**_
 
 ### Step 7: Run migration for IS configurations
 
@@ -221,7 +250,13 @@ During migration, if there is any problem in the execution or any of the handler
 
 > **Note (Before running clean command):** If the \<TARGET\> is 10.5 and the clean command is executed in a cluster, go to \<SOURCE\>\\InternalDataStore\\config and configure path.repo property in elasticsearch.yml file for all the nodes. Make sure that the path.repo is a shared network folder and should be accessible for all the Elasticsearch nodes in the cluster. 
 
-Go to _\<TARGET\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_ and run the below command.
+Go to _\<TARGET\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_
+
+For Managed Elasticsearch run clean command with backup option false
+
+_**$> migrate.bat clean -backup false**_
+
+else run clean command with backup option true which is default.
 
 _**$> migrate.bat clean**_
 
