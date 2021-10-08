@@ -145,7 +145,7 @@ Go to _\<TARGET\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway
 
 ![](attachments/image2019-5-27_16-51-52.png)
 
-####Option 1: If there is no huge transaction data, migrate whole datastore
+#### Option 1: If there is no huge transaction data, migrate whole datastore
 
 _**$> migrate.bat datastore -dstoreSrc \<full path to source Elasticsearch config.properties\>**_
 
@@ -162,7 +162,7 @@ _\\\\chebackup01\\source\\IntegrationServer\\instances\\default\\packages\\WmAPI
 
 ![](attachments/image2019-5-28_15-52-33.png)
 
-####Option 2: If there is huge transaction data, migrate only core data
+#### Option 2: If there is huge transaction data, migrate only core data
 
 Run below command,
 
