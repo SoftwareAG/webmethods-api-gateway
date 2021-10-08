@@ -8,8 +8,8 @@ Overview of the tutorial
 
 API Gateway supports migration of data from older version to newer versions. In this tutorial we will go through the following migration types in detail.
 
-*   Migration using direct mode for standalone
-*   Migration using direct mode for cluster
+*   Migration for standalone
+*   Migration for cluster
 
 Note: This tutorial is applicable for on-premise installation only
 
@@ -47,21 +47,17 @@ Complete the below prerequisites to make you ready to get into the details of th
 Details
 -------
 
-The migration of API Gateway can be done using
+The migration of API Gateway can be done by running the migration utility by referring to source Elasticsearch connection properties for migrating Elasticsearch data and the source API Gateway installation directory for migrating the IS configuration data. If the source and target Elasticsearch instances are running in the same network and can talk to each other then this method is preferred.
 
-### Direct  mode
+> **Note:** If the source Elasticsearch port is not accessible to target instance and not able to talk to each other then Contact Software AG support team for further assistance.
 
-This is done by running the migration utility by referring to source Elasticsearch connection properties for migrating Elasticsearch data and the source API Gateway installation directory for migrating the IS configuration data. If the source and target Elasticsearch instances are running in the same network and can talk to each other then this method is preferred.
+### Migration for standalone
 
-Note: If the source and target Elasticsearch instances are running in different network and not able to talk to each other then Contact Software AG support team for further assistance.
+Please refer [Migrating standalone API Gateway](Migrating%20standalone%20API%20Gateway/)
 
-### Migration using direct mode for standalone
+### Migration for cluster
 
-Please refer [Migrating standalone API Gateway using Direct mode](Migrating%20standalone%20API%20Gateway%20using%20Direct%20mode/)
-
-### Migration using direct mode for cluster
-
-Please refer [Migrating API Gateway cluster using Direct mode](Migrating%20API%20Gateway%20cluster%20using%20Direct%20mode/)
+Please refer [Migrating API Gateway cluster](Migrating%20API%20Gateway%20cluster/)
 
 ### General Migration configuration
 
@@ -84,11 +80,17 @@ During migration, if there is any problem in the execution or any of the handler
 
 **Note (Before running clean command):** If the <TARGET> is 10.5 and the clean command is executed in a cluster, go to <SOURCE>\\InternalDataStore\\config and configure path.repo property in elasticsearch.yml file for all the nodes. Make sure that the path.repo is a shared network folder and should be accessible for all the Elasticsearch nodes in the cluster. 
 
-Go to _<TARGET>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_ and run the below command.
+Go to _<TARGET>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_
+
+For Managed Elasticsearch run clean command with backup option false
+
+_**$> migrate.bat clean -backup false**_
+
+else run clean command with backup option true which is default.
 
 _**$> migrate.bat clean**_
 
-**Note:** Since this command removes all the assets from data store, make sure that the target data store is properly configured in config.properties which is located at <TARGET>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\config\\resources\\elasticsearch.
+>**Note:** Since this command removes all the assets from data store, make sure that the target data store is properly configured in config.properties which is located at <TARGET>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\config\\resources\\elasticsearch.
 
 References
 ----------

@@ -51,6 +51,9 @@ Go to **_\<SOURCE\>\\InternalDataStore\\config_** and configure _**path.repo**_ 
 
 ### Step 2: Configure reindex.remote.whitelist in target Elasticsearch instances
 
+> **Note:** Remote reindexing configuration can be skipped for Managed Elasticsearch
+
+
 Configure the below property in all the target Elasticsearch instance's _elasticsearch.yml_ file located at _**\<TARGET\>\\InternalDataStore\\config**_ for re-indexing the data in the target Elasticsearch. The below property helps to copy the documents from \<SOURCE\> to \<TARGET\> Elasticsearch instances.
 
 ##### elasticsearch.yml
@@ -225,7 +228,13 @@ During migration, if there is any problem in the execution or any of the handler
 
 > **Note (Before running clean command):** If the \<TARGET\> is 10.5 and the clean command is executed in a cluster, go to \<SOURCE\>\\InternalDataStore\\config and configure path.repo property in elasticsearch.yml file for all the nodes. Make sure that the path.repo is a shared network folder and should be accessible for all the Elasticsearch nodes in the cluster. 
 
-Go to _\<TARGET\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_ and run the below command.
+Go to _\<TARGET\>\\IntegrationServer\\instances\\default\\packages\\WmAPIGateway\\bin\\migrate_
+
+For Managed Elasticsearch run clean command with backup option false
+
+_**$> migrate.bat clean -backup false**_
+
+else run clean command with backup option true which is default.
 
 _**$> migrate.bat clean**_
 
