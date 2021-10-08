@@ -8,10 +8,8 @@ Migrating to API Gateway (10.3 and above) 
 
 API Gateway supports migration of data from older version to newer versions. In this tutorial we will go through the following migration types in detail.
 
-*   Migration using direct mode for standalone
-*   Migration using direct mode for cluster
-*   Migration using backup mode for standalone
-*   Migration using backup mode for cluster 
+*   Migration for standalone
+*   Migration for cluster
 
 **[Read on...](API%20Gateway%20migration%20steps%20-%20Simplified/)**
 
