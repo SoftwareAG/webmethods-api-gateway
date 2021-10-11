@@ -488,8 +488,7 @@ For Elasticsearch monitoring, no plugins are shipped along with API Gateway but 
 
 1.  [Elastic-HQ](http://www.elastichq.org/)
 2.  [Elasticsearch-kopf](http://elasticsearch-kopf/)
-3.  [Bigdesk](http://bigdesk.org/)
-4.  [Elasticsearch-head](https://github.com/mobz/elasticsearch-head)
+3.  [Elasticsearch-head](https://github.com/mobz/elasticsearch-head)
 
 ### Across Data Centre deployment 
 
