@@ -105,7 +105,7 @@ View APIGWUtility log file
 
 ### Configure the log location	
 
-Since this log file is present inside the container, this log file will be removed when we remove the container. If you want to persist the log file outside the container, then include the option -logFileLocation while executing the command. Sample given below,
+Since this log file is present inside the container, this log file will be removed when we remove the container. If you want to persist the log file outside the container, then include the option -logFileLocation and mount the docker volume while executing the command. Sample given below,
 
 	docker run -e apigw_elasticsearch_hosts=daeyaix1bvt01.eur.ad.sag:9240 apigwutil -c list backup -logFileLocation \utils\logs
 	
