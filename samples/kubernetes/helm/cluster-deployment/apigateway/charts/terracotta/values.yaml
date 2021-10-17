@@ -24,12 +24,12 @@ port:              9410
 syncPort:          9430
 
 
-terracottaImage:   "specify-a-terracotta-image"
-terracottaTag:     "specify-a-terracotta-tag"
+terracottaImage:   "store/softwareag/bigmemorymax-server"
+terracottaTag:     "4.3.8"
 
 tcConfig:          "tc-config"
 
-tcLicenseConfig:   "tc-licencse-config"
+tcLicenseConfig:   "tc-license-config"
 tcLicenseFilename: "terracotta-license.key"
 
 
