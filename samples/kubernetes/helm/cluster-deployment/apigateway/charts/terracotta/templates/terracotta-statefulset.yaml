@@ -61,7 +61,7 @@ spec:
           subPath:   tc-config.xml
           readOnly:  false
         - name: license-volume
-          mountPath: /license/license.key
+          mountPath: /licenses/license.key
           subPath:   terracotta-license.key
           readOnly:  false
       imagePullSecrets:
