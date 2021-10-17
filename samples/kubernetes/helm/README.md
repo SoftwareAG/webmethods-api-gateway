@@ -11,3 +11,11 @@ be started by the Helm chart.
 The [cluster-deployment](cluster-deployment) folder provides a Helm chart that will startup an API Gateway cluster together with an external
 ElasticSearch cluster, a separate Kibana instance, and a Terracotta Server (active/passive setup). The chart is supposed to provide a quick
 start for trial and demo purposes, and it can of course also serve as a first step when setting up a production scenario.
+
+
+# Peer-to-peer cluster deployment
+
+Since version v10.11 API Gateways has the option to run as a peer-to-peer cluster, which in particular means there is no need to run
+an additional Terracotta Server runtime. The [peer-to-peer-cluster-deployment](peer-to-peer-cluster-deployment) folder provides a Helm chart that will
+startup an API Gateway peer-to-peer cluster together with an external ElasticSearch cluster, and a separate Kibana instance. The chart is supposed to provide a quick
+start for trial and demo purposes, and it can of course also serve as a first step when setting up a production scenario.
