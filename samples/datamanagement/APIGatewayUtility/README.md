@@ -14,7 +14,7 @@ There are two ways to build your docker image for API Gateway Utility,
 
 1. Checkout this directory webmethods-api-gateway/samples/datamanagement/APIGatewayUtility/ in your local machine.
 
-2. Run the below command to build the docker image
+2. Run the below command in the checkout directory from step 1 to build the docker image
 
     ``` docker build . -t <tag_name> ```
 	
@@ -32,11 +32,11 @@ First we have to create API Gateway image for locally installed API Gateway. To 
 
 1. Once the API Gateway image is created by following the steps mentioned in the above article, Checkout this github directory webmethods-api-gateway/samples/datamanagement/APIGatewayUtility/ in your local machine. 
 
-2. Edit the file 'Dockerfile' and replace the image name on the first line with the API Gateway image that you have created in the previous step.
+2. In the checkout folder, edit the file 'Dockerfile' and replace the image name on the first line with the API Gateway image that you have created in the previous step.
 
 	``` FROM [API_GATEWAY_IMAGE_NAME] ```
  
-3. Run the below command to build the docker image
+3. Run the below command in the checkout directory to build the docker image
 
     ``` docker build . -t <tag_name> ```
 	
