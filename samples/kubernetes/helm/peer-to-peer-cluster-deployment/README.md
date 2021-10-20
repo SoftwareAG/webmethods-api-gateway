@@ -10,7 +10,6 @@ In order to setup an API Gateway cluster:
 
 By default the chart pulls these images:
 * the API Gateway trial image from [Dockerhub](https://hub.docker.com/_/softwareag-apigateway),
-* the Terracotta Bigmemory Max trial image from [Dockerhub](https://hub.docker.com/_/software-ag-bigmemory-max),
 * the open source images for ElasticSearch and Kibana from the [ElasticSearch Docker repository](https://www.docker.elastic.co/).
 
 ## Technical details
@@ -19,17 +18,17 @@ This section explains some technical details, in case it is intended to modify o
 
 ### Chart layout
 
-The top level `apigateway` chart depends on the subcharts `elasticsearchkibana` and `terracotta` which encapsulate the Kubernetes
-manifests for ElasticSearch/Kibana and Terracotta, respectively. With this separation it should be easier to exchange the setup
+The top level `apigateway` chart depends on the subchart `elasticsearchkibana` which encapsulates the Kubernetes
+manifests for ElasticSearch/Kibana. With this separation it should be easier to exchange the setup
 of one of the components if desired.
 
 The top level chart can access values from the subcharts. In Helm this is achieved by prefixing the value's name from the subchart `values.yaml`
-with the subchart name. For example, the API Gateway deployment addresses the Terracotta port as `.Values.terracotta.port`.
+with the subchart name. For example, the API Gateway deployment addresses the ElasticSearch port as `.Values.elasticsearchkibana.elasticSearchPort`.
 
 ### License files
 
-As described in the API Gateway [chart readme](apigateway/README.md) licenses first of all need to be provided as Kubernetes configmaps.
-The configmaps are then used by volume mappings to override the default license file location within the Docker image. Thus any
+As described in the API Gateway [chart readme](apigateway/README.md) the license first of all needs to be provided as Kubernetes configmap.
+The configmap is then used by a volume mapping to override the default license file location within the Docker image. Thus any
 existing default or trial license will be overwritten.
 
 For example, it looks like this for the API Gateway license:
@@ -61,9 +60,6 @@ spec:
 The API Gateway configuration is provided using externalized configuration files. The master configuration file `config-sources.yml` and the 
 externalized configuration files are defined in a configmap, which in turn is referenced by a volume mapping which overrides the corresponding
 default folder within the Docker image.
-
-There is one exception to this: The Terracotta cluster name and cluster URLs are defined as environment variables directly inside the API Gateway
-deployment.
 
 ### Init containers
 

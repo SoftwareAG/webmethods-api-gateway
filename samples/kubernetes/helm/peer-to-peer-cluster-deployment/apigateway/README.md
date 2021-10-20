@@ -4,11 +4,10 @@ This chart sets up an API Gateway cluster which by default consists of
 * 3 API Gateway cluster nodes,
 * an ElasticSearch cluster with 3 nodes,
 * 2 Kibana nodes,
-* a Terracotta cluster with 2 nodes,
 * 1 Ingress providing public access to the API Gateay UI and runtime ports.
 
-The chart is organized as a top-level chart for API Gateway itself, and subcharts for
-ElasticSearch/Kibana and Terracotta. The corresponding `values.yaml` files contain
+The chart is organized as a top-level chart for API Gateway itself, and a subchart for
+ElasticSearch/Kibana. The corresponding `values.yaml` files contain
 default values where possible. In some cases there is no meaningful default, these values
 need to be injected from outside, see the [Required Values](#required-values) section below.
 
@@ -22,19 +21,18 @@ helm install <your-release-name> apigateway -f my-values.yaml
 
 ## Licenses
 
-Both API Gateway and Terracotta require license files. These licenses are supposed to be
-provided as configmaps.
+API Gateway requires a license file. These license is supposed to be
+provided as configmap.
 
-Hence before running `helm install` create the configmaps:
+Hence before running `helm install` create the configmap:
 
 ```
-kubectl create configmap tc-license-config --from-file=terracotta-license.key=<your path to terracotta license file>
 kubectl create configmap apigw-license-config --from-file=licenseKey.xml=<your path to API Gateway license file>
 ```
 
 ## Image Pull Secret
 
-Provide an image pull secret for the registry where the desired images for API Gateway, Terracotta BigMemory Max,
+Provide an image pull secret for the registry where the desired images for API Gateway,
 ElasticSearch, and Kibana are to be pulled from.
 
 ```
@@ -175,6 +173,4 @@ myprefix-elasticsearch-ss-0           1/1     Running   0          20m
 myprefix-elasticsearch-ss-1           1/1     Running   0          19m
 myprefix-elasticsearch-ss-2           1/1     Running   0          19m
 myprefix-kibana-ss-0                  1/1     Running   0          20m
-myprefix-terracotta-ss-0              1/1     Running   0          20m
-myprefix-terracotta-ss-1              1/1     Running   0          19m
 ```

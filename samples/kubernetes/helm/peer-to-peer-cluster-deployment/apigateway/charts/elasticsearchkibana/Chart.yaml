@@ -16,30 +16,12 @@
 #  *   limitations under the License.
 #  *
 #  */
+apiVersion: v2
+name: elasticsearchkibana
+description: Helm chart for ElasticSearch in the context of an API Gateway cluster.
 
+type: application
 
-statefulsetName:   "terracotta-ss"
-serviceName:       "terracotta-headless-service"
-port:              9410
-syncPort:          9430
+version: 0.1.0
 
-
-terracottaImage:   "store/softwareag/bigmemorymax-server"
-terracottaTag:     "4.3.9"
-
-tcConfig:          "tc-config"
-
-tcLicenseConfig:   "tc-license-config"
-tcLicenseFilename: "terracotta-license.key"
-
-
-resources:
-  
-  terracottaContainer:
-    requests:
-      cpu: 500m
-      memory: 2Gi
-    limits:
-      # use a high cpu limit to avaoid the container being throttled
-      cpu: 8
-      memory: 4Gi
+appVersion: 1.0.0

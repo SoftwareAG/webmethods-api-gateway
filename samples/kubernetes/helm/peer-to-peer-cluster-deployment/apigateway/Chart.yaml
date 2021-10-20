@@ -16,30 +16,8 @@
 #  *   limitations under the License.
 #  *
 #  */
-
-
-statefulsetName:   "terracotta-ss"
-serviceName:       "terracotta-headless-service"
-port:              9410
-syncPort:          9430
-
-
-terracottaImage:   "store/softwareag/bigmemorymax-server"
-terracottaTag:     "4.3.9"
-
-tcConfig:          "tc-config"
-
-tcLicenseConfig:   "tc-license-config"
-tcLicenseFilename: "terracotta-license.key"
-
-
-resources:
-  
-  terracottaContainer:
-    requests:
-      cpu: 500m
-      memory: 2Gi
-    limits:
-      # use a high cpu limit to avaoid the container being throttled
-      cpu: 8
-      memory: 4Gi
+apiVersion: v1
+appVersion: "1.0"
+description: APIGateway Helm chart for Kubernetes
+name: api-gateway
+version: 0.1.0

@@ -17,40 +17,40 @@
 #  *
 #  */
 
-global:
-  app:                             apigateway
-  integrationServerInstanceName:   default
-  curlImage:                       "curlimages/curl"
-  trialUsage:                      false
-  registryCredentialsName:         registry-credentials
+elasticSearchStatefulsetName:   "elasticsearch-ss"
+elasticSearchService:           "elasticsearch-service"
+elasticSearchPort:              9200
+elasticSearchPublishPort:       9300
 
-apigwClusterSize:   3
+elasticSearchDiscoveryService:  "elasticsearch-discovery-service"
 
-apigwImage:            "store/softwareag/apigateway-trial"
-apigwTag:              "10.11"
+kibanaService:                  "kibana-service"
+kibanaPort:                     9405
 
-apigwUiService:        "apigw-ui-svc"
-apigwRtService:        "apigw-rt-svc"
-
-apigwRuntimePort:      5555
-apigwUiPort:           9072
-
-apigwConfigmap:        "apigw-config"
-nginxConfigmap:        "nginx-config"
-
-apigwLicenseConfig:    "apigw-license-config"
-apigwLicenseFilename:  "licenseKey.xml"
-
-k8sClusterSuffix:      "specify-the-cluster-suffix-for-ingress-urls"
+elasticSearchConfigmap:         "es-config"
+kibanaConfigmap:                "kibana-config"
 
 
-externalLoadBalancer:  false
-nginxService:          "nginx-service"
+elasticImage:                   "docker.elastic.co/elasticsearch/elasticsearch"
+kibanaImage:                    "docker.elastic.co/kibana/kibana"
+elasticTag:                     "7.13.0"
+kibanaTag:                      "7.13.0"
+
+
+clusterSize:                    3
+initialMasterCount:             3
+kibanaCount:                    2
+
+storageClassName:               ""
+storageRequest:                 50Gi
+
+
+simpleLinuxImage:               "busybox"
 
 
 resources:
   
-  apigwInitContainer:
+  esInitContainer:
     requests:
       cpu: 100m
       memory: 50Mi
@@ -58,16 +58,24 @@ resources:
       cpu: 1
       memory: 1Gi
   
-  apigwContainer:
+  esContainer:
     requests:
       cpu: 500m
-      memory: 4Gi
+      memory: 2Gi
     limits:
       # use a high cpu limit to avaoid the container being throttled
       cpu: 8
-      memory: 8Gi
+      memory: 4Gi
   
-  nginxContainer:
+  kibanaInitContainer:
+    requests:
+      cpu: 100m
+      memory: 50Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+  
+  kibanaContainer:
     requests:
       cpu: 500m
       memory: 2Gi

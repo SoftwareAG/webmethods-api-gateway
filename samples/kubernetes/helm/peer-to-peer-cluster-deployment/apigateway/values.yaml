@@ -24,7 +24,7 @@ global:
   trialUsage:                      false
   registryCredentialsName:         registry-credentials
 
-apigwClusterSize:   3
+apigwClusterSize:   1
 
 apigwImage:            "store/softwareag/apigateway-trial"
 apigwTag:              "10.11"
@@ -42,6 +42,9 @@ apigwLicenseConfig:    "apigw-license-config"
 apigwLicenseFilename:  "licenseKey.xml"
 
 k8sClusterSuffix:      "specify-the-cluster-suffix-for-ingress-urls"
+
+clusterDiscoveryAccount: "cluster-discovery-sa"
+clusterDiscoveryRole:    "cluster-discovery-role"
 
 
 externalLoadBalancer:  false

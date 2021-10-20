@@ -1,3 +1,4 @@
+---
 # /*
 #  * Copyright (c) 2021 Software AG, Darmstadt, Germany and/or its licensors
 #  *
@@ -17,29 +18,18 @@
 #  *
 #  */
 
-
-statefulsetName:   "terracotta-ss"
-serviceName:       "terracotta-headless-service"
-port:              9410
-syncPort:          9430
-
-
-terracottaImage:   "store/softwareag/bigmemorymax-server"
-terracottaTag:     "4.3.9"
-
-tcConfig:          "tc-config"
-
-tcLicenseConfig:   "tc-license-config"
-tcLicenseFilename: "terracotta-license.key"
-
-
-resources:
-  
-  terracottaContainer:
-    requests:
-      cpu: 500m
-      memory: 2Gi
-    limits:
-      # use a high cpu limit to avaoid the container being throttled
-      cpu: 8
-      memory: 4Gi
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "apigateway.customPrefix" . }}{{ .Values.kibanaConfigmap }}
+  labels:
+    {{- include "apigateway.labels" . | nindent 4 }}
+data:
+  kibana.yml: |
+    server.name: kibana-ss-0
+    server.host: "0.0.0.0"
+    server.port: {{ int .Values.kibanaPort }}
+    elasticsearch.hosts: [ "http://{{ include "apigateway.customPrefix" . }}{{ .Values.elasticSearchService }}:{{ int .Values.elasticSearchPort }}" ]
+    console.enabled: false
+    server.basePath: "/apigatewayui/dashboardproxy"
+    kibana.index: "gateway_{{ .Values.global.integrationServerInstanceName }}_dashboard"
