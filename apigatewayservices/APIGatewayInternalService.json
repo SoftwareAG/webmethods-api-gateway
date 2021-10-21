@@ -1,0 +1,168 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Services in this category work on identified application.  API Gateway will first try to identify the application based on identifiers such as API Key, OAuth token, ip address etc (as defined in the Application) and then executes the API for that application.",
+    "version" : "10.11",
+    "title" : "API Gateway Internal Service"
+  },
+  "host" : "localhost:5555",
+  "basePath" : "/{gateway}",
+  "schemes" : [ "http" ],
+  "consumes" : [ "plain/text" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/security/exchangeIDToken" : {
+      "post" : {
+        "description" : "Generate an access token for the given ID Token",
+        "operationId" : "exchangeIDToken",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of an application that is to be created in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ServiceInput"
+          },
+          "x-examples" : {
+            "application/json" : "{\n\t\"idToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ2M2ZlNDgwYzNjNTgzOWJiYjE1ODYxZTA4YzMyZDE4N2ZhZjlhNTYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDc0MDg3MTgxOTIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDc0MDg3MTgxOTIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTQ5MjgwMjY5NDg0MTkzNTc4MzciLCJlbWFpbCI6Imt1cHBhbi5kaGFybWFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJUQzJydnRBRnVRRmdnTHhNQVpVTEJ3IiwiaWF0IjoxNTQzOTkxOTAwLCJleHAiOjE1NDM5OTU1MDB9.ONHxCJ-U8Iz6mk2Ybs9REWxp4y97QTVIw6SikgiYcseSBcDix5o_lu4x-j-tl2E4v5OOO29t9wMXFDpQ9KxlEm_s4kAmDdnVc-v_m1OTkYilzGdapwcWaw1xCGA17f7X4FiaqgUQlATYDKL27hEZS4hl1t38Okq-rJl8Gi41kWB2XMcddcNjV19RE_Vu8nX1sSpi24CzddY8-yO9xvvOAKlztdP718D3s10RjGkUfYlorXdVllh-9COENkW0oODTYIU5wyZCYPXlf_SXPZp-9MvIDl_cva_eB-FWdbnbU_vKdUN6NmHZzQ1DWVTRLO1G9vSDzRG8jWavasBUpy_OlA\",\n\t\"gatewayScopes\": [\"okta-server:inventory\"],\n\t\"expiry\": 3600\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the access token has been successfully generated.",
+            "examples" : {
+              "application/json" : "{\n    \"accessToken\": \"eyJraWQiOiJzc29zIiwiYWxnIjoiUlMyNTYifQ.eyJzY3AiOlsiaW52ZW50b3J5Il0sInVpZCI6IjExNDkyODAyNjk0ODQxOTM1NzgzNyIsInN1YiI6IjQwNzQwODcxODE5Mi5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF1ZCI6InRpbWV0cmF2ZWxzIiwiYXpwIjoiODAzYjdmMTYtNDVjNi00YjFjLWJlMjYtNGRhMDUzZDQwNjQwIiwiaXNzIjoidGVzdC1nYXRld2F5LWlzc3VlciIsImV4cCI6MTU0Mzk5NjExNCwiaWF0IjoxNTQzOTkyNTE1LCJqdGkiOiIzZGQ5M2FmOC0yMWVmLTQyMDYtYTBiNy01MTg2NDUxMTM0YWYifQ.Dty2iLk_DJRZLU0CYhb7Opp_sINP7yRVkgAvafYGrSzDEeWiOXDv_jSO93iQV4TCdU20R5WjypC0HY_xd05VkqozFP0I5irZGYqmVnm8rFonzLXmHBx6JZZdm4Xq-Bq2rTSe08QjOGhd5Xa00FlX2c8-SjYfx3p2wtbBjm2-wsgCqLNCc8m_42VRXpukcpuliZr8dRlrqBU7hUfPHpe-xbn6rsmYPhiS9c9Lau3VK83h2uaj6A6nwq1E2qbG23F9eboZrpjvrSg431ZlPE-jRVy9vNX6n7eIiSLruFwlNwyKnOSuTelzYz__m5mdILaEVTjwjidgI2e-ctdR-4jQWA\",\n    \"expiresIn\": 3600,\n    \"scopes\": \"inventory\",\n    \"tokenType\": \"Bearer\"\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/ServiceOutput"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that access token cannot be generated due to the reason specified in the response"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        }
+      }
+    },
+    "/security/getJsonWebToken" : {
+      "post" : {
+        "description" : "Generate JWT token with custom claims supplied in the request",
+        "operationId" : "getJsonWebToken-New",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "This parameter describes the request payload of an application that is to be created in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/JWTServiceInput"
+          },
+          "x-examples" : {
+            "application/json" : "{\n\t\"claimsSet\": {\n\t\t\"first_name\": \"Bob\",\n\t\t\"isAdmin\": true\n\t}\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that a JWT has been successfully created.",
+            "examples" : {
+              "application/json" : "{\n    \"expiresIn\": 600,\n    \"tokenType\": \"Bearer\",\n    \"accessToken\": \"eyJraWQiOiJzc29zIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI4MDNiN2YxNi00NWM2LTRiMWMtYmUyNi00ZGEwNTNkNDA2NDAiLCJhdWQiOiJzd2FnZ2VyLWRvYy1hcHAiLCJpc3MiOiJ0ZXN0LWdhdGV3YXktaXNzdWVyIiwiaXNBZG1pbiI6dHJ1ZSwiZXhwIjoxNTQzOTkyMDQ1LCJmaXJzdF9uYW1lIjoiQm9iIiwiaWF0IjoxNTQzOTkxNDQ1fQ.FfV4XxEbsrCgpJCZ1GOLbnRYilvCkFfsLMcm00Xxt4ujNcNY7j-_dUjQSxgn7B1njnQ3obEVe-5UkgYBT8cnnrrJtEjjjfSiY40VECrdqm1QopCx04I71hz2qWhxKphSgk6KkZVioyqme0U5LO9JAu-kw1s1IBPmRWa3iBobWAbugnw8tz5J6T3LiwWVj32dvVtJmc9boq3fkndHmRTcQuk9V6uwArUXxU78v5P92SVjZOyQRGex46FOGqPjNauCkAOno8a3oA5qjIGeFJcQ6eOddFdPc1iZ6SwCCBpAbR_qF1LbPHtG0EXE8buI_rTS2zJBn2_d9cjFkLvL3HBYxQ\"\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/JWTServiceOutput"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that jwt cannot be generated due to the reason specified in the response"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Basic" : {
+      "description" : "API Gateway Administrator",
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "JWTServiceInput" : {
+      "type" : "object",
+      "properties" : {
+        "claimsSet" : {
+          "type" : "object",
+          "description" : "key value pairs in the form of json map",
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      }
+    },
+    "JWTServiceOutput" : {
+      "type" : "object",
+      "properties" : {
+        "accessToken" : {
+          "type" : "string"
+        },
+        "expiresIn" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "token expiry"
+        },
+        "tokenType" : {
+          "type" : "string",
+          "description" : "type of this token"
+        }
+      }
+    },
+    "ServiceInput" : {
+      "type" : "object",
+      "properties" : {
+        "expiry" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "preferred expiry of the access token"
+        },
+        "gatewayScopes" : {
+          "type" : "array",
+          "description" : "array of gateway scopes",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "idToken" : {
+          "type" : "string",
+          "description" : "id token"
+        }
+      }
+    },
+    "ServiceOutput" : {
+      "type" : "object",
+      "properties" : {
+        "accessToken" : {
+          "type" : "string",
+          "description" : "generated access token"
+        },
+        "expiresIn" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "token expiry"
+        },
+        "scopes" : {
+          "type" : "string",
+          "description" : "scopes for which the access token is issued"
+        },
+        "tokenType" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

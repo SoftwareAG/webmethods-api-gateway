@@ -1,0 +1,292 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API Gateway Document Management Service allows you to store/manage the Documents associated to API in the API Gateway. Any user with the 'Manage APIs' functional privilege can manage the documents in the API Gateway. By default, the users who are part of either API-Gateway-Providers or API-Gateway-Administrators groups will have this privilege.\n\nAny document can be stored and attached to any of these APIs types - REST APIs, SOAP APIs, WebSocket APIs and OData APIs. ",
+    "version" : "10.11",
+    "title" : "API Gateway Document Management Service"
+  },
+  "host" : "localhost:5555",
+  "basePath" : "/rest/apigateway",
+  "schemes" : [ "http" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/documents" : {
+      "post" : {
+        "operationId" : "storeDocument",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "The request payload to store the document in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Document"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\t\"displayName\": \"APIGatewayPortsInfoDocument\",\r\n\t\"fileName\": \"APIGatewayPorts.json\",\r\n\t\"fileContent\": \"data:;base64,ew0KICAic3dhZ2dlciIgOiAiMi4wIiwNCiAgImluZm8iIDogew0KICAgICJkZXNjcmlwdGlvbiIgOiAiVGhpcyBzd2FnZ2VyIGRvYyBjb250YWlucyBBUEkgRGVmaW5pdGlvbiBvZiB0aGUgcG9ydHMgQ1JVRCBvcGVyYXRpb25zLiIsDQogICAgInZlcnNpb24iIDogIjEwLjEiLA0KICAgICJ0aXRsZSIgOiAiUG9ydHMgY29uZmlndXJhdGlvbnMuIg0KICB9LA0KICAiaG9zdCIgOiAibG9jYWxob3N0OjU1NTUiLA0KICAiYmFzZVBhdGgiIDogIi9yZXN0L2FwaWdhdGV3YXkiLA0KICAic2NoZW1lcyIgOiBbICJodHRwIiBdLA0KICAiY29uc3VtZXMiIDogWyAicGxhaW4vdGV4dCIgXSwNCiAgInByb2R1Y2VzIiA6IFsgImFwcGxpY2F0aW9uL2pzb24iIF0sDQogICJwYXRocyIgOiB7DQogICAgIi9wb3J0cyIgOiB7DQogICAgICAicG9zdCIgOiB7DQogICAgICAgICJvcGVyYXRpb25JZCIgOiAiY3JlYXRlUG9ydCIsDQogICAgICAgICJjb25zdW1lcyIgOiBbICJhcHBsaWNhdGlvbi9qc29uIiBdLA0KICAgICAgICAicHJvZHVjZXMiIDogWyAiYXBwbGljYXRpb24vanNvbiIgXSwNCiAgICAgICAgInBhcmFtZXRlcnMiIDogWyB7DQogICAgICAgICAgImluIiA6ICJib2R5IiwNCiAgICAgICAgICAibmFtZSIgOiAiYm9keSIsDQogICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICJwb3J0IHBheWxvYWQiLA0KICAgICAgICAgICJyZXF1aXJlZCIgOiB0cnVlLA0KICAgICAgICAgICJzY2hlbWEiIDogew0KICAgICAgICAgICAgIiRyZWYiIDogIiMvZGVmaW5pdGlvbnMvUG9ydCINCiAgICAgICAgICB9DQogICAgICAgIH0gXSwNCiAgICAgICAgInJlc3BvbnNlcyIgOiB7DQogICAgICAgICAgIjIwMSIgOiB7DQogICAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIkNyZWF0ZWQiLA0KICAgICAgICAgICAgInNjaGVtYSIgOiB7DQogICAgICAgICAgICAgICIkcmVmIiA6ICIjL2RlZmluaXRpb25zL1BvcnQiDQogICAgICAgICAgICB9DQogICAgICAgICAgfSwNCiAgICAgICAgICAiNDAwIiA6IHsNCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiQmFkIHJlcXVlc3QiDQogICAgICAgICAgfSwNCiAgICAgICAgICAiNDAxIiA6IHsNCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiQWNjZXNzIERlbmllZCINCiAgICAgICAgICB9DQogICAgICAgIH0sDQogICAgICAgICJzZWN1cml0eSIgOiBbIHsNCiAgICAgICAgICAiQmFzaWMiIDogWyBdDQogICAgICAgIH0gXQ0KICAgICAgfSwNCiAgICAgICJwdXQiIDogew0KICAgICAgICAib3BlcmF0aW9uSWQiIDogInVwZGF0ZVBvcnQiLA0KICAgICAgICAiY29uc3VtZXMiIDogWyAiYXBwbGljYXRpb24vanNvbiIgXSwNCiAgICAgICAgInByb2R1Y2VzIiA6IFsgImFwcGxpY2F0aW9uL2pzb24iIF0sDQogICAgICAgICJwYXJhbWV0ZXJzIiA6IFsgew0KICAgICAgICAgICJpbiIgOiAiYm9keSIsDQogICAgICAgICAgIm5hbWUiIDogImJvZHkiLA0KICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiIiwNCiAgICAgICAgICAicmVxdWlyZWQiIDogdHJ1ZSwNCiAgICAgICAgICAic2NoZW1hIiA6IHsNCiAgICAgICAgICAgICIkcmVmIiA6ICIjL2RlZmluaXRpb25zL1BvcnQiDQogICAgICAgICAgfQ0KICAgICAgICB9IF0sDQogICAgICAgICJyZXNwb25zZXMiIDogew0KICAgICAgICAgICIyMDAiIDogew0KICAgICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiLA0KICAgICAgICAgICAgInNjaGVtYSIgOiB7DQogICAgICAgICAgICAgICIkcmVmIiA6ICIjL2RlZmluaXRpb25zL1BvcnQiDQogICAgICAgICAgICB9DQogICAgICAgICAgfSwNCiAgICAgICAgICAiNTAwIiA6IHsNCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiIg0KICAgICAgICAgIH0sDQogICAgICAgICAgIjQwMSIgOiB7DQogICAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIiINCiAgICAgICAgICB9LA0KICAgICAgICAgICI0MDAiIDogew0KICAgICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiDQogICAgICAgICAgfQ0KICAgICAgICB9LA0KICAgICAgICAic2VjdXJpdHkiIDogWyB7DQogICAgICAgICAgIkJhc2ljIiA6IFsgXQ0KICAgICAgICB9IF0NCiAgICAgIH0sDQogICAgICAiZGVsZXRlIiA6IHsNCiAgICAgICAgIm9wZXJhdGlvbklkIiA6ICJkZWxldGVQb3J0IiwNCiAgICAgICAgImNvbnN1bWVzIiA6IFsgImFwcGxpY2F0aW9uL2pzb24iIF0sDQogICAgICAgICJwcm9kdWNlcyIgOiBbICJhcHBsaWNhdGlvbi9qc29uIiBdLA0KICAgICAgICAicGFyYW1ldGVycyIgOiBbIHsNCiAgICAgICAgICAibmFtZSIgOiAibGlzdGVuZXJLZXkiLA0KICAgICAgICAgICJpbiIgOiAicXVlcnkiLA0KICAgICAgICAgICJyZXF1aXJlZCIgOiB0cnVlLA0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciLA0KICAgICAgICAgICJ4LWV4YW1wbGUiIDogIkhUVFBMaXN0ZW5lckA1NTU1Ig0KICAgICAgICB9LCB7DQogICAgICAgICAgIm5hbWUiIDogInBrZyIsDQogICAgICAgICAgImluIiA6ICJxdWVyeSIsDQogICAgICAgICAgInJlcXVpcmVkIiA6IHRydWUsDQogICAgICAgICAgInR5cGUiIDogInN0cmluZyIsDQogICAgICAgICAgIngtZXhhbXBsZSIgOiAiV21Sb290Ig0KICAgICAgICB9IF0sDQogICAgICAgICJyZXNwb25zZXMiIDogew0KICAgICAgICAgICI0MDEiIDogew0KICAgICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiDQogICAgICAgICAgfSwNCiAgICAgICAgICAiMjA0IiA6IHsNCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiIg0KICAgICAgICAgIH0sDQogICAgICAgICAgIjQwNCIgOiB7DQogICAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIiINCiAgICAgICAgICB9DQogICAgICAgIH0sDQogICAgICAgICJzZWN1cml0eSIgOiBbIHsNCiAgICAgICAgICAiQmFzaWMiIDogWyBdDQogICAgICAgIH0gXQ0KICAgICAgfQ0KICAgIH0sDQogICAgIi9wb3J0cy9lbmFibGUiIDogew0KICAgICAgInB1dCIgOiB7DQogICAgICAgICJvcGVyYXRpb25JZCIgOiAiZW5hYmxlUG9ydCIsDQogICAgICAgICJjb25zdW1lcyIgOiBbICJhcHBsaWNhdGlvbi9qc29uIiBdLA0KICAgICAgICAicHJvZHVjZXMiIDogWyAiYXBwbGljYXRpb24vanNvbiIgXSwNCiAgICAgICAgInBhcmFtZXRlcnMiIDogWyB7DQogICAgICAgICAgImluIiA6ICJib2R5IiwNCiAgICAgICAgICAibmFtZSIgOiAiYm9keSIsDQogICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiLA0KICAgICAgICAgICJyZXF1aXJlZCIgOiB0cnVlLA0KICAgICAgICAgICJzY2hlbWEiIDogew0KICAgICAgICAgICAgIiRyZWYiIDogIiMvZGVmaW5pdGlvbnMvUG9ydEVuYWJsZURpc2FibGUiDQogICAgICAgICAgfQ0KICAgICAgICB9IF0sDQogICAgICAgICJyZXNwb25zZXMiIDogew0KICAgICAgICAgICIyMDAiIDogew0KICAgICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiLA0KICAgICAgICAgICAgInNjaGVtYSIgOiB7DQogICAgICAgICAgICAgICIkcmVmIiA6ICIjL2RlZmluaXRpb25zL1BvcnRFbmFibGVEaXNhYmxlIg0KICAgICAgICAgICAgfQ0KICAgICAgICAgIH0sDQogICAgICAgICAgIjUwMCIgOiB7DQogICAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIiINCiAgICAgICAgICB9LA0KICAgICAgICAgICI0MDEiIDogew0KICAgICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiDQogICAgICAgICAgfSwNCiAgICAgICAgICAiNDAwIiA6IHsNCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiIg0KICAgICAgICAgIH0NCiAgICAgICAgfSwNCiAgICAgICAgInNlY3VyaXR5IiA6IFsgew0KICAgICAgICAgICJCYXNpYyIgOiBbIF0NCiAgICAgICAgfSBdDQogICAgICB9DQogICAgfSwNCiAgICAiL3BvcnRzL2Rpc2FibGUiIDogew0KICAgICAgInB1dCIgOiB7DQogICAgICAgICJvcGVyYXRpb25JZCIgOiAiZGRpc2FibGVQb3J0IiwNCiAgICAgICAgImNvbnN1bWVzIiA6IFsgImFwcGxpY2F0aW9uL2pzb24iIF0sDQogICAgICAgICJwcm9kdWNlcyIgOiBbICJhcHBsaWNhdGlvbi9qc29uIiBdLA0KICAgICAgICAicGFyYW1ldGVycyIgOiBbIHsNCiAgICAgICAgICAiaW4iIDogImJvZHkiLA0KICAgICAgICAgICJuYW1lIiA6ICJib2R5IiwNCiAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIiIsDQogICAgICAgICAgInJlcXVpcmVkIiA6IHRydWUsDQogICAgICAgICAgInNjaGVtYSIgOiB7DQogICAgICAgICAgICAiJHJlZiIgOiAiIy9kZWZpbml0aW9ucy9Qb3J0RW5hYmxlRGlzYWJsZSINCiAgICAgICAgICB9DQogICAgICAgIH0gXSwNCiAgICAgICAgInJlc3BvbnNlcyIgOiB7DQogICAgICAgICAgIjIwMCIgOiB7DQogICAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIiIsDQogICAgICAgICAgICAic2NoZW1hIiA6IHsNCiAgICAgICAgICAgICAgIiRyZWYiIDogIiMvZGVmaW5pdGlvbnMvUG9ydEVuYWJsZURpc2FibGUiDQogICAgICAgICAgICB9DQogICAgICAgICAgfSwNCiAgICAgICAgICAiNTAwIiA6IHsNCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiIg0KICAgICAgICAgIH0sDQogICAgICAgICAgIjQwMSIgOiB7DQogICAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIiINCiAgICAgICAgICB9LA0KICAgICAgICAgICI0MDAiIDogew0KICAgICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiDQogICAgICAgICAgfQ0KICAgICAgICB9LA0KICAgICAgICAic2VjdXJpdHkiIDogWyB7DQogICAgICAgICAgIkJhc2ljIiA6IFsgXQ0KICAgICAgICB9IF0NCiAgICAgIH0NCiAgICB9DQogIH0sDQogICJzZWN1cml0eURlZmluaXRpb25zIiA6IHsNCiAgICAiQmFzaWMiIDogew0KICAgICAgImRlc2NyaXB0aW9uIiA6ICJBUEkgR2F0ZXdheSBBZG1pbmlzdHJhdG9yIGFuZCBBUEkgR2F0ZXdheSBwcm92aWRlciIsDQogICAgICAidHlwZSIgOiAiYmFzaWMiDQogICAgfQ0KICB9LA0KICAiZGVmaW5pdGlvbnMiIDogew0KICAgICJQb3J0IiA6IHsNCiAgICAgICJ0eXBlIiA6ICJvYmplY3QiLA0KICAgICAgInByb3BlcnRpZXMiIDogew0KICAgICAgICAicG9ydCIgOiB7DQogICAgICAgICAgInR5cGUiIDogImludGVnZXIiLA0KICAgICAgICAgICJmb3JtYXQiIDogImludDMyIg0KICAgICAgICB9LA0KICAgICAgICAicHJvdG9jb2wiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJwa2ciIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJlbmFibGVkIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAia2V5IiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAidW5pcXVlSUQiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJwb3J0QWxpYXMiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJwb3J0RGVzY3JpcHRpb24iIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJmYWN0b3J5S2V5IiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAiY29uZmlnVVJMIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAicHJvdmlkZXIiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJsaXN0ZW5lclR5cGUiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJjbGllbnRBdXRoIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAiaWRQcm92aWRlciIgOiB7DQogICAgICAgICAgInR5cGUiIDogIm9iamVjdCINCiAgICAgICAgfSwNCiAgICAgICAgInNzbCIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgIm1heFF1ZXVlIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAia2VlcEFsaXZlVGltZW91dCIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgInRocmVhZFBvb2wiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJtaW5UaHJlYWQiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJtYXhUaHJlYWQiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJ0aHJlYWRQcmlvcml0eSIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgInVzZWRUaHJlYWRDb3VudCIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgImludGVybmFsUG9ydCIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgImN1ckRlbGF5IiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAic3RlcHNpemUiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJzdXNwZW5kZWQiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJqc3NlRW5hYmxlZFByb3RvY29scyIgOiB7DQogICAgICAgICAgInR5cGUiIDogIm9iamVjdCINCiAgICAgICAgfSwNCiAgICAgICAgInN0YXR1cyIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgImxpc3RlbmluZyIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgImFjY2Vzc01vZGUiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJoYXNBY2Nlc3NMaXN0IiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAiaXBBY2Nlc3NNb2RlIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAiaGFzSVBBY2Nlc3NMaXN0IiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9DQogICAgICB9LA0KICAgICAgImRlc2NyaXB0aW9uIiA6ICJUaGlzIGRlZmluZXMgdGhlIHZhcmlvdXMgZmllbGRzIHRoYXQgcmVsYXRlZCB0byBhIHBhcnRpY3VsYXIgcG9ydC4iDQogICAgfSwNCiAgICAiUG9ydEVuYWJsZURpc2FibGUiIDogew0KICAgICAgInR5cGUiIDogIm9iamVjdCIsDQogICAgICAicHJvcGVydGllcyIgOiB7DQogICAgICAgICJsaXN0ZW5lcktleSIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgInBrZyIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgInJlcXVlc3RTZXJ2aWNlU3RhdHVzIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAiZ2V0JHJlc291cmNlSUQiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJtZXNzYWdlIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9DQogICAgICB9DQogICAgfQ0KICB9DQp9\"\r\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the given document has been stored successfully in API Gateway.",
+            "examples" : {
+              "application/json" : "{\r\n\t\"id\": \"be9147a8-6e53-4472-b1bd-16337a84d314\"\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/DocumentResponse"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates invalid request or bad input."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the requested resource is not found."
+          },
+          "405" : {
+            "description" : "This status code indicates that the requested HTTP method is not supported for the resource."
+          },
+          "500" : {
+            "description" : "This status code indicates an error occurred while storing the given document in API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/documents/{documentId}" : {
+      "get" : {
+        "description" : "Retrieves the requested document from API Gateway",
+        "operationId" : "getDocument",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "documentId",
+          "in" : "path",
+          "description" : "The unique identifier of the document for retrieving from API Gateway.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the given document has been retrieved successfully from API Gateway.",
+            "examples" : {
+              "application/json" : "{\r\n\t\"documents\": [{\r\n\t\t\"id\": \"c98c7290-bc68-4da3-a39e-545c714e75bc\",\r\n\t\t\"fileName\": \"SamplePowerpoint.pptx\",\r\n\t\t\"displayName\": \"How to upload documents to the store?\",\r\n\t\t\"fileContent\": \"data:application/vnd.openxmlformats-officedocument.presentationml.presentation;base64,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\"\r\n\t}]\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Document"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates invalid request or bad input."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the requested resource is not found."
+          },
+          "405" : {
+            "description" : "This status code indicates that the requested HTTP method is not supported for the resource."
+          },
+          "500" : {
+            "description" : "This status code indicates an error occurred while retrieving the given document from API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "operationId" : "updateDocumentContent",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "documentId",
+          "in" : "path",
+          "description" : "The unique identifier of the document to update",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "The request payload to update the document in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Document"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\t\"displayName\": \"APIGatewayPortsInfoDocumentUpdated\",\r\n\t\"fileName\": \"APIGatewayPorts.json\",\r\n\t\"fileContent\": \"data:;base64,ew0KICAic3dhZ2dlciIgOiAiMi4wIiwNCiAgImluZm8iIDogew0KICAgICJkZXNjcmlwdGlvbiIgOiAiVGhpcyBzd2FnZ2VyIGRvYyBjb250YWlucyBBUEkgRGVmaW5pdGlvbiBvZiB0aGUgcG9ydHMgQ1JVRCBvcGVyYXRpb25zLiIsDQogICAgInZlcnNpb24iIDogIjEwLjEiLA0KICAgICJ0aXRsZSIgOiAiUG9ydHMgY29uZmlndXJhdGlvbnMuIg0KICB9LA0KICAiaG9zdCIgOiAibG9jYWxob3N0OjU1NTUiLA0KICAiYmFzZVBhdGgiIDogIi9yZXN0L2FwaWdhdGV3YXkiLA0KICAic2NoZW1lcyIgOiBbICJodHRwIiBdLA0KICAiY29uc3VtZXMiIDogWyAicGxhaW4vdGV4dCIgXSwNCiAgInByb2R1Y2VzIiA6IFsgImFwcGxpY2F0aW9uL2pzb24iIF0sDQogICJwYXRocyIgOiB7DQogICAgIi9wb3J0cyIgOiB7DQogICAgICAicG9zdCIgOiB7DQogICAgICAgICJvcGVyYXRpb25JZCIgOiAiY3JlYXRlUG9ydCIsDQogICAgICAgICJjb25zdW1lcyIgOiBbICJhcHBsaWNhdGlvbi9qc29uIiBdLA0KICAgICAgICAicHJvZHVjZXMiIDogWyAiYXBwbGljYXRpb24vanNvbiIgXSwNCiAgICAgICAgInBhcmFtZXRlcnMiIDogWyB7DQogICAgICAgICAgImluIiA6ICJib2R5IiwNCiAgICAgICAgICAibmFtZSIgOiAiYm9keSIsDQogICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICJwb3J0IHBheWxvYWQiLA0KICAgICAgICAgICJyZXF1aXJlZCIgOiB0cnVlLA0KICAgICAgICAgICJzY2hlbWEiIDogew0KICAgICAgICAgICAgIiRyZWYiIDogIiMvZGVmaW5pdGlvbnMvUG9ydCINCiAgICAgICAgICB9DQogICAgICAgIH0gXSwNCiAgICAgICAgInJlc3BvbnNlcyIgOiB7DQogICAgICAgICAgIjIwMSIgOiB7DQogICAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIkNyZWF0ZWQiLA0KICAgICAgICAgICAgInNjaGVtYSIgOiB7DQogICAgICAgICAgICAgICIkcmVmIiA6ICIjL2RlZmluaXRpb25zL1BvcnQiDQogICAgICAgICAgICB9DQogICAgICAgICAgfSwNCiAgICAgICAgICAiNDAwIiA6IHsNCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiQmFkIHJlcXVlc3QiDQogICAgICAgICAgfSwNCiAgICAgICAgICAiNDAxIiA6IHsNCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiQWNjZXNzIERlbmllZCINCiAgICAgICAgICB9DQogICAgICAgIH0sDQogICAgICAgICJzZWN1cml0eSIgOiBbIHsNCiAgICAgICAgICAiQmFzaWMiIDogWyBdDQogICAgICAgIH0gXQ0KICAgICAgfSwNCiAgICAgICJwdXQiIDogew0KICAgICAgICAib3BlcmF0aW9uSWQiIDogInVwZGF0ZVBvcnQiLA0KICAgICAgICAiY29uc3VtZXMiIDogWyAiYXBwbGljYXRpb24vanNvbiIgXSwNCiAgICAgICAgInByb2R1Y2VzIiA6IFsgImFwcGxpY2F0aW9uL2pzb24iIF0sDQogICAgICAgICJwYXJhbWV0ZXJzIiA6IFsgew0KICAgICAgICAgICJpbiIgOiAiYm9keSIsDQogICAgICAgICAgIm5hbWUiIDogImJvZHkiLA0KICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiIiwNCiAgICAgICAgICAicmVxdWlyZWQiIDogdHJ1ZSwNCiAgICAgICAgICAic2NoZW1hIiA6IHsNCiAgICAgICAgICAgICIkcmVmIiA6ICIjL2RlZmluaXRpb25zL1BvcnQiDQogICAgICAgICAgfQ0KICAgICAgICB9IF0sDQogICAgICAgICJyZXNwb25zZXMiIDogew0KICAgICAgICAgICIyMDAiIDogew0KICAgICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiLA0KICAgICAgICAgICAgInNjaGVtYSIgOiB7DQogICAgICAgICAgICAgICIkcmVmIiA6ICIjL2RlZmluaXRpb25zL1BvcnQiDQogICAgICAgICAgICB9DQogICAgICAgICAgfSwNCiAgICAgICAgICAiNTAwIiA6IHsNCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiIg0KICAgICAgICAgIH0sDQogICAgICAgICAgIjQwMSIgOiB7DQogICAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIiINCiAgICAgICAgICB9LA0KICAgICAgICAgICI0MDAiIDogew0KICAgICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiDQogICAgICAgICAgfQ0KICAgICAgICB9LA0KICAgICAgICAic2VjdXJpdHkiIDogWyB7DQogICAgICAgICAgIkJhc2ljIiA6IFsgXQ0KICAgICAgICB9IF0NCiAgICAgIH0sDQogICAgICAiZGVsZXRlIiA6IHsNCiAgICAgICAgIm9wZXJhdGlvbklkIiA6ICJkZWxldGVQb3J0IiwNCiAgICAgICAgImNvbnN1bWVzIiA6IFsgImFwcGxpY2F0aW9uL2pzb24iIF0sDQogICAgICAgICJwcm9kdWNlcyIgOiBbICJhcHBsaWNhdGlvbi9qc29uIiBdLA0KICAgICAgICAicGFyYW1ldGVycyIgOiBbIHsNCiAgICAgICAgICAibmFtZSIgOiAibGlzdGVuZXJLZXkiLA0KICAgICAgICAgICJpbiIgOiAicXVlcnkiLA0KICAgICAgICAgICJyZXF1aXJlZCIgOiB0cnVlLA0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciLA0KICAgICAgICAgICJ4LWV4YW1wbGUiIDogIkhUVFBMaXN0ZW5lckA1NTU1Ig0KICAgICAgICB9LCB7DQogICAgICAgICAgIm5hbWUiIDogInBrZyIsDQogICAgICAgICAgImluIiA6ICJxdWVyeSIsDQogICAgICAgICAgInJlcXVpcmVkIiA6IHRydWUsDQogICAgICAgICAgInR5cGUiIDogInN0cmluZyIsDQogICAgICAgICAgIngtZXhhbXBsZSIgOiAiV21Sb290Ig0KICAgICAgICB9IF0sDQogICAgICAgICJyZXNwb25zZXMiIDogew0KICAgICAgICAgICI0MDEiIDogew0KICAgICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiDQogICAgICAgICAgfSwNCiAgICAgICAgICAiMjA0IiA6IHsNCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiIg0KICAgICAgICAgIH0sDQogICAgICAgICAgIjQwNCIgOiB7DQogICAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIiINCiAgICAgICAgICB9DQogICAgICAgIH0sDQogICAgICAgICJzZWN1cml0eSIgOiBbIHsNCiAgICAgICAgICAiQmFzaWMiIDogWyBdDQogICAgICAgIH0gXQ0KICAgICAgfQ0KICAgIH0sDQogICAgIi9wb3J0cy9lbmFibGUiIDogew0KICAgICAgInB1dCIgOiB7DQogICAgICAgICJvcGVyYXRpb25JZCIgOiAiZW5hYmxlUG9ydCIsDQogICAgICAgICJjb25zdW1lcyIgOiBbICJhcHBsaWNhdGlvbi9qc29uIiBdLA0KICAgICAgICAicHJvZHVjZXMiIDogWyAiYXBwbGljYXRpb24vanNvbiIgXSwNCiAgICAgICAgInBhcmFtZXRlcnMiIDogWyB7DQogICAgICAgICAgImluIiA6ICJib2R5IiwNCiAgICAgICAgICAibmFtZSIgOiAiYm9keSIsDQogICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiLA0KICAgICAgICAgICJyZXF1aXJlZCIgOiB0cnVlLA0KICAgICAgICAgICJzY2hlbWEiIDogew0KICAgICAgICAgICAgIiRyZWYiIDogIiMvZGVmaW5pdGlvbnMvUG9ydEVuYWJsZURpc2FibGUiDQogICAgICAgICAgfQ0KICAgICAgICB9IF0sDQogICAgICAgICJyZXNwb25zZXMiIDogew0KICAgICAgICAgICIyMDAiIDogew0KICAgICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiLA0KICAgICAgICAgICAgInNjaGVtYSIgOiB7DQogICAgICAgICAgICAgICIkcmVmIiA6ICIjL2RlZmluaXRpb25zL1BvcnRFbmFibGVEaXNhYmxlIg0KICAgICAgICAgICAgfQ0KICAgICAgICAgIH0sDQogICAgICAgICAgIjUwMCIgOiB7DQogICAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIiINCiAgICAgICAgICB9LA0KICAgICAgICAgICI0MDEiIDogew0KICAgICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiDQogICAgICAgICAgfSwNCiAgICAgICAgICAiNDAwIiA6IHsNCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiIg0KICAgICAgICAgIH0NCiAgICAgICAgfSwNCiAgICAgICAgInNlY3VyaXR5IiA6IFsgew0KICAgICAgICAgICJCYXNpYyIgOiBbIF0NCiAgICAgICAgfSBdDQogICAgICB9DQogICAgfSwNCiAgICAiL3BvcnRzL2Rpc2FibGUiIDogew0KICAgICAgInB1dCIgOiB7DQogICAgICAgICJvcGVyYXRpb25JZCIgOiAiZGRpc2FibGVQb3J0IiwNCiAgICAgICAgImNvbnN1bWVzIiA6IFsgImFwcGxpY2F0aW9uL2pzb24iIF0sDQogICAgICAgICJwcm9kdWNlcyIgOiBbICJhcHBsaWNhdGlvbi9qc29uIiBdLA0KICAgICAgICAicGFyYW1ldGVycyIgOiBbIHsNCiAgICAgICAgICAiaW4iIDogImJvZHkiLA0KICAgICAgICAgICJuYW1lIiA6ICJib2R5IiwNCiAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIiIsDQogICAgICAgICAgInJlcXVpcmVkIiA6IHRydWUsDQogICAgICAgICAgInNjaGVtYSIgOiB7DQogICAgICAgICAgICAiJHJlZiIgOiAiIy9kZWZpbml0aW9ucy9Qb3J0RW5hYmxlRGlzYWJsZSINCiAgICAgICAgICB9DQogICAgICAgIH0gXSwNCiAgICAgICAgInJlc3BvbnNlcyIgOiB7DQogICAgICAgICAgIjIwMCIgOiB7DQogICAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIiIsDQogICAgICAgICAgICAic2NoZW1hIiA6IHsNCiAgICAgICAgICAgICAgIiRyZWYiIDogIiMvZGVmaW5pdGlvbnMvUG9ydEVuYWJsZURpc2FibGUiDQogICAgICAgICAgICB9DQogICAgICAgICAgfSwNCiAgICAgICAgICAiNTAwIiA6IHsNCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiIgOiAiIg0KICAgICAgICAgIH0sDQogICAgICAgICAgIjQwMSIgOiB7DQogICAgICAgICAgICAiZGVzY3JpcHRpb24iIDogIiINCiAgICAgICAgICB9LA0KICAgICAgICAgICI0MDAiIDogew0KICAgICAgICAgICAgImRlc2NyaXB0aW9uIiA6ICIiDQogICAgICAgICAgfQ0KICAgICAgICB9LA0KICAgICAgICAic2VjdXJpdHkiIDogWyB7DQogICAgICAgICAgIkJhc2ljIiA6IFsgXQ0KICAgICAgICB9IF0NCiAgICAgIH0NCiAgICB9DQogIH0sDQogICJzZWN1cml0eURlZmluaXRpb25zIiA6IHsNCiAgICAiQmFzaWMiIDogew0KICAgICAgImRlc2NyaXB0aW9uIiA6ICJBUEkgR2F0ZXdheSBBZG1pbmlzdHJhdG9yIGFuZCBBUEkgR2F0ZXdheSBwcm92aWRlciIsDQogICAgICAidHlwZSIgOiAiYmFzaWMiDQogICAgfQ0KICB9LA0KICAiZGVmaW5pdGlvbnMiIDogew0KICAgICJQb3J0IiA6IHsNCiAgICAgICJ0eXBlIiA6ICJvYmplY3QiLA0KICAgICAgInByb3BlcnRpZXMiIDogew0KICAgICAgICAicG9ydCIgOiB7DQogICAgICAgICAgInR5cGUiIDogImludGVnZXIiLA0KICAgICAgICAgICJmb3JtYXQiIDogImludDMyIg0KICAgICAgICB9LA0KICAgICAgICAicHJvdG9jb2wiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJwa2ciIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJlbmFibGVkIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAia2V5IiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAidW5pcXVlSUQiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJwb3J0QWxpYXMiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJwb3J0RGVzY3JpcHRpb24iIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJmYWN0b3J5S2V5IiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAiY29uZmlnVVJMIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAicHJvdmlkZXIiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJsaXN0ZW5lclR5cGUiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJjbGllbnRBdXRoIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAiaWRQcm92aWRlciIgOiB7DQogICAgICAgICAgInR5cGUiIDogIm9iamVjdCINCiAgICAgICAgfSwNCiAgICAgICAgInNzbCIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgIm1heFF1ZXVlIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAia2VlcEFsaXZlVGltZW91dCIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgInRocmVhZFBvb2wiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJtaW5UaHJlYWQiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJtYXhUaHJlYWQiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJ0aHJlYWRQcmlvcml0eSIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgInVzZWRUaHJlYWRDb3VudCIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgImludGVybmFsUG9ydCIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgImN1ckRlbGF5IiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAic3RlcHNpemUiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJzdXNwZW5kZWQiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJqc3NlRW5hYmxlZFByb3RvY29scyIgOiB7DQogICAgICAgICAgInR5cGUiIDogIm9iamVjdCINCiAgICAgICAgfSwNCiAgICAgICAgInN0YXR1cyIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgImxpc3RlbmluZyIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgImFjY2Vzc01vZGUiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJoYXNBY2Nlc3NMaXN0IiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAiaXBBY2Nlc3NNb2RlIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAiaGFzSVBBY2Nlc3NMaXN0IiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9DQogICAgICB9LA0KICAgICAgImRlc2NyaXB0aW9uIiA6ICJUaGlzIGRlZmluZXMgdGhlIHZhcmlvdXMgZmllbGRzIHRoYXQgcmVsYXRlZCB0byBhIHBhcnRpY3VsYXIgcG9ydC4iDQogICAgfSwNCiAgICAiUG9ydEVuYWJsZURpc2FibGUiIDogew0KICAgICAgInR5cGUiIDogIm9iamVjdCIsDQogICAgICAicHJvcGVydGllcyIgOiB7DQogICAgICAgICJsaXN0ZW5lcktleSIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgInBrZyIgOiB7DQogICAgICAgICAgInR5cGUiIDogInN0cmluZyINCiAgICAgICAgfSwNCiAgICAgICAgInJlcXVlc3RTZXJ2aWNlU3RhdHVzIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9LA0KICAgICAgICAiZ2V0JHJlc291cmNlSUQiIDogew0KICAgICAgICAgICJ0eXBlIiA6ICJzdHJpbmciDQogICAgICAgIH0sDQogICAgICAgICJtZXNzYWdlIiA6IHsNCiAgICAgICAgICAidHlwZSIgOiAic3RyaW5nIg0KICAgICAgICB9DQogICAgICB9DQogICAgfQ0KICB9DQp9\"\r\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the given document has been updated successfully in API Gateway.",
+            "examples" : {
+              "application/json" : "{\r\n\t\"id\": \"be9147a8-6e53-4472-b1bd-16337a84d314\"\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/DocumentResponse"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates invalid request or bad input."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the requested resource is not found."
+          },
+          "405" : {
+            "description" : "This status code indicates that the requested HTTP method is not supported for the resource."
+          },
+          "500" : {
+            "description" : "This status code indicates an error occurred while updating the given document in API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "Deletes the stored document from API Gateway",
+        "operationId" : "deleteDocument",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "documentId",
+          "in" : "path",
+          "description" : "Id of the document for deletion",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the given document has been deleted successfully from API Gateway."
+          },
+          "400" : {
+            "description" : "This status code indicates invalid request or bad input."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the requested resource is not found."
+          },
+          "405" : {
+            "description" : "This status code indicates that the requested HTTP method is not supported for the resource."
+          },
+          "500" : {
+            "description" : "This status code indicates an error occurred while deleting the given document from API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "patch" : {
+        "operationId" : "patchDocument",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "The request payload to patch the document in API Gateway.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Document"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\t\"displayName\": \"APIGatewayPortsInfoDocument Updated\"\r\n}"
+          }
+        }, {
+          "name" : "documentId",
+          "in" : "path",
+          "description" : "The unique identifier of the document to be patched.",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the given document has been patched successfully in API Gateway.",
+            "examples" : {
+              "application/json" : "{\r\n\t\"id\": \"be9147a8-6e53-4472-b1bd-16337a84d314\"\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/DocumentResponse"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates invalid request or bad input."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the requested resource is not found."
+          },
+          "405" : {
+            "description" : "This status code indicates that the requested HTTP method is not supported for the resource."
+          },
+          "500" : {
+            "description" : "This status code indicates an error occurred while patching the given document in API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Basic" : {
+      "description" : "API Gateway Administrator and API Gateway provider",
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "Document" : {
+      "type" : "object",
+      "properties" : {
+        "displayName" : {
+          "type" : "string",
+          "description" : "The display name of the attached document."
+        },
+        "fileContent" : {
+          "type" : "string",
+          "description" : "The complete file content in data URL format."
+        },
+        "fileName" : {
+          "type" : "string",
+          "description" : "The original name of the file uploaded to API Gateway."
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "The unique identifier of the document as stored in API Gateway.",
+          "readOnly" : true
+        }
+      },
+      "description" : "This model is used to store any document in API Gateway."
+    },
+    "DocumentResponse" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "description" : "The unique identifier of the document as stored in API Gateway.",
+          "readOnly" : true
+        }
+      },
+      "description" : "This defines the response for documents."
+    }
+  }
+}

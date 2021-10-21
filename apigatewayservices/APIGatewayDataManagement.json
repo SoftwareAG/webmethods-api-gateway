@@ -1,0 +1,378 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Data sync management services. Services to configure different datacenters and activate/switch between different modes of deployment",
+    "version" : "10.11",
+    "title" : "API Gateway Data Management Service"
+  },
+  "host" : "localhost:5555",
+  "basePath" : "/{gateway}",
+  "schemes" : [ "http" ],
+  "consumes" : [ "plain/text" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/dataspace" : {
+      "get" : {
+        "description" : "This method returns the cross dc configuration associated with the datacenter.",
+        "operationId" : "getDataspaceConfiguration",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the datacenter configuration is retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n    \"listener\": {\n        \"listener\": {\n            \"nodeName\": \"b005a1dd-2e11-4ca7-8727-d28a20e1f44e\",\n            \"host\": \"192.168.56.101\",\n            \"port\": 4444\n        },\n        \"insecureTrustManager\": false\n    },\n    \"listener.active\": {\n        \"listener\": {\n            \"nodeName\": \"b005a1dd-2e11-4ca7-8727-d28a20e1f44e\",\n            \"host\": \"192.168.56.101\",\n            \"port\": 4444\n        },\n        \"insecureTrustManager\": false\n    },\n    \"ring\": [\n        {\n            \"nodeName\": \"4f669f26-f4b0-49dc-a294-e822187a7350\",\n            \"host\": \"192.168.56.102\",\n            \"port\": 4444\n        }\n    ],\n    \"ring.active\": [\n        {\n            \"nodeName\": \"4f669f26-f4b0-49dc-a294-e822187a7350\",\n            \"host\": \"192.168.56.102\",\n            \"port\": 4444\n        }\n    ],\n    \"mode\": \"STANDBY\"\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/RemotePortConfig"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that the user is not a valid API Gateway user for retrieving the datacenter configuration."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/dataspace/activate" : {
+      "put" : {
+        "description" : "The method is used to activate the datacenter configuration in API Gateway.",
+        "operationId" : "activateDC",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Mode to activate",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "x-examples" : {
+            "application/json" : "{}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the activate has been successful in API Gateway.",
+            "examples" : {
+              "application/json" : "{\n    \"mode\": \"STANDBY\",\n    \"acknowledged\": true\n}"
+            },
+            "schema" : {
+              "type" : "string",
+              "enum" : [ "STANDALONE", "STANDBY", "ACTIVE_RING", "BROADCAST" ]
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the the user sends an empty or invalid JSON payload."
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or the user is not authorized to activate the datacenter."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/dataspace/activateAll" : {
+      "put" : {
+        "description" : "The method is used to activate all the datacenters configuration in API Gateway.",
+        "operationId" : "activateNodes",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Activate all nodes",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ConfigurePayload"
+          },
+          "x-examples" : {
+            "application/json" : "{\n    \"local\": {\n        \"host\": \"192.168.56.101\",\n        \"syncPort\": 4444\n    },\n    \"remotes\": [{\n        \"host\": \"192.168.56.102\",\n        \"syncPort\": 4444,\n        \"port\": 5556,\n        \"isHttps\": true,\n        \"userName\": \"Administrator\",\n        \"password\": \"manage\"\n    }]\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the activate has been successful in API Gateway.",
+            "examples" : {
+              "application/json" : "{\n    \"mode\": \"STANDBY\",\n    \"local\": {\n        \"host\": \"192.168.56.101\",\n        \"syncPort\": 4444\n    },\n    \"remotes\": [\n        {\n            \"host\": \"192.168.56.102\",\n            \"syncPort\": 4444,\n            \"port\": 5556,\n            \"isHttps\": true,\n            \"userName\": \"Administrator\",\n            \"password\": \"manage\"\n        }\n    ]\n   }"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/ConfigurePayload"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the the user sends an empty or invalid JSON payload."
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or the user is not authorized to activate the datacenter."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/dataspace/configure" : {
+      "put" : {
+        "description" : "The method is used to configure the datacenters in API Gateway.",
+        "operationId" : "configureNodes",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Dataspace configuration payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ConfigurePayload"
+          },
+          "x-examples" : {
+            "application/json" : "{\n    \"local\": {\n        \"host\": \"192.168.56.101\",\n        \"syncPort\": 4444\n    },\n    \"remotes\": [{\n        \"host\": \"192.168.56.102\",\n        \"syncPort\": 4444,\n        \"port\": 5556,\n        \"isHttps\": true,\n        \"userName\": \"Administrator\",\n        \"password\": \"manage\"\n    }]\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the configure has been successful in API Gateway.",
+            "examples" : {
+              "application/json" : "{\n    \"local\": {\n        \"host\": \"192.168.56.101\",\n        \"syncPort\": 4444\n    },\n    \"remotes\": [{\n        \"host\": \"192.168.56.102\",\n        \"syncPort\": 4444,\n        \"port\": 5556,\n        \"isHttps\": true,\n        \"userName\": \"Administrator\",\n        \"password\": \"manage\"\n    }]\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/ConfigurePayload"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the the user sends an empty or invalid JSON payload."
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or the user is not authorized to configure the datacenter."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/dataspace/listener" : {
+      "get" : {
+        "description" : "This method returns the grpc listener configuration associated with the datacenter.",
+        "operationId" : "getListenerConfiguration",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the datacenter configuration is retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n    \"listener\": {\n        \"listener\": {\n            \"nodeName\": \"b005a1dd-2e11-4ca7-8727-d28a20e1f44e\",\n            \"host\": \"192.168.56.101\",\n            \"port\": 4444\n        },\n        \"insecureTrustManager\": false\n    }\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/ListenerConfig"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that the user is not a valid API Gateway user for retrieving the datacenter configuration."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "The method is used to configure the listener in the datacenter in API Gateway.",
+        "operationId" : "updateListenerConfiguration",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Listener configuration payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ListenerConfig"
+          },
+          "x-examples" : {
+            "application/json" : "{\n    \"listener\": {\n        \"listener\": {\n            \"nodeName\": \"b005a1dd-2e11-4ca7-8727-d28a20e1f44e\",\n            \"host\": \"192.168.56.101\",\n            \"port\": 4444\n        },\n        \"insecureTrustManager\": false\n    }\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the listener configuration has been successful in API Gateway.",
+            "examples" : {
+              "application/json" : "{\n    \"listener\": {\n        \"listener\": {\n            \"nodeName\": \"b005a1dd-2e11-4ca7-8727-d28a20e1f44e\",\n            \"host\": \"192.168.56.101\",\n            \"port\": 4444\n        },\n        \"insecureTrustManager\": false\n    }\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/ListenerConfig"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the the user sends an empty or invalid JSON payload."
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or the user is not authorized to configure the datacenter."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/dataspace/ring" : {
+      "get" : {
+        "description" : "This method returns the remotes (other datacenters) configuration associated with the datacenter.",
+        "operationId" : "getRingConfiguration",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the datacenter configuration is retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n        \"ring\": [\n        {\n            \"nodeName\": \"4f669f26-f4b0-49dc-a294-e822187a7350\",\n            \"host\": \"192.168.56.102\",\n            \"port\": 4444\n        }\n    ]\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/RemotePortConfig"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that the user is not a valid API Gateway user for retrieving the datacenter configuration."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "The method is used to configure the other datacenter connectivity information in API Gateway.",
+        "operationId" : "updateRingConfiguration",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Ring configuration payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/RemotePortConfig"
+          },
+          "x-examples" : {
+            "application/json" : "{\n    \"ring\": [\n        {\n            \"nodeName\": \"4f669f26-f4b0-49dc-a294-e822187a7350\",\n            \"host\": \"192.168.56.102\",\n            \"port\": 4444\n        }\n    ]\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the datacenter configuration update has been successful in API Gateway.",
+            "examples" : {
+              "application/json" : "{\n    \"ring\": [\n        {\n            \"nodeName\": \"4f669f26-f4b0-49dc-a294-e822187a7350\",\n            \"host\": \"192.168.56.102\",\n            \"port\": 4444\n        }\n    ]\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/RemotePortConfig"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the the user sends an empty or invalid JSON payload."
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or the user is not authorized to update the configuration of the datacenter."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "patch" : {
+        "description" : "The method is used to update the patch configuration in the datacenter in API Gateway.",
+        "operationId" : "appendRingConfiguration",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Ring configuration payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/RemotePortConfig"
+          },
+          "x-examples" : {
+            "application/json" : "{\n    \"ring\": [\n        {\n            \"nodeName\": \"4f669f26-f4b0-49dc-a294-e822187a7350\",\n            \"host\": \"192.168.56.102\",\n            \"port\": 4444\n        }\n    ]\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the update of datacenter configuration has been successful in API Gateway.",
+            "examples" : {
+              "application/json" : "{\n    \"ring\": [\n        {\n            \"nodeName\": \"4f669f26-f4b0-49dc-a294-e822187a7350\",\n            \"host\": \"192.168.56.102\",\n            \"port\": 4444\n        }\n    ]\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/RemotePortConfig"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the the user sends an empty or invalid JSON payload."
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or the user is not authorized to update the configuration of the datacenter."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Basic" : {
+      "description" : "API Gateway Administrator",
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "ConfigurePayload" : {
+      "type" : "object"
+    },
+    "ListenerConfig" : {
+      "type" : "object",
+      "properties" : {
+        "insecureTrustManager" : {
+          "type" : "boolean",
+          "description" : "Use insecure trust manager, to support self signed certificates"
+        },
+        "keyAlias" : {
+          "type" : "string",
+          "description" : "Key alias to be used for the GRPC Channel"
+        },
+        "keyStoreAlias" : {
+          "type" : "string",
+          "description" : "Key store alias to be used for the GRPC Channel"
+        },
+        "listener" : {
+          "$ref" : "#/definitions/RemotePortConfig"
+        },
+        "trustStoreAlias" : {
+          "type" : "string",
+          "description" : "Truststore alias to be used for the GRPC Channel"
+        }
+      }
+    },
+    "RemotePortConfig" : {
+      "type" : "object",
+      "properties" : {
+        "host" : {
+          "type" : "string",
+          "description" : "Host name or ip address"
+        },
+        "nodeName" : {
+          "type" : "string",
+          "description" : "An uuid to uniquely identify a node/cluster"
+        },
+        "port" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "GRPC port number"
+        }
+      }
+    }
+  }
+}

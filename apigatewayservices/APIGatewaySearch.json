@@ -1,0 +1,335 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "The search API allows you to execute a search query in API Gateway and receive search results that match the search query. You can perform search across different objects such as API, Application, Alias, Assertions, Users and User Groups.",
+    "version" : "10.11",
+    "title" : "API Gateway Search Service"
+  },
+  "host" : "localhost:5555",
+  "basePath" : "/rest/apigateway",
+  "schemes" : [ "http" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/search" : {
+      "post" : {
+        "description" : "The search API allows you to execute a search query in API Gateway and get back search results that match the query. You can perform search across different objects such as API, Application, Alias, Assertions, Policies, Administrator Settings, Policy Action, Packages, Plans, Subscriptions, Users, User Groups, Transactional events, Lifecycle events, Policy violation events, Monitor events, Error events, Threat protection events, Performance metrics and Audit logs. Following are the type of searches that does not require scope or fields. \n 1. Users - This type is used to get the list of users from IS. \n 2. User Groups - This type is used to get the list of user groups from IS. \n\n Following are the type of searches for which you can specify the  scope and fields. \n 1. API - This type is used to search the APIs in API Gateway. \n 2. Application - This type is used to search the Applications created in API Gateway. \n 3. Alias - This type is used to search aliases created in API Gateway. \n 4. Assertions - This type is used to search custom assertions created in API Gateway. \n 5. Policy - This type is used to search policies in API Gateway. \n 6. Policy Action - This type is used to search policy actions in API Gateway. \n 7. Package - This type is used to search packages in API Gateway. \n 8. Plan - This type is used to search plans in API Gateway. \n 9. Administrator Setting - This type is used to search the administrator settings in API Gateway. \n 10. Subscription - This type is used to search subscriptions in API Gateway. \n 11. Transactional events - This type is used to search transactional events generated in API Gateway. \n 12. Lifecycle events - This type is used to search lifecycle events in API Gateway.  \n 13. Policy violation events - This type is used to search policy violation events generated in API Gateway. \n 14. Monitor events - This type is used to search monitor events generated in API Gateway. \n 15. Error events - This type is used to search error events generated in API Gateway. \n 16. Threat protection events - This type is used to search threat protection events generated in API Gateway. \n 17. Performance metrics - This type is used to search performance metrics generated in API Gateway.\n 18. Audit log events - This type is used to search audit logs events generated in API Gateway.\n \n For the above eighteen types, if a scope is specified, then the scope is applicable for all types regardless whether it is applicable for that or not. Also if the required fields are specified and it is not available in any other types, then the search result corresponds to that type does not have the fields. \n If from and size are specified then it skips first n records specified in from for all types and it fetches the number of records specified in size.\n\n\nexamples:\n\n1. Fetch All APIs contains run as substring\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }] }\n\nThe above payload will fetch all APIs contains run as substring in API name. The response will contains APIs with some fields populated with default values. \n\n2. Fetch All APIs contains run as substring and specific set of fields in the response\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }], \"responseFields\" : [\"apiName\", \"type\", \"isActive\", \"systemVersion\", \"policies\",\"publishedPortals\",\"apiVersion\",\"id\"]}\n\nTo fetch all fields, user can use \"*\" in responseFields. It will fetch all the fields in the response.\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }], \"responseFields\" : [\"*\"]}\n\n\nThe above payload will fetch all APIs contains run as substring in API name and corresponding fields mentioned in responseFields section.\n\nThe responseFields can be identified from schema definition using below table for some of the main used types\n\nAsset type: API ,Swagger file: APIGatewayServiceManagement.json ,Definition: #/definitions/GatewayAPI\nAsset type: POLICY ,Swagger file: APIGatewayPolicyManagement.json ,Definition: #/definitions/Policy\nAsset type: POLICY_ACTION ,Swagger file: APIGatewayPolicyManagement.json ,Definition: #/definitions/PolicyAction\nAsset type: ALIAS ,Swagger file: APIGatewayAlias.json  ,Definition: #/definitions/Alias\nAsset type: APPLICATION ,Swagger file:APIGatewayApplication.json ,Definition: #/definitions/Application\nAsset type: USERS ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/User\nAsset type: GROUPS ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/Group\nAsset type: ACCESSPROFILES ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/AccessProfile\nAsset type: API_DOCUMENT ,Swagger file: APIGatewayDocumentManagement.json ,Definition: #/definitions/Document\nAsset type: KEYSTORE ,Swagger file: APIGatewayAdministration.json ,Definition: #/definitions/KeyStore\nAsset type: TRUSTSTORE ,Swagger file: APIGatewayAdministration.json ,Definition: #/definitions/TrustStore\n\nFor other types user can use \"*\" in responseFields section to get all the fields.\n",
+        "operationId" : "searchByType",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search Parameters to search for specific set of results on specified types",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SearchContext"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\t\"types\": [\"user\",\r\n\t\"group\",\r\n\t\"api\",\r\n\t\"alias\",\r\n\t\"application\",\r\n\t\"policy\"],\r\n\t\"condition\": \"or\",\r\n\t\"scope\": [{\r\n\t\t\"attributeName\": \"apiName\",\r\n\t\t\"keyword\": \".*api.*\"\r\n\t},\r\n\t{\r\n\t\t\"attributeName\": \"names.value\",\r\n\t\t\"keyword\": \"Default Policy for API EMP\"\r\n\t},\r\n\t{\r\n\t\t\"attributeName\": \"name\",\r\n\t\t\"keyword\": \".*app.*\"\r\n\t},\r\n\t{\r\n\t\t\"attributeName\" : \"type\",\r\n\t\t\"keyword\" : \"simple\"\r\n\t},\r\n\t{\r\n\t\t\"attributeName\" : \"policyScope\",\r\n\t\t\"keyword\" : \"global\"\r\n\t}\r\n\t],\r\n\t\"responseFields\": [\"apiName\",\r\n\t\"id\",\r\n\t\"name\",\r\n\t\"owner\",\"policyScope\",\"names\"],\r\n\t\"from\": 0,\r\n\t\"size\": -1\r\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the search process is successful. The result is a map of type and object. Each type has it's respective search results mapped.",
+            "examples" : {
+              "application/json" : "{\r\n\t\"GROUP\": [\"API-Gateway-Administrators\",\r\n\t\"API-Gateway-Providers\",\r\n\t\"Administrators\",\r\n\t\"Anonymous\",\r\n\t\"Developers\",\r\n\t\"Everybody\",\r\n\t\"Replicators\"],\r\n\t\"POLICY\": [{\r\n\t\t\"id\": \"GlobalLogInvocationPolicy\",\r\n\t\t\"names\": [{\r\n\t\t\t\"value\": \"Transaction logging\",\r\n\t\t\t\"locale\": \"English\"\r\n\t\t}],\r\n\t\t\"policyEnforcements\": [],\r\n\t\t\"policyScope\": \"GLOBAL\",\r\n\t\t\"global\": false,\r\n\t\t\"active\": false,\r\n\t\t\"systemPolicy\": false\r\n\t},\r\n\t{\r\n\t\t\"id\": \"3808db1a-8577-41e5-af6b-dcdac470524c\",\r\n\t\t\"names\": [{\r\n\t\t\t\"value\": \"Transport Policy\",\r\n\t\t\t\"locale\": \"English\"\r\n\t\t}],\r\n\t\t\"policyEnforcements\": [],\r\n\t\t\"policyScope\": \"GLOBAL\",\r\n\t\t\"global\": false,\r\n\t\t\"active\": false,\r\n\t\t\"systemPolicy\": false\r\n\t}],\r\n\t\"ALIAS\": [{\r\n\t\t\"name\": \"Myname\",\r\n\t\t\"value\": \"API Gateway N\"\r\n\t}],\r\n\t\"APPLICATION\": [{\r\n\t\t\"name\": \"Application\",\r\n\t\t\"owner\": \"Administrator\",\r\n\t\t\"identifiers\": [],\r\n\t\t\"siteURLs\": [],\r\n\t\t\"subscription\": false\r\n\t}],\r\n\t\"API\": [{\r\n\t\t\"apiName\": \"API Gateway\",\r\n\t\t\"isActive\": false,\r\n\t\t\"policies\": [],\r\n\t\t\"publishedPortals\": [],\r\n\t\t\"systemVersion\": 1,\r\n\t\t\"id\": \"1ac48246-80eb-44c8-8901-564e025dbbde\"\r\n\t},\r\n\t{\r\n\t\t\"apiName\": \"API Gateway Policy Management\",\r\n\t\t\"isActive\": false,\r\n\t\t\"owner\": \"Administrator\",\r\n\t\t\"policies\": [],\r\n\t\t\"publishedPortals\": [],\r\n\t\t\"systemVersion\": 1,\r\n\t\t\"id\": \"7b2166a6-cf3c-4f72-a04b-72c110c302d2\"\r\n\t}],\r\n\t\"USER\": [\"Administrator\",\r\n\t\"Default\",\r\n\t\"Developer\",\r\n\t\"Replicator\",\r\n\t\"apigateway\"]\r\n}"
+            },
+            "schema" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "object"
+              }
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates either error occurred during the search process or user has missed some mandatory field that is required to do the search. The examples shows user missed a mandatory field \"condition\" in request body",
+            "examples" : {
+              "application/json" : "{\r\n  \"errorDetails\": \" Mandatory field condition is missing in the input request body\"\r\n}"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either the user did not provide any user credentials or user does not have API Gateway Administrator or API Gateway provider access rights for search."
+          },
+          "500" : {
+            "description" : "This status code indicates that the search process is not successful and has failed due to some internal server error."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/search/_aggregations" : {
+      "post" : {
+        "description" : "This REST call is intent to get the aggregation results for the specified scope and types. Supported aggregations are grouping, metrics and timeseries. \nGrouping aggregation is used to find the count based on grouping of certain fields. \nMetrics aggregation is used to find the average, minimum, maximum and sum of a field. \nTimeseries aggregation is used to find the interval based and allowed intervals are second, minute, hour, day, week, month, quarter and year. In addition to the /search payload, aggregations fields like 'name', 'type' and 'fields'. Except types, scope, condition and aggregations other attributes are not considered during the REST API call.",
+        "operationId" : "aggregations",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search Parameters to search for specific set of results on specified types",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SearchContext"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\t\"types\": [\"TRANSACTION_EVENTS\"],\r\n\t\"condition\": \"or\",\r\n\t\"scope\": [{\r\n\t\t\"attributeName\": \"apiName\",\r\n\t\t\"keyword\": \"petstore\"}],\"aggregations\":{\"type\":\"group\", \"fields\" : \"apiName,apiVersion\"}}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates the count for the specified scope is success. The result will be a map of type and count for each type.",
+            "examples" : {
+              "application/json" : "{\r\n\t\"TRANSACTION_EVENTS\":{\"apiName\":{\"apiName\":\"petstore\",\"apiVersion\":\"v1\",\"count\":12}}}"
+            },
+            "schema" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "object"
+              }
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates either error occurred during the search process or user has missed some mandatory field that is required to do the search. The examples shows user missed a mandatory field \"aggregations\" in request body",
+            "examples" : {
+              "application/json" : "{\r\n  \"errorDetails\": \" Mandatory field aggregations is missing in the input request body\"\r\n}"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API Gateway provider access for search."
+          },
+          "500" : {
+            "description" : "This status code indicates the search process is not success and failed due to some internal server error."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/search/_count" : {
+      "post" : {
+        "description" : "This REST call is intent to get the total number of records for the specified scope and types. If the scope is not specified it returns total number of assets for the specified type. Both /search and /search/_count shares the same payload. Except types,scope and condition other attributes are not considered during the REST API call.",
+        "operationId" : "countByType",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Search Parameters to search for specific set of results on specified types",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SearchContext"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\t\"types\": [\"user\",\r\n\t\"group\",\r\n\t\"api\",\r\n\t\"alias\",\r\n\t\"application\",\r\n\t\"policy\"],\r\n\t\"condition\": \"or\",\r\n\t\"scope\": [{\r\n\t\t\"attributeName\": \"apiName\",\r\n\t\t\"keyword\": \".*api.*\"\r\n\t},\r\n\t{\r\n\t\t\"attributeName\": \"names.value\",\r\n\t\t\"keyword\": \"Default Policy for API EMP\"\r\n\t},\r\n\t{\r\n\t\t\"attributeName\": \"name\",\r\n\t\t\"keyword\": \".*app.*\"\r\n\t},\r\n\t{\r\n\t\t\"attributeName\" : \"type\",\r\n\t\t\"keyword\" : \"simple\"\r\n\t},\r\n\t{\r\n\t\t\"attributeName\" : \"policyScope\",\r\n\t\t\"keyword\" : \"global\"\r\n\t}\r\n\t]}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates the count for the specified scope is success. The result will be a map of type and count for each type.",
+            "examples" : {
+              "application/json" : "{\r\n\t\"group\":12,\r\n\t\"policy\":13,\r\n\t\"user\":4,\r\n\t\"api\":5\r\n}"
+            },
+            "schema" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "integer",
+                "format" : "int32"
+              }
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates either error occurred during the search process or user has missed some mandatory field that is required to do the search. The examples shows user missed a mandatory field \"condition\" in request body",
+            "examples" : {
+              "application/json" : "{\r\n  \"errorDetails\": \" Mandatory field condition is missing in the input request body\"\r\n}"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that the user did not provide any user credential or user does not have API Gateway Administrator or API Gateway provider access for search."
+          },
+          "500" : {
+            "description" : "This status code indicates the search process is not success and failed due to some internal server error."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Basic" : {
+      "description" : "API Gateway Administrator and API Gateway provider",
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "GroupingAggregation" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/IAggregation"
+      }, {
+        "type" : "object",
+        "properties" : { },
+        "description" : "This defines the aggregation structure to search across API Gateway"
+      } ]
+    },
+    "IAggregation" : {
+      "type" : "object",
+      "discriminator" : "type",
+      "properties" : {
+        "fields" : {
+          "type" : "string",
+          "description" : "Input aggregation fields"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name of the aggregation in the search aggregation response"
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "Type of the aggregation.",
+          "enum" : [ "metrics", "timeseries", "group" ]
+        }
+      },
+      "description" : "This defines the aggregation structure to search across API Gateway"
+    },
+    "MetricsAggregation" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/IAggregation"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "metricsType" : {
+            "type" : "string",
+            "description" : "Type of the metrics aggregation.",
+            "enum" : [ "avg", "min", "max", "sum" ]
+          }
+        },
+        "description" : "This defines the aggregation structure to search across API Gateway"
+      } ]
+    },
+    "SearchContext" : {
+      "type" : "object",
+      "required" : [ "types" ],
+      "properties" : {
+        "aggregations" : {
+          "$ref" : "#/definitions/IAggregation"
+        },
+        "condition" : {
+          "type" : "string",
+          "description" : "Condition between scope specified. The value can be either 'and' or 'or'",
+          "enum" : [ "and", "or" ]
+        },
+        "deploymentFilter" : {
+          "type" : "string",
+          "description" : "This filter is used for deployment types."
+        },
+        "from" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "The starting index of the record to be fetched. Default value is 0 which fetches from the start. The index is applied to each type separately. For each type the first n records are skipped as specified in from field. If the value specified is less than zero then the default value is taken for fetching records"
+        },
+        "responseFields" : {
+          "type" : "array",
+          "description" : "List of fields to be fetched for the specified types.",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "scope" : {
+          "$ref" : "#/definitions/SearchField"
+        },
+        "size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Number of records to be fetched. Default value is -1, which fetches all the records. The size is applied to each type separately. Each type has the records less than or equal to the size specified. If the value specified is less than zero then the default value is taken for fetching records"
+        },
+        "sortByField" : {
+          "type" : "string",
+          "description" : "Field name on which the sorting needs to be applied."
+        },
+        "sortOrder" : {
+          "type" : "string",
+          "description" : "Sort order for the records",
+          "enum" : [ "ASC", "DESC" ]
+        },
+        "teamFilter" : {
+          "type" : "array",
+          "description" : "This filter is used to specify list teams to apply on the search results.",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "types" : {
+          "type" : "string",
+          "description" : "List of allowed types that can be searched across API Gateway.",
+          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS", "GATEWAY_SCOPE", "OAUTH2MATERIALIZEDTOKEN", "TRANSACTION_EVENTS", "LIFECYCLE_EVENTS", "POLICYVIOLATION_EVENTS", "MONITOR_EVENTS", "ERROR_EVENTS", "THREATPROTECTION_EVENTS", "PERFORMANCE_METRICS", "QUOTA_USAGE", "DASHBOARD", "AUDIT_LOG", "REQUEST_RESPONSE_TRACE_SPANS", "APPLICATION_LOG", "MEDIATOR_TRACE_SPANS", "SERVER_LOG_TRACE_SPANS" ]
+        }
+      },
+      "description" : "This defines the request structure to search across API Gateway"
+    },
+    "SearchField" : {
+      "type" : "object",
+      "properties" : {
+        "attributeName" : {
+          "type" : "string",
+          "description" : "Field name to be searched for the list of types specified"
+        },
+        "keyword" : {
+          "type" : "string",
+          "description" : "Value of the corresponding field to be matched. User can use regular expression to specify the multiple values for single attributeName. For example  to find \n 1. apiDescription contains \"weather\" or equals \"country\" , we can use {\"attributeName\" : \"apiDescription\", \"keyword\" : \".*weather.*|country\"}. \n 2. apiName starts with weather - {\"attributeName\" : \"apiName\", \"keyword\" : \"weather.*\"}. \n 3. api type is REST or SOAP - {\"attributeName\" : \"type\", \"keyword\" : \"REST|SOAP\"}."
+        },
+        "orTokenKey" : {
+          "type" : "boolean"
+        },
+        "range" : {
+          "$ref" : "#/definitions/SearchRange"
+        },
+        "rawFieldKey" : {
+          "type" : "string"
+        }
+      },
+      "description" : "A scope is filtering criteria for the list of types specified in search.It is a key/value pair. key is the field name on which the search is being done and value  contains the search string to be searched on the field specified.To get the field name for a type, user needs to access the corresponding API Gateway REST service to know about the fields available for a particular type. "
+    },
+    "SearchRange" : {
+      "type" : "object",
+      "properties" : {
+        "from" : {
+          "type" : "object",
+          "description" : "from value is used to set the minimum value in the request criteria and it can be integer, date or datetime"
+        },
+        "since" : {
+          "type" : "string",
+          "example" : "30d",
+          "description" : "This field is to search the data for the last few duration in units like seconds, minutes, hours, days and weeks. Possible units are [smhdw]"
+        },
+        "to" : {
+          "type" : "object",
+          "description" : "to value is used to set the maximum value in the request criteria and it can be integer, date or datetime"
+        }
+      },
+      "description" : "A range is request criteria for the search operation applicable for the data types like date, datetime and integers. Range can be specified either by providing the 'from' and 'to' field or the 'since' field.For example to find \n 1. Search the transactional events generated in between 2020-04-01 (April 1, 2020) and 2020-05-31 (May 31, 2020), we can use {\"attributeName\" : \"creationDate\", \"range\" : {\"from\" : \"2020-04-01\", \"to\" : \"2020-05-31\"}}. \n 2. Search the transactional events where the request data size in between 1000 and 4000 - {\"attributeName\" : \"apiName\", \"range\" : {\"from\" : 1000, \"to\" : 4000}}."
+    },
+    "TimeSeriesAggregation" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/IAggregation"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "interval" : {
+            "type" : "string",
+            "description" : "Interval of the time series in aggregation.",
+            "enum" : [ "second", "minute", "hour", "day", "week", "month", "quarter", "year" ]
+          },
+          "intervalTypeAsString" : {
+            "type" : "string"
+          }
+        },
+        "description" : "This defines the aggregation structure to search across API Gateway"
+      } ]
+    }
+  }
+}

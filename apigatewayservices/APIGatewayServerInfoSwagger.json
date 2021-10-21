@@ -1,0 +1,318 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This swagger doc contains API Definition of API gateway ServerInfo.",
+    "version" : "10.11",
+    "title" : "API Gateway Server Information"
+  },
+  "host" : "localhost:5555",
+  "basePath" : "/rest/apigateway",
+  "schemes" : [ "http" ],
+  "consumes" : [ "plain/text" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/is/serverinfo" : {
+      "get" : {
+        "operationId" : "Server Information",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns API Gateway server Information ",
+            "schema" : {
+              "$ref" : "#/definitions/ServerInfo"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Basic" : {
+      "description" : "API Gateway Administrator and API Gateway provider",
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "APIGateway" : {
+      "type" : "object",
+      "properties" : {
+        "APIManagement" : {
+          "type" : "string"
+        },
+        "Application Management" : {
+          "type" : "string"
+        },
+        "Policy Management - Gateway" : {
+          "type" : "string"
+        },
+        "Policy Management - Threat Protection" : {
+          "type" : "string"
+        }
+      }
+    },
+    "IntegrationServer" : {
+      "type" : "object",
+      "properties" : {
+        "Adapter Runtime" : {
+          "type" : "string"
+        },
+        "Clustering" : {
+          "type" : "string"
+        },
+        "Concurrent Sessions" : {
+          "type" : "string"
+        },
+        "Distributed Cache" : {
+          "type" : "string"
+        },
+        "Enterprise Gateway" : {
+          "type" : "string"
+        },
+        "Guaranteed Delivery" : {
+          "type" : "string"
+        },
+        "Product Code" : {
+          "type" : "string"
+        },
+        "Product Version" : {
+          "type" : "string"
+        },
+        "Publish / Subscribe" : {
+          "type" : "string"
+        },
+        "Remote Invoke" : {
+          "type" : "string"
+        },
+        "Security Auditing" : {
+          "type" : "string"
+        }
+      }
+    },
+    "LicenseDetail" : {
+      "type" : "object",
+      "properties" : {
+        "API Gateway" : {
+          "$ref" : "#/definitions/APIGateway"
+        },
+        "Sales Information" : {
+          "$ref" : "#/definitions/SalesInformation"
+        },
+        "integrationServer" : {
+          "$ref" : "#/definitions/IntegrationServer"
+        },
+        "licenseInformation" : {
+          "$ref" : "#/definitions/LicenseInformation"
+        },
+        "productInformation" : {
+          "$ref" : "#/definitions/ProductInformation"
+        }
+      }
+    },
+    "LicenseInformation" : {
+      "type" : "object",
+      "properties" : {
+        "ExtendedRights" : {
+          "type" : "string"
+        },
+        "LicenseType" : {
+          "type" : "string"
+        },
+        "LicenseVersion" : {
+          "type" : "string"
+        },
+        "Metering" : {
+          "type" : "string"
+        },
+        "Price Quantity" : {
+          "type" : "string"
+        },
+        "Price Unit" : {
+          "type" : "string"
+        },
+        "TypeOfInstallation" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ProductInformation" : {
+      "type" : "object",
+      "properties" : {
+        "Expiration Date" : {
+          "type" : "string"
+        },
+        "HigherLevPosNr" : {
+          "type" : "string"
+        },
+        "HigherLevProdCode" : {
+          "type" : "string"
+        },
+        "HigherLevProdName" : {
+          "type" : "string"
+        },
+        "Operating System" : {
+          "type" : "string"
+        },
+        "Product Code" : {
+          "type" : "string"
+        },
+        "Product ID" : {
+          "type" : "string"
+        },
+        "Product Name" : {
+          "type" : "string"
+        },
+        "Product Version" : {
+          "type" : "string"
+        },
+        "RenewalDate" : {
+          "type" : "string"
+        },
+        "Usage" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SalesInformation" : {
+      "type" : "object",
+      "properties" : {
+        "AutoCallHome" : {
+          "type" : "string"
+        },
+        "ContractDetails" : {
+          "type" : "string"
+        },
+        "ContractPosNumber" : {
+          "type" : "string"
+        },
+        "Customer ID" : {
+          "type" : "string"
+        },
+        "Customer Name" : {
+          "type" : "string"
+        },
+        "License Key" : {
+          "type" : "string"
+        },
+        "License Type Details" : {
+          "type" : "string"
+        },
+        "Serial Number" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ServerInfo" : {
+      "type" : "object",
+      "properties" : {
+        "LicenseDetails" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/LicenseDetail"
+          }
+        },
+        "allSvcsMinusShuts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "allSvcsMinusStarts" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "build" : {
+          "type" : "string"
+        },
+        "code" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "jvm_version" : {
+          "type" : "string"
+        },
+        "listACL" : {
+          "type" : "string"
+        },
+        "loaderr" : {
+          "type" : "string"
+        },
+        "loadok" : {
+          "type" : "string"
+        },
+        "loadwarning" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "package" : {
+          "type" : "string"
+        },
+        "patch_nums" : {
+          "type" : "object"
+        },
+        "publisher" : {
+          "type" : "string"
+        },
+        "services" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "shutdownServices" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "startupServices" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "systemInfo" : {
+          "$ref" : "#/definitions/SystemInfo"
+        },
+        "time" : {
+          "type" : "object"
+        },
+        "version" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SystemInfo" : {
+      "type" : "object",
+      "properties" : {
+        "CPU.cores" : {
+          "type" : "string"
+        },
+        "CPU.type" : {
+          "type" : "string"
+        },
+        "HW.memory[GB]" : {
+          "type" : "string"
+        },
+        "Hostname" : {
+          "type" : "string"
+        },
+        "OS.Name" : {
+          "type" : "string"
+        },
+        "OS.Release" : {
+          "type" : "string"
+        },
+        "OS.Service.Pack" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

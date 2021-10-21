@@ -1,0 +1,694 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API Gateway supports staging and promotion of assets. In a typical enterprise-level,\nsolutions are separated according to the different stages of Software Development\nLifecycle (SDLC) such as development, quality assurance (QA), and production stages. Staging and promotion allows you to promote all the assets across different stages. The supported assets are APIs, global policies, policy templates, applications, aliases, packages, plans, threat protection rules, administrative configurations, approval configurations, outbound proxies, URL aliases, keyStores, trustStores, JNDI provider aliases, JMS connection aliases, JMS triggers, webservice endpoint aliases, users, groups, access profiles and kerberos settings\n\nPromotion refers to moving API Gateway assets from the source stage to one or more\ntarget stages. For example, you might want to promote assets you have developed on\nservers in a Development stage (the source API Gateway instance) to servers in a QA or\nProduction stage (the target API Gateway instance).\n\nRollback is the process of restoring the asset's metadata in the target API Gateway instance to a previous state.\n\nStages should be configured in the source machine where we initiate the promotion process.",
+    "version" : "10.11",
+    "title" : "API Assets Promotion Management"
+  },
+  "host" : "localhost:5555",
+  "basePath" : "/rest/apigateway",
+  "schemes" : [ "http" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/promotion" : {
+      "get" : {
+        "description" : "This REST operation is used to retrieve the promotions history with each promotion entry provides the promotion name, promoted by whom, when it's promoted and the promoted assets status",
+        "operationId" : "getPromotions",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of all promotions",
+            "examples" : {
+              "application/json" : "{\r\n    \"promotion\": [\r\n        {\r\n            \"id\": \"12beeb57-1855-4da3-8802-679fcff6941b\",\r\n            \"name\": \"samplePromote\",\r\n            \"destinationStages\": [\r\n                \"2d9e280a-b529-466c-9ec8-d6b0e93026a8\"\r\n            ],\r\n            \"valueSubstitution\": [],\r\n            \"promotedAssets\": {\r\n                \"api\": [\r\n                    \"9ae31b7f-25e6-11e8-9ed0-e261b16c5360\"\r\n                ],\r\n                \"application\": []\r\n            },\r\n            \"creationTime\": \"2018-08-07 07:29:28 GMT\",\r\n            \"owner\": \"Administrator\",\r\n            \"status\": \"Success\",\r\n            \"promotionResults\": {\r\n                \"sampleStage\": {\r\n                    \"status\": \"Success\",\r\n                    \"ArchiveResult\": [\r\n                        {\r\n                            \"Alias\": {\r\n                                \"name\": \"LabCaseEndpointAlias\",\r\n                                \"id\": \"fe1d5c3c-e02a-11e7-9d18-d9340e1d9bce\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Enable HTTP / HTTPS] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"75852c98-244a-4be3-8434-f39a7426ce95\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"Alias\": {\r\n                                \"name\": \"SetProjectIdTransformationAlias\",\r\n                                \"id\": \"7011f00c-e01a-11e7-9d18-c3cb04029276\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"Policy\": {\r\n                                \"name\": \"Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"0147048a-795f-48f2-905e-7357474fc02f\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Outbound Authentication - Transport] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"a2947928-5a38-49a0-b0bb-2076800987a1\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Monitor Service Performance] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"11d6d5d8-a55b-480b-8305-34544937fea8\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"API\": {\r\n                                \"name\": \"LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"9ae31b7f-25e6-11e8-9ed0-e261b16c5360\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Request Transformation] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"73a459c5-a15c-49ce-8394-459a34adb81e\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"Alias\": {\r\n                                \"name\": \"MyLabCaseAccountThesse\",\r\n                                \"id\": \"b73a8400-e008-11e7-9d18-f5832492b6de\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PassmanData\": {\r\n                                \"name\": \"HTTP_AUTH_OUTBOUND_CLIENT_PWDMyLabCaseAccountThesse\",\r\n                                \"id\": \"HTTP_AUTH_OUTBOUND_CLIENT_PWDMyLabCaseAccountThesse\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Log Invocation] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"b2fda4bb-70cd-43ba-b508-250f8ba6f5ac\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Identify & Authorize Application] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"f37af4f0-1304-4cf2-b6ea-dc19b012f537\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Straight Through Routing] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"fa476c9d-b30c-4d51-b7c5-80a824723f4f\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Service Result Cache] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"0fc7967a-0c31-4ba2-bc8a-a70f059d3ef0\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        }\r\n                    ]\r\n                }\r\n            },\r\n            \"includeApis\": false,\r\n            \"includeApplications\": false,\r\n            \"includeSubscriptions\": false\r\n        },\r\n        {\r\n            \"id\": \"5cf6f3f5-f8ad-4810-9ef7-ed51d3fd2cfd\",\r\n            \"name\": \"samplePromote_01\",\r\n            \"destinationStages\": [\r\n                \"2d9e280a-b529-466c-9ec8-d6b0e93026a8\"\r\n            ],\r\n            \"valueSubstitution\": [],\r\n            \"promotedAssets\": {\r\n                \"api\": [\r\n                    \"9ae31b7f-25e6-11e8-9ed0-e261b16c5360\"\r\n                ]\r\n            },\r\n            \"creationTime\": \"2018-08-07 07:32:35 GMT\",\r\n            \"owner\": \"Administrator\",\r\n            \"status\": \"Success\",\r\n            \"promotionResults\": {\r\n                \"sampleStage\": {\r\n                    \"status\": \"Success\",\r\n                    \"ArchiveResult\": [\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Log Invocation] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"b2fda4bb-70cd-43ba-b508-250f8ba6f5ac\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"Alias\": {\r\n                                \"name\": \"SetProjectIdTransformationAlias\",\r\n                                \"id\": \"7011f00c-e01a-11e7-9d18-c3cb04029276\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"Policy\": {\r\n                                \"name\": \"Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"0147048a-795f-48f2-905e-7357474fc02f\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PassmanData\": {\r\n                                \"name\": \"HTTP_AUTH_OUTBOUND_CLIENT_PWDMyLabCaseAccountThesse\",\r\n                                \"id\": \"HTTP_AUTH_OUTBOUND_CLIENT_PWDMyLabCaseAccountThesse\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"Alias\": {\r\n                                \"name\": \"MyLabCaseAccountThesse\",\r\n                                \"id\": \"b73a8400-e008-11e7-9d18-f5832492b6de\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Request Transformation] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"73a459c5-a15c-49ce-8394-459a34adb81e\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Enable HTTP / HTTPS] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"75852c98-244a-4be3-8434-f39a7426ce95\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"API\": {\r\n                                \"name\": \"LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"9ae31b7f-25e6-11e8-9ed0-e261b16c5360\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Monitor Service Performance] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"11d6d5d8-a55b-480b-8305-34544937fea8\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"Alias\": {\r\n                                \"name\": \"LabCaseEndpointAlias\",\r\n                                \"id\": \"fe1d5c3c-e02a-11e7-9d18-d9340e1d9bce\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Service Result Cache] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"0fc7967a-0c31-4ba2-bc8a-a70f059d3ef0\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Straight Through Routing] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"fa476c9d-b30c-4d51-b7c5-80a824723f4f\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Outbound Authentication - Transport] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"a2947928-5a38-49a0-b0bb-2076800987a1\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Identify & Authorize Application] -> Policy For API LabCaseTestService_VS[2.0]\",\r\n                                \"id\": \"f37af4f0-1304-4cf2-b6ea-dc19b012f537\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        }\r\n                    ]\r\n                }\r\n            },\r\n            \"includeApis\": false,\r\n            \"includeApplications\": false,\r\n            \"includeSubscriptions\": false\r\n        },\r\n        {\r\n            \"id\": \"917e144e-70cc-4ada-8541-9f68d28483e9\",\r\n            \"name\": \"samplePromote_01\",\r\n            \"destinationStages\": [\r\n                \"2d9e280a-b529-466c-9ec8-d6b0e93026a8\"\r\n            ],\r\n            \"valueSubstitution\": [],\r\n            \"promotedAssets\": {\r\n                \"api\": [\r\n                    \"d033acd7-f935-4d92-8042-b152a992b0cd\"\r\n                ]\r\n            },\r\n            \"creationTime\": \"2018-08-07 07:33:10 GMT\",\r\n            \"owner\": \"Administrator\",\r\n            \"status\": \"Success\",\r\n            \"promotionResults\": {\r\n                \"sampleStage\": {\r\n                    \"status\": \"Success\",\r\n                    \"ArchiveResult\": [\r\n                        {\r\n                            \"Policy\": {\r\n                                \"name\": \"Policy For API PetStore on Heroku[1.0.0]\",\r\n                                \"id\": \"629edf16-3a8c-4362-b75c-2a9f9ab27ee0\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Straight Through Routing] -> Policy For API PetStore on Heroku[1.0.0]\",\r\n                                \"id\": \"e50eba2b-6f54-4585-9dac-25b20543bf82\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Enable HTTP / HTTPS] -> Policy For API PetStore on Heroku[1.0.0]\",\r\n                                \"id\": \"b8b508e0-a61d-49f0-9131-a9379dbd7f6e\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        },\r\n                        {\r\n                            \"API\": {\r\n                                \"name\": \"PetStore on Heroku[1.0.0]\",\r\n                                \"id\": \"d033acd7-f935-4d92-8042-b152a992b0cd\",\r\n                                \"status\": \"Failed\",\r\n                                \"explanation\": \"Asset already exists.\",\r\n                                \"overwritten\": false,\r\n                                \"dependencyFailed\": false\r\n                            }\r\n                        }\r\n                    ]\r\n                }\r\n            },\r\n            \"includeApis\": false,\r\n            \"includeApplications\": false,\r\n            \"includeSubscriptions\": false\r\n        },\r\n        {\r\n            \"id\": \"025d530f-e8ed-4984-99bf-9d216bd3adc0\",\r\n            \"name\": \"samplePromote_01\",\r\n            \"destinationStages\": [\r\n                \"2d9e280a-b529-466c-9ec8-d6b0e93026a8\"\r\n            ],\r\n            \"valueSubstitution\": [],\r\n            \"promotedAssets\": {\r\n                \"api\": [\r\n                    \"d033acd7-f935-4d92-8042-b152a992b0cd\"\r\n                ]\r\n            },\r\n            \"creationTime\": \"2018-08-07 07:33:57 GMT\",\r\n            \"owner\": \"Administrator\",\r\n            \"status\": \"Success\",\r\n            \"promotionResults\": {\r\n                \"sampleStage\": {\r\n                    \"status\": \"Success\",\r\n                    \"ArchiveResult\": [\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Enable HTTP / HTTPS] -> Policy For API PetStore on Heroku[1.0.0]\",\r\n                                \"id\": \"b8b508e0-a61d-49f0-9131-a9379dbd7f6e\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"API\": {\r\n                                \"name\": \"PetStore on Heroku[1.0.0]\",\r\n                                \"id\": \"d033acd7-f935-4d92-8042-b152a992b0cd\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"Policy\": {\r\n                                \"name\": \"Policy For API PetStore on Heroku[1.0.0]\",\r\n                                \"id\": \"629edf16-3a8c-4362-b75c-2a9f9ab27ee0\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        },\r\n                        {\r\n                            \"PolicyAction\": {\r\n                                \"name\": \"Policy Action [Straight Through Routing] -> Policy For API PetStore on Heroku[1.0.0]\",\r\n                                \"id\": \"e50eba2b-6f54-4585-9dac-25b20543bf82\",\r\n                                \"status\": \"Success\",\r\n                                \"explanation\": \"OK\",\r\n                                \"overwritten\": true,\r\n                                \"dependencyFailed\": null\r\n                            }\r\n                        }\r\n                    ]\r\n                }\r\n            },\r\n            \"includeApis\": false,\r\n            \"includeApplications\": false,\r\n            \"includeSubscriptions\": false\r\n        }\r\n    ]\r\n}"
+            },
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Promotion"
+              }
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "This REST operation is used to promote the API Gateway assets from the source machine to destination machine where the destination machine is configured as a stage",
+        "operationId" : "createPromotion",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Promotion request payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Promotion"
+          },
+          "x-examples" : {
+            "application/json" : "{\"description\":\"Promoting the weather API version 2.0 to QA stage so that QA can start testing this API\",\"name\":\"samplePromote\",\"destinationStages\":[\"2d9e280a-b529-466c-9ec8-d6b0e93026a8\"],\"promotedAssets\":{\"api\":[\"9ae31b7f-25e6-11e8-9ed0-e261b16c5360\"],\"application\":[]}}"
+          }
+        }, {
+          "name" : "fixingMissingVersions",
+          "in" : "query",
+          "description" : "Option to fix the API version history. The discrepancy between the asset versions in the source and target stages, if any, are fixed. The default value is false",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "true", "false" ]
+        }, {
+          "name" : "overwrite",
+          "in" : "query",
+          "description" : "Option to overwrite the assets except aliases in the destination stage during asset promotion. The default value is false",
+          "required" : false,
+          "type" : "boolean",
+          "x-example" : true,
+          "enum" : [ "true", "false" ]
+        }, {
+          "name" : "overwriteAlias",
+          "in" : "query",
+          "description" : "Option to overwrite the asset type 'alias' in the destination stage during asset promotion. The default value is 'false'. This parameter takes precedence over the 'overwrite' parameter.",
+          "required" : false,
+          "type" : "boolean",
+          "x-example" : true,
+          "enum" : [ "true", "false" ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Promotion of assets is completed successfully in API Gateway.",
+            "examples" : {
+              "application/json" : "{\r\n    \"promotion\": {\r\n        \"id\": \"025d530f-e8ed-4984-99bf-9d216bd3adc0\",\r\n        \"name\": \"samplePromote_01\",\r\n        \"destinationStages\": [\r\n            \"2d9e280a-b529-466c-9ec8-d6b0e93026a8\"\r\n        ],\r\n        \"valueSubstitution\": [],\r\n        \"promotedAssets\": {\r\n            \"api\": [\r\n                \"d033acd7-f935-4d92-8042-b152a992b0cd\"\r\n            ]\r\n        },\r\n        \"creationTime\": \"2018-08-07 07:33:57 GMT\",\r\n        \"owner\": \"Administrator\",\r\n        \"status\": \"Success\",\r\n        \"promotionResults\": {\r\n            \"sampleStage\": {\r\n                \"status\": \"Success\",\r\n                \"ArchiveResult\": [\r\n                    {\r\n                        \"PolicyAction\": {\r\n                            \"name\": \"Policy Action [Enable HTTP / HTTPS] -> Policy For API PetStore on Heroku[1.0.0]\",\r\n                            \"id\": \"b8b508e0-a61d-49f0-9131-a9379dbd7f6e\",\r\n                            \"status\": \"Success\",\r\n                            \"explanation\": \"OK\",\r\n                            \"overwritten\": true,\r\n                            \"dependencyFailed\": null\r\n                        }\r\n                    },\r\n                    {\r\n                        \"API\": {\r\n                            \"name\": \"PetStore on Heroku[1.0.0]\",\r\n                            \"id\": \"d033acd7-f935-4d92-8042-b152a992b0cd\",\r\n                            \"status\": \"Success\",\r\n                            \"explanation\": \"OK\",\r\n                            \"overwritten\": true,\r\n                            \"dependencyFailed\": null\r\n                        }\r\n                    },\r\n                    {\r\n                        \"Policy\": {\r\n                            \"name\": \"Policy For API PetStore on Heroku[1.0.0]\",\r\n                            \"id\": \"629edf16-3a8c-4362-b75c-2a9f9ab27ee0\",\r\n                            \"status\": \"Success\",\r\n                            \"explanation\": \"OK\",\r\n                            \"overwritten\": true,\r\n                            \"dependencyFailed\": null\r\n                        }\r\n                    },\r\n                    {\r\n                        \"PolicyAction\": {\r\n                            \"name\": \"Policy Action [Straight Through Routing] -> Policy For API PetStore on Heroku[1.0.0]\",\r\n                            \"id\": \"e50eba2b-6f54-4585-9dac-25b20543bf82\",\r\n                            \"status\": \"Success\",\r\n                            \"explanation\": \"OK\",\r\n                            \"overwritten\": true,\r\n                            \"dependencyFailed\": null\r\n                        }\r\n                    }\r\n                ]\r\n            }\r\n        },\r\n        \"includeApis\": false,\r\n        \"includeApplications\": false,\r\n        \"includeSubscriptions\": false\r\n    }\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Promotion"
+            }
+          },
+          "400" : {
+            "description" : "This status code shows when the user missed the mandatory fields like destinationStages, promotedAssets in the request or provide a invalid request body"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to configure a stage."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/promotion/{promotionId}" : {
+      "get" : {
+        "description" : "Retrieve a promotion based on the promotion id.",
+        "operationId" : "getPromotion",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "promotionId",
+          "in" : "path",
+          "description" : "Promotion Id for the promotion to be retrieved",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the promotion based on the promotionId.",
+            "examples" : {
+              "application/json" : "{\r\n    \"promotion\": {\r\n        \"id\": \"025d530f-e8ed-4984-99bf-9d216bd3adc0\",\r\n        \"name\": \"samplePromote_01\",\r\n        \"destinationStages\": [\r\n            \"2d9e280a-b529-466c-9ec8-d6b0e93026a8\"\r\n        ],\r\n        \"valueSubstitution\": [],\r\n        \"promotedAssets\": {\r\n            \"api\": [\r\n                \"d033acd7-f935-4d92-8042-b152a992b0cd\"\r\n            ]\r\n        },\r\n        \"creationTime\": \"2018-08-07 07:33:57 GMT\",\r\n        \"owner\": \"Administrator\",\r\n        \"status\": \"Success\",\r\n        \"promotionResults\": {\r\n            \"sampleStage\": {\r\n                \"status\": \"Success\",\r\n                \"ArchiveResult\": [\r\n                    {\r\n                        \"PolicyAction\": {\r\n                            \"name\": \"Policy Action [Enable HTTP / HTTPS] -> Policy For API PetStore on Heroku[1.0.0]\",\r\n                            \"id\": \"b8b508e0-a61d-49f0-9131-a9379dbd7f6e\",\r\n                            \"status\": \"Success\",\r\n                            \"explanation\": \"OK\",\r\n                            \"overwritten\": true,\r\n                            \"dependencyFailed\": null\r\n                        }\r\n                    },\r\n                    {\r\n                        \"API\": {\r\n                            \"name\": \"PetStore on Heroku[1.0.0]\",\r\n                            \"id\": \"d033acd7-f935-4d92-8042-b152a992b0cd\",\r\n                            \"status\": \"Success\",\r\n                            \"explanation\": \"OK\",\r\n                            \"overwritten\": true,\r\n                            \"dependencyFailed\": null\r\n                        }\r\n                    },\r\n                    {\r\n                        \"Policy\": {\r\n                            \"name\": \"Policy For API PetStore on Heroku[1.0.0]\",\r\n                            \"id\": \"629edf16-3a8c-4362-b75c-2a9f9ab27ee0\",\r\n                            \"status\": \"Success\",\r\n                            \"explanation\": \"OK\",\r\n                            \"overwritten\": true,\r\n                            \"dependencyFailed\": null\r\n                        }\r\n                    },\r\n                    {\r\n                        \"PolicyAction\": {\r\n                            \"name\": \"Policy Action [Straight Through Routing] -> Policy For API PetStore on Heroku[1.0.0]\",\r\n                            \"id\": \"e50eba2b-6f54-4585-9dac-25b20543bf82\",\r\n                            \"status\": \"Success\",\r\n                            \"explanation\": \"OK\",\r\n                            \"overwritten\": true,\r\n                            \"dependencyFailed\": null\r\n                        }\r\n                    }\r\n                ]\r\n            }\r\n        },\r\n        \"includeApis\": false,\r\n        \"includeApplications\": false,\r\n        \"includeSubscriptions\": false\r\n    }\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Promotion"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the promotionId specified is not found in the API Gateway"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "Delete the promotion",
+        "operationId" : "deletePromotion",
+        "parameters" : [ {
+          "name" : "promotionId",
+          "in" : "path",
+          "description" : "Promotion Id for the promotion to be deleted",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API"
+          },
+          "404" : {
+            "description" : "This status code indicates that the promotionId specified is not found in the API Gateway"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/rollback" : {
+      "get" : {
+        "description" : "This REST operation is used to retrieve the list of possible rollbacks a user can do from the local (target) API Gateway instance. Each rollback entry was created when a promotion of assets to the local (target) API Gateway instance from another stage",
+        "operationId" : "getRollbacks",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of all rollbacks",
+            "examples" : {
+              "application/json" : "{\r\n    \"rollback\": [\r\n        {\r\n            \"id\": \"b3c038d6-84a8-4b35-93af-21ab4151c1d4\",\r\n            \"name\": \"testP2\",\r\n            \"description\": \"\",\r\n\t\t\t\"promotionTime\": \"2018-12-04 09:07:43 GMT\"\r\n        },\r\n        {\r\n            \"id\": \"01faa8db-1213-44c3-9b4a-cda173f00b4a\",\r\n            \"name\": \"testP3\",\r\n            \"status\": \"Success\",\r\n            \"promotionTime\": \"2018-12-04 09:08:31 GMT\",\r\n            \"lastRollbackTime\": \"2018-12-04 09:18:27 GMT\"\r\n        }\r\n    ]\r\n}"
+            },
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Rollback"
+              }
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/rollback/{rollbackId}" : {
+      "get" : {
+        "description" : "Retrieve a rollback based on the rollback id.",
+        "operationId" : "getRollback",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rollbackId",
+          "in" : "path",
+          "description" : "Rollback Id for the rollback to be retrieved",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the rollback based on the rollbackId.",
+            "examples" : {
+              "application/json" : "{\r\n    \"rollback\": \r\n        {\r\n            \"id\": \"01faa8db-1213-44c3-9b4a-cda173f00b4a\",\r\n            \"name\": \"testP3\",\r\n            \"status\": \"Success\",\r\n            \"promotionTime\": \"2018-12-04 09:08:31 GMT\",\r\n            \"lastRollbackTime\": \"2018-12-04 09:18:27 GMT\"\r\n        }\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Rollback"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the rollbackId specified is not found in the API Gateway"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "This REST operation is used to rollback the assets to the previous state i.e the state prior to promotion. Rollback should be initiated from the local gateway instance.",
+        "operationId" : "doRollback",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "rollbackId",
+          "in" : "path",
+          "description" : "Rollback Id for the promotion to be rollbacked",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the rollback object",
+            "examples" : {
+              "application/json" : "{\r\n    \"rollback\": \r\n        {\r\n            \"id\": \"01faa8db-1213-44c3-9b4a-cda173f00b4a\",\r\n            \"name\": \"testP3\",\r\n            \"status\": \"Success\",\r\n            \"promotionTime\": \"2018-12-04 09:08:31 GMT\",\r\n            \"lastRollbackTime\": \"2018-12-04 09:18:27 GMT\"\r\n        }\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Rollback"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the rollbackId specified is not found in the API Gateway"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "Delete the rollback",
+        "operationId" : "deleteRollback",
+        "parameters" : [ {
+          "name" : "rollbackId",
+          "in" : "path",
+          "description" : "Rollback Id for the rollback to be deleted",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API"
+          },
+          "404" : {
+            "description" : "This status code indicates that the rollbackId specified is not found in the API Gateway"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/stages" : {
+      "get" : {
+        "description" : "This REST operation is used to retrieve all the configured stages",
+        "operationId" : "getStages",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of all stages",
+            "examples" : {
+              "application/json" : "{\r\n    \"stages\": [\r\n        {\r\n            \"id\": \"2d9e280a-b529-466c-9ec8-d6b0e93026a8\",\r\n            \"name\": \"sampleStage\",\r\n            \"url\": \"http://localhost:5555/\",\r\n            \"username\": \"Administrator\",\r\n            \"password\": \"********************************\"\r\n        }\r\n    ]\r\n}"
+            },
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Stage"
+              }
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "This REST operation is used to configure a stage in the source API Gateway where promotion will be initiated. A stage is just another API Gateway instance. When the stage url is https, then keystore and keystore alias will also be expected while configuring a stage",
+        "operationId" : "createStage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Stage request payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Stage"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n\t\"name\" : \"QA Stage\",\r\n\t\"description\" : \"This stage will be used to test the assets promoted from the development stage\",\r\n\t\"url\" : \"http://mcmriz01:5555/\",\r\n\t\"username\" : \"Administrator\",\r\n\t\"password\" : \"password\"\r\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Stage is created successfully in API Gateway. Now user can promote API Gateway assets to the created stage",
+            "examples" : {
+              "application/json" : "{\r\n    \"stage\": {\r\n        \"id\": \"cc71211e-cd45-4a72-b453-9cc22c783f9d\",\r\n        \"name\": \"QA Stage\",\r\n        \"description\": \"This stage will be used to test the assets promoted from the development stage\",\r\n        \"url\": \"http://mcmriz01:5555/\",\r\n        \"username\": \"Administrator\",\r\n        \"password\": \"********************************\"\r\n    }\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Stage"
+            }
+          },
+          "400" : {
+            "description" : "This status code shows when the user missed the mandatory fields like name, url, username, password and keyStoreAlias, keyAlias for https url in the request or provide a invalid request body"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to configure a stage."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/stages/{stageId}" : {
+      "get" : {
+        "description" : "This REST operation is used to retrieve a particular stage object based on a stage id",
+        "operationId" : "getStage",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "stageId",
+          "in" : "path",
+          "description" : "Stage Id for the stage to be retrieved",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the stage based on the stageId.",
+            "examples" : {
+              "application/json" : "{\r\n    \"stage\": {\r\n        \"id\": \"2d9e280a-b529-466c-9ec8-d6b0e93026a8\",\r\n        \"name\": \"sampleStage\",\r\n        \"url\": \"http://localhost:5555/\",\r\n        \"username\": \"Administrator\",\r\n        \"password\": \"********************************\"\r\n    }\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Stage"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the stageId specified is not found in the API Gateway"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "This REST operation is used to update a stage in the source API Gateway where promotion will be initiated. A stage is just another API Gateway instance. When the stage url is https, then keystore and keystore alias will also be expected while configuring a stage",
+        "operationId" : "updateStage",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "stageId",
+          "in" : "path",
+          "description" : "Stage Id for the stage to be updated",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Stage request payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Stage"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n    \"stage\": {\r\n        \"id\": \"2d9e280a-b529-466c-9ec8-d6b0e93026a8\",\r\n        \"name\": \"sampleStage\",\r\n        \"url\": \"http://localhost:5555/\",\r\n        \"username\": \"Administrator\",\r\n        \"password\": \"********************************\"\r\n    }\r\n}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the updated stage object",
+            "examples" : {
+              "application/json" : "{\r\n    \"stage\": {\r\n        \"id\": \"2d9e280a-b529-466c-9ec8-d6b0e93026a8\",\r\n        \"name\": \"sampleStage\",\r\n        \"url\": \"http://localhost:5555/\",\r\n        \"username\": \"Administrator\",\r\n        \"password\": \"********************************\"\r\n    }\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Stage"
+            }
+          },
+          "400" : {
+            "description" : "This status code shows when the user missed the mandatory fields like name, url, username, password and keyStoreAlias, keyAlias for https url in the request or provide a invalid request body"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the stageId specified is not found in the API Gateway"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "Delete the stage",
+        "operationId" : "deleteStage",
+        "parameters" : [ {
+          "name" : "stageId",
+          "in" : "path",
+          "description" : "Stage Id for the stage to be deleted",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API"
+          },
+          "404" : {
+            "description" : "This status code indicates that the stageId specified is not found in the API Gateway"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Basic" : {
+      "description" : "API Gateway Administrator and API Gateway provider",
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "AssetObject" : {
+      "type" : "object",
+      "properties" : {
+        "dependencyFailed" : {
+          "type" : "boolean",
+          "description" : "Specified whether the dependency asset is failed or not",
+          "readOnly" : true
+        },
+        "explanation" : {
+          "type" : "string",
+          "description" : "Explanation for the failure",
+          "readOnly" : true
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "Id of the API gateway asset",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name of the API gateway asset",
+          "readOnly" : true
+        },
+        "overwritten" : {
+          "type" : "boolean",
+          "description" : "Specifies whether the promoted asset overwrite any existing asset or not",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the API gateway asset i.e success or failure",
+          "readOnly" : true
+        },
+        "warning" : {
+          "type" : "boolean",
+          "description" : "Specified whether a warning occurred during import of the asset",
+          "readOnly" : true
+        }
+      }
+    },
+    "PrintArchiveResults" : {
+      "type" : "object",
+      "properties" : {
+        "ArchiveResult" : {
+          "type" : "array",
+          "description" : "List of the result of the promotion of all selected assets where key in the each element is the asset type",
+          "readOnly" : true,
+          "items" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/definitions/AssetObject"
+            }
+          }
+        },
+        "errorReason" : {
+          "type" : "string",
+          "description" : "Error reason for the promotion of assets, if the promotion is failed",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the promotion of assets",
+          "readOnly" : true
+        }
+      }
+    },
+    "Promotion" : {
+      "type" : "object",
+      "properties" : {
+        "creationTime" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description for the promotion"
+        },
+        "destinationStages" : {
+          "type" : "array",
+          "description" : "List of target stages (specified by stage ids) that you want to promote the assets",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "errorReason" : {
+          "type" : "string",
+          "description" : "Reason for the promotion if it's failed",
+          "readOnly" : true
+        },
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "includeApis" : {
+          "type" : "boolean",
+          "description" : "Include the APIs associated with the applications during the promotion of applications"
+        },
+        "includeApplications" : {
+          "type" : "boolean",
+          "description" : "Include the applications associated with the APIs during the promotion of APIs"
+        },
+        "includeSubscriptions" : {
+          "type" : "boolean",
+          "description" : "Include the subscriptions associated with the packages during the promotion of packages"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name for the promotion"
+        },
+        "owner" : {
+          "type" : "string",
+          "description" : "The user who initiates this promotion",
+          "readOnly" : true
+        },
+        "promotedAssets" : {
+          "type" : "object",
+          "description" : "Map of assets with its associated asset ids to be promoted where key is the asset type and value is the list of asset ids. Possible asset types are \"USER\", \"GROUP\", \"USERS\", \"GROUPS\", \"ACCESSPROFILES\", \"LDAPGROUPS\", \"CDSGROUPS\", \"ASSERTION\", \"APPLICATION\", \"API\", \"ALIAS\", \"POLICY\", \"POLICY_ACTION\", \"PLAN\", \"PACKAGE\", \"ADMINISTRATOR_SETTING\", \"PORTAL_GATEWAY\", \"OAUTH2_SCOPE_DATA\", \"SUBSCRIPTION\", \"API_DOCUMENT\", \"APPROVAL_CONFIGURATION\", \"OUTBOUND_PROXY\", \"URL_ALIAS\", \"KEYSTORE\", \"TRUSTSTORE\", \"KERBEROS_SETTING\", \"JNDI_PROVIDER_ALIAS\", \"JMS_CONNECTION_ALIAS\", \"JMS_TRIGGER\", \"WEB_SERVICE_ENDPOINT_ALIAS\".",
+          "additionalProperties" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "promotionResults" : {
+          "type" : "object",
+          "description" : "Result of the individual assets that is promoted to all destination stages along with the reason where key is the stage name",
+          "readOnly" : true,
+          "additionalProperties" : {
+            "$ref" : "#/definitions/PrintArchiveResults"
+          }
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Overall status of the promotion whether it's success or failure",
+          "readOnly" : true
+        }
+      }
+    },
+    "Rollback" : {
+      "type" : "object",
+      "properties" : {
+        "description" : {
+          "type" : "string",
+          "description" : "Description for the rollback"
+        },
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "lastRollbackTime" : {
+          "type" : "string",
+          "description" : "The time at which the asset promotion was rolled back",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name for the rollback"
+        },
+        "promotedBy" : {
+          "type" : "string",
+          "description" : "User who initiated the promotion",
+          "readOnly" : true
+        },
+        "promotionId" : {
+          "type" : "string",
+          "description" : "Id of the promotion to map the rollback with the promotion from the source stage",
+          "readOnly" : true
+        },
+        "promotionTime" : {
+          "type" : "string",
+          "description" : "Actual time of the promotion",
+          "readOnly" : true
+        },
+        "sourceStage" : {
+          "type" : "string",
+          "description" : "Source stage of the promotion",
+          "readOnly" : true
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Overall status of the rollback whether it's success or failure",
+          "readOnly" : true
+        }
+      }
+    },
+    "Stage" : {
+      "type" : "object",
+      "properties" : {
+        "description" : {
+          "type" : "string",
+          "description" : "Description for the stage"
+        },
+        "id" : {
+          "type" : "string",
+          "readOnly" : true
+        },
+        "keyAlias" : {
+          "type" : "string",
+          "description" : "The alias of the private key that is stored in the keystore specified by the keystore alias.\nThe Key alias field contains a list of the available aliases in the selected keystore. If there are no configured keystores, this field is empty"
+        },
+        "keystoreAlias" : {
+          "type" : "string",
+          "description" : "The alias of the keystore containing the private key that is used for performing asset promotion from one (source) stage to another (target) stage.\nThe Keystore alias field contains a list of the available keystore aliases in API Gateway. If there are no configured keystore aliases, this field lists the default Integration Server keystore, DEFAULT_IS_KEYSTORE ."
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Unique name for the stage"
+        },
+        "password" : {
+          "type" : "string",
+          "description" : "A valid password of the API Gateway user identified by the attribute Username"
+        },
+        "url" : {
+          "type" : "string",
+          "description" : "The URL of the host machine where the stage is deployed on an API Gateway installation"
+        },
+        "username" : {
+          "type" : "string",
+          "description" : "The username of a registered API Gateway user who has the Manage promotions functional privilege in the target API Gateway instance"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,519 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API Gateway Transactions service allows you to query the API transactions. API Transactions are generated (as events) everytime an API invocation happens. API Transactions may contain the details about the invocation such as request/response headers, request/response payloads, consumer applications and so on.  API Provider may choose to store these events to one or more destinations by using Log Invocation Policy. API Gateway provides different destination options to the API Provider (like API Gateway own data store, relational databases, Elastic Search etc.) where he/she would like to store these events to. By default, API Gateway is chosen as a storage destination for these events.\n\nIt is important to note that this REST API queries for the transactions data only from the API Gateway's default datastore.\n\nThere are multiple use cases for these transactions data. For instance, you can integrate this API with your billing system wherein these transactional data can be used to compute the usage history of your API for different consumers for monetization usecases. In other scenarios, the data extracted from this service can be used for custom report generation.Any valid API Gateway user can consume this REST service.",
+    "version" : "10.11",
+    "title" : "API Gateway Transactions Data Service"
+  },
+  "host" : "localhost:5555",
+  "basePath" : "/rest/apigateway",
+  "schemes" : [ "http" ],
+  "consumes" : [ "plain/text" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/transactionalEvents/_count" : {
+      "get" : {
+        "description" : "This method can be used to retrieve the number of transaction events for a given API/Application/Plan/Package for a specific period of time. Multiple request parameters of this method provide options to specify the request criteria to match the expected result and most of these input parameters supports regular expression in their values. Along with the mandatory parameters - fromDate and toDate, any one of the other filter criteria should be passed in the request.",
+        "operationId" : "getTransactionsCount",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiName",
+          "in" : "query",
+          "description" : "The name of the API  for which the invocation count is required.The exact name must be provided or regular expressions can be used like API_.*",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "apiName=PetStore"
+        }, {
+          "name" : "apiVersion",
+          "in" : "query",
+          "description" : "The version of the API",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "apiVersion=1.0"
+        }, {
+          "name" : "apiId",
+          "in" : "query",
+          "description" : "The system generated id for an API.The id of an can be retrieved from the API details screen",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "apiId=105e99ee-0e1b-4afa-8ff3-4322cf296558"
+        }, {
+          "name" : "applicationName",
+          "in" : "query",
+          "description" : "The name of the Application for which the invocation count is required.The exact name must be provided or regular expressions can be used like APP_.*",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "applicationName=HostBasedIdentifier"
+        }, {
+          "name" : "applicationId",
+          "in" : "query",
+          "description" : "The system generated id for an Application.The id of an can be retrieved from the Application details screen",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "applicationId=995e99ee-0e1b-4afa-8ff3-4322cf296587"
+        }, {
+          "name" : "packageName",
+          "in" : "query",
+          "description" : "The name of the Package for which the invocation count is required.The exact name must be provided or regular expressions can be used like Package_.*",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "pakageName=TravelPackage"
+        }, {
+          "name" : "packageId",
+          "in" : "query",
+          "description" : "The system generated id for a Package.The id of an can be retrieved from the Package details screen",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "apiId=685023ee-0e1b-4afa-8ff3-4322cf296566"
+        }, {
+          "name" : "planName",
+          "in" : "query",
+          "description" : "The name of the Plan  for which the invocation count is required.The exact name must be provided or regular expressions can be used like Plan_.*",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "planName=GoldPlan"
+        }, {
+          "name" : "planId",
+          "in" : "query",
+          "description" : "The system generated id for a Plan.The id of an can be retrieved from the Plan details screen",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "planId=785e99ee-0e1b-4afa-8ff3-4322cf296566"
+        }, {
+          "name" : "fromDate",
+          "in" : "query",
+          "description" : "This is the date from which the count has to be retrieved for the matching filter criteria.It is a mandatory parameter and it should be of the format YYYY-MM-DD. Regular expression support is not available for this parameter",
+          "required" : true,
+          "type" : "string",
+          "format" : "date",
+          "x-example" : "fromDate=2017-02-26 or fromDate=1488091324"
+        }, {
+          "name" : "toDate",
+          "in" : "query",
+          "description" : "This is the date to which the count has to be retrieved for the matching filter criteria.It is a mandatory parameter and it should be of the format YYYY-MM-DD. Regular expression support is not available for this parameter",
+          "required" : true,
+          "type" : "string",
+          "format" : "date",
+          "x-example" : "toDate=2017-02-27 or toDate=1488177724"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Array of transactional events count grouped by apiId and api version.",
+            "examples" : {
+              "application/json" : "{\r\n  \"count\": [\r\n    {\r\n      \"apiName\": \"PetStoreTest\",\r\n      \"apiVersion\": \"1.0.0\",\r\n      \"count\": 2\r\n    }\r\n  ]\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/TransactionResponse"
+            }
+          },
+          "400" : {
+            "description" : "One optional parameter along with fromDate and toDate is mandatory",
+            "examples" : {
+              "application/json" : "{ \"errorDetails\": \" Insufficient parameters. At least one parameter in addition to the creation date range must be provided.\"}"
+            }
+          },
+          "401" : {
+            "description" : "This response indicates that invalid credentials have been provided for the request."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/transactionalEvents/_search" : {
+      "get" : {
+        "description" : "This method can be used to retrieve the transaction events for a given API/Application/Plan/Package for a specific period of time. Multiple request parameters of this method provide options to specify the request criteria to match the expected result and most of these input parameters supports regular expression in their values. Along with the mandatory parameters - fromDate and toDate, any one of the other filter criteria should be passed in the request.",
+        "operationId" : "getTransactions",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiName",
+          "in" : "query",
+          "description" : "The name of the API  for which the invocation details is required.The exact name must be provided or regular expressions can be used like API_.*",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "apiName=PetStore"
+        }, {
+          "name" : "apiVersion",
+          "in" : "query",
+          "description" : "The version of the API",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "apiVersion=1.0"
+        }, {
+          "name" : "apiId",
+          "in" : "query",
+          "description" : "The system generated id for an API.The id of an can be retrieved from the API details screen",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "apiId=105e99ee-0e1b-4afa-8ff3-4322cf296558"
+        }, {
+          "name" : "applicationName",
+          "in" : "query",
+          "description" : "The name of the Application for which the invocation details is required.The exact name must be provided or regular expressions can be used like APP_.*",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "applicationName=HostBasedIdentifier"
+        }, {
+          "name" : "applicationId",
+          "in" : "query",
+          "description" : "The system generated id for an Application.The id of an can be retrieved from the Application details screen",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "applicationId=995e99ee-0e1b-4afa-8ff3-4322cf296587"
+        }, {
+          "name" : "packageName",
+          "in" : "query",
+          "description" : "The name of the Package for which the invocation details is required.The exact name must be provided or regular expressions can be used like Package_.*",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "pakageName=TravelPackage"
+        }, {
+          "name" : "packageId",
+          "in" : "query",
+          "description" : "The system generated id for a Package.The id of an can be retrieved from the Package details screen",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "packageId=685023ee-0e1b-4afa-8ff3-4322cf296566"
+        }, {
+          "name" : "planName",
+          "in" : "query",
+          "description" : "The name of the Plan  for which the invocation details is required.The exact name must be provided or regular expressions can be used like Plan_.*",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "planName=GoldPlan"
+        }, {
+          "name" : "planId",
+          "in" : "query",
+          "description" : "The system generated id for a Plan.The id of an can be retrieved from the Plan details screen",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "planId=785e99ee-0e1b-4afa-8ff3-4322cf296566"
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "description" : "This parameter specifies the index from which the data has to be retrieved from the store. It is mainly used during pagination where the data is retrieved in batches",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32",
+          "x-example" : "from=0"
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "This parameter specifies the number of records that should be present in the response. This can be combined with the parameter - from to get the records in batches during pagination.",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32",
+          "x-example" : "size=1"
+        }, {
+          "name" : "fromDate",
+          "in" : "query",
+          "description" : "This is the date from which the invocation details has to be retrieved for the matching filter criteria.It is a mandatory parameter and it should be of the format YYYY-MM-DD. Regular expression support is not available for this parameter",
+          "required" : true,
+          "type" : "string",
+          "format" : "date",
+          "x-example" : "fromDate=2017-02-26"
+        }, {
+          "name" : "toDate",
+          "in" : "query",
+          "description" : "This is the date to which the invocation details has to be retrieved for the matching filter criteria.It is a mandatory parameter and it should be of the format YYYY-MM-DD. Regular expression support is not available for this parameter",
+          "required" : true,
+          "type" : "string",
+          "format" : "date",
+          "x-example" : "toDate=2017-02-27"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Array of transactional events.",
+            "examples" : {
+              "application/json" : "{\r\n  \"transaction\": [\r\n    {\r\n      \"creationDate\": 1487229288461,\r\n      \"apiName\": \"PetStoreTest\",\r\n      \"apiVersion\": \"1.0.0\",\r\n      \"apiId\": \"73c40484-678a-4fb0-a56c-21119869e5f4\",\r\n      \"totalTime\": 1386,\r\n      \"providerTime\": 1336,\r\n      \"applicationName\": \"testApp\",\r\n      \"applicationId\": \"10727b01-e13a-4c5d-b39e-c5c336101e21\",\r\n      \"status\": \"SUCCESS\",\r\n      \"totalDataSize\": 1341,\r\n      \"responseCode\": \"200\",\r\n      \"operationName\": \"/pet\",\r\n      \"httpMethod\": \"post\",\r\n      \"packageName\": \"TestPackage\",\r\n      \"packageId\": \"7aafd5c8-3ea4-454f-ae78-d9ffc328672a\",\r\n      \"planName\": \"TestPlan\",\r\n      \"planId\": \"70369925-27f9-4c8a-b078-ca057516735e\"\r\n    }\r\n  ]\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/TransactionEvent"
+            }
+          },
+          "400" : {
+            "description" : "One optional parameter along with fromDate and toData is required",
+            "examples" : {
+              "application/json" : "{ \"errorDetails\": \" Insufficient parameters. At least one parameter in addition to the creation date range must be provided.\"}"
+            }
+          },
+          "401" : {
+            "description" : "This response indicates that invalid credentials have been provided for the request."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Basic" : {
+      "description" : "API Gateway Administrator and API Gateway provider",
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "ExternalCallData" : {
+      "type" : "object",
+      "properties" : {
+        "callDuration" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "callEndTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "callStartTime" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "externalCallType" : {
+          "type" : "string"
+        },
+        "externalURL" : {
+          "type" : "string"
+        },
+        "responseCode" : {
+          "type" : "string"
+        }
+      }
+    },
+    "TransactionEvent" : {
+      "type" : "object",
+      "properties" : {
+        "apiId" : {
+          "type" : "string",
+          "description" : "API Id"
+        },
+        "apiName" : {
+          "type" : "string",
+          "description" : "API name"
+        },
+        "apiVersion" : {
+          "type" : "string",
+          "description" : "API version"
+        },
+        "applicationId" : {
+          "type" : "string",
+          "description" : "Unique Id of the application"
+        },
+        "applicationIp" : {
+          "type" : "string",
+          "description" : "IP address of the application for the current request"
+        },
+        "applicationName" : {
+          "type" : "string",
+          "description" : "Application name"
+        },
+        "cachedResponse" : {
+          "type" : "string",
+          "description" : "Boolean value to indicate whether the response is served from cache"
+        },
+        "callbackRequest" : {
+          "type" : "boolean"
+        },
+        "consumerIp" : {
+          "type" : "string",
+          "description" : "IP address of the consumer for the current request"
+        },
+        "correlationID" : {
+          "type" : "string",
+          "description" : "Correlation ID used in the logging"
+        },
+        "creationDate" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Creation time of the transaction."
+        },
+        "customFields" : {
+          "type" : "object",
+          "description" : "Custom fields to be added.",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "errorOrigin" : {
+          "type" : "string",
+          "description" : "Information of error orgination"
+        },
+        "eventType" : {
+          "type" : "string"
+        },
+        "externalCalls" : {
+          "type" : "array",
+          "description" : "Details of external calls made",
+          "items" : {
+            "$ref" : "#/definitions/ExternalCallData"
+          }
+        },
+        "gatewayTime" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Time taken by the API Gateway for processing the request"
+        },
+        "httpMethod" : {
+          "type" : "string",
+          "description" : "Name of the method"
+        },
+        "id" : {
+          "type" : "string"
+        },
+        "messagePayload" : {
+          "type" : "string",
+          "description" : "Payload of a Websocket message"
+        },
+        "messageType" : {
+          "type" : "string",
+          "description" : "Websocket message type"
+        },
+        "nativeHttpMethod" : {
+          "type" : "string",
+          "description" : "Finally resolved HTTP method of native endpoint call"
+        },
+        "nativeReqPayload" : {
+          "type" : "string",
+          "description" : "Request payload sent in native call"
+        },
+        "nativeRequestHeaders" : {
+          "type" : "object",
+          "description" : "Request headers sent in native call",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "nativeResPayload" : {
+          "type" : "string",
+          "description" : "Response payload received from native call"
+        },
+        "nativeResponseHeaders" : {
+          "type" : "object",
+          "description" : "Response headers received from native call",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "nativeURL" : {
+          "type" : "string",
+          "description" : "Finally resolved URL of native endpoint call"
+        },
+        "operationName" : {
+          "type" : "string",
+          "description" : "Operation name of the incoming request"
+        },
+        "origin" : {
+          "type" : "string",
+          "description" : "Origin of a Websocket message"
+        },
+        "packageId" : {
+          "type" : "string",
+          "description" : "Id of the package."
+        },
+        "packageName" : {
+          "type" : "string",
+          "description" : "Package name"
+        },
+        "planId" : {
+          "type" : "string",
+          "description" : "Id of the Plan"
+        },
+        "planName" : {
+          "type" : "string",
+          "description" : "Plan name"
+        },
+        "providerTime" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Time taken by the native provider for processing the request"
+        },
+        "queryParameters" : {
+          "type" : "object",
+          "description" : "Incoming query parameters",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "reqPayload" : {
+          "type" : "string",
+          "description" : "The complete request payload"
+        },
+        "requestHeaders" : {
+          "type" : "object",
+          "description" : "Incoming request headers",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "resPayload" : {
+          "type" : "string",
+          "description" : "The complete response payload"
+        },
+        "responseCode" : {
+          "type" : "string",
+          "description" : "Response status code"
+        },
+        "responseHeaders" : {
+          "type" : "object",
+          "description" : "Outgoing response headers",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "sessionId" : {
+          "type" : "string",
+          "description" : "Unique Id of the session"
+        },
+        "sourceGateway" : {
+          "type" : "string"
+        },
+        "sourceGatewayDetails" : {
+          "type" : "string"
+        },
+        "sourceGatewayNode" : {
+          "type" : "string",
+          "description" : "The node which processed the request, in a multi node gateway"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Status of the request"
+        },
+        "totalDataSize" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Total size of the payload"
+        },
+        "totalTime" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Total time taken for processing the request"
+        }
+      }
+    },
+    "TransactionResponse" : {
+      "type" : "object",
+      "properties" : {
+        "apiId" : {
+          "type" : "string",
+          "description" : "API Id"
+        },
+        "apiName" : {
+          "type" : "string",
+          "description" : "API name"
+        },
+        "apiVersion" : {
+          "type" : "string",
+          "description" : "API version"
+        },
+        "count" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "The total number of invocations based on the provided filter criteria"
+        }
+      }
+    }
+  }
+}
