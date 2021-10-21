@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Policies are the set of rules that gets enforced on the APIs (or even at finer levels like operations/methods) for every invocation of the API. In API Gateway, a policy is made up of a set of policy actions. During an invocation of an API, API Gateway executes every policy action in the policy in a sequential manner. Policy action defines the rule along with its parameters that is applied on the resources/operation of an API. Every policy action will belong to either one or more policy stages. A policy stage is a logical grouping of the policy actions. A policy is divided into different stages that depict the execution order of the policy actions. A stage might contain one or more policy action.  \n\nUse this method to get a list of all the policy stages\n\nThe policies can be categorized into Service level policies, Scope level policies, Package level policies, Policy Templates and Global policies. \n\nA service level policy is applicable for all resources/operation inside that API.  \n\nA scope level policy is applicable for all resources/operation inside that scope. It will override or add the runtime enforcements based on the enforcement type. \n\nA Global Policy is applicable to all APIs matching the scope defined inside the policy. Global policy will take precedence over scope and service level policy. \n\nPackage level policies are created as part of the creation of packages and plans. A package level policy will be applied over global, scope and service level policies. \n\nIf one needs to apply the same set of policy actions to different APIs with just changes to the policy parameter values, then he/she can create a Policy template and can be apply it to the APIs whenever needed. While applying policy template on APIs user need to clone policy template and attach to the corresponding API. It will avoid recreating the policies. \n\n Any user with the 'Manage APIs' functional privilege can manage the service level polices. In order to manage Global policies, Threat protection policies etc, users need additional functional privileges.  By default, the users who are part of API-Gateway-Administrators group will have all privileges.\n\nThis swagger doc also contains API Definition for managing Denied IP addresses. Only Administrator can invoke the API methods. Denied IPs are the IPs that violated the threat protection rules configured. Using this API you can retrieve the list of IPs denied and you can exclude the IPs from the list of denied IPs using the delete HTTP method. \n\n API Gateway uses WS-Security to protect the SOAP services at the message level.  By default, API Gateway supports a number of security policies for the SOAP services like WSS UserName, SAML, Kerberos, Encryption etc.  In addition to this, API Gateway also provides an extension using custom policy assertions that allows the API providers to extend and provide additional security policies which are not supported by API Gateway.  In WS Security, Policy assertions can be used in defining individual security requirements or constraints. These individual policy assertions can be combined to create security policies that can be used to secure messages exchanged between a Web service and a client. ",
-    "version" : "10.7",
+    "version" : "10.11",
     "title" : "API Gateway Policy Management Service"
   },
   "host" : "localhost:5555",
@@ -665,7 +665,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/APIResponseDelete"
+                "$ref" : "#/definitions/APIResponseGetAPIs"
               }
             }
           },
@@ -1106,7 +1106,7 @@
         } ]
       },
       "post" : {
-        "description" : "This REST request is used to create policy action. The result of this request is a policy action payload and is available in the response. To know about the policy action template and to create it  you can use the policyActionTemplates/{templateKey} to get the template structure of a policy action. The template key will be available in policyStage resource.",
+        "description" : "This REST request is used to create policy action. The result of this request is a policy action payload and is available in the response. To know about the policy action template and to create it  you can use the policyActionTemplates/{templateKey} to get the template structure of a policy action. The template key will be available in policyStage resource.\n\nIt's also used to create the custom destination using the templateKey 'customDestination'. For more information on custom destination, please refer the postman collections here -  https://github.com/SoftwareAG/webmethods-api-gateway/blob/master/apigatewayservices/postmancollections/apis/custom-destination/CustomDestination.json",
         "operationId" : "createPolicyAction",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -1444,7 +1444,7 @@
     }
   },
   "definitions" : {
-    "APIResponseDelete" : {
+    "APIResponseGetAPIs" : {
       "type" : "object",
       "properties" : {
         "active" : {
@@ -2126,7 +2126,7 @@
           "description" : "This contains the list of API types on which the global policy can be applied. For now only REST and SOAP API types are allowed.",
           "items" : {
             "type" : "string",
-            "enum" : [ "SOAP", "REST", "ODATA", "WEBSOCKET" ]
+            "enum" : [ "SOAP", "REST", "ODATA", "WEBSOCKET", "GRAPHQL" ]
           }
         },
         "logicalConnector" : {

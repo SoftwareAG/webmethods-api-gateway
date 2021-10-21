@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway supports staging and promotion of assets. In a typical enterprise-level,\nsolutions are separated according to the different stages of Software Development\nLifecycle (SDLC) such as development, quality assurance (QA), and production stages. Staging and promotion allows you to promote all the assets across different stages. The supported assets are APIs, global policies, policy templates, applications, aliases, packages, plans, threat protection rules, administrative configurations, approval configurations, outbound proxies, URL aliases, keyStores, trustStores, JNDI provider aliases, JMS connection aliases, JMS triggers, webservice endpoint aliases, users, groups, access profiles and kerberos settings\n\nPromotion refers to moving API Gateway assets from the source stage to one or more\ntarget stages. For example, you might want to promote assets you have developed on\nservers in a Development stage (the source API Gateway instance) to servers in a QA or\nProduction stage (the target API Gateway instance).\n\nRollback is the process of restoring the asset's metadata in the target API Gateway instance to a previous state.\n\nStages should be configured in the source machine where we initiate the promotion process.",
-    "version" : "10.7",
+    "version" : "10.11",
     "title" : "API Assets Promotion Management"
   },
   "host" : "localhost:5555",
@@ -57,6 +57,7 @@
         }, {
           "name" : "fixingMissingVersions",
           "in" : "query",
+          "description" : "Option to fix the API version history. The discrepancy between the asset versions in the source and target stages, if any, are fixed. The default value is false",
           "required" : false,
           "type" : "string",
           "enum" : [ "true", "false" ]

@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Data sync management services. Services to configure different datacenters and activate/switch between different modes of deployment",
-    "version" : "10.7",
+    "version" : "10.11",
     "title" : "API Gateway Data Management Service"
   },
   "host" : "localhost:5555",
