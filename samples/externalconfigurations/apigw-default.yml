@@ -23,7 +23,5 @@ apigw:
   cluster:
     aware: false
     sessTimeout: 60
-    actionOnStartupError: standalone
-    esClusterName: SAG_EventDataStore
-    discoverySeedHosts: localhost:9340
+    actionOnStartupError: standalone    
     pendingRestart: false
