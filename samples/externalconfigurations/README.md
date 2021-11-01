@@ -1,6 +1,6 @@
 # Externalized configuration samples
 
-These files contain sample configuration for different flavors of starting API Gateway using externalized configurations. You can find the full details of configuration reference here http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Starting+API+Gateway+using+externalized+configurations.
+These files contain sample configuration for different flavors of configuring API Gateway using externalized configurations. For detailed documentation on Externalized configurations, please refer to **[API Gateway Administration Guide](https://documentation.softwareag.com/webmethods/api_gateway/yai10-11/10-11_Api_Gateway_Administration_Guide.pdf).**
 
 ### Usage of the configuration files
 
