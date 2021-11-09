@@ -1,0 +1,709 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "The API Gateway Ports Service allows you to manage port configurations. Each port is associated with a specific type of protocol, HTTP or HTTPS. In addition to these port types, API Gateway also supports the external port, the internal listener port, and the WebSocket listener port type. You can specify one or more HTTP or HTTPS ports on which the API Gateway Admin APIs and the deployed APIs are available for consumption. By default, they are available on the primary port. The primary port is an HTTP or HTTPS port that you designate as the main listening port for API Gateway. API Gateway does not allow the primary port to be deletd, which guarantees that at least one port is always available.",
+    "version" : "10.11",
+    "title" : "API Gateway Port Management Service"
+  },
+  "basePath" : "/rest/apigateway",
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/ports" : {
+      "get" : {
+	    "description" : "The GET method retrieves port configurations",
+        "operationId" : "getPorts",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "pkg",
+          "in" : "query",
+          "description" : "The pkg parameter points to the IS package the port is pointing to. The pkg of port configurations is restricted to the package WmRoot.",
+          "required" : false,
+          "type" : "string"
+        }, 
+		{
+          "name" : "listenerKey",
+          "in" : "query",
+          "description" : "The listenerKey parameter uniquely identifies a port configuration within a package.",
+		  "required" : false,
+          "type" : "string"
+        }
+		],
+        "responses" : {
+          "200" : {
+            "description" : "Port information retrieved successfully. The response body holds the requested port configurations.",
+            "schema" : {
+              "$ref" : "#/definitions/Listeners"
+            }
+          },
+         "400" : {
+            "description" : "Bad request, the retrieval of the port configuration information has failed. The message in the response body provides further details.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provide credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }
+      },
+      "post" : {
+		"description" : "The POST method creates a new port configuration",
+        "operationId" : "createPort",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Port"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Port configuration has been created successfully. The response body contains the newly created port configuration.",
+            "schema" : {
+              "$ref" : "#/definitions/Port"
+            }
+          },
+         "400" : {
+            "description" : "Bad request, the creation of the port configuration has failed. The message in the response body provides further details.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }
+      },
+      "put" : {
+	    "description" : "The PUT method updates an existing port configuration. Updating an enabled port implies that it is disabled and enabled again.",
+        "operationId" : "updatePort",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Port"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Port configuration was updated successfully. The response body holds the updated port configuration. ",
+            "schema" : {
+              "$ref" : "#/definitions/Port"
+            }
+          },
+         "400" : {
+            "description" : "Bad request, the update of the port configuration has failed. The message in the response body provides further details.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }
+      },
+      "delete" : {
+		"description" : "The DELETE method removes a port configuration",
+        "operationId" : "deletePort",
+        "consumes" : [ ],
+         "parameters" : [ {
+          "name" : "pkg",
+          "in" : "query",
+          "description" : "The pkg parameter points to the IS package the port is pointing to. The pkg of port configurations is restricted to the package WmRoot.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "listenerKey",
+          "in" : "query",
+          "description" : "The listenerKey parameter uniquely identifies a port configuration within a package.",
+		  "required" : false,
+          "type" : "string"
+        } ],
+       "responses" : {
+          "200" : {
+            "description" : "Port configuration has been successfully removed and is no longer available."
+          },
+          "400" : {
+            "description" : "Bad request, the deletion of the port configuration has failed. The message in the response body provides further details.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }
+      }
+    },
+    "/ports/primary" : {
+      "get" : {
+		"description" : "The GET method retrieves the definition of the primary port.",
+        "operationId" : "getPrimaryPort",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "The primary port configuration has been successfully retrieved. The response body references the primary port.",
+            "schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }
+      },
+      "put" : {
+	    "description" : "The PUT method updates the primary port configuration to the referenced existing port configuration.",
+        "operationId" : "setPrimaryPort",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+		  "description" : "The request body references the existing port configuration to be defined as the primary port.",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/PortReference"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "The primary port configuration has been successfully updated. The response body references the updated primary port.",
+            "schema" : {
+              "$ref" : "#/definitions/PortReference"
+            }
+          },
+          "400" : {
+            "description" : "Bad request, the configuration of the primary port has failed. The message in the response body provides further details.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }
+      }
+    },
+    "/ports/enable" : {
+      "put" : {
+	    "description" : "The PUT enables the referenced port configuration. Only enabled ports can be contacted and serve requests.",
+        "operationId" : "enablePort",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+		  "description" : "The request body references the existing port configuration to be enabled.",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/PortReference"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Port has been enabled successfully. The response body references the enabled port.",
+            "schema" : {
+              "$ref" : "#/definitions/PortReference"
+            }
+          },
+          "400" : {
+            "description" : "Bad request, port enabling has failed. The message in the response body provides further details.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }
+      }
+    },
+    "/ports/disable" : {
+      "put" : {
+		"description" : "The PUT disables the referenced port configuration. A disabled port can not be contacted.",
+        "operationId" : "disablePort",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+		  "description" : "The request body references the existing port configuration to be disabled.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/PortReference"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Port has been enabled successfully. The response body references the enabled port.",
+            "schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "400" : {
+            "description" : "Bad request, port disabling has failed. The message in the response body provides further details.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provide credentials are invalid or the user does not have the required privileges.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }
+      }
+    },
+	"/ports/{listenerKey}" : {
+	  "get" : {
+	   "description" : "The GET method retrieves an API Gateway port configuration",
+        "operationId" : "getPort",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "listenerKey",
+          "in" : "path",
+          "description" : "The listenerKey parameter uniquely identifies a port configuration within the WmRoot package.",
+		  "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Port information retrieved successfully. The response body holds the requested port configuration.",
+            "schema" : {
+              "$ref" : "#/definitions/Port"
+            }
+          },
+         "404" : {
+            "description" : "Resorce not found, the specified port configuration can be found in the WmRoot package.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }
+      }
+	},
+	"/ports/{listenerKey}/accessMode" : {
+	  "get" : {
+        "description" : "The GET method retrieves the accessMode for an API Gateway port configuration",
+        "operationId" : "getPortAccessMode",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "listenerKey",
+          "in" : "path",
+          "description" : "The listenerKey parameter uniquely identifies a port configuration within the WmRoot package.",
+		  "required" : true,
+          "type" : "string"
+        }
+		],
+        "responses" : {
+          "200" : {
+            "description" : "Access mode information retrieved successfully. The response body holds the requested access mode.",
+            "schema" : {
+              "$ref" : "#/definitions/Port"
+            }
+          },
+         "404" : {
+            "description" : "Resorce not found, the specified port configuration can be found in the WmRoot package.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }
+      },
+	  "put" : {
+        "description" : "The PUT updates the access mode for an API Gateway port configuration",
+        "operationId" : "updateAccessMode",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "listenerKey",
+          "in" : "path",
+          "description" : "The listenerKey parameter uniquely identifies a port configuration within the WmRoot package.",
+		  "required" : true,
+          "type" : "string"
+        },
+        {
+          "in" : "body",
+          "name" : "body",
+		  "description" : "The request contains the updated access mode information.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AccessMode"
+          }
+        }		
+		],
+        "responses" : {
+          "200" : {
+            "description" : "Access mode information updated successfully. The response body holds the updated access mode information.",
+            "schema" : {
+              "$ref" : "#/definitions/AccessMode"
+            }
+          },
+         "404" : {
+            "description" : "Resorce not found, the specified port configuration can be found in the WmRoot package.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }	  
+	  }
+	},
+	"/ports/{listenerKey}/ipAccessMode" : {
+	 "get" : {
+        "description" : "The GET method retrieves the ipAccessMode for an API Gateway port configuration",
+        "operationId" : "getIPAccessMode",
+        "consumes" : [ ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "listenerKey",
+          "in" : "path",
+          "description" : "The listenerKey parameter uniquely identifies a port configuration within the WmRoot package.",
+		  "required" : true,
+          "type" : "string"
+        },
+        {
+          "in" : "body",
+          "name" : "body",
+		  "description" : "The request contains the updated IP access mode information.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/IPAccessMode"
+          }
+        }
+		],
+        "responses" : {
+          "200" : {
+            "description" : "IP access mode information retrieved successfully. The response body holds the updated IP access mode information.",
+            "schema" : {
+              "$ref" : "#/definitions/IPAccessMode"
+            }
+          },
+         "404" : {
+            "description" : "Resorce not found, the specified port configuration can be found in the WmRoot package.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }
+      },
+	  "put" : {
+        "description" : "The PUT updates the ipAccessMode for an API Gateway port configuration",
+        "operationId" : "updatedIPAccessMode",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "listenerKey",
+          "in" : "path",
+          "description" : "The listenerKey parameter uniquely identifies a port configuration within the WmRoot package.",
+		  "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "IP access mode information updated successfully. The response body holds the requested IP access mode.",
+            "schema" : {
+              "$ref" : "#/definitions/Port"
+            }
+          },
+         "404" : {
+            "description" : "Resorce not found, the specified port configuration can be found in the WmRoot package.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }	  
+	  }
+	}
+  },
+  "definitions" : {
+    "Listeners" : {
+	    "type" : "object",
+	    "properties": {
+			"listeners": { 
+				"type": "array", "items": {"$ref": "#/definitions/Port" }
+			}
+		}		
+	},
+    "Port" : {
+      "type" : "object",
+      "properties" : {
+        "accessMode" : {
+          "type" : "string"
+        },
+        "clientAuth" : {
+          "type" : "string"
+        },
+        "configURL" : {
+          "type" : "string"
+        },
+        "curDelay" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "string"
+        },
+        "factoryKey" : {
+          "type" : "string"
+        },
+        "hasAccessList" : {
+          "type" : "string"
+        },
+        "hasIPAccessList" : {
+          "type" : "string"
+        },
+        "hostAccessMode" : {
+          "type" : "string"
+        },
+        "hostAllow" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "hostDeny" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "idProvider" : {
+          "type" : "object"
+        },
+        "internalPort" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "ipAccessMode" : {
+          "type" : "string"
+        },
+        "jsseEnabledProtocols" : {
+          "type" : "object"
+        },
+        "keepAliveTimeout" : {
+          "type" : "string"
+        },
+        "key" : {
+          "type" : "string"
+        },
+        "listenerType" : {
+          "type" : "string"
+        },
+        "listening" : {
+          "type" : "string"
+        },
+        "maxQueue" : {
+          "type" : "string"
+        },
+        "maxThread" : {
+          "type" : "string"
+        },
+        "minThread" : {
+          "type" : "string"
+        },
+        "pkg" : {
+          "type" : "string"
+        },
+        "port" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "portAlias" : {
+          "type" : "string"
+        },
+        "portDescription" : {
+          "type" : "string"
+        },
+        "protocol" : {
+          "type" : "string"
+        },
+        "provider" : {
+          "type" : "string"
+        },
+        "ssl" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "stepsize" : {
+          "type" : "string"
+        },
+        "suspended" : {
+          "type" : "string"
+        },
+        "threadPool" : {
+          "type" : "string"
+        },
+        "threadPriority" : {
+          "type" : "string"
+        },
+        "uniqueID" : {
+          "type" : "string"
+        },
+        "usedThreadCount" : {
+          "type" : "string"
+        }
+      }
+	},
+    "PortReference" : {
+      "type" : "object",
+      "properties" : {
+        "listenerKey" : {
+          "type" : "string"
+        },
+        "pkg" : {
+          "type" : "string"
+        }
+      }
+    },
+	"MessageWithPortReference" : {
+	  "type" : "object",
+      "properties" : {
+        "listenerKey" : {
+          "type" : "string"
+        },
+        "pkg" : {
+          "type" : "string"
+        },
+		"message" : {
+		  "type" : "string"
+		  }
+		}
+    },
+	"AccessMode" : {
+		"type": "object",
+        "properties" : { 
+		   "services": {
+		     "type" : "array",
+			 "items" : {
+               "type" : "string"
+			  }
+		   },
+		   "accessMode": {
+		     "type" : "string"
+		   }
+		}
+    },	
+	"IPAccessMode" : {
+		"type": "object",
+        "properties" : { 
+		   "ipAccessType": {
+		     "type" : "string"
+		   },
+		   "hostsList": {
+		     "type" : "array",
+			 "items" : {
+               "type" : "string"
+			  }
+		   }
+        }
+    }
+  }
+}

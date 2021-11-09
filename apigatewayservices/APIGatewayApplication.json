@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway Application Management Service allows you to manage the Applications in API Gateway. Any user with the 'Manage applications' functional privilege can manage the APIs in the API Gateway. By default, the users who are part of either API-Gateway-Providers or API-Gateway-Administrators groups will have this privilege.\n\n An application defines the precise identifiers by which messages from a particular consumer application is recognized at run time. The identifiers can be, for example, user name in HTTP headers, a range of IP addresses, etc., such that API Gateway can identify or authenticate the consumers that are requesting an API. To view the list of all possible identifiers, refer the sample payload for /applications POST request.\n\n. The ability of API Gateway to relate a request to a specific consumer application enables it to:\n\n 1. Control access to an API at run time (that is, allow only authorized consumer applications to invoke an API).\n\n 2. Monitor an API for violations of a Service-Level Agreement (SLA) for a specified application.\n\n 3. Indicate the consumer application to which a logged transaction event belongs.\n\n\n\n An application has the following attributes for specifying the identifiers:\n\n 1. IP address, which specifies one or more IP addresses that identify requests from a particular consumer application. Example: 192.168.0.10\n\n This attribute is queried when the Identify and Authorize Application policy is configured to identify consumer applications by IP address.\n\n 2. JWT claims set, which specifies one or more claims that identify requests from a particular consumer application. The claims are a set of name-value pairs that provide sufficient information about the application. Example: sub = Administrator.\n\n This attribute is queried when the Identify and Authorize Application policy is configured to identify consumer applications by JSON Web Token (JWT).\n\n 3. Consumer certificate, which specifies the X.509 certificates that identify requests from a particular consumer.\n\n This attribute is queried when the Identify and authenticate consumer policy is configured to identify the consumer applications by a consumer certificate.\n\n 4. Identification token, which specifies the host names, user names or other distinguishing strings that identify requests from a particular consumer application.\n\n This attribute is queried when the Identify and authenticate consumer policy action is configured to identify consumer applications by host name, HTTP user name, and WSS user name.\n\n \n\n As an API provider or an API Gateway Administrator you can create and manage applications, and register applications with the APIs.\n\n These are the high level stages of managing and using an application:\n\n 1. API developers request the API Gateway administrators to create an application for access as per the required identification criteria.\n\n 2. API Gateway provider or administrator validates the request and creates a new application, there by provisioning the application specific access tokens (API access key and OAuth credentials).\n\n 3. API Developer, upon finding a suitable API, sends a request to API Gateway for consumption by providing the application details.\n\n 4. After validating the request, API Gateway provider or administrator associates the application with the API. Keys are generated for applications and not for every API that the application consumes. \n\n Note:  The approval process, if any, is handled by the requesting application and not handled by API Gateway.\n\n 5. The API developer can then use the application with the proper identifier (such as the access key or identifier) to access the API. \n\n Strategies: \n\n A strategy is a way to authenticate the incoming request and provides multiple authentication mechanisms or multiple authorization servers for a single authentication scheme. API Gateway identifies the application and validates the token submitted through the strategy configured in the application. You can create multiple strategies authorized by an API for an application. For example, in case of OAuth authentication scheme, you want the application to support both OKTA and PINGFederate or OKTA with multiple tenants. This can be configured as OAuth strategy for the application.",
-    "version" : "10.7",
+    "version" : "10.11",
     "title" : "API Gateway Application Management Service"
   },
   "host" : "localhost:5555",
@@ -730,6 +730,13 @@
           "type" : "string",
           "description" : "application creation time"
         },
+        "customFields" : {
+          "type" : "object",
+          "description" : "list of all custom fields",
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        },
         "description" : {
           "type" : "string",
           "description" : "description of the application"
@@ -833,80 +840,105 @@
       "type" : "object",
       "properties" : {
         "approvalpgFilename" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Approval page file name"
         },
         "approvalpgFooter" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Approval page footer"
         },
         "approvalpgHeading" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Approval page heading"
         },
         "approvalpgLogoFilename" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Approval page logo filename"
         },
         "approvalpgTitle" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Approval page title"
         },
         "authCodeAllowed" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Option to choose Authorization code grant type"
         },
         "clScopes" : {
           "type" : "array",
+          "description" : "The scopes associated with this client",
           "items" : {
             "type" : "string"
           }
         },
         "clientCredentialsAllowed" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Option to choose Client Credentials grant type"
         },
         "clientId" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "The client id"
         },
         "clientSecret" : {
           "type" : "string"
         },
         "enabled" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Is the client enabled?"
         },
         "implicitAllowed" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Option to choose Implicit grant type"
         },
         "name" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "The client name"
         },
         "notes" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Notes on the client"
+        },
+        "pkceType" : {
+          "type" : "string",
+          "description" : "OAuth client level options to apply PKCE security, for the public clients using authorization code grant type. Applicable only for local auth server.",
+          "enum" : [ "NOT_ENFORCED", "ENFORCED", "USE_GLOBAL_SETTING" ]
         },
         "primaryNode" : {
           "$ref" : "#/definitions/Node"
         },
         "redirectUris" : {
           "type" : "array",
+          "description" : "List of redirect urls allowed for this client",
           "items" : {
             "type" : "string"
           }
         },
         "resourceOwnerAllowed" : {
-          "type" : "boolean"
+          "type" : "boolean",
+          "description" : "Option to choose Resource Owner grant type"
         },
         "shell" : {
           "type" : "boolean"
         },
         "tokenLifetime" : {
           "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "description" : "Token life time"
         },
         "tokenRefreshLimit" : {
           "type" : "integer",
-          "format" : "int32"
+          "format" : "int32",
+          "description" : "The number of times token can be refreshed"
         },
         "type" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "specifies whether the client is either public or confidential client"
         },
         "version" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "The client version"
         }
-      }
+      },
+      "description" : "Shows the configurations set for the oauth client, when using Dynamic Client Registration. This is a read only model. To update the configuration use the DynamicClientRegistrationConfig model."
     },
     "DynamicClientRegistrationConfig" : {
       "type" : "object",
@@ -948,6 +980,11 @@
           "type" : "string",
           "description" : "Token expiry time"
         },
+        "pkceType" : {
+          "type" : "string",
+          "description" : "OAuth client level options to apply PKCE security, for the public clients using authorization code grant type. Applicable only for local auth server.",
+          "enum" : [ "NOT_ENFORCED", "ENFORCED", "USE_GLOBAL_SETTING" ]
+        },
         "redirectUris" : {
           "type" : "array",
           "description" : "The redirect uris",
@@ -966,7 +1003,8 @@
             "type" : "string"
           }
         }
-      }
+      },
+      "description" : "Accepts the configurations to be set for the oauth client, when using Dynamic Client Registration"
     },
     "GatewaySecret" : {
       "type" : "object"

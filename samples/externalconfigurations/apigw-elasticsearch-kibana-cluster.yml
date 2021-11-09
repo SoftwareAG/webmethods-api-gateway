@@ -15,6 +15,3 @@ apigw:
     terracottaLicenseFileName: "terracotta-license.key"
     sessTimeout: 20
     actionOnStartupError: "standalone"
-    esClusterName: "SAG_EventDataStore"
-    discoverySeedHosts: "eshost:9300,eshost2:9300,eshost3:8300"
-    initialMasterNodes: "eshost_nodename"

@@ -79,3 +79,10 @@ API Gateway and Trading Networks Integration
 
 Users can enable business-to-business communication between trading partners using Application Programming Interfaces (APIs). In addition to exchanging XML, EDI, flat files documents and so on, partners can invoke the exposed APIs to exchange information. These APIs are available by associating Trading Networks with a webMethods API Gateway instance. A partner can access the APIs that appear in the Partner Profiles and the associated Partner Groups pages. The API access key and the authentication mechanism to access the APIs also appear on the APIs tab of the Partner Profiles page. An Administrator can provide a user to view and edit permissions to add or delete the appearance of an API in the Partner Profiles page. **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/API%20Gateway%20and%20Trading%20Networks%20Integration)**
 
+
+Custom Destination - Splunk & AWS Lambda
+--------------------------------------------
+API Gateway supports different destinations, out of the box, to which one can publish events, performance metrics and audit log data.  In addition to the existing destinations, API Gateway now supports Custom Destinations using which the user can publish events, performance metrics and audit log data from API Gateway to destinations which are not supported out of the box. The tutorial shows how you can use custom destinations feature to push the data from API Gateway to Splunk and AWS Lambda function. **[Read on...](https://github.com/SoftwareAG/webmethods-api-gateway/tree/10.7/docs/articles/features/Custom%20Destinations)**
+
+
+

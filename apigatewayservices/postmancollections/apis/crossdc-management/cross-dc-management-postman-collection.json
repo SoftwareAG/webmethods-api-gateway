@@ -1,0 +1,598 @@
+{
+	"info": {
+		"_postman_id": "b6a2142d-4b15-4d99-99aa-bbb052303a19",
+		"name": "Cross DC Management",
+		"description": "The cross DC management collection offers the REST APIs to configure and setup cross DC.  It defines the following variables, please ensure that they are set properly before executing the requests:\n1. **protocol** - Possible values are http or https. The protocol that you wish to use in the request.\n1. **domain** - The hostname of the machine where API Gateway is installed or a load balancer is hosted (if configured for API Gateway). \n1. **port** - The API Gateway Integration Server port (default value 5555) or the load balancer port (default is 80 or 443) depending on the configured value for domain. \n1. **username** - The username for establishing the connection for the request. The user should have \"Manage general administration configurations\" permission.\n1. **password** - The password corresponding to the provided username\n1. **crossdc_port** - A non-standard port (user-defined) number ranging from 1000 - 65535 that will be used to establish the GRPC communication between the data centers.\n1. **crossdc_keystore_alias** - The alias of the keystore (that must be configured in the API Gateway) to be used for establishing the secure cross DC communication between data centers\n1. **crossdc_key_alias** - The key alias from the provided keystore alias to be used for the secure communication.\n1. **crossdc_truststore_alias** - The alias of the truststore (that must be configured in the API Gateway) to be used for verifying the identity of the data centers during the secure communication.\n1. **crossdc_insecure_manager** - true if self-signed certificates are imported in the configured truststore. If only valid CA signed certificates are used in the truststore, then this can be set to false.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Basic Operations",
+			"item": [
+				{
+					"name": "Secure Listener Configuration",
+					"item": [
+						{
+							"name": "Configure Secure Local Dataspace Listener",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"keyStoreAlias\": \"{{crossdc_keystore_alias}}\",\r\n  \"keyAlias\": \"{{crossdc_key_alias}}\",\r\n  \"trustStoreAlias\": \"{{crossdc_truststore_alias}}\",\r\n  \"listener\": {\r\n    \"nodeName\": \"020a6954-c18a-478c-9a9e-aa648f344a0f\",\r\n    \"host\": \"{{domain}}\",\r\n    \"port\": {{crossdc_port}}\r\n  },\r\n  \"insecureTrustManager\": {{crossdc_insecure_manager}}\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dataspace/listener",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dataspace",
+										"listener"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Unsecure Listener Configuration",
+					"item": [
+						{
+							"name": "Configure Local Dataspace Listener",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"listener\": {\r\n    \"nodeName\": \"020a6954-c18a-478c-9a9e-aa648f344a0f\",\r\n    \"host\": \"{{domain}}\",\r\n    \"port\": {{crossdc_port}}\r\n  }\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dataspace/listener",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dataspace",
+										"listener"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Configure Dataspace Ring",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ring\": [\r\n    {\r\n      \"nodeName\": \"<substitute the nodeName value obtained from GET <data_center_1>/dataspace>\",\r\n      \"host\": \"<domain_of_data_center_1>\",\r\n      \"port\": {{crossdc_port}}\r\n    },\r\n    {\r\n      \"nodeName\": \"<substitute the nodeName value obtained from GET <data_center_2>/dataspace>\",\r\n      \"host\": \"<domain_of_data_center_2>\",\r\n      \"port\": {{crossdc_port}}\r\n    }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/dataspace/ring",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dataspace",
+								"ring"
+							]
+						},
+						"description": "For every data center in the cross DC setup, the below object should be configured\nIssue GET /dataspace for the data center and obtain its nodeName and substitute below\n```\n{\n  \"ring\": [\n    {\n      \"nodeName\": \"<substitute the nodeName value obtained from GET <data_center_1>/dataspace>\",\n      \"host\": \"<domain_of_data_center_1>\",\n      \"port\": {{crossdc_port}}\n    },\n    {\n      \"nodeName\": \"<substitute the nodeName value obtained from GET <data_center_2>/dataspace>\",\n      \"host\": \"<domain_of_data_center_2>\",\n      \"port\": {{crossdc_port}}\n    }\n  ]\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Dataspace Ring",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mode\": \"ACTIVE_RING\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/dataspace/activate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dataspace",
+								"activate"
+							]
+						},
+						"description": "Possible values of mode are:\n1. STANDALONE\n1. STANDBY\n1. ACTIVE_RING\n  \n##### STANDALONE\nWhen the cross DC should be deactivated\n##### STANDBY\nWhen there are only two Data Centers in the cross DC setup and one of them is passive\n##### ACTIVE_RING\nWhen there are three or more Data Centers in the cross DC setup and all of them are active data centers."
+					},
+					"response": []
+				}
+			],
+			"description": "There are two ways in which the cross DC setup can be configured:\n###### Basic Operations\nThis is configured for every data center. The sequence of steps must be executed on every data center in the cross DC setup.\n\n###### Composite Operations\nThis is a composite operation request that should to be issued to only one of the data centers in the cross DC setup with metadata about the other data centers in the payload to establish the cross DC communication."
+		},
+		{
+			"name": "Composite Operations",
+			"item": [
+				{
+					"name": "Secure Configuration",
+					"item": [
+						{
+							"name": "Configure Secure Dataspace Listener and Ring",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set(\"is_https\", (pm.variables.get(\"protocol\").toString() == \"https\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"local\": {\r\n    \"host\": \"{{domain}}\",\r\n    \"port\": \"{{port}}\",\r\n    \"isHttps\": {{is_https}},\r\n    \"syncPort\": {{crossdc_port}},\r\n    \"keyStoreAlias\": \"{{crossdc_keystore_alias}}\",\r\n    \"keyAlias\": \"{{crossdc_key_alias}}\",\r\n    \"trustStoreAlias\": \"{{crossdc_truststore_alias}}\",\r\n    \"insecureTrustManager\": {{crossdc_insecure_manager}}\r\n  },\r\n  \"remotes\": [\r\n    {\r\n      \"host\": \"<domain_of_data_center_1>\",\r\n      \"port\": {{port}},\r\n      \"isHttps\": {{is_https}},\r\n      \"syncPort\": {{crossdc_port}},\r\n      \"username\": \"{{username}}\",\r\n      \"password\": \"{{password}}\",\r\n      \"keyStoreAlias\": \"{{crossdc_keystore_alias}}\",\r\n      \"keyAlias\": \"{{crossdc_key_alias}}\",\r\n      \"trustStoreAlias\": \"{{crossdc_truststore_alias}}\",\r\n      \"insecureTrustManager\": {{crossdc_insecure_manager}}\r\n    },\r\n    {\r\n      \"host\": \"<domain_of_data_center_2>\",\r\n      \"port\": {{port}},\r\n      \"isHttps\": {{is_https}},\r\n      \"syncPort\": {{crossdc_port}},\r\n      \"username\": \"{{username}}\",\r\n      \"password\": \"{{password}}\",\r\n      \"keyStoreAlias\": \"{{crossdc_keystore_alias}}\",\r\n      \"keyAlias\": \"{{crossdc_key_alias}}\",\r\n      \"trustStoreAlias\": \"{{crossdc_truststore_alias}}\",\r\n      \"insecureTrustManager\": {{crossdc_insecure_manager}}\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dataspace/configure",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dataspace",
+										"configure"
+									]
+								},
+								"description": "For every data center in the cross DC setup, the below object should be configured\n```\n{\n  \"host\": \"<domain_of_data_center_1>\",\n  \"port\": <http(s)_port_to_communicate_with_other_data_centers>,\n  \"isHttps\": <true_if_using_https_to_communicate_with_other_data_centers_else_false>,\n  \"syncPort\": <the_cross_dc_port>,\n  \"username\": \"<the_username_of_the_data_center_for_authentication>\",\n  \"password\": \"<the_password_of_the_above_user>\",\n  \"keyStoreAlias\": \"<keystore_alias_of_data_center_1>\",\n  \"keyAlias\": \"<key_alias_of_configured_keystore>\",\n  \"trustStoreAlias\": \"<truststore_alias_of_data_center_1>\",\n  \"insecureTrustManager\": <true_if_using_self-signed_certificates_in_truststure_else_false>\n}\n```"
+							},
+							"response": []
+						},
+						{
+							"name": "Activate Secure Dataspace Ring",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.set(\"is_https\", (pm.variables.get(\"protocol\").toString() == \"https\"));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"local\": {\r\n    \"host\": \"{{domain}}\",\r\n    \"port\": \"{{port}}\",\r\n    \"isHttps\": {{is_https}},\r\n    \"syncPort\": {{crossdc_port}},\r\n    \"keyStoreAlias\": \"{{crossdc_keystore_alias}}\",\r\n    \"keyAlias\": \"{{crossdc_key_alias}}\",\r\n    \"trustStoreAlias\": \"{{crossdc_truststore_alias}}\",\r\n    \"insecureTrustManager\": {{crossdc_insecure_manager}}\r\n  },\r\n  \"remotes\": [\r\n    {\r\n      \"host\": \"<domain_of_data_center_1>\",\r\n      \"port\": {{port}},\r\n      \"isHttps\": {{is_https}},\r\n      \"syncPort\": {{crossdc_port}},\r\n      \"username\": \"{{username}}\",\r\n      \"password\": \"{{password}}\",\r\n      \"keyStoreAlias\": \"{{crossdc_keystore_alias}}\",\r\n      \"keyAlias\": \"{{crossdc_key_alias}}\",\r\n      \"trustStoreAlias\": \"{{crossdc_truststore_alias}}\",\r\n      \"insecureTrustManager\": {{crossdc_insecure_manager}}\r\n    },\r\n    {\r\n      \"host\": \"<domain_of_data_center_2>\",\r\n      \"port\": {{port}},\r\n      \"isHttps\": {{is_https}},\r\n      \"syncPort\": {{crossdc_port}},\r\n      \"username\": \"{{username}}\",\r\n      \"password\": \"{{password}}\",\r\n      \"keyStoreAlias\": \"{{crossdc_keystore_alias}}\",\r\n      \"keyAlias\": \"{{crossdc_key_alias}}\",\r\n      \"trustStoreAlias\": \"{{crossdc_truststore_alias}}\",\r\n      \"insecureTrustManager\": {{crossdc_insecure_manager}}\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dataspace/activateAll?mode=ACTIVE_RING",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dataspace",
+										"activateAll"
+									],
+									"query": [
+										{
+											"key": "mode",
+											"value": "ACTIVE_RING",
+											"description": "Possible values: STANDALONE, STANDBY, ACTIVE_RING"
+										}
+									]
+								},
+								"description": "For every data center in the cross DC setup, the below object should be configured\n```\n{\n  \"host\": \"<domain_of_data_center_1>\",\n  \"port\": <http(s)_port_to_communicate_with_other_data_centers>,\n  \"isHttps\": <true_if_using_https_to_communicate_with_other_data_centers_else_false>,\n  \"syncPort\": <the_cross_dc_port>,\n  \"username\": \"<the_username_of_the_data_center_for_authentication>\",\n  \"password\": \"<the_password_of_the_above_user>\",\n  \"keyStoreAlias\": \"<keystore_alias_of_data_center_1>\",\n  \"keyAlias\": \"<key_alias_of_configured_keystore>\",\n  \"trustStoreAlias\": \"<truststore_alias_of_data_center_1>\",\n  \"insecureTrustManager\": <true_if_using_self-signed_certificates_in_truststure_else_false>\n}\n```"
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"function validateCollectionVariable(varName) {",
+									"  if (!pm.collectionVariables.get(varName)) {",
+									"    console.log(\"Cannot execute the request because the collection variable \" + varName + \" is not set.\");",
+									"    throw new Error(\"Cannot execute the request because the collection variable \" + varName + \" is not set.\");",
+									"  }",
+									"}",
+									"",
+									"validateCollectionVariable(\"crossdc_keystore_alias\");",
+									"validateCollectionVariable(\"crossdc_key_alias\");",
+									"validateCollectionVariable(\"crossdc_truststore_alias\");",
+									"validateCollectionVariable(\"crossdc_insecure_manager\");",
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Unsecure Configuration",
+					"item": [
+						{
+							"name": "Configure Dataspace Listener and Ring",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"local\": {\r\n    \"host\": \"{{domain}}\",\r\n    \"syncPort\": {{crossdc_port}}\r\n  },\r\n  \"remotes\": [\r\n    {\r\n      \"host\": \"<domain_of_data_center_1>\",\r\n      \"port\": {{port}},\r\n      \"syncPort\": {{crossdc_port}},\r\n      \"username\": \"{{username}}\",\r\n      \"password\": \"{{password}}\"\r\n    },\r\n    {\r\n      \"host\": \"<domain_of_data_center_2>\",\r\n      \"port\": {{port}},\r\n      \"syncPort\": {{crossdc_port}},\r\n      \"username\": \"{{username}}\",\r\n      \"password\": \"{{password}}\"\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dataspace/configure",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dataspace",
+										"configure"
+									]
+								},
+								"description": "For every data center in the cross DC setup, the below object should be configured\n```\n{\n  \"host\": \"<domain_of_data_center_1>\",\n  \"port\": <the_http(s)_port_to_connect_with>,\n  \"syncPort\": <the_crossdc_port>,\n  \"username\": \"<the_username_of_data_center_1>\",\n  \"password\": \"<password_of_above_user>\"\n}\n```"
+							},
+							"response": []
+						},
+						{
+							"name": "Activate Dataspace Ring",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"local\": {\r\n    \"host\": \"{{domain}}\",\r\n    \"syncPort\": {{crossdc_port}}\r\n  },\r\n  \"remotes\": [\r\n    {\r\n      \"host\": \"<domain_of_data_center_1>\",\r\n      \"port\": {{port}},\r\n      \"syncPort\": {{crossdc_port}},\r\n      \"username\": \"{{username}}\",\r\n      \"password\": \"{{password}}\"\r\n    },\r\n    {\r\n      \"host\": \"<domain_of_data_center_2>\",\r\n      \"port\": {{port}},\r\n      \"syncPort\": {{crossdc_port}},\r\n      \"username\": \"{{username}}\",\r\n      \"password\": \"{{password}}\"\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dataspace/activateAll?mode=ACTIVE_RING",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dataspace",
+										"activateAll"
+									],
+									"query": [
+										{
+											"key": "mode",
+											"value": "ACTIVE_RING",
+											"description": "Possible values: STANDALONE, STANDBY, ACTIVE_RING"
+										}
+									]
+								},
+								"description": "For every data center in the cross DC setup, the below object should be configured\n```\n{\n  \"host\": \"<domain_of_data_center_1>\",\n  \"port\": <the_http(s)_port_to_connect_with>,\n  \"syncPort\": <the_crossdc_port>,\n  \"username\": \"<the_username_of_data_center_1>\",\n  \"password\": \"<password_of_above_user>\"\n}\n```"
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "There are two ways in which the cross DC setup can be configured:\n###### Basic Operations\nThis is configured for every data center. The sequence of steps must be executed on every data center in the cross DC setup.\n\n###### Composite Operations\nThis is a composite operation request that should to be issued to only one of the data centers in the cross DC setup with metadata about the other data centers in the payload to establish the cross DC communication."
+		},
+		{
+			"name": "Dataspace",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/dataspace",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dataspace"
+					]
+				},
+				"description": "The cross DC configuration setup that is currently present in this data center."
+			},
+			"response": []
+		},
+		{
+			"name": "Listener",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/dataspace/listener",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dataspace",
+						"listener"
+					]
+				},
+				"description": "The cross DC configuration details of the current data center."
+			},
+			"response": []
+		},
+		{
+			"name": "Dataspace Status",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/dataspace/status?watchFailingNodes=false&fetchGossipData=false",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"dataspace",
+						"status"
+					],
+					"query": [
+						{
+							"key": "watchFailingNodes",
+							"value": "false",
+							"description": "Default value: false. If true, it also tracks the nodes which are failing. This is applicable when the health status is YELLOW"
+						},
+						{
+							"key": "fetchGossipData",
+							"value": "false",
+							"description": "Default value: false. If true, it returns the current gossip vector that is shared between the data centers for tracking purposes."
+						}
+					]
+				},
+				"description": "The status of the cross DC setup. The \"liveNodes\" property shows how many data centers are currently participating in the cross DC synchronization. It returns a health status of \"GREEN\", \"YELLOW\" or \"RED\""
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"function validateCollectionVariable(varName) {",
+					"  if (!pm.collectionVariables.get(varName)) {",
+					"    console.log(\"Cannot execute the request because the collection variable \" + varName + \" is not set.\");",
+					"    throw new Error(\"Cannot execute the request because the collection variable \" + varName + \" is not set.\");",
+					"  }",
+					"}",
+					"",
+					"validateCollectionVariable(\"protocol\");",
+					"validateCollectionVariable(\"domain\");",
+					"validateCollectionVariable(\"port\");",
+					"validateCollectionVariable(\"username\");",
+					"validateCollectionVariable(\"password\");",
+					"validateCollectionVariable(\"crossdc_port\");",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "protocol",
+			"value": ""
+		},
+		{
+			"key": "domain",
+			"value": ""
+		},
+		{
+			"key": "port",
+			"value": ""
+		},
+		{
+			"key": "username",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "crossdc_port",
+			"value": ""
+		},
+		{
+			"key": "crossdc_keystore_alias",
+			"value": ""
+		},
+		{
+			"key": "crossdc_key_alias",
+			"value": ""
+		},
+		{
+			"key": "crossdc_truststore_alias",
+			"value": ""
+		},
+		{
+			"key": "crossdc_insecure_manager",
+			"value": ""
+		},
+		{
+			"key": "endpoint",
+			"value": "{{protocol}}://{{domain}}:{{port}}"
+		},
+		{
+			"key": "endpointSuffix",
+			"value": "/rest/apigateway"
+		},
+		{
+			"key": "baseUrl",
+			"value": "{{endpoint}}{{endpointSuffix}}"
+		}
+	]
+}

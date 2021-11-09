@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "The search API allows you to execute a search query in API Gateway and receive search results that match the search query. You can perform search across different objects such as API, Application, Alias, Assertions, Users and User Groups.",
-    "version" : "10.7",
+    "version" : "10.11",
     "title" : "API Gateway Search Service"
   },
   "host" : "localhost:5555",
@@ -13,7 +13,7 @@
   "paths" : {
     "/search" : {
       "post" : {
-        "description" : "The search API allows you to execute a search query in API Gateway and get back search results that match the query. You can perform search across different objects such as API, Application, Alias, Assertions, Policies, Administrator Settings, Policy Action, Packages, Plans, Subscriptions, Users, User Groups, Transactional events, Lifecycle events, Policy violation events, Monitor events, Error events, Threat protection events and Performance metrics. Following are the type of searches that does not require scope or fields. \n 1. Users - This type is used to get the list of users from IS. \n 2. User Groups - This type is used to get the list of user groups from IS. \n\n Following are the type of searches for which you can specify the  scope and fields. \n 1. API - This type is used to search the APIs in API Gateway. \n 2. Application - This type is used to search the Applications created in API Gateway. \n 3. Alias - This type is used to search aliases created in API Gateway. \n 4. Assertions - This type is used to search custom assertions created in API Gateway. \n 5. Policy - This type is used to search policies in API Gateway. \n 6. Policy Action - This type is used to search policy actions in API Gateway. \n 7. Package - This type is used to search packages in API Gateway. \n 8. Plan - This type is used to search plans in API Gateway. \n 9. Administrator Setting - This type is used to search the administrator settings in API Gateway. \n 10. Subscription - This type is used to search subscriptions in API Gateway. \n 11. Transactional events - This type is used to search transactional events generated in API Gateway. \n 12. Lifecycle events - This type is used to search lifecycle events in API Gateway.  \n 13. Policy violation events - This type is used to search policy violation events generated in API Gateway. \n 14. Monitor events - This type is used to search monitor events generated in API Gateway. \n 15. Error events - This type is used to search error events generated in API Gateway. \n 16. Threat protection events - This type is used to search threat protection events generated in API Gateway. \n 17. Performance metrics - This type is used to search performance metrics generated in API Gateway.\n \n For the above seventeen types, if a scope is specified, then the scope is applicable for all types regardless whether it is applicable for that or not. Also if the required fields are specified and it is not available in any other types, then the search result corresponds to that type does not have the fields. \n If from and size are specified then it skips first n records specified in from for all types and it fetches the number of records specified in size.\n\n\nexamples:\n\n1. Fetch All APIs contains run as substring\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }] }\n\nThe above payload will fetch all APIs contains run as substring in API name. The response will contains APIs with some fields populated with default values. \n\n2. Fetch All APIs contains run as substring and specific set of fields in the response\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }], \"responseFields\" : [\"apiName\", \"type\", \"isActive\", \"systemVersion\", \"policies\",\"publishedPortals\",\"apiVersion\",\"id\"]}\n\nTo fetch all fields, user can use \"*\" in responseFields. It will fetch all the fields in the response.\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }], \"responseFields\" : [\"*\"]}\n\n\nThe above payload will fetch all APIs contains run as substring in API name and corresponding fields mentioned in responseFields section.\n\nThe responseFields can be identified from schema definition using below table for some of the main used types\n\nAsset type: API ,Swagger file: APIGatewayServiceManagement.json ,Definition: #/definitions/GatewayAPI\nAsset type: POLICY ,Swagger file: APIGatewayPolicyManagement.json ,Definition: #/definitions/Policy\nAsset type: POLICY_ACTION ,Swagger file: APIGatewayPolicyManagement.json ,Definition: #/definitions/PolicyAction\nAsset type: ALIAS ,Swagger file: APIGatewayAlias.json  ,Definition: #/definitions/Alias\nAsset type: APPLICATION ,Swagger file:APIGatewayApplication.json ,Definition: #/definitions/Application\nAsset type: USERS ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/User\nAsset type: GROUPS ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/Group\nAsset type: ACCESSPROFILES ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/AccessProfile\nAsset type: API_DOCUMENT ,Swagger file: APIGatewayDocumentManagement.json ,Definition: #/definitions/Document\nAsset type: KEYSTORE ,Swagger file: APIGatewayAdministration.json ,Definition: #/definitions/KeyStore\nAsset type: TRUSTSTORE ,Swagger file: APIGatewayAdministration.json ,Definition: #/definitions/TrustStore\n\nFor other types user can use \"*\" in responseFields section to get all the fields.\n",
+        "description" : "The search API allows you to execute a search query in API Gateway and get back search results that match the query. You can perform search across different objects such as API, Application, Alias, Assertions, Policies, Administrator Settings, Policy Action, Packages, Plans, Subscriptions, Users, User Groups, Transactional events, Lifecycle events, Policy violation events, Monitor events, Error events, Threat protection events, Performance metrics and Audit logs. Following are the type of searches that does not require scope or fields. \n 1. Users - This type is used to get the list of users from IS. \n 2. User Groups - This type is used to get the list of user groups from IS. \n\n Following are the type of searches for which you can specify the  scope and fields. \n 1. API - This type is used to search the APIs in API Gateway. \n 2. Application - This type is used to search the Applications created in API Gateway. \n 3. Alias - This type is used to search aliases created in API Gateway. \n 4. Assertions - This type is used to search custom assertions created in API Gateway. \n 5. Policy - This type is used to search policies in API Gateway. \n 6. Policy Action - This type is used to search policy actions in API Gateway. \n 7. Package - This type is used to search packages in API Gateway. \n 8. Plan - This type is used to search plans in API Gateway. \n 9. Administrator Setting - This type is used to search the administrator settings in API Gateway. \n 10. Subscription - This type is used to search subscriptions in API Gateway. \n 11. Transactional events - This type is used to search transactional events generated in API Gateway. \n 12. Lifecycle events - This type is used to search lifecycle events in API Gateway.  \n 13. Policy violation events - This type is used to search policy violation events generated in API Gateway. \n 14. Monitor events - This type is used to search monitor events generated in API Gateway. \n 15. Error events - This type is used to search error events generated in API Gateway. \n 16. Threat protection events - This type is used to search threat protection events generated in API Gateway. \n 17. Performance metrics - This type is used to search performance metrics generated in API Gateway.\n 18. Audit log events - This type is used to search audit logs events generated in API Gateway.\n \n For the above eighteen types, if a scope is specified, then the scope is applicable for all types regardless whether it is applicable for that or not. Also if the required fields are specified and it is not available in any other types, then the search result corresponds to that type does not have the fields. \n If from and size are specified then it skips first n records specified in from for all types and it fetches the number of records specified in size.\n\n\nexamples:\n\n1. Fetch All APIs contains run as substring\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }] }\n\nThe above payload will fetch all APIs contains run as substring in API name. The response will contains APIs with some fields populated with default values. \n\n2. Fetch All APIs contains run as substring and specific set of fields in the response\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }], \"responseFields\" : [\"apiName\", \"type\", \"isActive\", \"systemVersion\", \"policies\",\"publishedPortals\",\"apiVersion\",\"id\"]}\n\nTo fetch all fields, user can use \"*\" in responseFields. It will fetch all the fields in the response.\n\nPayload : { \"types\" : [\"api\"], \"scope\":[ { \"attributeName\" : \"apiName\", \"keyword\" : \".*run.*\" }], \"responseFields\" : [\"*\"]}\n\n\nThe above payload will fetch all APIs contains run as substring in API name and corresponding fields mentioned in responseFields section.\n\nThe responseFields can be identified from schema definition using below table for some of the main used types\n\nAsset type: API ,Swagger file: APIGatewayServiceManagement.json ,Definition: #/definitions/GatewayAPI\nAsset type: POLICY ,Swagger file: APIGatewayPolicyManagement.json ,Definition: #/definitions/Policy\nAsset type: POLICY_ACTION ,Swagger file: APIGatewayPolicyManagement.json ,Definition: #/definitions/PolicyAction\nAsset type: ALIAS ,Swagger file: APIGatewayAlias.json  ,Definition: #/definitions/Alias\nAsset type: APPLICATION ,Swagger file:APIGatewayApplication.json ,Definition: #/definitions/Application\nAsset type: USERS ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/User\nAsset type: GROUPS ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/Group\nAsset type: ACCESSPROFILES ,Swagger file: APIGatewayUserManagementSwagger.json ,Definition: #/definitions/AccessProfile\nAsset type: API_DOCUMENT ,Swagger file: APIGatewayDocumentManagement.json ,Definition: #/definitions/Document\nAsset type: KEYSTORE ,Swagger file: APIGatewayAdministration.json ,Definition: #/definitions/KeyStore\nAsset type: TRUSTSTORE ,Swagger file: APIGatewayAdministration.json ,Definition: #/definitions/TrustStore\n\nFor other types user can use \"*\" in responseFields section to get all the fields.\n",
         "operationId" : "searchByType",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -172,21 +172,7 @@
         "$ref" : "#/definitions/IAggregation"
       }, {
         "type" : "object",
-        "properties" : {
-          "fields" : {
-            "type" : "string",
-            "description" : "Input aggregation fields"
-          },
-          "name" : {
-            "type" : "string",
-            "description" : "Name of the aggregation in the search aggregation response"
-          },
-          "type" : {
-            "type" : "string",
-            "description" : "Type of the aggregation.",
-            "enum" : [ "metrics", "timeseries", "group" ]
-          }
-        },
+        "properties" : { },
         "description" : "This defines the aggregation structure to search across API Gateway"
       } ]
     },
@@ -195,13 +181,17 @@
       "discriminator" : "type",
       "properties" : {
         "fields" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Input aggregation fields"
         },
         "name" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Name of the aggregation in the search aggregation response"
         },
         "type" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Type of the aggregation.",
+          "enum" : [ "metrics", "timeseries", "group" ]
         }
       },
       "description" : "This defines the aggregation structure to search across API Gateway"
@@ -212,23 +202,10 @@
       }, {
         "type" : "object",
         "properties" : {
-          "fields" : {
-            "type" : "string",
-            "description" : "Input aggregation fields"
-          },
           "metricsType" : {
             "type" : "string",
             "description" : "Type of the metrics aggregation.",
             "enum" : [ "avg", "min", "max", "sum" ]
-          },
-          "name" : {
-            "type" : "string",
-            "description" : "Name of the aggregation in the search aggregation response"
-          },
-          "type" : {
-            "type" : "string",
-            "description" : "Type of the aggregation.",
-            "enum" : [ "metrics", "timeseries", "group" ]
           }
         },
         "description" : "This defines the aggregation structure to search across API Gateway"
@@ -245,6 +222,10 @@
           "type" : "string",
           "description" : "Condition between scope specified. The value can be either 'and' or 'or'",
           "enum" : [ "and", "or" ]
+        },
+        "deploymentFilter" : {
+          "type" : "string",
+          "description" : "This filter is used for deployment types."
         },
         "from" : {
           "type" : "integer",
@@ -285,7 +266,7 @@
         "types" : {
           "type" : "string",
           "description" : "List of allowed types that can be searched across API Gateway.",
-          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS", "GATEWAY_SCOPE", "OAUTH2MATERIALIZEDTOKEN", "TRANSACTION_EVENTS", "LIFECYCLE_EVENTS", "POLICYVIOLATION_EVENTS", "MONITOR_EVENTS", "ERROR_EVENTS", "THREATPROTECTION_EVENTS", "PERFORMANCE_METRICS", "QUOTA_USAGE", "DASHBOARD", "AUDIT_LOG" ]
+          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS", "GATEWAY_SCOPE", "OAUTH2MATERIALIZEDTOKEN", "TRANSACTION_EVENTS", "LIFECYCLE_EVENTS", "POLICYVIOLATION_EVENTS", "MONITOR_EVENTS", "ERROR_EVENTS", "THREATPROTECTION_EVENTS", "PERFORMANCE_METRICS", "QUOTA_USAGE", "DASHBOARD", "AUDIT_LOG", "REQUEST_RESPONSE_TRACE_SPANS", "APPLICATION_LOG", "MEDIATOR_TRACE_SPANS", "SERVER_LOG_TRACE_SPANS" ]
         }
       },
       "description" : "This defines the request structure to search across API Gateway"
@@ -338,10 +319,6 @@
       }, {
         "type" : "object",
         "properties" : {
-          "fields" : {
-            "type" : "string",
-            "description" : "Input aggregation fields"
-          },
           "interval" : {
             "type" : "string",
             "description" : "Interval of the time series in aggregation.",
@@ -349,15 +326,6 @@
           },
           "intervalTypeAsString" : {
             "type" : "string"
-          },
-          "name" : {
-            "type" : "string",
-            "description" : "Name of the aggregation in the search aggregation response"
-          },
-          "type" : {
-            "type" : "string",
-            "description" : "Type of the aggregation.",
-            "enum" : [ "metrics", "timeseries", "group" ]
           }
         },
         "description" : "This defines the aggregation structure to search across API Gateway"

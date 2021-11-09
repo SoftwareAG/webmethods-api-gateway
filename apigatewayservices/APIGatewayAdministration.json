@@ -1,8 +1,8 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "API Gateway Administration Service provides interface for you to administer various functions of the API Gateway. The user needs to have different functional privileges to administer different functions. For example, in order to manage runtime transactions data of the API Gateway, the user needs to have 'Manage purge and restore runtime events' privilege. By default, the users who are part of API-Gateway-Administrators group will have all privileges. \n\nFollowing Administration functions are exposed using this API. \n\n1. Manage data- Archive, Purge and Restore API Gateway runtime events, audit logs & metrics data. \n\nThis function lets the users manage the API Gateway runtime events, audit logs & metrics data.   \n\nAPI Gateway generates different types of events in the runtime depending on the state of the API invocation. For example, an error event is generated when API Gateway encounters an error while processing the API request or the response.  API Metrics is an aggregated data computed from the different events that happen in the system. These metrics provides information about the key performance indicators of an API like its \"Availability\", \"Fault Count\" etc which are useful for monitoring & governing the service performance and service level agreements.  The API providers has a variety of options to choose from for storing these events and metrics. By default, API Gateway store will be used for storing this data.  Here are some details about different type of events.\n\nTransactional event: Provides a summary (request & response) of each runtime transaction in the system. It is generated when a Log Invocation policy is included for the API. For example, if an API has this policy attached to it, then for every invoke the system generates a transaction event.  \n\nError event: Provides details of an error that occurred during an API invoke. This event is generated whenever there is an error in the system during a runtime service invocation. \n\nMonitoring event: This event is generated based on the parameters configured in the API monitoring policies such as Monitor Service Level Agreements, Throttling etc. Monitoring could be done based on various parameters such as Total Request Count, Total Success Count, Response Time, Availability. Monitoring can be done at the consumer application level too so that each consumer can be tracked individually. \n \nPolicy violation event: Provides a summary of the policy violations that occurred in the system. When a policy attached to an API is violated, the system generates the policy violation event.\n\nLifeCycle event: Provides a summary of the life cycle of the API Gateway instance. Whenever the instance is started or stopped, a life cycle notification is generated.\n\nThreat protection events: Provides a summary of the threat protection filter and rule violations. When a filter or rule is violated, the system generates the threat protection violation event. \n\nThe Audit logging of API Gateway provides audit information for different categories of system transactions, events, and occurrences of specific events (for example, login attempts) over a period of time. You can use audit logs to view a detailed record of various auditable events that occurred on the API Gateway objects, user login and logout operations, and identify the users who are responsible for the changes. You can configure which audit events to log for a specific destination based on your auditing requirements.You can configure API Gateway to log the auditable events for following destinations:\nAPI Gateway\nDatabase\nDigital Event Services (DES)\nElasticsearch. \n\nThe following auditable events can be configured to write to the API Gateway audit logs:\n Access profile management events: Creation, modification, and deletion of an Access profile object. \n Alias management events: Creation, modification, and deletion of an Alias object. \n Analytics management events: Archiving, purging, and restoring of analytics data in the database. \n API management events: Creation, modification, deletion, activation and deactivation of an API object. \n Application management events: Creation, modification, and deletion of an Application object. \n Approval management events: Approval and rejection of a request to create, register, and modify an application. Approval and rejection of a request to subscribe a package in API Portal.\n Group management events: Creation, modification, and deletion of a Group object.\n Package management events: Creation, modification, and deletion of a Package object.\n Plan management events: Creation, modification, and deletion of a Plan object.\n Policy management: Creation, modification, and deletion of a global Policy object.Creation, modification, and deletion of an API level Policy object.Activation and deactivation of a global policy.\n  Activation and deactivation of an API level policy.\n Promotion management events: Creation, modification, and deletion of a Stage object.Promotion of an API stage.Rollback operation of an API stage.\n User management events: A user logs in or fails to log in to API Gateway.A user logs out of API Gateway.Creation, modification, and deletion of a User object.\n\nManaging the Events/Audit logs/Metrics Data\n\nPurge: The process of systematically deleting unwanted data from the database is called purging. You can purge events, audit logs and metrics from the API Gateway store by setting the required date or duration in the API Gateway. You must have the required functional privileges to purge the API analytics data.\n\nArchive: Moving data that is no longer actively used for long-term retention so that it can be used at a later time is called archiving. You can archive events, audit logs and metrics by setting the required date or duration per tenant in the API Gateway. You must have the required functional privileges to archive events, audit logs and metrics.\n\nRestore: You can restore the archived data as required. \n\n\n2.Transaction based license: \n\nAPI Gateway supports core as well as transaction-based licensing model. When API Gateway uses a transaction-based licensing model, then each service invocation is considered as a transaction and API Gateway keeps a track of these transactions. API Gateway transactions for the current month are compared with the maximum number of transactions allowed in a month.When the usage breaches, notification will be generated for the current month. Apart from this if the user wants to generate notifications before usage breach itself when usage reaches to some x% like 70% or 80% then the user has to add notification criteria at 70% or 80%. By default API Gateway will have two default notification criteria's at 90%, 100%.\n\n\n3.Destination configuration: \n\nAPI Gateway can publish events and performance metrics data to the configured destinations. You must have the API Gateway's manage destination configurations functional privilege assigned to configure the following destinations to which the event types and performance metrics data is published:\nAPI Gateway\nAPI Portal\nTransaction logger\nCentraSite\nDatabase\nDigital Events\nElasticsearch\nEmail\nSNMP \n\n\n4.Default API fault configuration: \n\n API provider can configure a global error handling behaviour. In case of the native service error, the provider may choose to either forward the native error as is or can choose to modify the error response. In case the provider chooses to provide a custom error response, he/she can use the default error template containing standard aliases. These alias values will be replaced with the request specific information before the response is sent to the client. The standard aliases like the error message, service, operation, date/time, IP address, user and consumer application can be used in the template. The custom error response configuration is applicable for the errors thrown by API Gateway also.\n\n\n5.Custom assertions: \n\nCustom assertions allow the API providers to extend and provide additional security policies that are not available by default in API Gateway. Kindly refer to Policy swagger documentation for information about these configurations. \n\n\n6.SAML Issuer: \n\nIf a native API is enforced with the SAML policy, API Gateway uses this configuration to communicate to STS (Security Token Service) to retrieve the SAMl token. This is internally stored as an alias, kindly refer Alias Swagger documentation for information about these configurations.\n\n\n7.OAuth 2.0: \n\nAPI Gateway allows the API provider to configure any 3rd party OAuth2 Authorization server. In this case API Gateway acts as Resource server. Use can refer to Alias Swagger documentation for information about configuring external Authorization server.\n\n\n8.OpenID Provider: \n\nAPI Gateway allows the API provider to configure any OpenID provider. In this case API Gateway acts as Relying Party. You can refer to Alias Swagger documentation for information about configuring OpenID provider.\n\n9. Approval \n\nAPI Gateway allows you to configure approvals for: \n\t- Create application: To enforce approvals for creating an application in API Gateway.\n\t- Register application: To enforce approvals for associating an application with APIs.\n\t- Update application: To enforce approvals for modifying an application.\n\t- Subscribe package: To enforce approvals in API Gateway to enable API Portal consumers for subscribing a package to a plan in API Portal.\n\nIn API Gateway, you can create an application and associate (register) the application created with APIs. If you have the API Gateway's manage general administration configurations functional privilege assigned, you can configure approvals for creating or registering an application. If you have configured approvers, and if a user wants to create and register an application in API Gateway, then the application is created and registered with an API only if any one approver from the approvers group approves the create application and the register application requests. Similarly, you can configure approvals for updating an application or subscribing a package.\n\n10. Load Balancer \n\nIf you cluster API Gateway instances, you must configure API Gateway with the load balancer URL. This is the URL to which the consumer applications sends the requests to. Also this URL will be used to generate the API endpoint during activation.\n\n11. API Portal Configuration Management \n\n This API is used for managing API Portal configurations in API Gateway.\n\nThe API Provider can define APIs in API Gateway, secure and monitor them and then may choose to publish these APIs to the API Portal. API Portal enables an organization to securely expose APIs to external developers, partners, and other consumers for use in building their own applications.\n\nAny user with 'Manage Destinations' functional privilege can configure API Portal connection in API Gateway.  APIs/Packages can be published from API Gateway to API Portal if and only if the API Portal configuration changes are done successfully.\n\n12. URL Alias Management\n\nAPI Gateway provides support for managing URL Aliases. A URL Alias is used to substitute a specific path of a HTTP/HTTPS endpoint of an API in API Gateway. URL Aliases allow for a level of indirection and helps to mask or shorten the API endpoint so that the actual endpoint can be subject to changes without having to affect the end consumers of the API. You need to have the Manage general administration configurations functional privilege inorder to manage URL Aliases in API Gateway.\n\n13. Outbound Proxy Management\n\nDefine proxy server aliases in API Gateway to route outbound requests from API Gateway through proxy servers. This is useful if the API Gateway is behind a firewall and outbound requests are sent to remote servers located outside the firewall. Outbound proxies are supported for the following types of protocols: HTTP, HTTPS, FTP and SOCKS. You need to have the Manage general administration configurations functional privilege inorder to manage outbound proxies in API Gateway.\n\n14. Kerberos Settings\n\nAPI Gateway provides support for Kerberos authentication for inbound and outbound service requests. Kerberos is an authentication protocol that uses symmetric encryption and a trusted third party system to validate the identity of clients. You need to have the Manage security configurations functional privilege inorder to configure Kerberos settings in API Gateway.\n\n15. Keystore Management\n\nAPI Gateway uses keystores to store SSL certificates and private keys. A keystore file contains one or more pairs of a private key and signed certificate for its corresponding public key. The keystore should be strongly protected with a password. You need to have the Manage security configurations functional privilege inorder to manage keystores in API Gateway.\n\n16. Truststore Management\n\nAPI Gateway uses truststores to manage the public keys for the signing Certificate Authoritites (CAs) for clients and partners. These are identified using aliases during any form of SSL authentication performed by API Gateway. You need to have the Manage security configurations functional privilege inorder to manage truststores in API Gateway.\n\n17. Configure Whitelisted IPs\n\nServer side request forgery is a vulnerability which allows an attacker to force a vulnerable application to issue malicious requests to third-party servers and or internal resources.The remote API importing functionallity allows specifying an URL which contains the API specification, this URL is not properly sanitized and allows to issue arbitrary requests to any service, including ones inside the internal network or on the local host. An attacker can exploit this issue to attack other internal and external services.\n\nTo solve this SSRF issue, API Gateway implemented a filter for URL which would disallow users to use IPs or hosts that resolve to internal network IP ranges and this filter included the following IP ranges: \n127.0.0.1 \n10.0.0.0/8 \n172.16.0.0/12 \n192.168.0.0/16\n\nTo provide a way to customers to allow API creation from internal IP addresses/hostnames, this rest resource introduces a configuration with whitelisting of IP addresses we have to pull resources from.\n\n18.Master Password Management\n\nAPI Gateway handles many secure strings as part of its normal operations. It protects these secure keys by encrypting them using Password-Based Encryption (PBE) technology, also known as PKCS5. This encryption method requires the use of an encryption key or master password that you specify.API Gateway provides a default master password and this can be changed at any point of time.\n\nFor greater security there is an expiration interval associated with the master password which is the duration after which the master password would expire. Customers can change this master password periodically. In case if the master password is lost, the same can be reset to the default value and it can be changed later to a secure value.\n\n19.Log Aggregation: \n\nAPI Gateway collects and stores logs from different sources such as API Gateway server logs, API Gateway UI logs, Internal Data Store logs, dashboard logs and platform logs. Each type of logged data comes from different components. API Gateway provides an easy way of configuring log settings to collate the logs from different sources at a single place in a common format. You also have an option to download these logs as an archive. This provides an easy access to logs collected from different sources when you have to look into the logs to troubleshoot any issues, such as error or performance problems.\n\n\n20.Service Registry: \n\nA service registry is essentially a catalog of services. API Gateway allows Administrators to configure service registries. API Gateway supports ServiceConsul and Eureka service registries. Both client side discovery and server side discovery of Service Registry are supported by API Gateway. You can refer to Alias Swagger documentation for information about configuring Service Registries. Also refer to API Gateway Service Management Swagger documentation for information about how to register/deregister API Gateway APIs to/from Service Registries..\n\n\n21.Clustering : \n\nA Clustering is an advanced feature that substantially extends the reliability, availability, and scalability of APIGateway. Clustering accomplishes this by providing the infrastructure and tools to use multiple APIGateway as if they were a single virtual server and to deliver applications that leverage that architecture.\n\n\n22.JMS Configuration Management\r\n\r\nAPI Gateway provides support for JMS and message protocols like AMQP, any REST or SOAP API can be exposed over JMS/AMQP and vice-versa.  \r\nBy exposing an API over JMS  we can achieve Interoperability in asychronous way across the Java platforms. By exposing an API over AMQP we can achieve Interoperability in asychronous way across multiple languages and platforms.\r\nAPI Gateway uses JMS configurations like JNDI, JMS Connection, Web service Provider/Consumer aliases, JMS Trigger to expose the APIs over JMS/AMQP.\r\n\r\nTo Expose the APIs over JMS/AMQP, \r\n     a) First, we need to create the JNDI \r\n     b) Create a JMS connection using the above created JNDI\r\n\t        -We can use this JMS connection alias to expose our REST APIs over JMS/AMQP and vice-versa\r\n  In case of SOAP \t\t\r\n     c) Create Web service Provider endpoint to expose our SOAP APIs over JMS/AMQP\r\n     d) Create Web service Consumer endpoint to expose our existing Message queue/topic over SOAP\t \r\n\t \r\nYou need to have the Manage General Administration functional privilege inorder to configure JMS in API Gateway.\n\n\n23.AWS configuration: \n\nThis holds AWS instance configuration details. This can be used in any custom policies for invoking a lambda service running in any AWS cloud instance.\n\n\n24.Rule Management (REST resource '/rule')\r\n\r\nRules are defined by specifying one or more asset based conditions, and by configuring the rule output if the conditions are met.\r\nThis API can be used to create, retrieve, update or delete a rule.\r\nWhen Teamwork feature is enabled, Global Team Assignment rules can be defined to automate the team assignment for the assets.\n\n\n25.Proxy Bypass (REST resource '/is/proxyBypass')\r\n\r\nIf you are using a proxy server for outbound HTTP, HTTPS requests, you can optionally route selected requests directly to their targets, bypassing the proxy. To do this, the User who has manage general administration priviliege can define a list of domains to which you want APIGateway Server to issue requests directly..\n\n\n26.Integration servers: \n\nThis holds webMethods Integration Server accounts details. This configuration will be used to create connection to the integration server when publishing APIs to an integration server for implementing the API.  You can refer to API Gateway Alias Swagger documentation for information about configuring Integration Server accounts. Also refer to API Gateway Service Management Swagger documentation for information about how to publish API Gateway APIs to/from Integration servers..\n\n\n27.Webhooks: \n\nThis holds webhook configuration details. These configurations are registered by client applications that are interested in certain events generated by API Gateway. When such an events occurs, API Gateway notifies those client applications by invoking the URLs provided by them in these configurations..\n\n\n28.Migration: \n\nThis executes migration actions. The supported migrations actions are clean, reindex and transform...\n\n\n29.Quiesce mode: \n\nThis enables or disables quiesce mode in API Gateway..\n\n\n30.Shutdown: \n\nThis shutdowns or restarts API Gateway server..",
-    "version" : "10.7",
+    "description" : "API Gateway Administration Service provides interface for you to administer various functions of the API Gateway. The user needs to have different functional privileges to administer different functions. For example, in order to manage runtime transactions data of the API Gateway, the user needs to have 'Manage purge and restore runtime events' privilege. By default, the users who are part of API-Gateway-Administrators group will have all privileges. \n\nFollowing Administration functions are exposed using this API. \n\n1. Manage data- Archive, Purge and Restore API Gateway runtime events, audit logs & metrics data. \n\nThis function lets the users manage the API Gateway runtime events, audit logs & metrics data.   \n\nAPI Gateway generates different types of events in the runtime depending on the state of the API invocation. For example, an error event is generated when API Gateway encounters an error while processing the API request or the response.  API Metrics is an aggregated data computed from the different events that happen in the system. These metrics provides information about the key performance indicators of an API like its \"Availability\", \"Fault Count\" etc which are useful for monitoring & governing the service performance and service level agreements.  The API providers has a variety of options to choose from for storing these events and metrics. By default, API Gateway store will be used for storing this data.  Here are some details about different type of events.\n\nTransactional event: Provides a summary (request & response) of each runtime transaction in the system. It is generated when a Log Invocation policy is included for the API. For example, if an API has this policy attached to it, then for every invoke the system generates a transaction event.  \n\nError event: Provides details of an error that occurred during an API invoke. This event is generated whenever there is an error in the system during a runtime service invocation. \n\nMonitoring event: This event is generated based on the parameters configured in the API monitoring policies such as Monitor Service Level Agreements, Throttling etc. Monitoring could be done based on various parameters such as Total Request Count, Total Success Count, Response Time, Availability. Monitoring can be done at the consumer application level too so that each consumer can be tracked individually. \n \nPolicy violation event: Provides a summary of the policy violations that occurred in the system. When a policy attached to an API is violated, the system generates the policy violation event.\n\nLifeCycle event: Provides a summary of the life cycle of the API Gateway instance. Whenever the instance is started or stopped, a life cycle notification is generated.\n\nThreat protection events: Provides a summary of the threat protection filter and rule violations. When a filter or rule is violated, the system generates the threat protection violation event. \n\nThe Audit logging of API Gateway provides audit information for different categories of system transactions, events, and occurrences of specific events (for example, login attempts) over a period of time. You can use audit logs to view a detailed record of various auditable events that occurred on the API Gateway objects, user login and logout operations, and identify the users who are responsible for the changes. You can configure which audit events to log for a specific destination based on your auditing requirements.You can configure API Gateway to log the auditable events for following destinations:\nAPI Gateway\nDatabase\nDigital Event Services (DES)\nElasticsearch. \n\nThe following auditable events can be configured to write to the API Gateway audit logs:\n Access profile management events: Creation, modification, and deletion of an Access profile object. \n Alias management events: Creation, modification, and deletion of an Alias object. \n Analytics management events: Archiving, purging, and restoring of analytics data in the database. \n API management events: Creation, modification, deletion, activation and deactivation of an API object. \n Application management events: Creation, modification, and deletion of an Application object. \n Group management events: Creation, modification, and deletion of a Group object.\n Package management events: Creation, modification, and deletion of a Package object.\n Plan management events: Creation, modification, and deletion of a Plan object.\n Policy management: Creation, modification, and deletion of a global Policy object.Creation, modification, and deletion of an API level Policy object.Activation and deactivation of a global policy.\n  Activation and deactivation of an API level policy.\n Promotion management events: Creation, modification, and deletion of a Stage object.Promotion of an API stage.Rollback operation of an API stage.\n User management events: A user logs in or fails to log in to API Gateway.A user logs out of API Gateway.Creation, modification, and deletion of a User object.\n\nManaging the Events/Audit logs/Metrics Data\n\nPurge: The process of systematically deleting unwanted data from the database is called purging. You can purge events, audit logs and metrics from the API Gateway store by setting the required date or duration in the API Gateway. You must have the required functional privileges to purge the API analytics data.\n\nArchive: Moving data that is no longer actively used for long-term retention so that it can be used at a later time is called archiving. You can archive events, audit logs and metrics by setting the required date or duration per tenant in the API Gateway. You must have the required functional privileges to archive events, audit logs and metrics.\n\nRestore: You can restore the archived data as required. \n\n\n2.Transaction based license: \n\nAPI Gateway supports core as well as transaction-based licensing model. When API Gateway uses a transaction-based licensing model, then each service invocation is considered as a transaction and API Gateway keeps a track of these transactions. API Gateway transactions for the current month are compared with the maximum number of transactions allowed in a month.When the usage breaches, notification will be generated for the current month. Apart from this if the user wants to generate notifications before usage breach itself when usage reaches to some x% like 70% or 80% then the user has to add notification criteria at 70% or 80%. By default API Gateway will have two default notification criteria's at 90%, 100%.\n\n\n3.Destination configuration: \n\nAPI Gateway can publish events and performance metrics data to the configured destinations. You must have the API Gateway's manage destination configurations functional privilege assigned to configure the following destinations to which the event types and performance metrics data is published:\nAPI Gateway\nAPI Portal\nTransaction logger\nCentraSite\nDatabase\nDigital Events\nElasticsearch\nEmail\nSNMP\nCustom Destination - Please refer the resource /policyActions from the swagger file 'APIGatewayPolicyManagement.json'  \n\n\n4.Default API fault configuration: \n\n API provider can configure a global error handling behaviour. In case of the native service error, the provider may choose to either forward the native error as is or can choose to modify the error response. In case the provider chooses to provide a custom error response, he/she can use the default error template containing standard aliases. These alias values will be replaced with the request specific information before the response is sent to the client. The standard aliases like the error message, service, operation, date/time, IP address, user and consumer application can be used in the template. The custom error response configuration is applicable for the errors thrown by API Gateway also.\n\n\n5.Custom assertions: \n\nCustom assertions allow the API providers to extend and provide additional security policies that are not available by default in API Gateway. Kindly refer to Policy swagger documentation for information about these configurations. \n\n\n6.SAML Issuer: \n\nIf a native API is enforced with the SAML policy, API Gateway uses this configuration to communicate to STS (Security Token Service) to retrieve the SAMl token. This is internally stored as an alias, kindly refer Alias Swagger documentation for information about these configurations.\n\n\n7.OAuth 2.0: \n\nAPI Gateway allows the API provider to configure any 3rd party OAuth2 Authorization server. In this case API Gateway acts as Resource server. Use can refer to Alias Swagger documentation for information about configuring external Authorization server.\n\n\n8.OpenID Provider: \n\nAPI Gateway allows the API provider to configure any OpenID provider. In this case API Gateway acts as Relying Party. You can refer to Alias Swagger documentation for information about configuring OpenID provider.\n\n10. Load Balancer \n\nIf you cluster API Gateway instances, you must configure API Gateway with the load balancer URL. This is the URL to which the consumer applications sends the requests to. Also this URL will be used to generate the API endpoint during activation.\n\n11. API Portal Configuration Management \n\n This API is used for managing API Portal configurations in API Gateway.\n\nThe API Provider can define APIs in API Gateway, secure and monitor them and then may choose to publish these APIs to the API Portal. API Portal enables an organization to securely expose APIs to external developers, partners, and other consumers for use in building their own applications.\n\nAny user with 'Manage Destinations' functional privilege can configure API Portal connection in API Gateway.  APIs/Packages can be published from API Gateway to API Portal if and only if the API Portal configuration changes are done successfully.\n\n12. URL Alias Management\n\nAPI Gateway provides support for managing URL Aliases. A URL Alias is used to substitute a specific path of a HTTP/HTTPS endpoint of an API in API Gateway. URL Aliases allow for a level of indirection and helps to mask or shorten the API endpoint so that the actual endpoint can be subject to changes without having to affect the end consumers of the API. You need to have the Manage general administration configurations functional privilege inorder to manage URL Aliases in API Gateway.\n\n13. Outbound Proxy Management\n\nDefine proxy server aliases in API Gateway to route outbound requests from API Gateway through proxy servers. This is useful if the API Gateway is behind a firewall and outbound requests are sent to remote servers located outside the firewall. Outbound proxies are supported for the following types of protocols: HTTP, HTTPS, FTP and SOCKS. You need to have the Manage general administration configurations functional privilege inorder to manage outbound proxies in API Gateway.\n\n14. Kerberos Settings\n\nAPI Gateway provides support for Kerberos authentication for inbound and outbound service requests. Kerberos is an authentication protocol that uses symmetric encryption and a trusted third party system to validate the identity of clients. You need to have the Manage security configurations functional privilege inorder to configure Kerberos settings in API Gateway.\n\n15. Keystore Management\n\nAPI Gateway uses keystores to store SSL certificates and private keys. A keystore file contains one or more pairs of a private key and signed certificate for its corresponding public key. The keystore should be strongly protected with a password. You need to have the Manage security configurations functional privilege inorder to manage keystores in API Gateway.\n\n16. Truststore Management\n\nAPI Gateway uses truststores to manage the public keys for the signing Certificate Authoritites (CAs) for clients and partners. These are identified using aliases during any form of SSL authentication performed by API Gateway. You need to have the Manage security configurations functional privilege inorder to manage truststores in API Gateway.\n\n17. Configure Whitelisted IPs\n\nServer side request forgery is a vulnerability which allows an attacker to force a vulnerable application to issue malicious requests to third-party servers and or internal resources.The remote API importing functionallity allows specifying an URL which contains the API specification, this URL is not properly sanitized and allows to issue arbitrary requests to any service, including ones inside the internal network or on the local host. An attacker can exploit this issue to attack other internal and external services.\n\nTo solve this SSRF issue, API Gateway implemented a filter for URL which would disallow users to use IPs or hosts that resolve to internal network IP ranges and this filter included the following IP ranges: \n127.0.0.1 \n10.0.0.0/8 \n172.16.0.0/12 \n192.168.0.0/16\n\nTo provide a way to customers to allow API creation from internal IP addresses/hostnames, this rest resource introduces a configuration with whitelisting of IP addresses we have to pull resources from.\n\n18.Master Password Management\n\nAPI Gateway handles many secure strings as part of its normal operations. It protects these secure keys by encrypting them using Password-Based Encryption (PBE) technology, also known as PKCS5. This encryption method requires the use of an encryption key or master password that you specify.API Gateway provides a default master password and this can be changed at any point of time.\n\nFor greater security there is an expiration interval associated with the master password which is the duration after which the master password would expire. Customers can change this master password periodically. In case if the master password is lost, the same can be reset to the default value and it can be changed later to a secure value.\n\n19.Log Aggregation: \n\nAPI Gateway collects and stores logs from different sources such as API Gateway server logs, API Gateway UI logs, Internal Data Store logs, dashboard logs and platform logs. Each type of logged data comes from different components. API Gateway provides an easy way of configuring log settings to collate the logs from different sources at a single place in a common format. You also have an option to download these logs as an archive. This provides an easy access to logs collected from different sources when you have to look into the logs to troubleshoot any issues, such as error or performance problems.\n\n\n20.Service Registry: \n\nA service registry is essentially a catalog of services. API Gateway allows Administrators to configure service registries. API Gateway supports ServiceConsul and Eureka service registries. Both client side discovery and server side discovery of Service Registry are supported by API Gateway. You can refer to Alias Swagger documentation for information about configuring Service Registries. Also refer to API Gateway Service Management Swagger documentation for information about how to register/deregister API Gateway APIs to/from Service Registries..\n\n\n21.Clustering : \n\nA Clustering is an advanced feature that substantially extends the reliability, availability, and scalability of APIGateway. Clustering accomplishes this by providing the infrastructure and tools to use multiple APIGateway as if they were a single virtual server and to deliver applications that leverage that architecture.\n\n\n22.JMS Configuration Management\r\n\r\nAPI Gateway provides support for JMS and message protocols like AMQP, any REST or SOAP API can be exposed over JMS/AMQP and vice-versa.  \r\nBy exposing an API over JMS  we can achieve Interoperability in asychronous way across the Java platforms. By exposing an API over AMQP we can achieve Interoperability in asychronous way across multiple languages and platforms.\r\nAPI Gateway uses JMS configurations like JNDI, JMS Connection, Web service Provider/Consumer aliases, JMS Trigger to expose the APIs over JMS/AMQP.\r\n\r\nTo Expose the APIs over JMS/AMQP, \r\n     a) First, we need to create the JNDI \r\n     b) Create a JMS connection using the above created JNDI\r\n\t        -We can use this JMS connection alias to expose our REST APIs over JMS/AMQP and vice-versa\r\n  In case of SOAP \t\t\r\n     c) Create Web service Provider endpoint to expose our SOAP APIs over JMS/AMQP\r\n     d) Create Web service Consumer endpoint to expose our existing Message queue/topic over SOAP\t \r\n\t \r\nYou need to have the Manage General Administration functional privilege inorder to configure JMS in API Gateway.\n\n\n23.AWS configuration: \n\nThis holds AWS instance configuration details. This can be used in any custom policies for invoking a lambda service running in any AWS cloud instance.\n\n\n24.Rule Management (REST resource '/rule')\r\n\r\nRules are defined by specifying one or more asset based conditions, and by configuring the rule output if the conditions are met.\r\nThis API can be used to create, retrieve, update or delete a rule.\r\nWhen Teamwork feature is enabled, Global Team Assignment rules can be defined to automate the team assignment for the assets.\n\n\n25.Proxy Bypass (REST resource '/is/proxyBypass')\r\n\r\nIf you are using a proxy server for outbound HTTP, HTTPS requests, you can optionally route selected requests directly to their targets, bypassing the proxy. To do this, the User who has manage general administration priviliege can define a list of domains to which you want APIGateway Server to issue requests directly..\n\n\n26.Integration servers: \n\nThis holds webMethods Integration Server accounts details. This configuration will be used to create connection to the integration server when publishing APIs to an integration server for implementing the API.  You can refer to API Gateway Alias Swagger documentation for information about configuring Integration Server accounts. Also refer to API Gateway Service Management Swagger documentation for information about how to publish API Gateway APIs to/from Integration servers..\n\n\n27.Webhooks: \n\nThis holds webhook configuration details. These configurations are registered by client applications that are interested in certain events generated by API Gateway. When such an events occurs, API Gateway notifies those client applications by invoking the URLs provided by them in these configurations..\n\n\n28.Migration: \n\nThis executes migration actions. The supported migrations actions are clean, reindex and transform...\n\n\n29.Quiesce mode: \n\nThis enables or disables quiesce mode in API Gateway..\n\n\n30.Shutdown: \n\nThis shutdowns or restarts API Gateway server..",
+    "version" : "10.11",
     "title" : "API Gateway Administration Service"
   },
   "host" : "localhost:5555",
@@ -13,54 +13,54 @@
   "paths" : {
     "/apitransactions" : {
       "get" : {
-        "description" : "The GET method is used to download the api transactions data and data to be downloaded is filtered based on the input parameters. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation.",
+        "description" : "The GET method is used to download the api transactions of the specified type. Data to be downloaded is filtered based on the input parameters. The user must either be a part of API-Gateway-Administrators group or must have the 'Manage purge and restore runtime events' privilege to perform this operation.",
         "operationId" : "downloadAPITransaction",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/zip" ],
         "parameters" : [ {
           "name" : "duration",
           "in" : "query",
-          "description" : "All the api transactions that are older than the value specified will be downloaded. Ex: duration='2d'. Possible values are d(days),M(months),y(years), lets say a. 2d means 2days   b. 1M  means 1 month   c. 1y means 1 year. Either one of (startDate&endDate) or duration is a mandatory parameter",
+          "description" : "All the api transactions of the specified type that are older than the value specified are downloaded. Ex: duration='2d'. Possible types are d(days),M(months),y(years), For Example a) 2d means 2days   b) 1M  means 1 month   c) 1y means 1 year. Either one of (startDate&endDate) or duration is a mandatory parameter",
           "required" : false,
           "type" : "string",
           "x-example" : "duration=2d"
         }, {
           "name" : "startDate",
           "in" : "query",
-          "description" : "This is a date parameter. All the specified api transactions which satiesfies the startDate and endDate criteria will be downloaded. Example value: startDate=2017-12-18 00:00:00 and endDate=2017-12-19 00:00:00. Either one of (startDate and endDate) or duration is a mandatory parameter",
+          "description" : "This is a date parameter. All the api transactions of the specified type which satisfies the startDate and endDate criteria are downloaded. Ex: startDate=2017-12-18 00:00:00 and endDate=2017-12-19 00:00:00. Either one of (startDate and endDate) or duration is a mandatory parameter",
           "required" : true,
           "type" : "string",
           "x-example" : "startDate=2017-10-10 00:00:00"
         }, {
           "name" : "endDate",
           "in" : "query",
-          "description" : "This is a date parameter. All the specified api transactions which satiesfies the startDate and endDate criteria will be downloaded. Example value: startDate=2017-12-18 00:00:00 and endDate=2017-12-19 00:00:00. Either one of (startDate and endDate) or duration is a mandatory parameter",
+          "description" : "This is a date parameter. All the api transactions of the specified type which satisfies the startDate and endDate criteria are downloaded. Ex: startDate=2017-12-18 00:00:00 and endDate=2017-12-19 00:00:00. Either one of (startDate and endDate) or duration is a mandatory parameter",
           "required" : true,
           "type" : "string",
           "x-example" : "endtDate=2017-10-10 00:00:00"
         }, {
           "name" : "eventType",
           "in" : "query",
-          "description" : "This parameter is used to specify the event type that needs to be downloaded. specify any specific type to download that particular event type alone. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditLogs 9.applicationlogs",
+          "description" : "This parameter is used to specify the event type to be downloaded. Specify eventType=ALL to download all the events. To download events of a specific type, specify the required event type Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditlogs 9.applicationlogs 10.mediatorTraceSpan 11.serverLogTraceSpan",
           "required" : true,
           "type" : "string",
           "x-example" : "eventType=policyViolationEvents"
         } ],
         "responses" : {
           "200" : {
-            "description" : "This response indicates that the api transactions zip file has been downloaded successfully.",
+            "description" : "This response indicates that the api transactions zip file is downloaded successfully.",
             "examples" : {
               "application/zip" : "attachment; filename=\"auditlogs.zip\""
             }
           },
           "400" : {
-            "description" : "This status code indicates that the request URL is not valid."
+            "description" : "This status code indicates that the request URL is invalid."
           },
           "401" : {
-            "description" : "This response indicates that invalid credentials have been provided for the request."
+            "description" : "This response indicates that invalid credentials have been provided in the request."
           },
           "500" : {
-            "description" : "This response indicates that the server has encountered an error while downloading the api transactions. "
+            "description" : "This response indicates that the server encountered an error while downloading the api transactions. "
           }
         },
         "security" : [ {
@@ -68,60 +68,61 @@
         } ]
       },
       "delete" : {
-        "description" : "The DELETE method is used to purge the api transactions data and data to be purged is filtered based on the input parameters. This method returns the job id as response and the job id is used to track the job status. See /apitransactions/jobs/{jobId} for more details. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation.",
+        "description" : "The DELETE method is used to purge the api transactions of the specified type. Data to be purged is filtered based on the input parameters. This method returns a job id as response and this job id is used to track the job status. See /apitransactions/jobs/{jobId} for more details. The user must either be a part of API-Gateway-Administrators group or must have the 'Manage purge and restore runtime events' privilege to perform this operation.",
         "operationId" : "purgeAPITransactions",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "action",
           "in" : "query",
-          "description" : "This is an optional query parameter. Sometimes its better to take backup before purging the data . If you specify the action value as \"archiveAndPurge\", API Gateway will perform an archive before purging the data.",
+          "description" : "This is an optional query parameter. Sometimes it’s better to take backup before purging the data . If you specify the action value as \"archiveAndPurge\", API Gateway performs an archive before purging the data.",
           "required" : false,
           "type" : "string",
           "x-example" : "action=archiveAndPurge"
         }, {
           "name" : "from",
           "in" : "query",
+          "description" : "This is a date parameter. All the api transactions of the specified type, from the given date, are purged. Ex: from=2017-12-18 00:00:00. Either one of from or duration is a mandatory parameter",
           "required" : true,
           "type" : "string",
           "x-example" : "from=2017-10-10 00:00:00"
         }, {
           "name" : "until",
           "in" : "query",
-          "description" : "This is a date parameter. All the specified api transactions until the given date will be purged. Example value: until=2017-12-18 00:00:00. Either one of until or duration is a mandatory parameter",
+          "description" : "This is a date parameter. All the api transactions of the specified type, until the given date, are purged. Ex: until=2017-12-18 00:00:00. Either one of until or duration is a mandatory parameter",
           "required" : true,
           "type" : "string",
           "x-example" : "until=2017-10-10 00:00:00"
         }, {
           "name" : "olderThan",
           "in" : "query",
-          "description" : "All the api transactions that are older than the value specified will be purged. Ex: olderThan='2d'. Possible values are d(days),M(months),y(years), lets say a. 2d means 2days   b. 1M  means 1 month   c. 1y means 1 year",
+          "description" : "All the api transactions of the specified type, that are older than the value specified, are purged. Ex: olderThan='2d'. Possible types are d(days),M(months),y(years), For Example a) 2d means 2days   b) 1M  means 1 month   c) 1y means 1 year",
           "required" : false,
           "type" : "string",
           "x-example" : "olderThan=2d"
         }, {
           "name" : "eventType",
           "in" : "query",
-          "description" : "This parameter is used to specify the event type that needs to be purged. Specify eventType=ALL to purge all the events and specify any specific type to purge that particular event type alone. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditLogs 9.applicationlogs",
+          "description" : "This parameter is used to specify the event type to be purged. Specify eventType=ALL to purge all the events. To purge a specific event type, specify the required event type. Ex: eventType=transactionalEvents. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditlogs 9.applicationlogs 10.mediatorTraceSpan 11.serverLogTraceSpan",
           "required" : true,
           "type" : "string",
           "x-example" : "eventType=ALL"
         } ],
         "responses" : {
           "202" : {
-            "description" : "This response indicates that the purge process has been started and returned the jobId to track it further.",
+            "description" : "This response indicates that the purge process has started and returns a jobId to track the status.",
             "examples" : {
               "application/json" : "{\r\n    \"jobId\": \"1504177213671\"\r\n}"
             }
           },
           "400" : {
-            "description" : "This status code indicates that the request URL is not valid."
+            "description" : "This status code indicates that the request URL is invalid."
           },
           "401" : {
-            "description" : "This response indicates that invalid credentials have been provided for the request."
+            "description" : "This response indicates that invalid credentials have been provided in the request."
           },
           "500" : {
-            "description" : "This response indicates that the server has encountered an error while purging the api transactions. "
+            "description" : "This response indicates that the server encountered an error while purging the api transactions. "
           }
         },
         "security" : [ {
@@ -131,23 +132,29 @@
     },
     "/apitransactions/archives" : {
       "get" : {
-        "description" : "This GET method is used to fetch the details of existing archive files and response of this method would be the list of archive file names. Select one from the list of archive file names returned by this method and use the POST /apitransactions/archives/{fileName} method to restore.The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation.",
+        "description" : "This GET method is used to fetch the details of existing archive files and response of this method is the list of archive file names. Select a filename from the list of archive file names returned by this method and use the POST method /apitransactions/archives/{fileName} to restore.The user must either be a part of API-Gateway-Administrators group or must have 'Manage purge and restore runtime events' privilege to perform this operation.",
         "operationId" : "listAllArchives",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "filter",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "ALL"
+        } ],
         "responses" : {
           "200" : {
-            "description" : "This response indicates that the list of archive file names returned successfully. The response body is the list of archive file names.",
+            "description" : "This response indicates that the list of archive file names is returned successfully. The response body is the list of archive file names.",
             "examples" : {
               "application/json" : "{\r\n    \"archiveFiles\": [\r\n        \"default-2017-08-29-1504011306456\",\r\n        \"default-2017-08-29-1504012415981\"\r\n    ]\r\n}"
             }
           },
           "401" : {
-            "description" : "This response indicates that invalid credentials have been provided for the request."
+            "description" : "This response indicates that invalid credentials have been provided in the request."
           },
           "500" : {
-            "description" : "This response indicates that the server has encountered an error while returning the list of archive file names"
+            "description" : "This response indicates that the server encountered an error while returning the list of archive file names"
           }
         },
         "security" : [ {
@@ -155,47 +162,54 @@
         } ]
       },
       "post" : {
-        "description" : "This method is used to archive the runtime events and metrics. You can additionally scope the archive data using input parameter filters. This method returns the job id as the response which will be used to know the status of the job. \n\nUse the GET /apitransactions/jobs/{jobId} to know the status, file name and use POST /apitransactions/archives/{fileName} method to restore. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation.",
+        "description" : "This method is used to archive the runtime events and metrics. Data to be archived is filtered based on the input parameters. This method returns the job id as the response which is used to know the job status. \n\nUse GET /apitransactions/jobs/{jobId} method to know the status and file name, use POST /apitransactions/archives/{fileName} method to restore. The user must either be a part of the API-Gateway-Administrators group or must have the 'Manage purge and restore runtime events' privilege to perform this operation.",
         "operationId" : "apiTransactionsArchiveBasedOnDuration",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
+          "name" : "from",
+          "in" : "query",
+          "description" : "This is a date parameter. All the api transactions of specified type, from the given date, are archived. Ex: from=2017-12-18 00:00:00. Either one of from or duration is a mandatory parameter",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "from=2017-10-10 00:00:00"
+        }, {
           "name" : "until",
           "in" : "query",
-          "description" : "This is a date parameter. All the specified api transactions until the given date will be purged. Example value: until=2017-12-18 00:00:00. Either one of until or duration is a mandatory parameter",
+          "description" : "This is a date parameter. All the api transactions of specified type, until the given date, are archived. Ex: until=2017-12-18 00:00:00. Either one of until or duration is a mandatory parameter",
           "required" : true,
           "type" : "string",
           "x-example" : "until=2017-10-10 00:00:00"
         }, {
           "name" : "olderThan",
           "in" : "query",
-          "description" : "All the api transactions that are older than the value specified will be purged. Ex: olderThan='2d'. Possible values are d(days),M(months),y(years), lets say a. 2d means 2days b. 1M means 1 month c. 1y means 1 year",
+          "description" : "All the api transactions of specified type that are older than the value specified are archived. Ex: olderThan='2d'. Possible types are d(days),M(months),y(years), For Example a) 2d means 2days b) 1M means 1 month c) 1y means 1 year",
           "required" : false,
           "type" : "string",
           "x-example" : "olderThan=2d"
         }, {
           "name" : "eventType",
           "in" : "query",
-          "description" : "This parameter is used to specify the api transaction type. Specify eventType=ALL to archive all the events and specify any specific type to archive that particular event type alone. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditLogs 9.applicationlogs",
+          "description" : "This parameter is used to specify the api transaction type.Specify eventType=ALL to archive all the events. To archive a specific event type, specify the required event type. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditlogs 9.applicationlogs 10.mediatorTraceSpan 11.serverLogTraceSpan",
           "required" : true,
           "type" : "string",
           "x-example" : "eventType=ALL"
         } ],
         "responses" : {
           "202" : {
-            "description" : "This response indicates that the archiving process has been started and returned the jobId to track it further.",
+            "description" : "This response indicates that the archive process has started and returns a jobId to track the status.",
             "examples" : {
               "application/json" : "{\r\n    \"jobId\": \"1504177213671\"\r\n}"
             }
           },
           "400" : {
-            "description" : "This status code indicates that the request URL is not valid."
+            "description" : "This status code indicates that the request URL is invalid."
           },
           "401" : {
-            "description" : "This response indicates that invalid credentials have been provided for the request."
+            "description" : "This response indicates that invalid credentials have been provided in the request."
           },
           "500" : {
-            "description" : "This response indicates that the server has encountered an error while archiving the api transactions. "
+            "description" : "This response indicates that the server encountered an error while archiving the api transactions. "
           }
         },
         "security" : [ {
@@ -205,30 +219,30 @@
     },
     "/apitransactions/archives/{fileName}" : {
       "post" : {
-        "description" : "This method is used to restore the runtime data by specifying the archive file name. See GET /apitransactions/archives/ to know how to get the existing archive file names for more details. This method returns the job id as a response to track the status further. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation.",
+        "description" : "This method is used to restore the runtime data by specifying the archive file name.For more details see GET /apitransactions/archives/ to know how to get the existing archive file names. This method returns a job id as a response to track the status. The user must either be a part of API-Gateway-Administrators group or must have the 'Manage purge and restore runtime events' privilege to perform this operation.",
         "operationId" : "restoreData",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "fileName",
           "in" : "path",
-          "description" : "This parameter indicates the file name to restore. Ex: fileName=default-2017-08-29-1504011306456.",
+          "description" : "This parameter indicates the file name to be restored. Ex: fileName=default-2017-08-29-1504011306456.",
           "required" : true,
           "type" : "string",
           "x-example" : "default-2017-02-09-1486644396751"
         } ],
         "responses" : {
           "202" : {
-            "description" : "This response indicates that the restore process has been started and returned the jobId to track it further.",
+            "description" : "This response indicates that the restore process has started and returns a jobId to track the status.",
             "examples" : {
               "application/json" : "{\r\n    \"jobId\": \"1504177213671\"\r\n}"
             }
           },
           "401" : {
-            "description" : "This response indicates that invalid credentials have been provided for the request."
+            "description" : "This response indicates that invalid credentials have been provided in the request."
           },
           "500" : {
-            "description" : "This response indicates that the server has encountered an error while restoring the archive file. "
+            "description" : "This response indicates that the server encountered an error while restoring the archive file. "
           }
         },
         "security" : [ {
@@ -238,23 +252,35 @@
     },
     "/apitransactions/jobs" : {
       "get" : {
-        "description" : "This method returns a list of pending jobs. Every time you initiate archive, restore or purge process you will get the job id as a response. You can then use the specific job id to query the status of the initiated operation. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation.",
+        "description" : "This method returns a list of pending jobs. Every time you initiate archive, restore, or purge operation you get a job id as a response. You can use the specific job id to query the status of the initiated operation. The user must either be part of the API-Gateway-Administrators group or must have 'Manage purge and restore runtime events' privilege to perform this operation.",
         "operationId" : "listAllPendingJobs",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "action",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "restore"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "ALL"
+        } ],
         "responses" : {
           "200" : {
-            "description" : "This response indicates that the list of in progress job ids has been returned to the requestor.",
+            "description" : "This response indicates that the list of in progress job ids has been returned to the requester.",
             "examples" : {
               "application/json" : "{\r\n    \"pendingJobs\": [124234,3312312]\r\n}"
             }
           },
           "401" : {
-            "description" : "This response indicates that invalid credentials have been provided for the request."
+            "description" : "This response indicates that invalid credentials have been provided in the request."
           },
           "500" : {
-            "description" : "This response indicates that the server has encountered an error while returning the list of in progress job ids. "
+            "description" : "This response indicates that the server encountered an error while returning the list of in progress job ids. "
           }
         },
         "security" : [ {
@@ -264,30 +290,30 @@
     },
     "/apitransactions/jobs/{jobId}" : {
       "get" : {
-        "description" : "Use this method to know the status of a specific job. This method returns the status and file name (in case of archive process) as a response. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation",
+        "description" : "Use this method to know the status of a specific job. This method returns the status and file name (in case of archive process) as a response. The user must either be a part of the API-Gateway-Administrators group or must have the 'Manage purge and restore runtime events' privilege to perform this operation.",
         "operationId" : "trackJobStatus",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "jobId",
           "in" : "path",
-          "description" : "This parameter indicates the job Id. job Id is needed to identify and track the status of a job which has been initiated earlier. Ex: jobId=1504011632215",
+          "description" : "This parameter indicates the job Id. Job Id is required to identify and track the status of a job which has been initiated. Ex: jobId=1504011632215",
           "required" : true,
           "type" : "string",
           "x-example" : "1234432412312"
         } ],
         "responses" : {
           "200" : {
-            "description" : "This response indicates that the status has been returned to the requestor.",
+            "description" : "This response indicates that the status of the job is returned to the requester.",
             "examples" : {
               "application/json" : "{\r\n    \"status\": \"Completed\",\r\n    \"Filename\": \"default-2017-08-31-1504177207377\"\r\n}"
             }
           },
           "401" : {
-            "description" : "This response indicates that invalid credentials have been provided for the request."
+            "description" : "This response indicates that invalid credentials have been provided in the request."
           },
           "500" : {
-            "description" : "This response indicates that the server has encountered an error while returning the status. "
+            "description" : "This response indicates that the server encountered an error while returning the status of the job. "
           }
         },
         "security" : [ {
@@ -297,7 +323,7 @@
     },
     "/apitransactions/typedefinitions" : {
       "get" : {
-        "description" : "Returns the list of runtime event types. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditLogs 9.applicationlogs. You can use these eventType to scope the archive/purge operation.  The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation.",
+        "description" : "Returns the list of runtime event types. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditlogs 9.applicationlogs. You can use these eventType to scope the archive/purge operation.  The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation.",
         "operationId" : "getMappings",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -314,331 +340,6 @@
           },
           "500" : {
             "description" : "This response indicates that the server has encountered an error while returning the list of type definitions. "
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/approvalConfigurations" : {
-      "get" : {
-        "description" : "The method retrieves a list of available approval configurations in API Gateway.",
-        "operationId" : "getApprovalConfigurations",
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that a list of the available approval configurations is retrieved successfully.",
-            "examples" : {
-              "application/json" : "{\r\n    \"approvalConfigurations\": [\r\n        {\r\n            \"id\": \"createApplication\",\r\n            \"eventType\": \"createApplication\",\r\n            \"isEnabled\": true,\r\n            \"approversGroupId\": \"0936de2c-9fb9-4625-b5b0-b7648e0d4103\",\r\n            \"approvalMode\": \"anyone\",\r\n            \"approvedEmailConfiguration\": {\r\n                \"emailSubject\": \"Approval of @event.type\",\r\n                \"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\",\r\n                \"enabled\": false,\r\n                \"requestType\": \"approved\"\r\n            },\r\n            \"rejectedEmailConfiguration\": {\r\n                \"emailSubject\": \"Rejection of @event.type\",\r\n                \"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n                \"enabled\": false,\r\n                \"requestType\": \"rejected\"\r\n            },\r\n            \"initiateApprovalRequestEmailConfiguration\": {\r\n                \"emailSubject\": \"Approval request pending\",\r\n                \"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n                \"enabled\": false,\r\n                \"requestType\": \"initiate\"\r\n            }\r\n        }\r\n    ]\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/ApprovalConfiguration"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "post" : {
-        "description" : "The method creates an approval configuration in API Gateway.",
-        "operationId" : "createApprovalConfiguration",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "This parameter describes the request payload of an approval configuration that is to be created in API Gateway.",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/ApprovalConfiguration"
-          },
-          "x-examples" : {
-            "application/json" : "{\r\n    \"approvalConfig\": {\r\n        \"id\": \"createApplication\",\r\n        \"eventType\": \"createApplication\",\r\n        \"isEnabled\": true,\r\n        \"approversGroupId\": \"0936de2c-9fb9-4625-b5b0-b7648e0d4103\",\r\n        \"approvalMode\": \"anyone\",\r\n        \"approvedEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval of @event.type\",\r\n            \"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"approved\"\r\n        },\r\n        \"rejectedEmailConfiguration\": {\r\n            \"emailSubject\": \"Rejection of @event.type\",\r\n            \"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"rejected\"\r\n        },\r\n        \"initiateApprovalRequestEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval request pending\",\r\n            \"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"initiate\"\r\n        }\r\n    }\r\n}"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the approval configuration has been successfully created in API Gateway.",
-            "examples" : {
-              "application/json" : "{\r\n    \"approvalConfig\": {\r\n        \"id\": \"createApplication\",\r\n        \"eventType\": \"createApplication\",\r\n        \"isEnabled\": true,\r\n        \"approversGroupId\": \"0936de2c-9fb9-4625-b5b0-b7648e0d4103\",\r\n        \"approvalMode\": \"anyone\",\r\n        \"approvedEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval of @event.type\",\r\n            \"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"approved\"\r\n        },\r\n        \"rejectedEmailConfiguration\": {\r\n            \"emailSubject\": \"Rejection of @event.type\",\r\n            \"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"rejected\"\r\n        },\r\n        \"initiateApprovalRequestEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval request pending\",\r\n            \"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"initiate\"\r\n        }\r\n    }\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/ApprovalConfiguration"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicates that the given approval configuration request body is not correct."
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          },
-          "500" : {
-            "description" : "This status code indicates that server has encountered an error during the creation of approval configuration."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/approvalConfigurations/{id}" : {
-      "get" : {
-        "description" : "The method retrieves the details of a specified approval configuration in API Gateway",
-        "operationId" : "getApprovalConfiguration",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "This parameter specifies the ID of an approval configuration whose details are to be retrieved in API Gateway.",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the details of the specified approval configuration are retrieved successfully.",
-            "examples" : {
-              "application/json" : "{\r\n    \"approvalConfig\": {\r\n        \"id\": \"createApplication\",\r\n        \"eventType\": \"createApplication\",\r\n        \"isEnabled\": true,\r\n        \"approversGroupId\": \"0936de2c-9fb9-4625-b5b0-b7648e0d4103\",\r\n        \"approvalMode\": \"anyone\",\r\n        \"approvedEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval of @event.type\",\r\n            \"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"approved\"\r\n        },\r\n        \"rejectedEmailConfiguration\": {\r\n            \"emailSubject\": \"Rejection of @event.type\",\r\n            \"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"rejected\"\r\n        },\r\n        \"initiateApprovalRequestEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval request pending\",\r\n            \"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"initiate\"\r\n        }\r\n    }\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/ApprovalConfiguration"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          },
-          "404" : {
-            "description" : "This status code indicates that an approval configuration with the given ID could not be found in API Gateway."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "put" : {
-        "description" : "The method updates the approval configuration in API Gateway.",
-        "operationId" : "updateApprovalConfiguration",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "This parameter describes the request payload of an approval configuration that is to be updated in API Gateway.",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/ApprovalConfiguration"
-          },
-          "x-examples" : {
-            "application/json" : "{\r\n    \"approvalConfig\": {\r\n        \"id\": \"createApplication\",\r\n        \"eventType\": \"createApplication\",\r\n        \"isEnabled\": true,\r\n        \"approversGroupId\": \"0936de2c-9fb9-4625-b5b0-b7648e0d4103\",\r\n        \"approvalMode\": \"anyone\",\r\n        \"approvedEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval of @event.type\",\r\n            \"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"approved\"\r\n        },\r\n        \"rejectedEmailConfiguration\": {\r\n            \"emailSubject\": \"Rejection of @event.type\",\r\n            \"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"rejected\"\r\n        },\r\n        \"initiateApprovalRequestEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval request pending\",\r\n            \"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"initiate\"\r\n        }\r\n    }\r\n}"
-          }
-        }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "This parameter specifies the ID of an approval configuration that is to be updated in API Gateway.",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This status code indicates that the approval configuration has been successfully updated in API Gateway.",
-            "examples" : {
-              "application/json" : "{\r\n    \"approvalConfig\": {\r\n        \"id\": \"createApplication\",\r\n        \"eventType\": \"createApplication\",\r\n        \"isEnabled\": true,\r\n        \"approversGroupId\": \"0936de2c-9fb9-4625-b5b0-b7648e0d4103\",\r\n        \"approvalMode\": \"anyone\",\r\n        \"approvedEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval of @event.type\",\r\n            \"emailContent\": \"Congratulations @requestor.name !\\n\\nYour request for @event.type has been approved.\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"approved\"\r\n        },\r\n        \"rejectedEmailConfiguration\": {\r\n            \"emailSubject\": \"Rejection of @event.type\",\r\n            \"emailContent\": \"Hello @requestor.name,\\n\\nYour @event.type  request has been rejected.\\nReasons:@rejectionReason.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"rejected\"\r\n        },\r\n        \"initiateApprovalRequestEmailConfiguration\": {\r\n            \"emailSubject\": \"Approval request pending\",\r\n            \"emailContent\": \"Hello @approver.name,\\n\\n A request by @requestor.name to @event.type needs your review and approval.\\n\\nBest Regards,\\nAPI Gateway Team\\n\\n*** This notification was sent automatically. Do not reply to this email.***\",\r\n            \"enabled\": false,\r\n            \"requestType\": \"initiate\"\r\n        }\r\n    }\r\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/ApprovalConfiguration"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicates that the given approval configuration request body is not correct."
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          },
-          "404" : {
-            "description" : "This status code indicates that an approval configuration with the given ID could not be found in API Gateway."
-          },
-          "500" : {
-            "description" : "This status code indicates that server has encountered an error during the update of approval configuration."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "delete" : {
-        "description" : "The method deletes the specified approval configuration in API Gateway.",
-        "operationId" : "deleteApprovalConfiguration",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "This parameter specifies the ID of an approval configuration that is to be deleted in API Gateway.",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "204" : {
-            "description" : "This status code indicates that the specified approval configuration has been successfully deleted from API Gateway."
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          },
-          "404" : {
-            "description" : "This status code indicates that an approval configuration with the given ID could not be found in API Gateway."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/approvals" : {
-      "get" : {
-        "description" : "Retrieve all the approval requests waiting for the user. If the user is part of one or more approval team, then he/she will get the approval requests assigned for those teams.",
-        "operationId" : "getApprovals",
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "The method provides all approval requests pending for the user",
-            "examples" : {
-              "application/json" : "{\n    \"approvalRequests\": [\n        {\n            \"id\": \"726fbffa-3713-493b-8f5c-e1b04ec71798\",\n            \"approversGroupId\": \"API-Gateway-Providers\",\n            \"approvalEvent\": \"createApplication\",\n            \"requestorId\": \"Administrator\",\n            \"requestorName\": \"Administrator\",\n            \"requestorFirstName\": \"Administrator\",\n            \"requestorLastName\": \"\",\n            \"requestorMail\": \"\",\n            \"mode\": \"anyone\",\n            \"created\": \"1586950929208\",\n            \"lastUpdated\": \"1586950929208\",\n            \"status\": \"pending\",\n            \"approvalEventPayloadAsString\": \"{\\\"applicationID\\\":\\\"36005e81-9714-4eef-9a83-e819a405fbca\\\",\\\"name\\\":\\\"Approval Application\\\",\\\"owner\\\":\\\"Administrator\\\",\\\"identifiers\\\":[],\\\"contactEmails\\\":[],\\\"lastUpdated\\\":0,\\\"siteURLs\\\":[],\\\"jsOrigins\\\":[],\\\"version\\\":\\\"1.0\\\",\\\"properties\\\":{\\\"requesterComment\\\":null},\\\"isSuspended\\\":false,\\\"authStrategyIds\\\":[],\\\"subscription\\\":false}\",\n            \"approvers\": [\n                {\n                    \"id\": \"gora\",\n                    \"name\": \"gora\",\n                    \"firstName\": \"gora\",\n                    \"lastName\": \"gora\",\n                    \"status\": \"pending\",\n                    \"email\": \"gora@softwareag.com\"\n                }\n            ],\n            \"properties\": {\n                \"newApisForAssociation\": \"\"\n            }\n        }\n    ]\n}"
-            },
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/ApprovalResponsePayload"
-              }
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/approvals/{approvalId}" : {
-      "get" : {
-        "description" : "Retrieve an Approval Request based on the approvalId.",
-        "operationId" : "getApproval",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "approvalId",
-          "in" : "path",
-          "description" : "approvalId for the Approval Request to be retrieved",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "This method provides the details of approval request.",
-            "examples" : {
-              "application/json" : "{\n    \"approvalRequest\": {\n        \"id\": \"726fbffa-3713-493b-8f5c-e1b04ec71798\",\n        \"approversGroupId\": \"API-Gateway-Providers\",\n        \"approvalEvent\": \"createApplication\",\n        \"requestorId\": \"Administrator\",\n        \"requestorName\": \"Administrator\",\n        \"requestorFirstName\": \"Administrator\",\n        \"requestorLastName\": \"\",\n        \"requestorMail\": \"\",\n        \"mode\": \"anyone\",\n        \"created\": \"1586950929208\",\n        \"lastUpdated\": \"1586950929208\",\n        \"status\": \"pending\",\n        \"approvalEventPayloadAsString\": \"{\\\"applicationID\\\":\\\"36005e81-9714-4eef-9a83-e819a405fbca\\\",\\\"name\\\":\\\"Approval Application\\\",\\\"owner\\\":\\\"Administrator\\\",\\\"identifiers\\\":[],\\\"contactEmails\\\":[],\\\"lastUpdated\\\":0,\\\"siteURLs\\\":[],\\\"jsOrigins\\\":[],\\\"version\\\":\\\"1.0\\\",\\\"properties\\\":{\\\"requesterComment\\\":null},\\\"isSuspended\\\":false,\\\"authStrategyIds\\\":[],\\\"subscription\\\":false}\",\n        \"approvers\": [\n            {\n                \"id\": \"gora\",\n                \"name\": \"gora\",\n                \"firstName\": \"gora\",\n                \"lastName\": \"gora\",\n                \"status\": \"pending\",\n                \"email\": \"gora@softwareag.com\"\n            }\n        ],\n        \"properties\": {\n            \"newApisForAssociation\": \"\"\n        }\n    }\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/ApprovalRequest"
-            }
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          },
-          "404" : {
-            "description" : "This status code indicates that the approvalId specified is not found in the API Gateway"
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "delete" : {
-        "description" : "Delete the Approval Request with the given approvalId",
-        "operationId" : "deleteApprovalRequest",
-        "parameters" : [ {
-          "name" : "approvalId",
-          "in" : "path",
-          "description" : "Approval Request Id for the Approval Request to be deleted",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
-        } ],
-        "responses" : {
-          "204" : {
-            "description" : "Success"
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          },
-          "404" : {
-            "description" : "This status code indicates that the approvalId specified is not found in the API Gateway"
-          }
-        },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      }
-    },
-    "/approvals/{approvalId}/{action}" : {
-      "put" : {
-        "description" : "Request payload for the approval request.",
-        "operationId" : "approveorrejectApprovalRequest",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "approvalId",
-          "in" : "path",
-          "description" : "ApprovalId for the Approval Request to be approved",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
-        }, {
-          "name" : "action",
-          "in" : "path",
-          "description" : "Action for the Approval Request to be approved/rejected",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "approve/reject"
-        }, {
-          "in" : "body",
-          "name" : "body",
-          "description" : "Approval Request payload",
-          "required" : false,
-          "schema" : {
-            "$ref" : "#/definitions/ApprovalPutRequest"
-          },
-          "x-examples" : {
-            "application/json" : "{\n    \"approverComment\": \"approve application creation\"\n}"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Response payload of the approval request after approve/reject action.",
-            "examples" : {
-              "application/json" : "{\n    \"status\": \"approved\"\n}"
-            },
-            "schema" : {
-              "$ref" : "#/definitions/ApprovalPutResponse"
-            }
-          },
-          "400" : {
-            "description" : "This status code indicates that the given approval request body is not correct."
-          },
-          "401" : {
-            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
-          },
-          "404" : {
-            "description" : "This status code indicates that the approvalId specified is not found in the API Gateway"
-          },
-          "500" : {
-            "description" : "This status code indicates that server has encountered an error during the update of approval request."
           }
         },
         "security" : [ {
@@ -2178,6 +1879,67 @@
         } ]
       }
     },
+    "/configurations/samlsso" : {
+      "get" : {
+        "description" : "Retrieves the SSO configuration in API Gateway",
+        "operationId" : "getSSOConfiguration",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the SSO configuration is retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\r\n    \"saml_redirect\": \"https://localhost:9073/apigatewayui/saml/SSO\",\r\n    \"saml_assertion_signed\": \"true\",\r\n    \"saml_enabled\": \"true\",\r\n    \"saml_authreq_signed\": \"false\",\r\n    \"useSSOLoginByDefault\": \"false\",\r\n    \"saml_sp_id\": \"https://localhost:9073/apigatewayui/saml/SSO\",\r\n    \"keystoreAlias\": \"ssoKeystore\",\r\n    \"saml_signkey_alias\":\"signKey\",\r\n    \"saml_encrypkey_alias\":\"encryptKey\",\r\n    \"groupMapping\": {\r\n        \"groupAttributes\": [\r\n            \"http://schemas.xmlsoap.org/claims/Group\"\r\n        ],\r\n        \"attributeToGroupMap\": {\r\n            \"idpGroup1\": \"gwGroup1\"\r\n        }\r\n    },\r\n    \"userProfileMapping\":{\r\n        \"firstName\": \"fname\",\r\n        \"lastName\": \"lname\",\r\n        \"emailAddresses\": \"mail\"\r\n    },\r\n    \"idpUrl\":\"https://holiday.com/federationmetadata/2007-06/federationmetadata.xml\"\r\n\t}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/SSOConfiguration"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that the user is not a valid API Gateway user for retrieving the SSO configuration."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "The method is used to update the details of the SSO configuration in API Gateway.",
+        "operationId" : "saveSSOConfig",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SSOConfiguration"
+          },
+          "x-examples" : {
+            "application/json" : "{\r\n    \"saml_redirect\": \"https://localhost:9073/apigatewayui/saml/SSO\",\r\n    \"saml_assertion_signed\": \"true\",\r\n    \"saml_enabled\": \"true\",\r\n    \"saml_authreq_signed\": \"false\",\r\n    \"useSSOLoginByDefault\": \"false\",\r\n    \"saml_sp_id\": \"https://localhost:9073/apigatewayui/saml/SSO\",\r\n    \"keystoreAlias\": \"ssoKeystore\",\r\n    \"saml_signkey_alias\":\"signKey\",\r\n    \"saml_encrypkey_alias\":\"encryptKey\",\r\n    \"groupMapping\": {\r\n        \"groupAttributes\": [\r\n            \"http://schemas.xmlsoap.org/claims/Group\"\r\n        ],\r\n        \"attributeToGroupMap\": {\r\n            \"idpGroup1\": \"gwGroup1\"\r\n        }\r\n    },\r\n    \"userProfileMapping\":{\r\n        \"firstName\": \"fname\",\r\n        \"lastName\": \"lname\",\r\n        \"emailAddresses\": \"mail\"\r\n    },\r\n    \"idpUrl\":\"https://holiday.com/federationmetadata/2007-06/federationmetadata.xml\"\r\n\t}"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the SSO configuration has been successfully updated in API Gateway.",
+            "examples" : {
+              "application/json" : "{\r\n    \"saml_redirect\": \"https://localhost:9073/apigatewayui/saml/SSO\",\r\n    \"saml_assertion_signed\": \"true\",\r\n    \"saml_enabled\": \"true\",\r\n    \"saml_authreq_signed\": \"false\",\r\n    \"useSSOLoginByDefault\": \"false\",\r\n    \"saml_sp_id\": \"https://localhost:9073/apigatewayui/saml/SSO\",\r\n    \"keystoreAlias\": \"ssoKeystore\",\r\n    \"saml_signkey_alias\":\"signKey\",\r\n    \"saml_encrypkey_alias\":\"encryptKey\",\r\n    \"groupMapping\": {\r\n        \"groupAttributes\": [\r\n            \"http://schemas.xmlsoap.org/claims/Group\"\r\n        ],\r\n        \"attributeToGroupMap\": {\r\n            \"idpGroup1\": \"gwGroup1\"\r\n        }\r\n    },\r\n    \"userProfileMapping\":{\r\n        \"firstName\": \"fname\",\r\n        \"lastName\": \"lname\",\r\n        \"emailAddresses\": \"mail\"\r\n    },\r\n    \"idpUrl\":\"https://holiday.com/federationmetadata/2007-06/federationmetadata.xml\"\r\n\t}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/SSOConfiguration"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have \"Administration\" functional privilege to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
     "/configurations/settings" : {
       "get" : {
         "description" : "This method retrieves the list of extended settings and watt properties from API Gateway.",
@@ -2398,7 +2160,7 @@
           "200" : {
             "description" : "This status code indicates that the cluster setting has been successfully retrieved from API Gateway.",
             "examples" : {
-              "application/json" : "{\r\n\t\"clusterAware\":true,\r\n\t\"pendingRestart\":false,\r\n\t\"currentlyClustered\":false,\r\n\t\"clusterSessTimeout\":\"60\",\r\n\t\"clusterName\":\"devCluster\",\r\n\t\"actionOnStartupError\":\"standalone\",\r\n\t\"tsaURLs\":\"bluebird:9510\"\r\n}"
+              "application/json" : "{\r\n\t\"clusterAware\":true,\r\n\t\"pendingRestart\":false,\r\n\t\"currentlyClustered\":false,\r\n\t\"clusterSessTimeout\":\"10\",\r\n\t\"clusterName\":\"devCluster\",\r\n\t\"actionOnStartupError\":\"standalone\",\r\n\t\"Ignite\":{\r\n\t\t\"portRange\":0,\r\n\t\t\"discoveryPort\":\"10100\",\r\n\t\t\"communicationPort\":\"10200\",\r\n\t\t\"hostnames\":\"bluebird01,bluebird02,bluebird03\",\r\n\t\t\"k8sNamespace\":null,\r\n\t\t\"k8sServiceName\":null\r\n\t},\r\n\t\"tsaURLs\":\"bluebird:9510\"\r\n}"
             },
             "schema" : {
               "$ref" : "#/definitions/ClusterInfo"
@@ -2438,14 +2200,14 @@
             "$ref" : "#/definitions/ClusterInfo"
           },
           "x-examples" : {
-            "application/json" : "{\r\n\t\"clusterAware\":true,\r\n\t\"pendingRestart\":false,\r\n\t\"currentlyClustered\":false,\r\n\t\"clusterSessTimeout\":\"60\",\r\n\t\"clusterName\":\"devCluster\",\r\n\t\"actionOnStartupError\":\"standalone\",\r\n\t\"tsaURLs\":\"bluebird:9510\"\r\n}"
+            "application/json" : "{\r\n\t\"clusterAware\":true,\r\n\t\"pendingRestart\":false,\r\n\t\"currentlyClustered\":false,\r\n\t\"clusterSessTimeout\":\"10\",\r\n\t\"clusterName\":\"devCluster\",\r\n\t\"actionOnStartupError\":\"standalone\",\r\n\t\"Ignite\":{\r\n\t\t\"portRange\":0,\r\n\t\t\"discoveryPort\":\"10100\",\r\n\t\t\"communicationPort\":\"10200\",\r\n\t\t\"hostnames\":\"bluebird01,bluebird02,bluebird03\",\r\n\t\t\"k8sNamespace\":null,\r\n\t\t\"k8sServiceName\":null\r\n\t},\r\n\t\"tsaURLs\":\"bluebird:9510\"\r\n}"
           }
         } ],
         "responses" : {
           "200" : {
             "description" : "This status code indicates that the configured cluster settings have been successfully persisted in API Gateway.",
             "examples" : {
-              "application/json" : "{\r\n\t\"clusterAware\":true,\r\n\t\"pendingRestart\":false,\r\n\t\"currentlyClustered\":false,\r\n\t\"clusterSessTimeout\":\"60\",\r\n\t\"clusterName\":\"devCluster\",\r\n\t\"actionOnStartupError\":\"standalone\",\r\n\t\"tsaURLs\":\"bluebird:9510\"\r\n}"
+              "application/json" : "{\r\n\t\"clusterAware\":true,\r\n\t\"pendingRestart\":false,\r\n\t\"currentlyClustered\":false,\r\n\t\"clusterSessTimeout\":\"10\",\r\n\t\"clusterName\":\"devCluster\",\r\n\t\"actionOnStartupError\":\"standalone\",\r\n\t\"Ignite\":{\r\n\t\t\"portRange\":0,\r\n\t\t\"discoveryPort\":\"10100\",\r\n\t\t\"communicationPort\":\"10200\",\r\n\t\t\"hostnames\":\"bluebird01,bluebird02,bluebird03\",\r\n\t\t\"k8sNamespace\":null,\r\n\t\t\"k8sServiceName\":null\r\n\t},\r\n\t\"tsaURLs\":\"bluebird:9510\"\r\n}"
             },
             "schema" : {
               "$ref" : "#/definitions/ClusterInfo"
@@ -2996,13 +2758,7 @@
         "operationId" : "fetchJNDITemplates",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "jndiId",
-          "in" : "path",
-          "required" : true,
-          "type" : "string",
-          "x-example" : "sampleJNDI"
-        } ],
+        "parameters" : [ ],
         "responses" : {
           "200" : {
             "description" : "This status code indicates that the list of JNDI templates is successfully retrieved.",
@@ -3256,15 +3012,6 @@
           "default" : "JKS",
           "x-example" : "JKS",
           "enum" : [ "JKS", "PKCS12" ]
-        }, {
-          "name" : "keyStoreProvider",
-          "in" : "formData",
-          "description" : "The provider that is used for the keystore type. The default is SUN for JKS type and SunJSSE for PKCS12 type.",
-          "required" : true,
-          "type" : "string",
-          "default" : "SUN",
-          "x-example" : "SUN",
-          "enum" : [ "SUN", "SunJSSE" ]
         }, {
           "name" : "keyStorePassword",
           "in" : "formData",
@@ -4047,15 +3794,6 @@
           "default" : "JKS",
           "x-example" : "JKS",
           "enum" : [ "JKS" ]
-        }, {
-          "name" : "keyStoreProvider",
-          "in" : "formData",
-          "description" : "The provider that is used for the truststore type.",
-          "required" : true,
-          "type" : "string",
-          "default" : "SUN",
-          "x-example" : "SUN",
-          "enum" : [ "SUN" ]
         }, {
           "name" : "keyStorePassword",
           "in" : "formData",
@@ -6024,159 +5762,6 @@
         }
       }
     },
-    "ApprovalConfiguration" : {
-      "type" : "object",
-      "properties" : {
-        "approvalMode" : {
-          "type" : "string",
-          "description" : "Only possible value is anyone. This implies that, any one user associated with the approvers team can approve or reject the requests. The requester need not wait for the approval of each approver in the approvers group."
-        },
-        "approvedEmailConfiguration" : {
-          "$ref" : "#/definitions/EmailConfiguration"
-        },
-        "approversGroupId" : {
-          "type" : "string",
-          "description" : "Approvers Accessprofile Identifier. Whoever belongs to the selected team will be considered as Approvers"
-        },
-        "eventType" : {
-          "type" : "string",
-          "description" : "Event Type: Any of 'createApplication', 'updateApplication', 'registerApplication', 'subscribePackage' and 'changeOwner'"
-        },
-        "id" : {
-          "type" : "string",
-          "description" : "Unique identifier of a Approval Configuration. Any of 'createApplication', 'updateApplication', 'registerApplication', 'subscribePackage' and 'changeOwner'"
-        },
-        "initiateApprovalRequestEmailConfiguration" : {
-          "$ref" : "#/definitions/EmailConfiguration"
-        },
-        "isEnabled" : {
-          "type" : "boolean",
-          "description" : "true/false. true value enforces approvals for the mentioned eventtype"
-        },
-        "rejectedEmailConfiguration" : {
-          "$ref" : "#/definitions/EmailConfiguration"
-        }
-      },
-      "description" : "This model contains details about an ApprovalConfiguration in API Gateway"
-    },
-    "ApprovalPutRequest" : {
-      "type" : "object",
-      "properties" : {
-        "approverComment" : {
-          "type" : "string"
-        }
-      }
-    },
-    "ApprovalPutResponse" : {
-      "type" : "object",
-      "properties" : {
-        "status" : {
-          "type" : "string"
-        }
-      }
-    },
-    "ApprovalRequest" : {
-      "type" : "object",
-      "properties" : {
-        "approvalEvent" : {
-          "type" : "string"
-        },
-        "approvalEventPayloadAsString" : {
-          "type" : "string"
-        },
-        "approvers" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/Approver"
-          }
-        },
-        "approversGroupId" : {
-          "type" : "string"
-        },
-        "created" : {
-          "type" : "string"
-        },
-        "id" : {
-          "type" : "string"
-        },
-        "lastUpdated" : {
-          "type" : "string"
-        },
-        "mode" : {
-          "type" : "string"
-        },
-        "properties" : {
-          "type" : "object",
-          "additionalProperties" : {
-            "type" : "string"
-          }
-        },
-        "requesterComment" : {
-          "type" : "string"
-        },
-        "requestorFirstName" : {
-          "type" : "string"
-        },
-        "requestorId" : {
-          "type" : "string"
-        },
-        "requestorLastName" : {
-          "type" : "string"
-        },
-        "requestorMail" : {
-          "type" : "string"
-        },
-        "requestorName" : {
-          "type" : "string"
-        },
-        "status" : {
-          "type" : "string"
-        },
-        "subjectId" : {
-          "type" : "string"
-        }
-      }
-    },
-    "ApprovalResponsePayload" : {
-      "type" : "object",
-      "properties" : {
-        "approvalRequests" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/definitions/ApprovalRequest"
-          }
-        }
-      }
-    },
-    "Approver" : {
-      "type" : "object",
-      "properties" : {
-        "customProperties" : {
-          "type" : "object",
-          "additionalProperties" : {
-            "type" : "string"
-          }
-        },
-        "email" : {
-          "type" : "string"
-        },
-        "firstName" : {
-          "type" : "string"
-        },
-        "id" : {
-          "type" : "string"
-        },
-        "lastName" : {
-          "type" : "string"
-        },
-        "name" : {
-          "type" : "string"
-        },
-        "status" : {
-          "type" : "string"
-        }
-      }
-    },
     "AuditLogDestination" : {
       "type" : "object",
       "properties" : {
@@ -6399,7 +5984,7 @@
         },
         "currentlyClustered" : {
           "type" : "boolean",
-          "description" : "The current clusterd state of APIGateway."
+          "description" : "The current clustered state of APIGateway."
         },
         "message" : {
           "type" : "string",
@@ -6412,6 +5997,36 @@
         "tsaURLs" : {
           "type" : "string",
           "description" : "A comma separated list of the URLs for the Terracotta Server Array to be used with the cluster to which this APIGateway belongs."
+        },
+        "Ignite" : {
+          "type" : "object",
+          "properties" : {        
+            "portRange" : {
+              "type" : "integer",
+              "format" : "int32",
+              "description" : "The size of the port range for discovery and communication ports. The default is 0."
+            },
+            "discoveryPort" : {
+              "type" : "string",
+              "description" : "The discovery port, used by cluster members to detect each other."
+            },
+            "communicationPort" : {
+              "type" : "string",
+              "description" : "The communication port, used by cluster members to exchange distributed cache entries."
+            },
+            "hostnames" : {
+              "type" : "string",
+              "description" : "A comma-separated list of host names participating in the peer to peer cluster."
+            },
+            "k8sNamespace" : {
+              "type" : "string",
+              "description" : "The Kubernetes namespace if the API Gateway cluster is deployed to a Kubernetes cluster."
+            },
+            "k8sServiceName" : {
+              "type" : "string",
+              "description" : "The Kubernetes service name if the API Gateway cluster is deployed to a Kubernetes cluster."
+            }
+          }
         }
       }
     },
@@ -6838,6 +6453,26 @@
         }
       },
       "description" : "This defines the API Gateway's API endpoint."
+    },
+    "GroupMapping" : {
+      "type" : "object",
+      "properties" : {
+        "attributeToGroupMap" : {
+          "type" : "object",
+          "description" : "Specifies list the attribute values from SAML assertion to be used mapping APIGateway group.",
+          "additionalProperties" : {
+            "type" : "string"
+          }
+        },
+        "groupAttributes" : {
+          "type" : "array",
+          "description" : "Specifies list the attribute from SAML assertion.The value of these attributes will be used in mapping the group in APIGateway.",
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
     },
     "InputLdapConfiguration" : {
       "type" : "object",
@@ -7315,9 +6950,7 @@
           "description" : "The keystore password that is defined at the time of keystore creation using a keystore utility."
         },
         "keyStoreProvider" : {
-          "type" : "string",
-          "description" : "The provider that is used for the keystore type. The default is SUN for JKS type and SunJSSE for PKCS12 type.",
-          "enum" : [ "SUN", "SunJSSE" ]
+          "type" : "string"
         },
         "keyStoreType" : {
           "type" : "string",
@@ -7464,6 +7097,10 @@
         "url" : {
           "type" : "string",
           "description" : "The complete URL of the LDAP server. The URL has the format protocol://hostname:portnumber. Possible values of 'protocol' is 'ldap' for standard connections or 'ldaps' for secure connections. For example, ldaps://ldaphost1:700"
+        },
+        "userEmailAttribute" : {
+          "type" : "string",
+          "description" : "A property that identifies an LDAP user Email Address, such as 'mail' or 'email'. "
         },
         "userRootDn" : {
           "type" : "string",
@@ -7713,7 +7350,7 @@
         "indicesType" : {
           "type" : "string",
           "description" : "The type of indices to be reindexed for reindex action",
-          "enum" : [ "core", "logsevents" ]
+          "enum" : [ "core", "analyticsandlogs" ]
         },
         "properties" : {
           "type" : "object",
@@ -8101,7 +7738,7 @@
         "status" : {
           "type" : "string",
           "description" : "Specifies the current status of the last quiesce mode operation. A null value means that the quiesce mode action is still in progress and the status is not yet known",
-          "enum" : [ "success", "failure" ]
+          "enum" : [ "success", "failure", "in progress" ]
         }
       },
       "description" : "This contains quiesce mode settings for APIGateway."
@@ -8214,6 +7851,69 @@
         }
       },
       "description" : "This defines the configurations required for the SNMP destination."
+    },
+    "SSOConfiguration" : {
+      "type" : "object",
+      "properties" : {
+        "groupMapping" : {
+          "$ref" : "#/definitions/GroupMapping"
+        },
+        "idpFilename" : {
+          "type" : "string",
+          "description" : "Specifies the file name of identity provider metadata."
+        },
+        "idpMetadataContent" : {
+          "type" : "string",
+          "description" : "Specifies base64 encoded file content of identity provider metadata."
+        },
+        "idpUrl" : {
+          "type" : "string",
+          "description" : "Specifies the identity provider metadata URL."
+        },
+        "keystoreAlias" : {
+          "type" : "string",
+          "description" : "Specifies the keystore alias to be used to generate service provider metadata."
+        },
+        "saml_assertion_signed" : {
+          "type" : "string",
+          "description" : "Specifies whether SAML assertion is to be signed from the identity provider."
+        },
+        "saml_authreq_signed" : {
+          "type" : "string",
+          "description" : "Specifies whether auth request should signed by the service provider."
+        },
+        "saml_defaultkey_alias" : {
+          "type" : "string",
+          "description" : "Specifies the key alias to be used for signing and encryption."
+        },
+        "saml_enabled" : {
+          "type" : "string",
+          "description" : "Specifies whether SSO should be enabled or not."
+        },
+        "saml_encrypkey_alias" : {
+          "type" : "string",
+          "description" : "Specifies the key alias to be used for encryption."
+        },
+        "saml_redirect" : {
+          "type" : "string",
+          "description" : "Specifies the service provider SSO URL."
+        },
+        "saml_signkey_alias" : {
+          "type" : "string",
+          "description" : "Specifies the key alias to be used for signing."
+        },
+        "saml_sp_id" : {
+          "type" : "string",
+          "description" : "Specifies the service provider entity ID."
+        },
+        "useSSOLoginByDefault" : {
+          "type" : "string",
+          "description" : "Specifies whether SSO login page is redirected by default."
+        },
+        "userProfileMapping" : {
+          "$ref" : "#/definitions/UserProfileMapping"
+        }
+      }
     },
     "SalesInformation" : {
       "type" : "object",
@@ -8349,9 +8049,7 @@
           "description" : "The truststore password that is defined at the time of truststore creation using a keystore utility."
         },
         "keyStoreProvider" : {
-          "type" : "string",
-          "description" : "The provider that is used for the truststore type.",
-          "enum" : [ "SUN" ]
+          "type" : "string"
         },
         "keyStoreType" : {
           "type" : "string",
@@ -8423,6 +8121,23 @@
         }
       }
     },
+    "UserProfileMapping" : {
+      "type" : "object",
+      "properties" : {
+        "emailAddresses" : {
+          "type" : "string",
+          "description" : "Specifies the attribute from SAML assertion to be mapped with APIGateway user profile's email address."
+        },
+        "firstName" : {
+          "type" : "string",
+          "description" : "Specifies the attribute from SAML assertion to be mapped with APIGateway user profile's first name."
+        },
+        "lastName" : {
+          "type" : "string",
+          "description" : "Specifies the attribute from SAML assertion to be mapped with APIGateway user profile's last name."
+        }
+      }
+    },
     "Webhook" : {
       "type" : "object",
       "required" : [ "events" ],
@@ -8439,7 +8154,7 @@
           "description" : "The list of interested events this webhook is subscribed for",
           "items" : {
             "type" : "string",
-            "enum" : [ "migration:quiesce:designtime:completed", "migration:quiesce:all:completed", "migration:reindex:core:completed", "migration:reindex:runtime:completed", "migration:reindex:all:completed", "migration:transform:assets:competed", "migration:clean:datastore:completed", "apigateway:server:started" ]
+            "enum" : [ "migration:quiesce:designtime:completed", "migration:quiesce:all:completed", "migration:reindex:core:completed", "migration:reindex:analyticsandlogs:completed", "migration:reindex:all:completed", "migration:transform:assets:competed", "migration:clean:datastore:completed", "apigateway:server:started" ]
           }
         },
         "id" : {
