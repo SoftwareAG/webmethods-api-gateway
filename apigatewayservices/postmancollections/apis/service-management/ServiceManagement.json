@@ -1097,6 +1097,183 @@
 					"_postman_isSubFolder": true
 				},
 				{
+					"name": "Gateway Scope Mapping",
+					"item": [
+						{
+							"name": "Get All Scope Mappings",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}/scopes",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"scopes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Scope Mapping by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}/scopes/:scopeMappingId",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"scopes",
+										":scopeMappingId"
+									],
+									"variable": [
+										{
+											"key": "scopeMappingId",
+											"value": "",
+											"description": "The UUID of the scope mapping to fetch"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Scope Mapping",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"scopeName\": \"<Scope_mapping_name>\",\r\n    \"scopeDescription\": \"<Scope_mapping_description>\",\r\n    \"audience\": \"\",\r\n    \"apiScopes\": [\r\n        \"<api_UUID>\"\r\n    ],\r\n    \"requiredAuthScopes\": [\r\n        {\r\n            \"authServerAlias\": \"<Authorization_Server_Alias>\",\r\n            \"scopeName\": \"<Authorization_Server_Scope_Name>\"\r\n        }\r\n    ]\r\n}"
+								},
+								"url": {
+									"raw": "{{baseURL}}/scopes",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"scopes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Scope Mapping",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": \"{{scopeMappingId}}\",\r\n    \"scopeName\": \"<Scope_mapping_name>\",\r\n    \"scopeDescription\": \"<Scope_mapping_description>\",\r\n    \"audience\": \"\",\r\n    \"apiScopes\": [\r\n        \"<api_UUID>\"\r\n    ],\r\n    \"requiredAuthScopes\": [\r\n        {\r\n            \"authServerAlias\": \"<Authorization_Server_Alias>\",\r\n            \"scopeName\": \"<Authorization_Server_Scope_Name>\"\r\n        }\r\n    ]\r\n}"
+								},
+								"url": {
+									"raw": "{{baseURL}}/scopes/:scopeMappingId",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"scopes",
+										":scopeMappingId"
+									],
+									"variable": [
+										{
+											"key": "scopeMappingId",
+											"value": "",
+											"description": "The UUID of the scope mapping to fetch"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Scope Mapping",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}/scopes/:scopeMappingId",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"scopes",
+										":scopeMappingId"
+									],
+									"variable": [
+										{
+											"key": "scopeMappingId",
+											"value": "",
+											"description": "The UUID of the scope mapping to fetch"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Get API Details by Id",
 					"request": {
 						"method": "GET",
