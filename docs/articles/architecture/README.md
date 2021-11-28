@@ -21,7 +21,7 @@ Securing Elasticsearch for API Gateway
 
 This tutorial helps to understand how the InternalDataStore (or a simple Elasticsearch instance) can be secured using Search Guard, an Elasticsearch plugin that offers encryption, authentication and authorization. In this context, this plugin helps to secure the EventDataStore by exposing it over HTTPS protocol and enabling a basic authentication by configuring users. 
 
-For 10.11, **[Read on...](https://tech.forums.softwareag.com/t/securing-elasticsearch-for-api-gateway-10-7/239655)**
+For 10.11, **[Read on...](https://github.com/SoftwareAG/webmethods-api-gateway/tree/master/docs/articles/architecture/Securing-Elasticsearch-for-API-Gateway-10.11)**
 
 
 Getting started with API Gateway DockerHub Image
