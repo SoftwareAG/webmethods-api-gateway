@@ -26,28 +26,28 @@ This tutorial helps to understand how the ***InternalDataStore** of APIGateway 1
 
 This tutorial covers the below steps in detail for each of the plugins **Search Guard** and **ReadonlyREST**.
 
-- Installation and initialization of the plugin
-- Protect InternalDataStore with SSL and Basic Authorization
-- Changing Kibana configurations to securely connect to Elasticsearch
-- Configuring API Gateway to securely connect to Elasticsearch
-- Configuring the plugins with user generated certificates
+- Installation and initialization of the plugin.
+- Protect InternalDataStore with SSL and Basic Authorization.
+- Changing Kibana configurations to securely connect to Elasticsearch.
+- Configuring API Gateway to securely connect to Elasticsearch.
+- Configuring the plugins with user generated certificates.
 # **Required knowledge**
 The reader has to have,
 
-- a basic understanding of API Gateway and its communication with InternalDataStore for storing data
-- a basic understanding of Kibana and its communication with InternalDataStore for rendering the dashboards in API Gateway
+- a basic understanding of API Gateway and its communication with InternalDataStore for storing data.
+- a basic understanding of Kibana and its communication with InternalDataStore for rendering the dashboards in API Gateway.
 # **Why?**
-This document is intended for customers who want to protect their InternalDataStore , a wrapper over Elasticsearch, with Authentication and SSL using the external plugins that are compatible for the Elasticsearch version 7.13.0 on  APIGateway  version 10.11
+This document is intended for customers who want to protect their InternalDataStore , a wrapper over Elasticsearch, with Authentication and SSL using the external plugins that are compatible for the Elasticsearch version 7.13.0 on  APIGateway  version 10.11.
 # **Prerequisite steps**
 Complete the below prerequisites steps before get into the details of securing ***InternalDataStore*** of API Gateway using  ***Search Guard*** or ***ReadonlyREST*** plugin.
 
-- Install API Gateway advanced edition of version 10.11
+- Install API Gateway advanced edition of version 10.11.
 # **Securing InternalDataStore Using *ReadonlyREST***
 The below sections describe the details of securing InternalDataStore using ***ReadonlyREST*** plugin by installing the plugin and adding the necessary configurations in InternalDataStore, Kibana and API Gateway.
 ## **Step 1: Download ReadonlyREST plugin compatible with Elasticsearch 7.13.0**
 This section explains how to download the ReadonlyREST plugin of the Elasticsearch 7.13.0 version used by the InternalDataStore.
 
-You can download the ReadonlyREST plugin compatible for Elasticsearch 7.13.0 from [https://readonlyrest.com/download](https://readonlyrest.com/download/) 
+You can download the ReadonlyREST plugin compatible for Elasticsearch 7.13.0 from [https://readonlyrest.com/download](https://readonlyrest.com/download/) .
 
 ![](attachments/image1.png)
 
@@ -55,18 +55,18 @@ You will get an email notification after submitting the request (click GET IT NO
 ## **Step 2: Installation and Initialization of ReadonlyREST plugin**
 This section explains how to install the ReadonlyREST plugin which is downloaded before.
 
-- Stop the API Gateway server
-- Open the command prompt to the location <***SAG\_Root>/InternalDataStore/bin***
+- Stop the API Gateway server.
+- Open the command prompt to the location <***SAG\_Root>/InternalDataStore/bin***.
 - Issue the command ***elasticsearch-plugin.bat install file:///<**plugin file location in the file system**>*** and give 'y' when the installation procedure prompts for additional required permissions it requires 
-  and confirm the installation is completed with the message displayed as **"Installed readonlyrest"**
+  and confirm the installation is completed with the message displayed as **"Installed readonlyrest"**.
 
   **E.x :**
 
   ![](attachments/image2.png)
 
-- After successful installation, go to the location  <***SAG\_Root>/InternalDataStore/config***  and create an empty file named ***readonlyrest.yml*** (in the same directory where elasticsearch.yml is found)
-- Copy the folder ***sagconfig*** from ***<SAG\_Root>/IntegrationServer/instances/<Instance\_Name>/packages/WmAPIGateway/config/resources/elasticsearch/*** to <***SAG\_Root>/InternalDataStore***
-- Now copy the sample keystore and trustore files (which will be used later in below steps) ***node-0-keystore.jks*** and ***truststore.jks*** from <***SAG\_Root>/InternalDataStore/sagconfig***  to <***SAG\_Root>/InternalDataStore/config*** because the keystore should be stored in the same directory with  elasticsearch.yml and readonlyrest.yml.
+- After successful installation, go to the location  <***SAG\_Root>/InternalDataStore/config***  and create an empty file named ***readonlyrest.yml*** (in the same directory where elasticsearch.yml is found).
+- Copy the folder ***sagconfig*** from ***<SAG\_Root>/IntegrationServer/instances/<Instance\_Name>/packages/WmAPIGateway/config/resources/elasticsearch/*** to ***<SAG\_Root>/InternalDataStore***.
+- Now copy the sample keystore and trustore files (which will be used later in below steps) ***node-0-keystore.jks*** and ***truststore.jks*** from ***<SAG\_Root>/InternalDataStore/sagconfig***  to ***<SAG\_Root>/InternalDataStore/config*** because the keystore should be stored in the same directory with  elasticsearch.yml and readonlyrest.yml.
 ## **Step 3: Protect InternalDataStore with two way SSL and Basic Authorization**
 **Option 1 ) : Plain text credentials :**
 
@@ -95,10 +95,10 @@ Note : Make sure the contents are indented properly as shown so that the YAML pa
 Details :
 
 - access control rule name "Require HTTP Basic Auth"  indicates its Basic auth authentication.
-- ***auth\_key***  has the credentials (username/password) in the plain text
+- ***auth\_key***  has the credentials (username/password) in the plain text.
 - ssl block is for SSL configuration.  
   - Property '**client\_authentication**' denotes the **2 way SSL Authentication**. By default, this is disabled.
-  - If you don't want the server/InternalDataStore to validate client authentication, you can remove this property or set the value to **false**
+  - If you don't want the server/InternalDataStore to validate client authentication, you can remove this property or set the value to **false**.
 - Now open <***SAG\_Root>/InternalDataStore/config/elasticsearch.yml*** and add the below configuration statement and save the file.
 
   This will be used for HTTPS connection for Elasticsearch.
@@ -106,7 +106,7 @@ Details :
   http.type: ssl_netty4
   xpack.security.enabled: false
   ```
-  **Default configurations of elasticsearch.yml** will be as in the attached template file [elasticsearch-configuration-template.yml](attachments/elasticsearch-configuration-template.yml)
+  **Default configurations of elasticsearch.yml** will be as in the attached template file [elasticsearch-configuration-template.yml](attachments/elasticsearch-configuration-template.yml).
 
   ```
   Note:
@@ -117,8 +117,8 @@ Details :
 
 - Exposing plain text credentials is very insecure for the application. Hence you should used obfuscated credentials.
 - ReadonlyREST supports obfuscating the credentials by hashing the credentials using SHA256 algorithm.
-- You can use the tool <https://xorbin.com/tools/sha256-hash-calculator> to hash your credentials. The hashed credentials can be used in the configuration with the property ***auth\_key\_sha256*** 
-- In the above configuration, replace the auth\_key configuration with auth\_key\_sha256 as below
+- You can use the tool <https://xorbin.com/tools/sha256-hash-calculator> to hash your credentials. The hashed credentials can be used in the configuration with the property ***auth\_key\_sha256*** .
+- In the above configuration, replace the auth\_key configuration with auth\_key\_sha256 as below,
 
 ```
 readonlyrest:    
@@ -162,7 +162,7 @@ If you have clustered the InternalDataStore instances, then the communication be
 
   This config must be added to all nodes taking part in encrypted communication within cluster.
 
-- So the consolidated content of readonlyrest.yml will be as below
+- So the consolidated content of readonlyrest.yml will be as below,
   ```
   readonlyrest:    
       access_control_rules:
@@ -210,18 +210,18 @@ If you have clustered the InternalDataStore instances, then the communication be
 ## **Step 5: Changing Kibana configurations to connect to Elasticsearch**
 Now we need to modify the Kibana server configurations to connect to the Elasticsearch securely over HTTPS port using basic authentication details.
 
-- Open the file  ***<SAG\_Root>\profiles\IS\_default\apigateway\dashboard\config\kibana.yml***
-- Remove the comments and update the following properties given below 
+- Open the file  ***<SAG\_Root>\profiles\IS\_default\apigateway\dashboard\config\kibana.yml***.
+- Remove the comments and update the following properties given below,
   - elasticsearch.customHeaders.Authorization: "Basic QWRtaW5pc3RyYXRvcjptYW5hZ2U=" 
   - elasticsearch.ssl.verificationMode: certificate
   - elasticsearch.ssl.certificateAuthorities: <_file path of your root-ca.pem certificate_>
   - elasticsearch.hosts: https://<_hostname_>:9240
 
-Here **QWRtaW5pc3RyYXRvcjptYW5hZ2U=** is **Base64** encoded format of username: password - "**Administrator:manage**" .Please refer <https://forum.readonlyrest.com/t/kibana-error-401/1878>
+Here **QWRtaW5pc3RyYXRvcjptYW5hZ2U=** is **Base64** encoded format of username: password - "**Administrator:manage**" .Please refer <https://forum.readonlyrest.com/t/kibana-error-401/1878>.
 
-- After changing these configurations open ***uiconfiguration.properties*** file at ***<SAG\_Root>\profiles\IS\_default\apigateway\config*** and set **apigw.kibana.autostart** to **false**
+- After changing these configurations open ***uiconfiguration.properties*** file at ***<SAG\_Root>\profiles\IS\_default\apigateway\config*** and set **apigw.kibana.autostart** to **false**.
 
-Sample configuration of kibana.yml is as below
+Sample configuration of kibana.yml is as below,
 
 ```
 server.port: 9405
@@ -239,7 +239,7 @@ console.enabled: false
 ## **Step 6: Changing API Gateway configurations to connect to Elasticsearch**
 Finally change the API Gateway configurations to connect to InternalDataStore securely. Follow the below steps.
 
-- Go to ***<SAG\_Root>/IntegrationServer/instances/<Instance\_Name>/packages/WmAPIGateway/config/resources/elasticsearch*** and open ***config.properties*** file. Uncomment the following properties and provide the values for them as below 
+- Go to ***<SAG\_Root>/IntegrationServer/instances/<Instance\_Name>/packages/WmAPIGateway/config/resources/elasticsearch*** and open ***config.properties*** file. Uncomment the following properties and provide the values for them as below, 
   - pg.gateway.elasticsearch.http.username=Administrator
   - pg.gateway.elasticsearch.http.password=manage
   - pg.gateway.elasticsearch.https.truststore.filepath=*<SAG\_Root>*/InternalDataStore/sagconfig/truststore.jks
@@ -248,7 +248,7 @@ Finally change the API Gateway configurations to connect to InternalDataStore se
 - After making all the configurations, **start the InternalDataStore manually.**
 - When InternalDataStore is up and running,  **start the API Gateway** and you would be able to login and create APIs.
 - Now **start the Kibana server manually** (To start kibana server manually run ***kibana.bat*** file located at ***<SAG\_Root>/profiles/IS\_default/apigateway/dashboard/bin***)
-- Analytics page should be accessible without any challenge window for user credentials
+- Analytics page should be accessible without any challenge window for user credentials.
 
 ## **Step 7: Configuring ReadonlyREST with user generated certificates (optional)**
 Here we can see an example with a self-signed certificate which can be generated using Java Keytool.
@@ -265,7 +265,7 @@ Shut down API Gateway, Kibana and InternalDataStore.
 
     ![](attachments/image7.png)
 
-    Replace <***SAG\_Root>/InternalDataStore/config/keystore.jks*** file with this ***keystore.jks*** file and update the properties ***keystore\_pass*** and ***key\_pass*** in <***SAG\_Root>/InternalDataStore/config/readonlyrest.yml***
+    Replace ***<SAG\_Root>/InternalDataStore/config/keystore.jks*** file with this ***keystore.jks*** file and update the properties ***keystore\_pass*** and ***key\_pass*** in ***<SAG\_Root>/InternalDataStore/config/readonlyrest.yml***.
 
     ```
      readonlyrest:    
@@ -293,7 +293,7 @@ Shut down API Gateway, Kibana and InternalDataStore.
 
      ![](attachments/image8.png)
 
-     Update  this certificate name in kibana configuration  property ***elasticsearch.ssl.certificateAuthorities***   in ***<SAG\_Root>\profiles\IS\_default\apigateway\dashboard\config\kibana.yml*** 
+     Update  this certificate name in kibana configuration property ***elasticsearch.ssl.certificateAuthorities*** in ***<SAG\_Root>\profiles\IS\_default\apigateway\dashboard\config\kibana.yml***.
 
      Example :
      ```
@@ -310,7 +310,7 @@ Shut down API Gateway, Kibana and InternalDataStore.
 
      ![](attachments/image9.png)
 
-     After successful creation of the the truststore file, update the properties **pg.gateway.elasticsearch.https.truststore.filepath** and **pg.gateway.elasticsearch.https.truststore.password**  in API Gateway configuration file ***config.properties***  located at ***<SAG\_Root>/IntegrationServer/instances/<Instance\_Name>/packages/WmAPIGateway/config/resources/elasticsearch*** 
+     After successful creation of the the truststore file, update the properties **pg.gateway.elasticsearch.https.truststore.filepath** and **pg.gateway.elasticsearch.https.truststore.password**  in API Gateway configuration file ***config.properties***  located at ***<SAG\_Root>/IntegrationServer/instances/<Instance\_Name>/packages/WmAPIGateway/config/resources/elasticsearch***.
 
      Example :
      ```
@@ -329,15 +329,15 @@ Shut down API Gateway, Kibana and InternalDataStore.
 ## **Step 1: Download Search Guard plugin compatible with Elasticsearch 7.13.0**
 This section explains how to download the Search Guard plugin of the Elasticsearch 7.13.0 version used by the InternalDataStore.
 
-You can download the **Search Guard plugin version 51.0.0 compatible for Elasticsearch 7.13.0** from <https://maven.search-guard.com/search-guard-suite-release/com/floragunn/search-guard-suite-plugin/7.13.0-51.0.0/search-guard-suite-plugin-7.13.0-51.0.0.zip> and store it in your file system
+You can download the **Search Guard plugin version 51.0.0 compatible for Elasticsearch 7.13.0** from <https://maven.search-guard.com/search-guard-suite-release/com/floragunn/search-guard-suite-plugin/7.13.0-51.0.0/search-guard-suite-plugin-7.13.0-51.0.0.zip> and store it in your file system.
 
-You can also refer the compatible version of Search Guard for different Elasticsearch versions here : <https://docs.search-guard.com/latest/search-guard-versions>
+You can also refer the compatible version of Search Guard for different Elasticsearch versions here : <https://docs.search-guard.com/latest/search-guard-versions>.
 ## **Step 2: Installation and Initialization of Search Guard plugin**
 This section explains how to install the Search Guard plugin which is downloaded before.
 
-- Stop the API Gateway server
-- Open the command prompt to the location <***SAG\_Root>/InternalDataStore/bin***
-- Issue the command ***elasticsearch-plugin.bat install file:///<_Search Guard plugin file location in the file system_>*** and give 'y' when the installation procedure prompts for additional required permissions it requires and confirm the installation is completed with the message displayed as **"Installed search-guard-7"**
+- Stop the API Gateway server.
+- Open the command prompt to the location <***SAG\_Root>/InternalDataStore/bin***.
+- Issue the command ***elasticsearch-plugin.bat install file:///<_Search Guard plugin file location in the file system_>*** and give 'y' when the installation procedure prompts for additional required permissions it requires and confirm the installation is completed with the message displayed as **"Installed search-guard-7"**.
 
 Example :
 
@@ -345,8 +345,8 @@ Example :
 
 
 
-- After successful installation, copy the folder ***sagconfig*** from ***<SAG\_Root>/IntegrationServer/instances/<Instance\_Name>/packages/WmAPIGateway/config/resources/elasticsearch/*** to <***SAG\_Root>/InternalDataStore/***
-- Now copy the sample keystore and trustore files (which will be used latter in below steps) ***node-0-keystore.jks*** and ***truststore.jks*** from <***SAG\_Root>/InternalDataStore/sagconfig***  to <***SAG\_Root>/InternalDataStore/config***
+- After successful installation, copy the folder ***sagconfig*** from ***<SAG\_Root>/IntegrationServer/instances/<Instance\_Name>/packages/WmAPIGateway/config/resources/elasticsearch/*** to ***<SAG\_Root>/InternalDataStore/***.
+- Now copy the sample keystore and trustore files (which will be used latter in below steps) ***node-0-keystore.jks*** and ***truststore.jks*** from <***SAG\_Root>/InternalDataStore/sagconfig***  to ***<SAG\_Root>/InternalDataStore/config***.
 - Open **<SAG\_Root>/InternalDataStore/config/elasticsearch.yml** file. Remove all the properties that start with "**searchguard**" if such present and **add the Search Guard properties** as given below and save the file.
 
 **Search Guard properties**
@@ -406,11 +406,11 @@ searchguard.authcz.admin_dn:
 xpack.security.enabled: false
 ```
 
-Details about the above search guard properties is given below
+Details about the above search guard properties is given below,
 
 |**Item**|**Desc**|**Possible Values**|**Default**|
 | ----------- | ------------- | ------ | -------- |
-|**TRANSPORT ( 2-Way authentication is enabled by default)**||||
+|||**TRANSPORT ( 2-Way authentication is enabled by default)**||
 |searchguard.ssl.transport.keystore\_type|Type of keystore|JKS, PKCS12|JKS|
 |searchguard.ssl.transport.keystore\_filepath|Location of the keystore|||
 |searchguard.ssl.transport.keystore\_alias|Keystore entry name if there are more than one entries.|||
@@ -422,7 +422,7 @@ Details about the above search guard properties is given below
 |searchguard.ssl.transport.enforce\_hostname\_verification|If true, the hostname mentioned in certificate will be validated. We set this to *false* as ours is general purpose self signed certs.|true / false|true|
 |searchguard.ssl.transport.resolve\_hostname|Applicable only if above property is true. If true, the hostname will be resolved against the DNS server. We set this to false as ours is general purpose self signed certs.|true / false|true|
 |searchguard.ssl.transport.enable\_openssl\_if\_available|Use if *OpenSSL* is available instead of JDK SSL.|true / false|true|
-|**HTTP**||||
+|||**HTTP**||
 |searchguard.ssl.http.enabled|To enable the SSL for REST interface ( HTTP). We set this to true.|true / false|false|
 |searchguard.ssl.http.keystore\_type|Type of keystore|JKS, PKCS12|JKS|
 |searchguard.ssl.http.keystore\_filepath|Location of the keystore|||
@@ -433,25 +433,27 @@ Details about the above search guard properties is given below
 |searchguard.ssl.http.truststore\_alias|Truststore entry name if there are more than one entries|||
 |searchguard.ssl.http.truststore\_password|Password to access truststore.|||
 |searchguard.ssl.http.clientauth\_mode|<p>Option to enable 2-way authentication.</p><p>REQUIRE : Client will be challenged for client certificate.</p><p>OPTIONAL : Will be used if client certificate is available</p><p>NONE : Ignore client certificate even if it's available.</p>|<p>REQUIRE,</p><p>OPTIONAL,</p><p>NONE</p>|OPTIONAL|
-|**Search Guard Admin**||||
+|||**Search Guard Admin**||
 |searchguard.authcz.admin\_dn|Search Guard maintains all the data in a index called "searchguard". This is accessible to only users ( client cert which will be passed in sdadmin command) configured here.|||
-|**Misc**||||
+|||**Misc**||
 |searchguard.cert.oid|<p>All certificates used by the nodes on transport level need to have the oid field set to a specific value.This oid value is checked by</p><p>Search Guard to identify if an incoming request comes from a trusted node in the cluster or not. In the former case, all actions are allowed,</p><p>in the latter case, privilege checks apply. Plus, the oid is also checked whenever a node wants to join the cluster.</p>||'1.2.3.4.5.5'|
 |searchguard.config\_index\_name|Index where all the security configuration is stored. It's not configurable for now but in the future||searchguard|
 |searchguard.enable\_snapshot\_restore\_privilege<br>searchguard.check\_snapshot\_restore\_write\_privileges|To perform snapshot and restore operations, a user needs to have special privileges assigned. These two lines enable these privileges|||
 |searchguard.restapi.roles\_enabled|Tells Search Guard which Search Guard roles can access the REST Management API to perform changes to the configuration|||
-**Default configurations of elasticsearch.yml** will be as in the attached template file [elasticsearch-configuration-template.yml](attachments/elasticsearch-configuration-template.yml)
+
+
+**Default configurations of elasticsearch.yml** will be as in the attached template file [elasticsearch-configuration-template.yml](attachments/elasticsearch-configuration-template.yml).
 
 - Now shutdown and restart the InternalDataStore. 
-- Go to the location ***<SAG\_Root>/InternalDataStore/plugins/search-guard-7/tools*** and execute the below command
+- Go to the location ***<SAG\_Root>/InternalDataStore/plugins/search-guard-7/tools*** and execute the below command,
 
   For Windows :
 
-***sgadmin.bat -cd ..\\..\\..\sagconfig\ -ks ..\\..\\..\sagconfig\sgadmin-keystore.jks -kspass 49fc2492ebbcfa7cfc5e -ts ..\\..\\..\\sagconfig\truststore.jks -tspass 2c0820e69e7dd5356576 -nhnv -p 9340 -cn SAG\_EventDataStore***
+***sgadmin.bat -cd ..\\..\\..\sagconfig\ -ks ..\\..\\..\sagconfig\sgadmin-keystore.jks -kspass 49fc2492ebbcfa7cfc5e -ts ..\\..\\..\\sagconfig\truststore.jks -tspass 2c0820e69e7dd5356576 -nhnv -p 9340 -cn SAG\_EventDataStore***.
 
 For Linux :
 
-***sgadmin.sh -cd ../../../sagconfig -ks ../../../sagconfig/sgadmin-keystore.jks -kspass 49fc2492ebbcfa7cfc5e -ts ../../../sagconfig/truststore.jks -tspass 2c0820e69e7dd5356576 -nhnv -p 9340 -cn SAG\_EventDataStore***
+***sgadmin.sh -cd ../../../sagconfig -ks ../../../sagconfig/sgadmin-keystore.jks -kspass 49fc2492ebbcfa7cfc5e -ts ../../../sagconfig/truststore.jks -tspass 2c0820e69e7dd5356576 -nhnv -p 9340 -cn SAG\_EventDataStore***.
 
 This will initialize the InternalDataStore.
 
@@ -492,18 +494,18 @@ In this section let us see how an user can be provisioned in the Search Guard pl
 ## **Step 4: Changing Kibana configurations to connect to Elasticsearch**
 Now we need to modify the Kibana server configurations to connect to the Elasticsearch securely over HTTPS port using basic authentication details.
 
-- Open the file  ***<SAG\_Root>\profiles\IS\_default\apigateway\dashboard\config\kibana.yml***
-- Remove the comments and update the following properties given below 
+- Open the file  ***<SAG\_Root>\profiles\IS\_default\apigateway\dashboard\config\kibana.yml***.
+- Remove the comments and update the following properties given below, 
   - elasticsearch.customHeaders.Authorization: "Basic QWRtaW5pc3RyYXRvcjptYW5hZ2U=" 
   - elasticsearch.ssl.verificationMode: certificate
   - elasticsearch.ssl.certificateAuthorities: <_file path of your root-ca.pem certificate_>
   - elasticsearch.hosts: https://<_hostname_>:9240
 
- Here **QWRtaW5pc3RyYXRvcjptYW5hZ2U=** is Base64 encoded format of username: password - "**Administrator:manage**" .Please refer [**https://forum.readonlyrest.com/t/kibana-error-401/1878**](https://forum.readonlyrest.com/t/kibana-error-401/1878)
+ Here **QWRtaW5pc3RyYXRvcjptYW5hZ2U=** is Base64 encoded format of username: password - "**Administrator:manage**" .Please refer [**https://forum.readonlyrest.com/t/kibana-error-401/1878**](https://forum.readonlyrest.com/t/kibana-error-401/1878).
 
-- After changing these configurations open ***uiconfiguration.properties*** file located at ***<SAG\_Root>\profiles\IS\_default\apigateway\config*** and set **apigw.kibana.autostart** to **false**
+- After changing these configurations open ***uiconfiguration.properties*** file located at ***<SAG\_Root>\profiles\IS\_default\apigateway\config*** and set **apigw.kibana.autostart** to **false**.
 
-Sample configuration of kibana.yml is as below
+Sample configuration of kibana.yml is as below,
 ```
 server.port: 9405
 server.host: "0.0.0.0"
@@ -519,7 +521,7 @@ console.enabled: false
 ## **Step 5: Changing API Gateway configurations to connect to Elasticsearch**
 Finally change the API Gateway configurations to connect to InternalDataStore securely. Follow the below steps.
 
-- Go to ***<SAG\_Root>/IntegrationServer/instances/<Instance\_Name>/packages/WmAPIGateway/config/resources/elasticsearch*** and open ***config.properties*** file. Uncomment the following properties and provide the values for them as below 
+- Go to ***<SAG\_Root>/IntegrationServer/instances/<Instance\_Name>/packages/WmAPIGateway/config/resources/elasticsearch*** and open ***config.properties*** file. Uncomment the following properties and provide the values for them as below, 
   - pg.gateway.elasticsearch.http.username=Administrator
   - pg.gateway.elasticsearch.http.password=manage
   - pg.gateway.elasticsearch.https.truststore.filepath=*<SAG\_Root>*/InternalDataStore/sagconfig/truststore.jks
@@ -528,7 +530,7 @@ Finally change the API Gateway configurations to connect to InternalDataStore se
 - After making all the configurations, **start the InternalDataStore manually.**
 - When InternalDataStore is up and running,  **start the API Gateway** and you would be able to login and create APIs.
 - Now **start the Kibana server manually** (To start kibana server manually run ***kibana.bat*** file located at ***<SAG\_Root>/profiles/IS\_default/apigateway/dashboard/bin***)
-- Analytics page should be accessible without any challenge window for user credentials
+- Analytics page should be accessible without any challenge window for user credentials.
 ## **Step 6: Configuring Search Guard with user generated certificates (optional)**
 The API Provider can generate his own certificates to be used with Search Guard instead of the default certificates that are shipped with API Gateway. To achieve this, Search Guard provides an offline TLS tool, using which all the required certificates can be generated for running Search Guard in a production environment. Follow the below steps to generate certificates using Search Guard offline TLS tool.
 
@@ -538,7 +540,7 @@ Download the tool zip file from <https://maven.search-guard.com/search-guard-tl
 
 After configuring the yaml file run the below command to generate the required certificates.
 ***<_OfflineTool Installation Directory_>/tools/sgtlstool.bat -c ../config/<_YAML file name_>.yml -ca -crt***.
-The generated certificates can be found in ***<_OfflineTool Installation Directory_>/tools/out*** 
+The generated certificates can be found in ***<_OfflineTool Installation Directory_>/tools/out***.
 
 ![](attachments/image18.png)
 
@@ -559,7 +561,7 @@ Now configure the generated certificates in the InternalDataStore  elasticsea
 
 After completing all the above steps start the InternalDataStore  manually. After InternalDataStore is up, since the Search Guard is not initialized with the latest certificates, a log message would be shown saying that the Search Guard is not initialized. The following section provide the steps to initialize the Search Guard with the generated certificates.
 
-- Open command prompt and change directory to ***<SAG-Home>\InternalDataStore \plugins\search-guard-7\tools***
+- Open command prompt and change directory to ***<SAG-Home>\InternalDataStore \plugins\search-guard-7\tools***.
 - Execute the command ***sgadmin.sh -cd ..\\..\\..\\sagconfig –nhnv –icl –cacert ..\\..\\..\config\root-ca.pem -cert ..\\..\\..\\config\Dinesh-client.pem -key ..\\..\\..\\config\Dinesh-client.key -keypass <_your certificate password_> -p 9340*** . A log "Done with success" will show up.
 - Now shutdown and restart the InternalDataStore . The InternalDataStore will now use the generated certificates for SSL communication.
 
