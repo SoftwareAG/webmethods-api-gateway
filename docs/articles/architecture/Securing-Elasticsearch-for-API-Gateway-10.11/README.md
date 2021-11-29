@@ -410,7 +410,7 @@ Details about the above search guard properties is given below,
 
 |**Item**|**Desc**|**Possible Values**|**Default**|
 | ----------- | ------------- | ------ | -------- |
-|||**TRANSPORT ( 2-Way authentication is enabled by default)**||
+|**TRANSPORT ( 2-Way authentication is enabled by default)**||||
 |searchguard.ssl.transport.keystore\_type|Type of keystore|JKS, PKCS12|JKS|
 |searchguard.ssl.transport.keystore\_filepath|Location of the keystore|||
 |searchguard.ssl.transport.keystore\_alias|Keystore entry name if there are more than one entries.|||
@@ -422,7 +422,7 @@ Details about the above search guard properties is given below,
 |searchguard.ssl.transport.enforce\_hostname\_verification|If true, the hostname mentioned in certificate will be validated. We set this to *false* as ours is general purpose self signed certs.|true / false|true|
 |searchguard.ssl.transport.resolve\_hostname|Applicable only if above property is true. If true, the hostname will be resolved against the DNS server. We set this to false as ours is general purpose self signed certs.|true / false|true|
 |searchguard.ssl.transport.enable\_openssl\_if\_available|Use if *OpenSSL* is available instead of JDK SSL.|true / false|true|
-|||**HTTP**||
+|**HTTP**||||
 |searchguard.ssl.http.enabled|To enable the SSL for REST interface ( HTTP). We set this to true.|true / false|false|
 |searchguard.ssl.http.keystore\_type|Type of keystore|JKS, PKCS12|JKS|
 |searchguard.ssl.http.keystore\_filepath|Location of the keystore|||
@@ -433,9 +433,9 @@ Details about the above search guard properties is given below,
 |searchguard.ssl.http.truststore\_alias|Truststore entry name if there are more than one entries|||
 |searchguard.ssl.http.truststore\_password|Password to access truststore.|||
 |searchguard.ssl.http.clientauth\_mode|<p>Option to enable 2-way authentication.</p><p>REQUIRE : Client will be challenged for client certificate.</p><p>OPTIONAL : Will be used if client certificate is available</p><p>NONE : Ignore client certificate even if it's available.</p>|<p>REQUIRE,</p><p>OPTIONAL,</p><p>NONE</p>|OPTIONAL|
-|||**Search Guard Admin**||
+|**Search Guard Admin**||||
 |searchguard.authcz.admin\_dn|Search Guard maintains all the data in a index called "searchguard". This is accessible to only users ( client cert which will be passed in sdadmin command) configured here.|||
-|||**Misc**||
+|**Misc**||||
 |searchguard.cert.oid|<p>All certificates used by the nodes on transport level need to have the oid field set to a specific value.This oid value is checked by</p><p>Search Guard to identify if an incoming request comes from a trusted node in the cluster or not. In the former case, all actions are allowed,</p><p>in the latter case, privilege checks apply. Plus, the oid is also checked whenever a node wants to join the cluster.</p>||'1.2.3.4.5.5'|
 |searchguard.config\_index\_name|Index where all the security configuration is stored. It's not configurable for now but in the future||searchguard|
 |searchguard.enable\_snapshot\_restore\_privilege<br>searchguard.check\_snapshot\_restore\_write\_privileges|To perform snapshot and restore operations, a user needs to have special privileges assigned. These two lines enable these privileges|||
