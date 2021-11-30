@@ -1,0 +1,671 @@
+{
+	"info": {
+		"_postman_id": "cb197410-26a3-4445-a06f-b4a42921d168",
+		"name": "External ES And Internal Kibana",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "reindexDashboard",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"source\": {\r\n    \"remote\": {\r\n      \"host\": \"http://{{internalESHost}}:{{internalESPort}}\"\r\n    },\r\n    \"index\": \"{{internalDashboardIndexname}}\"\r\n    },\r\n  \"dest\": {\r\n     \"index\": \"gateway_{{tenant_name}}_dashboard\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{externalESHost}}:{{externalESPort}}/_reindex",
+					"protocol": "http",
+					"host": [
+						"{{externalESHost}}"
+					],
+					"port": "{{externalESPort}}",
+					"path": [
+						"_reindex"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAuditlogIndexPattern",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "Administrator",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "manage",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-Gateway-APIKey",
+						"value": "05fb5d2c-a36b-43df-b92a-a5f0b4f68396",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n        \"index-pattern\": {\"fieldFormatMap\":\"{\\\"creationDate\\\":{\\\"id\\\":\\\"date\\\",\\\"params\\\":{\\\"pattern\\\":\\\"ddd MMM DD HH:mm:ss z YYYY\\\"}}}\",\r\n            \"fields\": \"[{\\\"name\\\":\\\"_index\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":0,\\\"scripted\\\":false,\\\"indexed\\\":false,\\\"analyzed\\\":false,\\\"doc_values\\\":false},{\\\"name\\\":\\\"message\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":6,\\\"scripted\\\":false,\\\"indexed\\\":true,\\\"analyzed\\\":false,\\\"doc_values\\\":true},{\\\"name\\\":\\\"creationDate\\\",\\\"type\\\":\\\"date\\\",\\\"count\\\":5,\\\"scripted\\\":false,\\\"indexed\\\":true,\\\"analyzed\\\":false,\\\"doc_values\\\":true},{\\\"name\\\":\\\"creationDateInMillis\\\",\\\"type\\\":\\\"date\\\",\\\"count\\\":5,\\\"scripted\\\":false,\\\"indexed\\\":true,\\\"analyzed\\\":false,\\\"doc_values\\\":true},{\\\"name\\\":\\\"objectType\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":5,\\\"scripted\\\":false,\\\"indexed\\\":true,\\\"analyzed\\\":false,\\\"doc_values\\\":true},{\\\"name\\\":\\\"payload\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":5,\\\"scripted\\\":false,\\\"indexed\\\":true,\\\"analyzed\\\":false,\\\"doc_values\\\":true},{\\\"name\\\":\\\"sourceMachine\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":4,\\\"scripted\\\":false,\\\"indexed\\\":true,\\\"analyzed\\\":false,\\\"doc_values\\\":true},{\\\"name\\\":\\\"action\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":4,\\\"scripted\\\":false,\\\"indexed\\\":true,\\\"analyzed\\\":false,\\\"doc_values\\\":true},{\\\"name\\\":\\\"_source\\\",\\\"type\\\":\\\"_source\\\",\\\"count\\\":0,\\\"scripted\\\":false,\\\"indexed\\\":false,\\\"analyzed\\\":false,\\\"doc_values\\\":false},{\\\"name\\\":\\\"id\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":4,\\\"scripted\\\":false,\\\"indexed\\\":true,\\\"analyzed\\\":true,\\\"doc_values\\\":false},{\\\"name\\\":\\\"user\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":5,\\\"scripted\\\":false,\\\"indexed\\\":true,\\\"analyzed\\\":false,\\\"doc_values\\\":true},{\\\"name\\\":\\\"clientIPAddress\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":4,\\\"scripted\\\":false,\\\"indexed\\\":true,\\\"analyzed\\\":false,\\\"doc_values\\\":true},{\\\"name\\\":\\\"status\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":5,\\\"scripted\\\":false,\\\"indexed\\\":true,\\\"analyzed\\\":false,\\\"doc_values\\\":true},{\\\"name\\\":\\\"object\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":6,\\\"scripted\\\":false,\\\"indexed\\\":true,\\\"analyzed\\\":false,\\\"doc_values\\\":true},{\\\"name\\\":\\\"_id\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":2,\\\"scripted\\\":false,\\\"indexed\\\":false,\\\"analyzed\\\":false,\\\"doc_values\\\":false},{\\\"name\\\":\\\"_type\\\",\\\"type\\\":\\\"string\\\",\\\"count\\\":0,\\\"scripted\\\":false,\\\"indexed\\\":false,\\\"analyzed\\\":false,\\\"doc_values\\\":false},{\\\"name\\\":\\\"_score\\\",\\\"type\\\":\\\"number\\\",\\\"count\\\":0,\\\"scripted\\\":false,\\\"indexed\\\":false,\\\"analyzed\\\":false,\\\"doc_values\\\":false}]\",\r\n            \"timeFieldName\": \"creationDateInMillis\",\r\n            \"title\": \"gateway_{{tenant_name}}_analytics_auditlogs\",\r\n            \"sourceFilters\": \"[{\\\"value\\\":\\\"payload\\\"}]\"\r\n        },\r\n        \"id\": \"gateway_{{tenant_name}}_analytics_auditlogs\",\r\n        \"migrationVersion\": {\r\n            \"index-pattern\": \"7.6.0\"\r\n        },\r\n        \"references\": [],\r\n        \"type\": \"index-pattern\",\r\n        \"version\": \"Wzc0LDFd\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{externalESHost}}:{{externalESPort}}/gateway_{{tenant_name}}_dashboard/_doc/index-pattern:gateway_{{tenant_name}}_analytics_auditlogs",
+					"protocol": "http",
+					"host": [
+						"{{externalESHost}}"
+					],
+					"port": "{{externalESPort}}",
+					"path": [
+						"gateway_{{tenant_name}}_dashboard",
+						"_doc",
+						"index-pattern:gateway_{{tenant_name}}_analytics_auditlogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateAuditlogSearch",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true,
+					"accept-encoding": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "manage",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "Administrator",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Franka",
+						"value": "123",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"search\": {\r\n            \"columns\": [\r\n                \"action\",\r\n                \"clientIPAddress\",\r\n                \"message\",\r\n                \"object\",\r\n                \"objectType\",\r\n                \"payload\",\r\n                \"sourceMachine\",\r\n                \"status\",\r\n                \"user\",\r\n                \"creationDateInMillis\"\r\n            ],\r\n            \"description\": \"\",\r\n            \"kibanaSavedObjectMeta\": {\r\n                \"searchSourceJSON\": \"{\\\"query\\\":{\\\"query_string\\\":{\\\"analyze_wildcard\\\":true,\\\"query\\\":\\\"*\\\"}},\\\"filter\\\":[],\\\"highlight\\\":{\\\"pre_tags\\\":[\\\"@kibana-highlighted-field@\\\"],\\\"post_tags\\\":[\\\"@/kibana-highlighted-field@\\\"],\\\"fields\\\":{\\\"*\\\":{}},\\\"require_field_match\\\":false,\\\"fragment_size\\\":2147483647},\\\"indexRefName\\\":\\\"kibanaSavedObjectMeta.searchSourceJSON.index\\\"}\"\r\n            },\r\n            \"sort\": [\r\n                [\r\n                    \"creationDateInMillis\",\r\n                    \"desc\"\r\n                ]\r\n            ],\r\n            \"title\": \"gatewayAuditlogs\"\r\n        },\r\n        \"id\": \"gatewayAuditlogs\",\r\n        \"migrationVersion\": {\r\n            \"search\": \"7.4.0\"\r\n        },\r\n        \"references\": [\r\n            {\r\n                \"id\": \"gateway_{{tenant_name}}_analytics_auditlogs\",\r\n                \"name\": \"kibanaSavedObjectMeta.searchSourceJSON.index\",\r\n                \"type\": \"index-pattern\"\r\n            }\r\n        ],\r\n        \"type\": \"search\",\r\n        \"version\": \"WzEyOCwxXQ==\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{externalESHost}}:{{externalESPort}}/gateway_{{tenant_name}}_dashboard/_doc/search:gatewayAuditlogs",
+					"protocol": "http",
+					"host": [
+						"{{externalESHost}}"
+					],
+					"port": "{{externalESPort}}",
+					"path": [
+						"gateway_{{tenant_name}}_dashboard",
+						"_doc",
+						"search:gatewayAuditlogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateAuditlogDashboard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true,
+					"accept-encoding": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Franka",
+						"type": "text",
+						"value": "123",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"dashboard\": {\r\n        \"description\": \"\",\r\n        \"kibanaSavedObjectMeta\": {\r\n            \"searchSourceJSON\": \"{\\\"filter\\\":[],\\\"query\\\":{\\\"query\\\":\\\"*\\\",\\\"language\\\":\\\"lucene\\\"}}\"\r\n        },\r\n        \"optionsJSON\": \"{\\\"useMargins\\\":true,\\\"hidePanelTitles\\\":false}\",\r\n        \"panelsJSON\": \"[{\\\"version\\\":\\\"7.7.1\\\",\\\"gridData\\\":{\\\"x\\\":0,\\\"y\\\":0,\\\"w\\\":48,\\\"h\\\":15,\\\"i\\\":\\\"1\\\"},\\\"panelIndex\\\":\\\"1\\\",\\\"embeddableConfig\\\":{\\\"columns\\\":[\\\"user\\\",\\\"status\\\",\\\"sourceMachine\\\",\\\"objectType\\\",\\\"object\\\",\\\"message\\\",\\\"clientIPAddress\\\",\\\"action\\\"],\\\"sort\\\":[[\\\"creationDateInMillis\\\",\\\"desc\\\"]]},\\\"panelRefName\\\":\\\"panel_0\\\"}]\",\r\n        \"timeRestore\": false,\r\n        \"title\": \"gatewayAuditlogs\"\r\n    },\r\n    \"id\": \"gatewayAuditlogs\",\r\n    \"migrationVersion\": {\r\n        \"dashboard\": \"7.3.0\"\r\n    },\r\n    \"references\": [\r\n        {\r\n            \"id\": \"gatewayAuditlogs\",\r\n            \"name\": \"panel_0\",\r\n            \"type\": \"search\"\r\n        }\r\n    ],\r\n    \"type\": \"dashboard\",\r\n    \"version\": \"WzQ3LDFd\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{externalESHost}}:{{externalESPort}}/gateway_{{tenant_name}}_dashboard/_doc/dashboard:gatewayAuditlogs",
+					"protocol": "http",
+					"host": [
+						"{{externalESHost}}"
+					],
+					"port": "{{externalESPort}}",
+					"path": [
+						"gateway_{{tenant_name}}_dashboard",
+						"_doc",
+						"dashboard:gatewayAuditlogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getIndices",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var jsonData = pm.response.json();\r",
+							"var keys = Object.keys(jsonData);\r",
+							"var tenantName=pm.collectionVariables.get(\"tenant_name\");\r",
+							"keys.push(\"template_gateway_\"+tenantName+\"_log\");\r",
+							"pm.collectionVariables.set(\"indices\",keys);\r",
+							"var iterator=0;\r",
+							"pm.collectionVariables.set(\"indexIterator\",iterator); \r",
+							"pm.collectionVariables.set(\"currentIndex\",keys[iterator]);\r",
+							"pm.collectionVariables.set(\"totalIndices\",keys.length);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{internalESHost}}:{{internalESPort}}/_template/template_gateway_{{tenant_name}}_analytics*",
+					"protocol": "http",
+					"host": [
+						"{{internalESHost}}"
+					],
+					"port": "{{internalESPort}}",
+					"path": [
+						"_template",
+						"template_gateway_{{tenant_name}}_analytics*"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTemplate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var jsonData = pm.response.json();\r",
+							"jsonData=jsonData[pm.collectionVariables.get(\"currentIndex\")];\r",
+							"pm.collectionVariables.set(\"templatePayload\",JSON.stringify(jsonData));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{internalESHost}}:{{internalESPort}}/_template/{{currentIndex}}",
+					"protocol": "http",
+					"host": [
+						"{{internalESHost}}"
+					],
+					"port": "{{internalESPort}}",
+					"path": [
+						"_template",
+						"{{currentIndex}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createTemplate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"if(pm.collectionVariables.get(\"indexIterator\")<pm.collectionVariables.get(\"totalIndices\")-1){\r",
+							"     var iterator=pm.collectionVariables.get(\"indexIterator\")+1;\r",
+							"     pm.collectionVariables.set(\"indexIterator\",iterator); \r",
+							"     var keys = pm.collectionVariables.get(\"indices\");\r",
+							"     pm.collectionVariables.set(\"currentIndex\",keys[iterator]);\r",
+							"     postman.setNextRequest(\"getTemplate\"); \r",
+							"}else{\r",
+							"     pm.collectionVariables.set(\"indexIterator\",0);\r",
+							"     pm.collectionVariables.set(\"currentIndex\",\"\");\r",
+							"     pm.collectionVariables.set(\"totalIndices\",0);\r",
+							"     postman.setNextRequest(\"createAuditlogTemplate\"); \r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "Administrator",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "manage",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{templatePayload}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{externalESHost}}:{{externalESPort}}/_template/{{currentIndex}}",
+					"protocol": "http",
+					"host": [
+						"{{externalESHost}}"
+					],
+					"port": "{{externalESPort}}",
+					"path": [
+						"_template",
+						"{{currentIndex}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAuditlogTemplate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "manage",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "Administrator",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "kbn-xsrf",
+						"value": "reporting",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"order\": 0,\r\n        \"index_patterns\": [\r\n            \"gateway_{{tenant_name}}_analytics_auditlogs*\"\r\n        ],\r\n        \"settings\": {\r\n            \"index\": {\r\n                \"analysis\": {\r\n                    \"analyzer\": {\r\n                        \"not_analyzed_ignorecase\": {\r\n                            \"filter\": [\r\n                                \"lowercase\"\r\n                            ],\r\n                            \"type\": \"custom\",\r\n                            \"tokenizer\": \"keyword\"\r\n                        }\r\n                    }\r\n                },\r\n                \"number_of_shards\": \"5\",\r\n                \"highlight\": {\r\n                    \"max_analyzed_offset\": \"50000000\"\r\n                }\r\n            }\r\n        },\r\n        \"mappings\": {\r\n            \"properties\": {\r\n                \"action\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"clientIPAddress\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"creationDate\": {\r\n                    \"type\": \"date\",\r\n                    \"format\":\"EEE MMM dd HH:mm:ss zzz YYYY\"\r\n                },\r\n                \"creationDateInMillis\": {\r\n                    \"type\": \"date\"\r\n                },\r\n                \"eventType\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"id\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"message\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"object\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"objectType\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"payload\": {\r\n                    \"type\": \"text\",\r\n                    \"index\": false\r\n                },\r\n                \"sourceGateway\": {\r\n                    \"type\": \"text\",\r\n                    \"fields\": {\r\n                        \"keyword\": {\r\n                            \"type\": \"keyword\",\r\n                            \"ignore_above\": 256\r\n                        }\r\n                    }\r\n                },\r\n                \"sourceMachine\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"status\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"user\": {\r\n                    \"type\": \"keyword\"\r\n                }\r\n            }\r\n        },\r\n        \"aliases\": {}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{externalESHost}}:{{externalESPort}}/_template/template_gateway_{{tenant_name}}_analytics_auditlogs",
+					"protocol": "http",
+					"host": [
+						"{{externalESHost}}"
+					],
+					"port": "{{externalESPort}}",
+					"path": [
+						"_template",
+						"template_gateway_{{tenant_name}}_analytics_auditlogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAuditlogIndex",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "manage",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "Administrator",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"settings\": {\r\n            \"index\": {\r\n                \"analysis\": {\r\n                    \"analyzer\": {\r\n                        \"not_analyzed_ignorecase\": {\r\n                            \"filter\": [\r\n                                \"lowercase\"\r\n                            ],\r\n                            \"type\": \"custom\",\r\n                            \"tokenizer\": \"keyword\"\r\n                        }\r\n                    }\r\n                },\r\n                \"number_of_shards\": \"5\",\r\n                \"highlight\": {\r\n                    \"max_analyzed_offset\": \"50000000\"\r\n                }\r\n            }\r\n        },\r\n        \"mappings\": {\r\n            \"properties\": {\r\n                \"action\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"clientIPAddress\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"creationDate\": {\r\n                    \"type\": \"date\",\r\n                    \"format\":\"EEE MMM dd HH:mm:ss zzz YYYY\"\r\n                }, \r\n                \"creationDateInMillis\": {\r\n                    \"type\": \"date\"\r\n                },\r\n                \"eventType\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"id\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"message\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"object\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"objectType\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"payload\": {\r\n                    \"type\": \"text\",\r\n                    \"index\": false\r\n                },\r\n                \"sourceGateway\": {\r\n                    \"type\": \"text\",\r\n                    \"fields\": {\r\n                        \"keyword\": {\r\n                            \"type\": \"keyword\",\r\n                            \"ignore_above\": 256\r\n                        }\r\n                    }\r\n                },\r\n                \"sourceMachine\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"status\": {\r\n                    \"type\": \"keyword\"\r\n                },\r\n                \"user\": {\r\n                    \"type\": \"keyword\"\r\n                }\r\n            }\r\n        },\r\n        \"aliases\": {}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{externalESHost}}:{{externalESPort}}/gateway_{{tenant_name}}_analytics_auditlogs",
+					"protocol": "http",
+					"host": [
+						"{{externalESHost}}"
+					],
+					"port": "{{externalESPort}}",
+					"path": [
+						"gateway_{{tenant_name}}_analytics_auditlogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ingestCommonLogPipeline",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code should be 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"description\": \"Pipeline that transforms API Gateway server logs\",\r\n        \"processors\": [\r\n            {\r\n                \"rename\": {\r\n                    \"field\": \"fields.node\",\r\n                    \"target_field\": \"node\",\r\n                    \"ignore_missing\": true\r\n                }\r\n            },\r\n            {\r\n                \"rename\": {\r\n                    \"field\": \"fields.fileType\",\r\n                    \"target_field\": \"fileType\",\r\n                    \"ignore_missing\": true\r\n                }\r\n            },\r\n            {\r\n                \"grok\": {\r\n                    \"field\": \"message\",\r\n                    \"patterns\": [\r\n                        \"%{NOTSPACE:logLevel} (.)* %{YEAR:year}/%{MONTHNUM2:month}/%{MONTHDAY:day} %{TIME:time}\",\r\n                        \"%{YEAR:year}-%{MONTHNUM2:month}-%{MONTHDAY:day} %{TIME:time} %{LOGLEVEL:logLevel}\",\r\n                        \"%{YEAR:year}-%{MONTHNUM2:month}-%{MONTHDAY:day} %{TIME:time} %{NOTSPACE} %{NOTSPACE:logLevel} %{NOTSPACE:correlationId}\",\r\n                        \"\\\\[%{YEAR:year}-%{MONTHNUM2:month}-%{MONTHDAY:day}T%{TIME:time}\\\\]\\\\[%{LOGLEVEL:logLevel}\",\r\n                        \"%{YEAR:year}-%{MONTHNUM2:month}-%{MONTHDAY:day} %{TIME:time}\",\r\n                        \"\\\"@timestamp\\\":\\\"%{YEAR:year}-%{MONTHNUM2:month}-%{MONTHDAY:day}T%{TIME:time}\"\r\n                    ],\r\n                    \"pattern_definitions\": {\r\n                        \"LOGLEVEL\": \"TRACE|DEBUG|INFO|WARN|ERROR|FATAL\"\r\n                    },\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"gsub\": {\r\n                    \"field\": \"time\",\r\n                    \"pattern\": \",(.)*|\\\\.(.)*\",\r\n                    \"replacement\": \"\",\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"gsub\": {\r\n                    \"field\": \"logLevel\",\r\n                    \"pattern\": \"(.)*T\\\\]\",\r\n                    \"replacement\": \"TRACE\",\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"gsub\": {\r\n                    \"field\": \"logLevel\",\r\n                    \"pattern\": \"(.)*I\\\\]\",\r\n                    \"replacement\": \"INFO\",\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"gsub\": {\r\n                    \"field\": \"logLevel\",\r\n                    \"pattern\": \"(.)*E\\\\]\",\r\n                    \"replacement\": \"ERROR\",\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"gsub\": {\r\n                    \"field\": \"logLevel\",\r\n                    \"pattern\": \"(.)*D\\\\]\",\r\n                    \"replacement\": \"DEBUG\",\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"gsub\": {\r\n                    \"field\": \"logLevel\",\r\n                    \"pattern\": \"(.)*W\\\\]\",\r\n                    \"replacement\": \"WARN\",\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"gsub\": {\r\n                    \"field\": \"logLevel\",\r\n                    \"pattern\": \"(.)*F\\\\]\",\r\n                    \"replacement\": \"FATAL\",\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"gsub\": {\r\n                    \"field\": \"logLevel\",\r\n                    \"pattern\": \"(.)*C\\\\]\",\r\n                    \"replacement\": \"CRITICAL\",\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"gsub\": {\r\n                    \"field\": \"correlationId\",\r\n                    \"pattern\": \"^((?!APIGW).)*$\",\r\n                    \"replacement\": \"\",\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"gsub\": {\r\n                    \"field\": \"correlationId\",\r\n                    \"pattern\": \"(.)*APIGW:\",\r\n                    \"replacement\": \"\",\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"gsub\": {\r\n                    \"field\": \"correlationId\",\r\n                    \"pattern\": \"\\\\](.)*\",\r\n                    \"replacement\": \"\",\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"set\": {\r\n                    \"field\": \"timestamp\",\r\n                    \"value\": \"{{year}}-{{month}}-{{day}} {{time}}{{timezone}}\"\r\n                }\r\n            },\r\n            {\r\n                \"date\": {\r\n                    \"field\": \"timestamp\",\r\n                    \"target_field\": \"timestamp\",\r\n                    \"formats\": [\r\n                        \"yyyy-MM-dd HH:mm:ssZ\"\r\n                    ],\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"remove\": {\r\n                    \"field\": [\r\n                        \"beat\",\r\n                        \"prospector\",\r\n                        \"offset\",\r\n                        \"@timestamp\",\r\n                        \"source\",\r\n                        \"timezone\"\r\n                    ],\r\n                    \"ignore_failure\": true\r\n                }\r\n            },\r\n            {\r\n                \"remove\": {\r\n                    \"field\": [\r\n                        \"year\",\r\n                        \"month\",\r\n                        \"day\",\r\n                        \"time\"\r\n                    ],\r\n                    \"ignore_failure\": true\r\n                }\r\n            }\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{externalESHost}}:{{externalESPort}}/_ingest/pipeline/common_log_pipeline",
+					"protocol": "http",
+					"host": [
+						"{{externalESHost}}"
+					],
+					"port": "{{externalESPort}}",
+					"path": [
+						"_ingest",
+						"pipeline",
+						"common_log_pipeline"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "internalESHost",
+			"value": "localhost"
+		},
+		{
+			"key": "internalESPort",
+			"value": "9240"
+		},
+		{
+			"key": "externalESHost",
+			"value": "localhost"
+		},
+		{
+			"key": "externalESPort",
+			"value": "9200"
+		},
+		{
+			"key": "tenant_name",
+			"value": "default"
+		},
+		{
+			"key": "internalDashboardIndexname",
+			"value": "gateway_default_dashboard"
+		},
+		{
+			"key": "templatePayload",
+			"value": "{}"
+		},
+		{
+			"key": "indexIterator",
+			"value": "0"
+		},
+		{
+			"key": "currentIndex",
+			"value": "template_gateway_default_analytics_performancemetrics"
+		},
+		{
+			"key": "indices",
+			"value": "[\"template_gateway_default_analytics_performancemetrics\",\n\"template_gateway_default_analytics_threatprotectionevents\",\n\"template_gateway_default_analytics_policyviolationevents\",\n\"template_gateway_default_analytics_monitorevents\",\n\"template_gateway_default_analytics_transactionalevents\",\n\"template_gateway_default_analytics_lifecycleevents\",\n\"template_gateway_default_analytics_errorevents\"]"
+		},
+		{
+			"key": "totalIndices",
+			"value": "0"
+		},
+		{
+			"value": "",
+			"disabled": true
+		}
+	]
+}
