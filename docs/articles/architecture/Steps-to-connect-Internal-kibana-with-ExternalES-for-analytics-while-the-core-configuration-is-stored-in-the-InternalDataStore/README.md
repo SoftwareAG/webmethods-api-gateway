@@ -65,7 +65,7 @@ https://documentation.softwareag.com/webmethods/api_gateway/yai10-7/10-7_API_Gat
     
 11) Create API. Configure the policies. All the log invocation policies should have Elasticsearch as its destination. API Gateway destination must be turned off.
 
-    ![](attachments/logInvocationPolicy.png)
+      ![](attachments/logInvocationPolicy.png)
     
 12) Invoke APIs via Elasticsearch REST calls and make sure the events are getting populated in the external Elasticsearch destination
 13) Now, invocations should be visible in API Gateway analytics page.
