@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "cb197410-26a3-4445-a06f-b4a42921d168",
-		"name": "External ES And Internal Kibana",
+		"name": "External_Es_And_Internal_Kibana",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
