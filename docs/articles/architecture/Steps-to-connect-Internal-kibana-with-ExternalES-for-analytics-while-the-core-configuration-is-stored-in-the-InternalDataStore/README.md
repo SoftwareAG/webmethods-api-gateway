@@ -22,45 +22,56 @@ In this tutorial we will see how to connect a Default(Internal) kibana with an e
 
 Steps to be followed to connect Default(Internal) kibana with ExternalES for analytics, while the core configuration stored in the APIGateway DataStore
 ==========================================================================================================================================================
-1) Set the property apigw.kibana.autostart to false, in uiconfiguration.properties file located at C:\API Gateway instance\profiles\IS_default\apigateway\config\.
-2) Open kibana.yml file located at C:\API Gateway instance\profiles\IS_default\apigateway\dashboard\config and specify the external Elasticsearch host and port details, which the Kibana has to connect to, as follows:
-   ```
-   elasticsearch.hosts: "http://ExternalEsHost:ExternalEsPort"
-   ```
-3) Remote hosts have to be explicitly allowed in  elasticsearch.yml file of External ElasticSearch using the reindex.remote.whitelist.
+1)  Set the property apigw.kibana.autostart to false in uiconfiguration.properties file located at <SAG_Root>\profiles\IS_default\apigateway\config\.
+2)  Open kibana.yml file located at <SAG_Root>/profiles/IS_default/apigateway/dashboard/config and specify the external Elasticsearch host and port details, which the Kibana has to connect to, as follows:
+    ```
+    elasticsearch.hosts: "http://ExternalEsHost:ExternalEsPort"
+    ```
+3)  Remote hosts have to be explicitly allowed in  elasticsearch.yml file of External ElasticSearch using the reindex.remote.whitelist.
    
-   Example:
-   ```
-   reindex.remote.whitelist : ExternalEsHost1:ExternalEsPort1, ExternalEsHost2:ExternalEsPort2
-   ``` 
-   (Here reindex.remote.whitelist property can be set to list of comma delimited allowed remote host and port combinations.)
-4) Start External ES
-5) Start APIGateway and InternalDatastore.
-6) Import the postman collection "[External ES And Internal Kibana](attachments/External ES And Internal Kibana.postman_collection.json)".
-7) Edit internalESHost,internalESPort,externalESHost,externalESPort,tenant_name,
-internalDashboardIndexname variables in "External ES And Internal Kibana" postmanCollection as
-per your need.
-Where internalESHost - Internal ElasticSearch(API Gateway Data Store) Host. internalESPort - Internal ElasticSearch(API Gateway Data Store) Port.
-externalESHost - External ElasticSearch Host.
-externalESPort - External ElasticSearch Port.
-tenant_name - Tenant name.
-internalDashboardIndexname - Dashboard index name in Internal ElasticSearch.
-![](attachments/editPostmanCollection.png)
+    Example:
+    ```
+    reindex.remote.whitelist : ExternalEsHost1:ExternalEsPort1, ExternalEsHost2:ExternalEsPort2
+    ``` 
+    (Here reindex.remote.whitelist property can be set to list of comma delimited allowed remote host and port combinations.)
+4)  Start External ES
+5)  Start APIGateway and InternalDatastore.
+6)  Import the postman collection "[External ES And Internal Kibana](attachments/External ES And Internal Kibana.postman_collection.json)".
+7)  Edit internalESHost,internalESPort,externalESHost,externalESPort,tenant_name,
+    internalDashboardIndexname variables in "External ES And Internal Kibana" postmanCollection as per your need.
+    Where internalESHost - Internal ElasticSearch(InternalDataStore) Host.
+         internalESPort - Internal ElasticSearch(InternalDataStore) Port.
+         externalESHost - External ElasticSearch Host.
+         externalESPort - External ElasticSearch Port.
+         tenant_name - Tenant name.
+         internalDashboardIndexname - Dashboard index name in Internal ElasticSearch.
 
-8) Run the PostmanCollection.
-9) Start Kibana.
-10) Create API. Configure the policies. All the log invocation policies should have Elasticsearch as its destination. API Gateway destination must be turned off.
+    ![](attachments/editPostmanCollection.png)
 
-11) Configure Elasticsearch Destination. Configure your external Elasticsearch destination details in the Administration screen and make sure that the index name is "gateway_default_analytics".Refer https://documentation.softwareag.com/webmethods/api_gateway/yai10-7/10-7_API_Gateway_webhelp/index.html#page/api-gateway-integrated-webhelp%2Fgtw_configure_es.html%23 and
-https://documentation.softwareag.com/webmethods/api_gateway/yai10-7/10-7_API_Gateway_webhelp/index.html#page/api-gateway-integrated-webhelp%2Fgtw_configure_es_events.html%23
+8)  Run the PostmanCollection.
+9)  Start Kibana.
+10) Configure Elasticsearch Destination. Configure your external Elasticsearch destination details in the Administration screen.Refer https://documentation.softwareag.com/webmethods/api_gateway/yai10-7/10-7_API_Gateway_webhelp/index.html#page/api-gateway-integrated-webhelp%2Fgtw_configure_es.html%23 and
+https://documentation.softwareag.com/webmethods/api_gateway/yai10-7/10-7_API_Gateway_webhelp/index.html#page/api-gateway-integrated-webhelp%2Fgtw_configure_es_events.html%23 
+        
+    - Uncheck all the checkboxes in API Gateway Destination, Check all the checkboxes in Elastic search destination as shown in the below image.
+    
+      ![](attachments/ApiGWDestination.png)
+    
+      ![](attachments/EsDestination.png)
+    
+    - Make sure the index name is "gateway_default_analytics" in Elasticsearch destination Configuration page.
+    
+      ![](attachments/EsDestinationConfiguration.png)
+    
+11) Create API. Configure the policies. All the log invocation policies should have Elasticsearch as its destination. API Gateway destination must be turned off.
+
+    ![](attachments/logInvocationPolicy.png)
+    
 12) Invoke APIs via Elasticsearch REST calls and make sure the events are getting populated in the external Elasticsearch destination
 13) Now, invocations should be visible in API Gateway analytics page.
     
 Limitations
 ===========
-1)ThreatProtection,Cache statistics dashbord,API usage details-Dashboard will not work
-2)Applicationlogs will not work(Check with Arun)
-3)Packages dashboard need to confirm with Sadiq
-4)Custom dashboard -view will not work.
-5)Summary - Package performance will not work.
+1)Threat Protection, Cache Statistics, API usage details dashboards and Custom dashboards will not work with this setup.
 
+2)API Gateway analytics can render data from only ONE source. It cannot pull from multiple sources like IDS and external ES.
