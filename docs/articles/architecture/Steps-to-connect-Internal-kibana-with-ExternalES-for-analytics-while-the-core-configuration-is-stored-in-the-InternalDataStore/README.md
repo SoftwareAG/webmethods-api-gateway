@@ -1,7 +1,7 @@
 Overview
 --------
 
-API Gateway uses Elasticsearch as its primary data store to persist different types of assets such as APIs, Policies, and Applications apart from runtime events and metrics. By default, all assets stored in the default Elasticsearch. But you can configure API Gateway to use an external Elasticsearch to store the API Gateway assets. For information about the Elasticsearch and Kibana versions that are compatible with your API Gateway version, see API Gateway, Elasticsearch, Kibana Compatibility Matrix.
+API Gateway uses Elasticsearch as its primary data store to persist different types of assets such as APIs, Policies, Applications and runtime events and metrics. By default all the assets stored in the default Elasticsearch. But you can configure API Gateway to use an external Elasticsearch to store the API Gateway assets. For information about the Elasticsearch and Kibana versions that are compatible with your API Gateway version, see API Gateway, Elasticsearch, Kibana Compatibility Matrix.
 
 Component compatibility matrix
 =================================
@@ -31,7 +31,7 @@ Steps to be followed to connect Default(Internal) kibana with ExternalES for ana
    
     Example:
     ```
-    reindex.remote.whitelist : ExternalEsHost1:ExternalEsPort1, ExternalEsHost2:ExternalEsPort2
+    reindex.remote.whitelist : localhost:9240
     ``` 
     (Here reindex.remote.whitelist property can be set to list of comma delimited allowed remote host and port combinations.)
 4.  Start External ElasticSearch.
