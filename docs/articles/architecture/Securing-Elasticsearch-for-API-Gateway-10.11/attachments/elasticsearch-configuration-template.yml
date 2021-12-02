@@ -1,0 +1,12 @@
+cluster.name: SAG_EventDataStore
+node.name: <node name>
+path.logs: <SAG_Root>\InternalDataStore/logs
+network.host: 0.0.0.0
+
+http.port: 9240
+
+discovery.seed_hosts: ["<SAG Installed server host>:9340"]
+transport.tcp.port: 9340
+path.repo: ['<SAG_Root>\InternalDataStore/archives']
+
+cluster.initial_master_nodes: ["<node.name>"]
