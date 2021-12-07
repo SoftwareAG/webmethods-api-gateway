@@ -1,27 +1,10 @@
 Overview
 --------
 
-API Gateway uses Elasticsearch as its primary data store to persist different types of assets such as APIs, Policies, Applications and runtime events and metrics. By default all the assets stored in the default Elasticsearch. But you can configure API Gateway to use an external Elasticsearch to store the API Gateway assets. For information about the Elasticsearch and Kibana versions that are compatible with your API Gateway version, see API Gateway, Elasticsearch, Kibana Compatibility Matrix.
+This tutorial will guide you to connect the dashboards (Kibana,bundled with API Gateway) to external Elasticsearch where the transactional events or other analytics data are stored. In API Gateway, it is possible to use the "Destinations" feature to send transactional logs to an external Elasticsearch while you still use the Internal Data Store to store your core data (assets/configurations). 
 
-Component compatibility matrix
-=================================
-The table below lists the Elasticsearch versions and corresponding Kibana versions compatible with your API Gateway version:
-
-| API Gateway version| Compatible Elasticsearch versions                  | Compatible Kibana version |
-| ------------------ | -------------------------------------------------- | ------------------------- |
-| 10.11              | 7.13.0                                             | 7.13.0                    | 
-| 10.7               | 7.7                                                | 7.7                       | 
-| 10.5               | 7.2.0                                              | 7.2.0                     | 
-| 10.4               | 5.6.4, 2.3.2                                       | 5.6.x, 4.5.x              | 
-| 10.3               | 5.6.4, 2.3.2                                       | 5.6.x, 4.5.x              |
-| 10.2               | 5.6.4, 2.3.2                                       | 5.6.x, 4.5.x              | 
-| 10.1               | 2.3.2                                              | 4.5.x                     | 
-| 9.12               | 2.3.2                                              | 4.5.x                     | 
-
-In this tutorial we will see how to connect a Default(Internal) kibana with an external Elasticsearch while the core configuration stored in the API Gateway InternalDataStore and analytic events stored in External ElasticSearch.
-
-Steps to be followed to connect Default(Internal) kibana with ExternalES for analytics, while the core configuration stored in the APIGateway DataStore
-==========================================================================================================================================================
+Steps to be followed to connect Default(Internal) kibana with ExternalES for analytics
+======================================================================================
 1.  Set the property ***apigw.kibana.autostart*** to false in ***uiconfiguration.properties*** file located at ***<SAG_Root>\profiles\IS_default\apigateway\config\.***
 2.  Open ***kibana.yml*** file located at ***<SAG_Root>/profiles/IS_default/apigateway/dashboard/config*** and specify the external Elasticsearch host and port details, which the Kibana has to connect to, as follows:
     ```
