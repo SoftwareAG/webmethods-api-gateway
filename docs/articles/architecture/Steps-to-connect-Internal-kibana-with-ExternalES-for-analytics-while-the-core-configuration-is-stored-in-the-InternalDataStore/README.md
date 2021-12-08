@@ -32,9 +32,10 @@ Steps to be followed to connect Default(Internal) kibana with ExternalES for ana
 
     ![](attachments/editPostmanCollection.png)
 
-8.  Run the PostmanCollection.
-9.  Start Kibana.
-10. Configure your external Elasticsearch destination details in the Administration screen.Refer https://documentation.softwareag.com/webmethods/api_gateway/yai10-7/10-7_API_Gateway_webhelp/index.html#page/api-gateway-integrated-webhelp%2Fgtw_configure_es.html%23 and
+8.  Run the PostmanCollection. It will reindex the dashboard index from internalElasticsearch to externalElasticsearch and create templates for analytic events indices in
+    external Elasticsearch.    
+10. Start Kibana using the bat file located at ***<SAG_Root>/profiles/IS_default/apigateway/dashboard/bin***.
+11. Configure your external Elasticsearch destination details in the Administration screen.Refer https://documentation.softwareag.com/webmethods/api_gateway/yai10-7/10-7_API_Gateway_webhelp/index.html#page/api-gateway-integrated-webhelp%2Fgtw_configure_es.html%23 and
 https://documentation.softwareag.com/webmethods/api_gateway/yai10-7/10-7_API_Gateway_webhelp/index.html#page/api-gateway-integrated-webhelp%2Fgtw_configure_es_events.html%23 for details on how to configure external elasticsearch destination for APIGateway 10.7.
         
     - Uncheck all the checkboxes in API Gateway Destination, Check all the checkboxes in Elastic search destination as shown in the below images.
