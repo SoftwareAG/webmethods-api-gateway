@@ -30,7 +30,7 @@ Steps to be followed to connect Default Kibana(bundled with API Gateway) to Exte
 
     ![](attachments/editPostmanCollection.png)
 
-8.  Run the PostmanCollection "***External ES And Internal Kibana***". It will reindex the dashboard index from internalDatastore to externalElasticsearch and create templates for gateway_<tenant-name>_analytics_* indices in
+8.  Run the PostmanCollection "***External ES And Internal Kibana***". It will reindex the dashboard index from internalDatastore to externalElasticsearch and create templates for " gateway_<_tenant-name_>\_analytics_* " &nbsp; indices in
     external Elasticsearch. 
     You can execute the below commands and cross verify the result after running the postman collection.
     
@@ -52,7 +52,7 @@ https://documentation.softwareag.com/webmethods/api_gateway/yai10-7/10-7_API_Gat
     
       ![](attachments/EsDestination.png)
     
-    - Make sure the Indexname is "gateway_<tenant-name>_analytics"(For example, if your tenant-name is "default" then your Indexname should be "gateway_default_analytics") in Elasticsearch destination Configuration page.
+    - Make sure the Indexname is "gateway_<_tenant-name_>_analytics"(For example, if your tenant-name is "default" then your Indexname should be "gateway_default_analytics") in Elasticsearch destination Configuration page.
     
       ![](attachments/EsDestinationConfiguration.png)
     
