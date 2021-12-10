@@ -36,7 +36,7 @@ Steps to be followed to connect Default Kibana(bundled with API Gateway) to Exte
     
     -   **GET http://<_ExternalElasticsearchHost_>:<_ExternalElasticsearchPort_>/_cat/indices**
         
-        ![](attachments/catIndices.PNG)
+        ![](attachments/catIndices.png)
         
     -  **GET http://<_ExternalElasticsearchHost_>:<_ExternalElasticsearchPort_>/_cat/templates**
     
