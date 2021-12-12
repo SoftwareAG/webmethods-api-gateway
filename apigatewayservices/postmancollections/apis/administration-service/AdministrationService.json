@@ -2080,26 +2080,23 @@
 								{
 									"key": "duration",
 									"value": "3d",
-									"description": "All the api transactions that are older than the value specified will be downloaded. Ex: duration='2d'. Possible values are d(days),M(months),y(years), lets say a. 2d means 2days   b. 1M  means 1 month   c. 1y means 1 year. Either one of (startDate&endDate) or duration is a mandatory parameter"
+									"description": "(Required) All the api transactions of the specified type that are older than the value specified are downloaded. Ex: duration='2d'. Possible types are d(days),M(months),y(years), For Example a) 2d means 2days b) 1M means 1 month c) 1y means 1 year. Either one of (startDate&endDate) or duration is a mandatory parameter"
 								},
 								{
 									"key": "startDate",
 									"value": "2020-04-18 00:00:00",
-									"description": "(Required) This is a date parameter. All the specified api transactions which satiesfies the startDate and endDate criteria will be downloaded. Example value: startDate=2017-12-18 00:00:00 and endDate=2017-12-19 00:00:00. Either one of (startDate and endDate) or duration is a mandatory parameter"
-								},
+									"description": "(Required) This is a date parameter. All the api transactions of the specified type which satisfies the startDate and endDate criteria are downloaded. Ex: startDate=2017-12-18 00:00:00 and endDate=2017-12-19 00:00:00. Either one of (startDate and endDate) or duration is a mandatory parameter"								},
 								{
 									"key": "endDate",
 									"value": "2020-04-21 00:00:00",
-									"description": "(Required) This is a date parameter. All the specified api transactions which satiesfies the startDate and endDate criteria will be downloaded. Example value: startDate=2017-12-18 00:00:00 and endDate=2017-12-19 00:00:00. Either one of (startDate and endDate) or duration is a mandatory parameter"
-								},
+									"description": "(Required) This is a date parameter. All the api transactions of the specified type which satisfies the startDate and endDate criteria are downloaded. Ex: startDate=2017-12-18 00:00:00 and endDate=2017-12-19 00:00:00. Either one of (startDate and endDate) or duration is a mandatory parameter"								},
 								{
 									"key": "eventType",
 									"value": "ALL",
-									"description": "(Required) This parameter is used to specify the event type that needs to be downloaded. specify any specific type to download that particular event type alone. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditLogs 9.applicationlogs"
-								}
+									"description": "(Required) This parameter is used to specify the event type to be downloaded. Specify eventType=ALL to download all the events. To download events of a specific type, specify the required event type Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditlogs 9.applicationlogs 10.mediatorTraceSpan 11.serverLogTraceSpan"								}
 							]
 						},
-						"description": "The GET method is used to download the api transactions data and data to be downloaded is filtered based on the input parameters. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."
+						"description": "The GET method is used to download the api transactions of the specified type. Data to be downloaded is filtered based on the input parameters. The user must either be a part of API-Gateway-Administrators group or must have the 'Manage purge and restore runtime events' privilege to perform this operation."
 					},
 					"response": [
 						{
@@ -2148,7 +2145,7 @@
 							"body": ""
 						},
 						{
-							"name": "This response indicates that invalid credentials have been provided for the request.",
+							"name": "This response indicates that invalid credentials have been provided in the request.",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -2193,7 +2190,7 @@
 							"body": ""
 						},
 						{
-							"name": "This status code indicates that the request URL is not valid.",
+							"name": "This status code indicates that the request URL is invalid.",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -2296,7 +2293,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseURL}}/apitransactions?action=purge&until=2020-04-21%2008:00:00&olderThan=&eventType=ALL",
+							"raw": "{{baseURL}}/apitransactions?action=purge&from=2020-04-20%2008:00:00&until=2020-04-21%2008:00:00&olderThan=&eventType=ALL",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -2307,35 +2304,40 @@
 								{
 									"key": "action",
 									"value": "purge",
-									"description": "This is an optional query parameter. Sometimes its better to take backup before purging the data . If you specify the action value as \"archiveAndPurge\", API Gateway will perform an archive before purging the data."
+									"description": "This is an optional query parameter. Sometimes its better to take backup before purging the data. If you specify the action value as \"archiveAndPurge\", API Gateway will perform an archive before purging the data."
+								},
+								{
+									"key": "from",
+									"value": "2020-04-20%2008:00:00",
+									"description": "(Required) This is a date parameter. All the api transactions of the specified type, from the given date, are purged. Ex: until=2017-12-18 00:00:00. Either one of (from and until) or olderThan is a mandatory parameter"
 								},
 								{
 									"key": "until",
 									"value": "2020-04-21%2008:00:00",
-									"description": "(Required) This is a date parameter. All the specified api transactions until the given date will be purged. Example value: until=2017-12-18 00:00:00. Either one of until or duration is a mandatory parameter"
+									"description": "(Required) This is a date parameter. All the api transactions of the specified type, until the given date, are purged. Ex: until=2017-12-18 00:00:00. Either one of (from and until) or olderThan is a mandatory parameter"
 								},
 								{
 									"key": "olderThan",
-									"value": "",
-									"description": "All the api transactions that are older than the value specified will be purged. Ex: olderThan='2d'. Possible values are d(days),M(months),y(years), lets say a. 2d means 2days   b. 1M  means 1 month   c. 1y means 1 year"
+									"value": "2d",
+									"description": "(Required) All the api transactions of the specified type, that are older than the value specified, are purged. Ex: olderThan='2d'. Possible types are d(days),M(months),y(years), For Example a) 2d means 2days b) 1M means 1 month c) 1y means 1 year"
 								},
 								{
 									"key": "eventType",
 									"value": "ALL",
-									"description": "(Required) This parameter is used to specify the event type that needs to be purged. Specify eventType=ALL to purge all the events and specify any specific type to purge that particular event type alone. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditLogs 9.applicationlogs"
+									"description": "(Required) This parameter is used to specify the event type to be purged. Specify eventType=ALL to purge all the events. To purge a specific event type, specify the required event type. Ex: eventType=transactionalEvents. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditlogs 9.applicationlogs 10.mediatorTraceSpan 11.serverLogTraceSpan"
 								}
 							]
 						},
-						"description": "The DELETE method is used to purge the api transactions data and data to be purged is filtered based on the input parameters. This method returns the job id as response and the job id is used to track the job status. See /apitransactions/jobs/{jobId} for more details. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."
+						"description": "The DELETE method is used to purge the api transactions of the specified type. Data to be purged is filtered based on the input parameters. This method returns a job id as response and this job id is used to track the job status. See /apitransactions/jobs/{jobId} for more details. The user must either be a part of API-Gateway-Administrators group or must have the 'Manage purge and restore runtime events' privilege to perform this operation."
 					},
 					"response": [
 						{
-							"name": "This status code indicates that the request URL is not valid.",
+							"name": "This status code indicates that the request URL is invalid.",
 							"originalRequest": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/apitransactions?action=<string>&until=<string>&olderThan=<string>&eventType=<string>",
+									"raw": "{{baseUrl}}/apitransactions?action=<string>&from=<string>&until=<string>&olderThan=<string>&eventType=<string>",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -2345,6 +2347,10 @@
 									"query": [
 										{
 											"key": "action",
+											"value": "<string>"
+										},
+										{
+											"key": "from",
 											"value": "<string>"
 										},
 										{
@@ -2375,12 +2381,12 @@
 							"body": ""
 						},
 						{
-							"name": "This response indicates that the purge process has been started and returned the jobId to track it further.",
+							"name": "This response indicates that the purge process has started and returns a jobId to track the status.",
 							"originalRequest": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/apitransactions?action=<string>&until=<string>&olderThan=<string>&eventType=<string>",
+									"raw": "{{baseUrl}}/apitransactions?action=<string>&from=<string>&until=<string>&olderThan=<string>&eventType=<string>",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -2390,6 +2396,10 @@
 									"query": [
 										{
 											"key": "action",
+											"value": "<string>"
+										},
+										{
+											"key": "from",
 											"value": "<string>"
 										},
 										{
@@ -2420,12 +2430,12 @@
 							"body": "\"{\\r\\n    \\\"jobId\\\": \\\"1504177213671\\\"\\r\\n}\""
 						},
 						{
-							"name": "This response indicates that the server has encountered an error while purging the api transactions. ",
+							"name": "This response indicates that the server has encountered an error while purging the api transactions.",
 							"originalRequest": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/apitransactions?action=<string>&until=<string>&olderThan=<string>&eventType=<string>",
+									"raw": "{{baseUrl}}/apitransactions?action=<string>&from=<string>&until=<string>&olderThan=<string>&eventType=<string>",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -2435,6 +2445,10 @@
 									"query": [
 										{
 											"key": "action",
+											"value": "<string>"
+										},
+										{
+											"key": "from",
 											"value": "<string>"
 										},
 										{
@@ -2465,12 +2479,12 @@
 							"body": ""
 						},
 						{
-							"name": "This response indicates that invalid credentials have been provided for the request.",
+							"name": "This response indicates that invalid credentials have been provided in the request.",
 							"originalRequest": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/apitransactions?action=<string>&until=<string>&olderThan=<string>&eventType=<string>",
+									"raw": "{{baseUrl}}/apitransactions?action=<string>&from=<string>&until=<string>&olderThan=<string>&eventType=<string>",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -2480,6 +2494,10 @@
 									"query": [
 										{
 											"key": "action",
+											"value": "<string>"
+										},
+										{
+											"key": "from",
 											"value": "<string>"
 										},
 										{
@@ -2532,7 +2550,7 @@
 								"typedefinitions"
 							]
 						},
-						"description": "Returns the list of runtime event types. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditLogs 9.applicationlogs. You can use these eventType to scope the archive/purge operation.  The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."
+						"description": "Returns the list of runtime event types. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditlogs 9.applicationlogs. You can use these eventType to scope the archive/purge operation. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."				
 					},
 					"response": [
 						{
@@ -2592,7 +2610,7 @@
 							"body": "\"{\\r\\n    \\\"Mappings\\\": [\\r\\n        \\\"performanceMetrics\\\",\\r\\n        \\\"monitorEvents\\\",\\r\\n        \\\"transactionalEvents\\\",\\r\\n        \\\"policyViolationEvents\\\",\\r\\n        \\\"errorEvents\\\",\\r\\n        \\\"threatProtectionEvents\\\",\\r\\n        \\\"lifecycleEvents\\\",\\r\\n        \\\"auditLogs\\\"\\r\\n,\\r\\n        \\\"applicationlogs\\\"\\r\\n     ]\\r\\n}\""
 						},
 						{
-							"name": "This response indicates that invalid credentials have been provided for the request.",
+							"name": "This response indicates that invalid credentials have been provided in the request.",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -2642,7 +2660,7 @@
 								"archives"
 							]
 						},
-						"description": "This GET method is used to fetch the details of existing archive files and response of this method would be the list of archive file names. Select one from the list of archive file names returned by this method and use the POST /apitransactions/archives/{fileName} method to restore.The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."
+						"description": "This GET method is used to fetch the details of existing archive files and response of this method is the list of archive file names. Select a filename from the list of archive file names returned by this method and use the POST method /apitransactions/archives/{fileName} to restore.The user must either be a part of API-Gateway-Administrators group or must have 'Manage purge and restore runtime events' privilege to perform this operation."				
 					},
 					"response": [
 						{
@@ -2702,7 +2720,7 @@
 							"body": "\"{\\r\\n    \\\"archiveFiles\\\": [\\r\\n        \\\"default-2017-08-29-1504011306456\\\",\\r\\n        \\\"default-2017-08-29-1504012415981\\\"\\r\\n    ]\\r\\n}\""
 						},
 						{
-							"name": "This response indicates that invalid credentials have been provided for the request.",
+							"name": "This response indicates that invalid credentials have been provided in the request.",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -2743,7 +2761,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseURL}}/apitransactions/archives?until=2020-04-21%2008:00:00&olderThan=&eventType=ALL",
+							"raw": "{{baseURL}}/apitransactions/archives?until=2020-04-20%2008:00:00&until=2020-04-21%2008:00:00&olderThan=&eventType=ALL",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -2753,23 +2771,28 @@
 							],
 							"query": [
 								{
+									"key": "from",
+									"value": "2020-04-20%2008:00:00",
+									"description": "(Required) This is a date parameter. All the api transactions of specified type, from the given date, are archived. Ex: from=2017-12-18 00:00:00. Either one of (from and until) or olderThan is a mandatory parameter"
+								},
+								{
 									"key": "until",
 									"value": "2020-04-21%2008:00:00",
-									"description": "(Required) This is a date parameter. All the specified api transactions until the given date will be purged. Example value: until=2017-12-18 00:00:00. Either one of until or duration is a mandatory parameter"
+									"description": "(Required) This is a date parameter. All the api transactions of specified type, from the given date, are archived. Ex: from=2017-12-19 00:00:00. Either one of (from and until) or olderThan is a mandatory parameter"
 								},
 								{
 									"key": "olderThan",
-									"value": "",
-									"description": "All the api transactions that are older than the value specified will be purged. Ex: olderThan='2d'. Possible values are d(days),M(months),y(years), lets say a. 2d means 2days b. 1M means 1 month c. 1y means 1 year"
+									"value": "2d",
+									"description": "(Required) All the api transactions of specified type that are older than the value specified are archived. Ex: olderThan='2d'. Possible types are d(days),M(months),y(years), For Example a) 2d means 2days b) 1M means 1 month c) 1y means 1 year"
 								},
 								{
 									"key": "eventType",
 									"value": "ALL",
-									"description": "(Required) This parameter is used to specify the api transaction type. Specify eventType=ALL to archive all the events and specify any specific type to archive that particular event type alone. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditLogs 9.applicationlogs"
+									"description": "(Required) This parameter is used to specify the api transaction type.Specify eventType=ALL to archive all the events. To archive a specific event type, specify the required event type. Ex: eventType=transactionalEvents. The available event types are as follows 1.transactionalEvents 2.monitorEvents 3.errorEvents 4.performanceMetrics 5.threatProtectionEvents 6.lifecycleEvents 7.policyViolationEvents 8.auditlogs 9.applicationlogs 10.mediatorTraceSpan 11.serverLogTraceSpan"
 								}
 							]
 						},
-						"description": "This method is used to archive the runtime events and metrics. You can additionally scope the archive data using input parameter filters. This method returns the job id as the response which will be used to know the status of the job. \n\nUse the GET /apitransactions/jobs/{jobId} to know the status, file name and use POST /apitransactions/archives/{fileName} method to restore. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."
+						"description": "This method is used to archive the runtime events and metrics. Data to be archived is filtered based on the input parameters. This method returns the job id as the response which is used to know the job status. Use GET /apitransactions/jobs/{jobId} method to know the status and file name, use POST /apitransactions/archives/{fileName} method to restore. The user must either be a part of the API-Gateway-Administrators group or must have the 'Manage purge and restore runtime events' privilege to perform this operation."
 					},
 					"response": [
 						{
@@ -2778,7 +2801,7 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/apitransactions/archives?until=<string>&olderThan=<string>&eventType=<string>",
+									"raw": "{{baseUrl}}/apitransactions/archives?from=<string>&until=<string>&olderThan=<string>&eventType=<string>",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -2787,6 +2810,10 @@
 										"archives"
 									],
 									"query": [
+										{
+											"key": "from",
+											"value": "<string>"
+										},
 										{
 											"key": "until",
 											"value": "<string>"
@@ -2815,12 +2842,12 @@
 							"body": ""
 						},
 						{
-							"name": "This status code indicates that the request URL is not valid.",
+							"name": "This status code indicates that the request URL is invalid.",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/apitransactions/archives?until=<string>&olderThan=<string>&eventType=<string>",
+									"raw": "{{baseUrl}}/apitransactions/archives?from=<string>&until=<string>&olderThan=<string>&eventType=<string>",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -2829,6 +2856,10 @@
 										"archives"
 									],
 									"query": [
+										{
+											"key": "from",
+											"value": "<string>"
+										},
 										{
 											"key": "until",
 											"value": "<string>"
@@ -2857,12 +2888,12 @@
 							"body": ""
 						},
 						{
-							"name": "This response indicates that invalid credentials have been provided for the request.",
+							"name": "This response indicates that invalid credentials have been provided in the request.",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/apitransactions/archives?until=<string>&olderThan=<string>&eventType=<string>",
+									"raw": "{{baseUrl}}/apitransactions/archives?from=<string>&until=<string>&olderThan=<string>&eventType=<string>",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -2871,6 +2902,10 @@
 										"archives"
 									],
 									"query": [
+										{
+											"key": "from",
+											"value": "<string>"
+										},
 										{
 											"key": "until",
 											"value": "<string>"
@@ -2899,12 +2934,12 @@
 							"body": ""
 						},
 						{
-							"name": "This response indicates that the archiving process has been started and returned the jobId to track it further.",
+							"name": "This response indicates that the archive process has started and returns a jobId to track the status.",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/apitransactions/archives?until=<string>&olderThan=<string>&eventType=<string>",
+									"raw": "{{baseUrl}}/apitransactions/archives?from=<string>&until=<string>&olderThan=<string>&eventType=<string>",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -2913,6 +2948,10 @@
 										"archives"
 									],
 									"query": [
+										{
+											"key": "from",
+											"value": "<string>"
+										},
 										{
 											"key": "until",
 											"value": "<string>"
@@ -2967,11 +3006,11 @@
 								{
 									"key": "fileName",
 									"value": "default-2020-04-21-1587455014170",
-									"description": "(Required) This parameter indicates the file name to restore. Ex: fileName=default-2017-08-29-1504011306456."
+									"description": "(Required) This parameter indicates the file name to be restored. Ex: fileName=default-2017-08-29-1504011306456."
 								}
 							]
 						},
-						"description": "This method is used to restore the runtime data by specifying the archive file name. See GET /apitransactions/archives/ to know how to get the existing archive file names for more details. This method returns the job id as a response to track the status further. The user should be part of API-Gateway-Administrators group or else should have 'Manage purge and restore runtime events' privilege to perform this operation."
+						"description": "This method is used to restore the runtime data by specifying the archive file name.For more details see GET /apitransactions/archives/ to know how to get the existing archive file names. This method returns a job id as a response to track the status. The user must either be a part of API-Gateway-Administrators group or must have the 'Manage purge and restore runtime events' privilege to perform this operation."
 					},
 					"response": [
 						{
@@ -3009,7 +3048,7 @@
 							"body": ""
 						},
 						{
-							"name": "This response indicates that invalid credentials have been provided for the request.",
+							"name": "This response indicates that invalid credentials have been provided in the request.",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -3043,7 +3082,7 @@
 							"body": ""
 						},
 						{
-							"name": "This response indicates that the restore process has been started and returned the jobId to track it further.",
+							"name": "This response indicates that the restore process has started and returns a jobId to track the status.",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -3075,6 +3114,258 @@
 							],
 							"cookie": [],
 							"body": "\"{\\r\\n    \\\"jobId\\\": \\\"1504177213671\\\"\\r\\n}\""
+						}
+					]
+				},
+				{
+					"name": "List all the pending jobs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/apitransactions/jobs",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"apitransactions",
+								"jobs"
+							]
+						},
+						"description": "This method returns a list of pending jobs. Every time you initiate archive, restore, or purge operation you get a job id as a response. You can use the specific job id to query the status of the initiated operation. The user must either be part of the API-Gateway-Administrators group or must have 'Manage purge and restore runtime events' privilege to perform this operation."
+					},
+					"response": [
+						{
+							"name": "This response indicates that the server encountered an error while returning the list of in progress job ids. ",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/jobs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"jobs"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that invalid credentials have been provided in the request.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/jobs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"jobs"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that the list of in progress job ids has been returned to the requester.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/jobs",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"jobs"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"pendingJobs\\\": [\\\"1504177213671\\\",\\\"1504177213672\\\"]\\r\\n}\""
+						}
+					]
+				},
+				{
+					"name": "Get job status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/apitransactions/jobs/:jobId",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"apitransactions",
+								"jobs",
+								":jobId"
+							],
+							"variable": [
+								{
+									"key": "jobId",
+									"value": "1234432412312",
+									"description": "(Required) This parameter indicates the job Id. Job Id is required to identify and track the status of a job which has been initiated. Ex: jobId=1504011632215."
+								}
+							]
+						},
+						"description": "Use this method to know the status of a specific job. This method returns the status and file name (in case of archive process) as a response. The user must either be a part of the API-Gateway-Administrators group or must have the 'Manage purge and restore runtime events' privilege to perform this operation."
+					},
+					"response": [
+						{
+							"name": "This response indicates that the server encountered an error while returning the status of the job.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/jobs/:jobId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"jobs",
+										":jobId"
+									],
+									"variable": [
+										{
+											"key": "jobId",
+											"value": "1234432412312",
+											"description": "(Required) This parameter indicates the job Id. Job Id is required to identify and track the status of a job which has been initiated. Ex: jobId=1504011632215."
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that invalid credentials have been provided in the request.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/jobs/:jobId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"jobs",
+										":jobId"
+									],
+									"variable": [
+										{
+											"key": "jobId",
+											"value": "1234432412312",
+											"description": "(Required) This parameter indicates the job Id. Job Id is required to identify and track the status of a job which has been initiated. Ex: jobId=1504011632215."
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "This response indicates that the status of the job is returned to the requester.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/apitransactions/jobs/:jobId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"apitransactions",
+										"jobs",
+										":jobId"
+									],
+									"variable": [
+										{
+											"key": "jobId",
+											"value": "d7f53ecb-9b68-4ad6-9f53-c791937e6928",
+											"description": "(Required) This parameter indicates the job Id. Job Id is required to identify and track the status of a job which has been initiated. Ex: jobId=d7f53ecb-9b68-4ad6-9f53-c791937e6928."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\r\\n    \\\"status\\\": \\\"Completed\\\",\\r\\n    \\\"action\\\": \\\"archive\\\",\\r\\n    \\\"jobId\\\": \\\"d7f53ecb-9b68-4ad6-9f53-c791937e6928\\\",\\r\\n    \\\"creationDate\": \\\"2021-12-06 07:17:59 GMT\\\",\\r\\n    \\\"Filename\\\": \\\"default-2021-12-06-1638775079316\\\"\\r\\n}\""
 						}
 					]
 				}
