@@ -83,3 +83,9 @@ Securing API Gateway and its Components using HTTPS
 SSL creates a secure connection between servers and clients over the web and internal network, safeguarding sensitive data for secure transmission. The Hypertext Transfer Protocol Secure (HTTPS) is an internet communication protocol that protects the integrity and confidentiality of data between the user's computer and the site. The data sent over HTTPS is secured using SSL/TLS, which provides protection using encrypted channels.
 
 The API Management setup comprises various components, such as, API Gateway server, API Gateway UI, Elasticsearch, API Portal, Kibana, and Terracotta. You must create secure connections between these components in order to enable a secure channel of communication. This article explains how to enable SSL support for the components of an API Management setup. **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Full%20HTTPS%20Configuration%3A%20Securing%20API%20Gateway%20and%20its%20Components%20using%20HTTPS)**
+
+Steps to connect Internal kibana to External Elasticsearch for analytics
+------------------------------------------------------------------------
+
+This tutorial will guide you to connect the dashboards (Kibana,bundled with API Gateway) to external Elasticsearch where the transactional events or other analytics data are stored. In API Gateway, it is possible to use the "Destinations" feature to send transactional logs to an external Elasticsearch while you still use the Internal Data Store to store your core data (assets/configurations). **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/Full%20HTTPS%20Configuration%3A%20Securing%20API%20Gateway%20and%20its%20Components%20using%20HTTPS)**
+Steps-to-connect-Internal-kibana-to-ExternalES-for-analytics-while-the-core-configuration-is-stored-in-InternalDataStore
