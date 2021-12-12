@@ -10,14 +10,14 @@ Steps to be followed to connect Default Kibana(bundled with API Gateway) to Exte
     ```
     elasticsearch.hosts: "http://<ExternalElasticsearchHost>:<ExternalElasticsearchPort>"
     ```
-3.  Remote hosts have to be explicitly allowed in ***elasticsearch.yml*** file of External Elasticsearch using the reindex.remote.whitelist property.
+3.  Remote hosts have to be explicitly allowed in ***elasticsearch.yml*** file of external Elasticsearch using the reindex.remote.whitelist property.
    
-    For Example if our InternalDatastore which is running in our local machine uses the port 9240, then reindex.remote.whitelist should point to localhost:9240.
+    For example if the InternalDatastore (where the core assets are stored) is running in the node core_data_node and uses the port 9240, then reindex.remote.whitelist in the external Elasticsearch should point to core_data_node:9240.
     ```
-    reindex.remote.whitelist : localhost:9240
+    reindex.remote.whitelist : core_data_node:9240
     ``` 
     (Here reindex.remote.whitelist property can be set to list of comma delimited allowed remote host and port combinations.)
-4.  Start External Elasticsearch.
+4.  Start external Elasticsearch.
 5.  Start APIGateway and InternalDatastore.
 6.  Import the postman collection "[External ES And Internal Kibana](attachments/External_Es_And_Internal_Kibana.json)".
 7.  Edit internalESHost,internalESPort,externalESHost,externalESPort,tenant_name variables in "External ES And Internal Kibana" postmanCollection as per your need.
@@ -30,7 +30,7 @@ Steps to be followed to connect Default Kibana(bundled with API Gateway) to Exte
 
     ![](attachments/editPostmanCollection.png)
 
-8.  Run the PostmanCollection "***External ES And Internal Kibana***". It will reindex the dashboard index from internalDatastore to externalElasticsearch and create templates for " gateway_<_tenant-name_>\_analytics_* " &nbsp; indices in
+8.  Run the PostmanCollection "***External ES And Internal Kibana***". It will reindex the dashboard index from InternalDatastore to external Elasticsearch and create templates for " gateway_<_tenant-name_>\_analytics_* " &nbsp; indices in
     external Elasticsearch. 
     You can execute the below commands and cross verify the result after running the postman collection.
     
