@@ -43,8 +43,7 @@ Steps to be followed to connect Default Kibana(bundled with API Gateway) to Exte
         ![](attachments/catTemplates.png)
         
 10. Start Kibana using the kibana.bat file located at ***<SAG_Root>/profiles/IS_default/apigateway/dashboard/bin***.
-11. Configure your external Elasticsearch destination details in the Administration screen.Refer https://documentation.softwareag.com/webmethods/api_gateway/yai10-7/10-7_API_Gateway_webhelp/index.html#page/api-gateway-integrated-webhelp%2Fgtw_configure_es.html%23 and
-https://documentation.softwareag.com/webmethods/api_gateway/yai10-7/10-7_API_Gateway_webhelp/index.html#page/api-gateway-integrated-webhelp%2Fgtw_configure_es_events.html%23 for details on how to configure external elasticsearch destination for APIGateway 10.7.
+11. Configure your external Elasticsearch destination details in the Administration screen.Refer to product document for details on how to configure external elasticsearch destination for APIGateway 10.7.
         
     - Uncheck all the checkboxes in API Gateway Destination and check all the checkboxes in Elasticsearch destination as shown in the below images.
     
