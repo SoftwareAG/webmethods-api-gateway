@@ -34,7 +34,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"source\": {\r\n    \"remote\": {\r\n      \"host\": \"http://{{internalESHost}}:{{internalESPort}}\"\r\n    },\r\n    \"index\": \"{{internalDashboardIndexname}}\"\r\n    },\r\n  \"dest\": {\r\n     \"index\": \"gateway_{{tenant_name}}_dashboard\"\r\n  }\r\n}",
+					"raw": "{\r\n  \"source\": {\r\n    \"remote\": {\r\n      \"host\": \"http://{{internalESHost}}:{{internalESPort}}\"\r\n    },\r\n    \"index\": \"gateway_{{tenant_name}}_dashboard\"\r\n    },\r\n  \"dest\": {\r\n     \"index\": \"gateway_{{tenant_name}}_dashboard\"\r\n  }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -638,10 +638,6 @@
 		{
 			"key": "tenant_name",
 			"value": "default"
-		},
-		{
-			"key": "internalDashboardIndexname",
-			"value": "gateway_default_dashboard"
 		},
 		{
 			"key": "templatePayload",
