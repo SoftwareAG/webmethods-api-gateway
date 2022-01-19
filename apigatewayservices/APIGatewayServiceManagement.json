@@ -1544,8 +1544,7 @@
               "additionalProperties" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "#/definitions/TraceLog",
-                  "originalRef" : "TraceLog"
+                  "$ref" : "#/definitions/TraceLog"
                 }
               }
             }
@@ -3813,7 +3812,6 @@
           "additionalProperties" : {
             "type" : "array",
             "items" : {
-              "originalRef" : "GqlEnumTypeExtensionDefinition",
               "$ref" : "#/definitions/GqlEnumTypeExtensionDefinition"
             }
           }
@@ -3824,7 +3822,6 @@
           "additionalProperties" : {
             "type" : "array",
             "items" : {
-              "originalRef" : "GqlInputObjectTypeExtensionDefinition",
               "$ref" : "#/definitions/GqlInputObjectTypeExtensionDefinition"
             }
           }
@@ -3835,7 +3832,6 @@
           "additionalProperties" : {
             "type" : "array",
             "items" : {
-              "originalRef" : "GqlInterfaceTypeExtensionDefinition",
               "$ref" : "#/definitions/GqlInterfaceTypeExtensionDefinition"
             }
           }
@@ -3846,7 +3842,6 @@
           "additionalProperties" : {
             "type" : "array",
             "items" : {
-              "originalRef" : "GqlObjectTypeExtensionDefinition",
               "$ref" : "#/definitions/GqlObjectTypeExtensionDefinition"
             }
           }
@@ -3857,7 +3852,6 @@
           "additionalProperties" : {
             "type" : "array",
             "items" : {
-              "originalRef" : "GqlScalarTypeExtensionDefinition",
               "$ref" : "#/definitions/GqlScalarTypeExtensionDefinition"
             }
           }
@@ -3885,7 +3879,6 @@
           "additionalProperties" : {
             "type" : "array",
             "items" : {
-              "originalRef" : "GqlUnionTypeExtensionDefinition",
               "$ref" : "#/definitions/GqlUnionTypeExtensionDefinition"
             }
           }
@@ -4362,8 +4355,7 @@
             "additionalProperties" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/TraceLog",
-                "originalRef" : "TraceLog"
+                "$ref" : "#/definitions/TraceLog"
               }
             }
           }

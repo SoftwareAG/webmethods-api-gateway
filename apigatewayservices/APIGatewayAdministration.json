@@ -3684,7 +3684,7 @@
       },
       "put" : {
         "description" : "The method updates the proxyBypassAddresses to bypass the outbound proxy servers. The API request body must contain the payload. In the proxyBypassAddresses field, type the fully qualified host and domain name of each server to which you want the Integration Server to issue requests directly. Type the host name and the domain name exactly as they appear in the URLs the server uses. To enter multiple names, separate each with commas.\r\nYou can use the asterisk (*) to identify several servers with similar names. The asterisk matches any number of characters. For example, if you want to bypass requests made to localhost, www.yahoo.com, home.microsoft.com, and all hosts whose names begin with NYC, you would type:\r\nlocalhost,www.yahoo.com,home.microsoft.com, NYC*.*",
-        "operationId" : "saveProxyBypass",
+        "operationId" : "updateProxyBypass",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -4628,7 +4628,7 @@
     "/migration/status" : {
       "get" : {
         "description" : "RRetrieves the current status of the migration action which is invoked in API Gateway.",
-        "operationId" : "migration",
+        "operationId" : "getMigrationStatus",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "action",
@@ -5183,7 +5183,7 @@
     "/rule/{ruleId}/activate" : {
       "put" : {
         "description" : "This REST request is used to activate a rule and this request doesn't require any request body.",
-        "operationId" : "updateRule",
+        "operationId" : "activateRule",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -5225,7 +5225,7 @@
     "/rule/{ruleId}/deactivate" : {
       "put" : {
         "description" : "This REST request is used to deactivate a rule and it doesn't require any request body.",
-        "operationId" : "updateRule",
+        "operationId" : "deactivateRule",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -6000,7 +6000,7 @@
         },
         "Ignite" : {
           "type" : "object",
-          "properties" : {        
+          "properties" : {
             "portRange" : {
               "type" : "integer",
               "format" : "int32",
