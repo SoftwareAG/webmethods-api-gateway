@@ -187,7 +187,7 @@
     "/authenticate" : {
       "post" : {
         "description" : "This HTTP request authenticates an User in API Gateway.",
-        "operationId" : "authorizeUser",
+        "operationId" : "authorize",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
