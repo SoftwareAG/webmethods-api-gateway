@@ -16,7 +16,7 @@ API Mocking is nothing but the imitation of real API. It simulates the behavior 
 SOAP to REST Transformation
 ---------------------------
 
-SOAP web services are commonly used to expose data within enterprises. With the rapid adoption of the REST APIs, it is now a necessity for API providers to have the ability to provide RESTful interfaces to their existing SOAP web services instead of creating new REST APIs. Using the API Gateway SOAP to REST transformation feature, the API provider can either expose the parts of the SOAP API or expose the complete SOAP API with RESTful interface. API Gateway allows you to customize the way the SOAP operations are exposed as REST resources. Additionally, the Swagger or RAML definitions can be generated for these REST interfaces. **[Read on...](http://techcommunity.softwareag.com/pwiki/-/wiki/Main/SOAP%20to%20REST%20Transformation)**
+SOAP web services are commonly used to expose data within enterprises. With the rapid adoption of the REST APIs, it is now a necessity for API providers to have the ability to provide RESTful interfaces to their existing SOAP web services instead of creating new REST APIs. Using the API Gateway SOAP to REST transformation feature, the API provider can either expose the parts of the SOAP API or expose the complete SOAP API with RESTful interface. API Gateway allows you to customize the way the SOAP operations are exposed as REST resources. Additionally, the Swagger or RAML definitions can be generated for these REST interfaces. **[Read on...](https://tech.forums.softwareag.com/t/soap-to-rest-transformation/236956)**
 
 Teams in API Gateway
 --------------------

@@ -23,11 +23,6 @@
             },
             "schema" : {
               "$ref" : "#/definitions/HealthCheckAdminResult",
-              "originalRef" : "#/definitions/HealthCheckAdminResult"
-            },
-            "responseSchema" : {
-              "$ref" : "#/definitions/HealthCheckAdminResult",
-              "originalRef" : "#/definitions/HealthCheckAdminResult"
             }
           },
           "401" : {
@@ -47,11 +42,6 @@
             "description" : "successful operation",
             "schema" : {
               "$ref" : "#/definitions/HealthCheckAllResult",
-              "originalRef" : "#/definitions/HealthCheckAllResult"
-            },
-            "responseSchema" : {
-              "$ref" : "#/definitions/HealthCheckAllResult",
-              "originalRef" : "#/definitions/HealthCheckAllResult"
             }
           },
           "401" : {
@@ -74,11 +64,6 @@
             },
             "schema" : {
               "$ref" : "#/definitions/HealthCheckEngineResult",
-              "originalRef" : "#/definitions/HealthCheckEngineResult"
-            },
-            "responseSchema" : {
-              "$ref" : "#/definitions/HealthCheckEngineResult",
-              "originalRef" : "#/definitions/HealthCheckEngineResult"
             }
           },
           "401" : {
@@ -101,11 +86,6 @@
             },
             "schema" : {
               "$ref" : "#/definitions/HealthCheckExternalResult",
-              "originalRef" : "#/definitions/HealthCheckExternalResult"
-            },
-            "responseSchema" : {
-              "$ref" : "#/definitions/HealthCheckExternalResult",
-              "originalRef" : "#/definitions/HealthCheckExternalResult"
             }
           },
           "401" : {
@@ -140,15 +120,12 @@
       "properties" : {
         "admin" : {
           "$ref" : "#/definitions/HealthCheckAdminResult",
-          "originalRef" : "#/definitions/HealthCheckAdminResult"
         },
         "engine" : {
           "$ref" : "#/definitions/HealthCheckEngineResult",
-          "originalRef" : "#/definitions/HealthCheckEngineResult"
         },
         "external" : {
           "$ref" : "#/definitions/HealthCheckExternalResult",
-          "originalRef" : "#/definitions/HealthCheckExternalResult"
         }
       }
     },

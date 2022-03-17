@@ -331,6 +331,236 @@
           "type" : "string",
           "enum" : [ "true", "false" ]
         }, {
+          "name" : "policies",
+          "in" : "query",
+          "description" : "This parameter identifies the policies to be imported. The wildcard \"*\" selects all the policies. \nFor example a single policy can be imported with its id using the following request:\nPOST /rest/apigateway/archive?policies=07b8d7b7-20b7-422e-8464-4b19d405c41a\n\nWhereas, all the policies can be imported using the following request:\nPOST /rest/apigateway/archive?policies=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "policies=07b8d7b7-20b7-422e-8464-4b19d405c41a"
+        }, {
+          "name" : "apis",
+          "in" : "query",
+          "description" : "This parameter identifies the APIs to be imported. The wildcard \"*\" imports all the APIs. \nFor example a single API can be imported using the following request:\nPOST /rest/apigateway/archive?apis=e2996867-af49-4ac6-98e7-cba48837c13e\n\nWhereas, all the APIs from an archive can be imported using the following request:\nPOST /rest/apigateway/archive?apis=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "apis=e2996867-af49-4ac6-98e7-cba48837c13e"
+        }, {
+          "name" : "aliases",
+          "in" : "query",
+          "description" : "This parameter identifies the aliases to be imported. \nThe wildcard \"*\" selects all aliases.\nFor example, a single alias can be imported using the following requrest:\nPOST /rest/apigateway/archive?aliases=d1885756-9e38-39b5-87d6-ba937726b02d\n\nWhereas, all the APIs can be imported using the following request:\nPOST /rest/apigateway/archive?alias=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "aliases=d1885756-9e38-39b5-87d6-ba937726b02d"
+        }, {
+          "name" : "applications",
+          "in" : "query",
+          "description" : "This parameter identifies the applications to be imported. \nThe wildcard \"*\" selects all applications.\nFor example, a single application can be imported using the following requrest:\nPOST /rest/apigateway/archive?applications=d1885756-9e38-39b5-87d6-ba937726b02d\n\nWhereas, all the applications can be imported using the following request:\nPOST /rest/apigateway/archive?applications=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "applications=d1885756-9e38-39b5-87d6-ba937726b02d"
+        }, {
+          "name" : "approvalConfigurations",
+          "in" : "query",
+          "description" : "This parameter identifies the approval configurations to be imported. \nThe wildcard \"*\" selects all approval configurations.\nFor example, a single approval configuration can be imported using the following request:\nPOST /rest/apigateway/archive?approvalConfigurations=createApplication\n\nWhereas, all the approval configurations can be imported using the following request:\n POST /rest/apigateway/archive?approvalConfigurations=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "enum" : [ "createApplication", "updateApplication", "registerApplication", "subscribePackage" ]
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "approvalConfigurations=createApplication"
+        }, {
+          "name" : "outboundProxies",
+          "in" : "query",
+          "description" : "This parameter identifies the outbound proxy aliases to be imported. outbound proxy aliases are idetified with it's name.\nThe wildcard \"*\" selects all the outbound proxy aliases. \nFor example a single outbound proxy alias can be imported using the following request:\nPOST /rest/apigateway/archive?outboundProxies=testOutboundProxyAlias\n\nWhereas, all the outbound proxy aliases can be imported using the following request:\nPOST /rest/apigateway/archive?outboundProxies=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "outboundProxies=testOutboundProxyAlias"
+        }, {
+          "name" : "urlAliases",
+          "in" : "query",
+          "description" : "This parameter identifies the URL aliases to be imported. URL aliases are idetified with it's name.\nThe wildcard \"*\" selects all the URL aliases. \nFor example, a single URL alias can be imported using the following request:\nPOST /rest/apigateway/archive?urlAliases=testUrlAlias\n\nWhereas, all the URL aliases can be imported using the following request:\nPOST /rest/apigateway/archive?testUrlAlias=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "urlAliases=testUrlAlias"
+        }, {
+          "name" : "keyStores",
+          "in" : "query",
+          "description" : "This parameter identifies the keystore aliases to be imported. Keystore aliases are idetified with it's name.\nThe wildcard \"*\" selects all the keystore aliases. \nFor example, a single keystore alias can be imported using the following request:\nPOST /rest/apigateway/archive?keyStores=test_keystore\n\nWhereas, all the keystore aliases can be imported using the following request:\nPOST /rest/apigateway/archive?keyStores=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "keyStores=test_keystore"
+        }, {
+          "name" : "trustStores",
+          "in" : "query",
+          "description" : "This parameter identifies the truststore aliases to be imported. Truststore aliases are idetified with it's name.\nThe wildcard \"*\" selects all the truststore aliases. \nFor example, a single truststore alias can be imported using the following request:\nPOST /rest/apigateway/archive?trustStores=test_truststore\n\nWhereas, all the truststore aliases can be imported using the following request:\nPOST /rest/apigateway/archive?trustStores=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "trustStores=test_truststore"
+        }, {
+          "name" : "JNDIProviderAliases",
+          "in" : "query",
+          "description" : "This parameter identifies the JNDI provider aliases to be imported. JNDI provider aliases are idetified with it's name.\nThe wildcard \"*\" selects all the JNDI provider aliases. \nFor example, a single JNDI provider alias can be imported using the following request:\nPOST /rest/apigateway/archive?JNDIProviderAliases=test_jndiProviderAlias\n\nWhereas, all the JNDI provider aliases can be imported using the following request:\nPOST /rest/apigateway/archive?JNDIProviderAliases=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "JNDIProviderAliases=test_jndiProviderAlias"
+        }, {
+          "name" : "JMSConnectionAliases",
+          "in" : "query",
+          "description" : "This parameter identifies the JMS connection aliases to be imported. JMS connection aliases are idetified with it's name.\nThe wildcard \"*\" selects all the JNDI provider aliases. \nFor example, a single JNDI provider alias can be imported using the following request:\nPOST /rest/apigateway/archive?JMSConnectionAliases=test_jmsConnectionAlias\n\nWhereas, all the JMS connection aliases can be imported using the following request:\nPOST /rest/apigateway/archive?JMSConnectionAliases=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "JMSConnectionAliases=test_jmsConnectionAlias"
+        }, {
+          "name" : "JMSTriggers",
+          "in" : "query",
+          "description" : "This parameter identifies the JMS triggers to be imported. JMS triggers are idetified with it's name.\nThe wildcard \"*\" selects all the JMS triggers. \nFor example, a single JMS trigger can be imported using the following request:\nPOST /rest/apigateway/archive?JMSTriggers=test_jmsTrigger\n\nWhereas, all the JMS triggers can be imported using the following request:\nPOST /rest/apigateway/archive?JMSTriggers=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "JMSTriggers=test_jmsTrigger"
+        }, {
+          "name" : "webserviceEndpointAliases",
+          "in" : "query",
+          "description" : "This parameter identifies the 'web service endpoint' aliases to be imported. Web service endpoint aliases are idetified with it's name.\nThe wildcard \"*\" selects all the web service endpoint aliases. \nFor example, a single web service endpoint alias can be imported using the following request:\nPOST /rest/apigateway/archive?webserviceEndpointAliases=test_wsEndpointAlias\n\nWhereas, all the JMS triggers can be imported using the following request:\nPOST /rest/apigateway/archive?webserviceEndpointAliases=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "webserviceEndpointAliases=test_wsEndpointAlias"
+        }, {
+          "name" : "users",
+          "in" : "query",
+          "description" : "This parameter identifies the users to be imported. \nThe wildcard \"*\" selects all the users. \nFor example, a single user can be imported using the following request:\nPOST /rest/apigateway/archive?users=7a6d3d40-44d8-4ab1-83df-5be63cdbae54\n\nWhereas, all the users can be imported using the following request:\nPOST /rest/apigateway/archive?users=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "users=7a6d3d40-44d8-4ab1-83df-5be63cdbae54"
+        }, {
+          "name" : "groups",
+          "in" : "query",
+          "description" : "This parameter identifies the groups to be imported. \nThe wildcard \"*\" selects all the groups. \nFor example, a single group can be imported using the following request:\nPOST /rest/apigateway/archive?groups=d6b38ff8-59a8-47bf-9fba-0bdb24ee5b48\n\nWhereas, all the groups can be imported using the following request:\nPOST /rest/apigateway/archive?groups=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "groups=d6b38ff8-59a8-47bf-9fba-0bdb24ee5b48"
+        }, {
+          "name" : "accessProfiles",
+          "in" : "query",
+          "description" : "This parameter identifies the teams to be imported. \nThe wildcard \"*\" selects all the teams. \nFor example, a single team can be imported using the following request:\nPOST /rest/apigateway/archive?accessProfiles=d6b38ff8-59a8-47bf-9fba-0bdb24ee5b48\n\nWhereas, all the teams can be imported using the following request:\nPOST /rest/apigateway/archive?accessProfiles=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "accessProfiles=836fd806-4845-452f-9d7a-7e619e40a70e"
+        }, {
+          "name" : "kerberosSetting",
+          "in" : "query",
+          "description" : "This parameter identifies the kerberos configuration to be imported.\nThe kerberos configuration can be imported using the following request:\nPOST /rest/apigateway/archive?kerberosSetting=kerberosSetting",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "kerberosSetting" ],
+          "x-example" : "kerberosSetting=kerberosSetting"
+        }, {
+          "name" : "plans",
+          "in" : "query",
+          "description" : "This parameter identifies the plans to be imported. \nThe wildcard \"*\" selects all the plans. \nFor example, a single plan can be imported using the following request:\nPOST /rest/apigateway/archive?plans=86d58023-be4b-4735-a08f-14e78131ce4a\n\nWhereas, all the plans can be imported using the following request:\nPOST /rest/apigateway/archive?plans=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "plans=86d58023-be4b-4735-a08f-14e78131ce4a"
+        }, {
+          "name" : "packages",
+          "in" : "query",
+          "description" : "This parameter identifies the packages to be imported. \nThe wildcard \"*\" selects all the packages. \nFor example, a single package can be imported using the following request:\nPOST /rest/apigateway/archive?packages=73c93393-1477-4a99-9e44-c9b3e679de0c\n\nWhereas, all the packages can be imported using the following request:\nPOST /rest/apigateway/archive?packages=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "packages=73c93393-1477-4a99-9e44-c9b3e679de0c"
+        }, {
+          "name" : "configurations",
+          "in" : "query",
+          "description" : "This parameter identifies the configurations to be imported. \nThe wildcard \"*\" selects all the configurations. \nFor example, a single configuration can be imported using the following request:\nPOST /rest/apigateway/archive?configurations=loadBalancer,customContentTypes\n\nWhereas, all the configurations can be imported using the following request:\nPOST /rest/apigateway/archive?configurations=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "enum" : [ "loadBalancer", "keystore", "mobileApp", "extended", "samlsso", "misc", "dashboard", "customContentTypes", "errorProcessing", "auditlogDestinationConfig", "gatewayDestinationConfig", "jdbcDestinationConfig", "desDestinationConfig", "elasticsearchDestinationConfig", "snmpDestinationConfig", "emailDestinationConfig", "apiPortalDestinationConfig", "samlIssuer", "logConfig", "passwordRestrictions", "passwordExpiry", "accountLockSettings", "ldapConfig", "settings", "cache", "apiCallBackSettings" ]
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "configurations=loadBalancer,customContentTypes"
+        }, {
+          "name" : "gatewayScopes",
+          "in" : "query",
+          "description" : "This parameter identifies the oauth scopes to be imported. \nThe wildcard \"*\" selects all the oauth scopes. \nFor example, a single oauth scope can be imported using the following request:\nPOST /rest/apigateway/archive?gatewayScopes=73c93393-1477-4a99-9e44-c9b3e679de0c\n\nWhereas, all the oauth scopes can be imported using the following request:\nPOST /rest/apigateway/archive?gatewayScopes=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "gatewayScopes=5f388f25-2a57-46b9-b199-9d58fc02a8c1,c98805c4-9c05-47c0-84f0-c0855c0a9032"
+        }, {
           "name" : "x-HTTP-Method-Override",
           "in" : "header",
           "description" : "This parameter is used to specify that this REST call is an export operation. The value for this field is GET. If this is specified then you need to provide the filtering criteria in body to specify the asset. If empty payload specified then all assets will be exported. ",
