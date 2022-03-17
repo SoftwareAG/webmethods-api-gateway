@@ -43,10 +43,7 @@
               "application/json" : "{\r\n  \"apiResponse\": [\r\n    {\r\n      \"api\": {\r\n        \"apiName\": \"ChuckNorrisAPI\",\r\n        \"apiVersion\": \"v2\",\r\n        \"apiDescription\": \"Chuck Norris facts are satirical factoids about martial artist and actor Chuck Norris that have become an Internet phenomenon and as a result have become widespread in popular culture. The 'facts' are normally absurd hyperbolic claims about Norris' toughness, attitude, virility, sophistication, and masculinity.\",\r\n        \"isActive\": false,\r\n        \"type\": \"REST\",\r\n        \"publishedPortals\": [],\r\n        \"systemVersion\": 2,\r\n        \"id\": \"46df4227-a100-486c-9580-0bf388ec6ec7\"\r\n      },\r\n      \"responseStatus\": \"SUCCESS\"\r\n    },\r\n    {\r\n      \"api\": {\r\n        \"apiName\": \"ChuckNorrisAPI\",\r\n        \"apiVersion\": \"1.0\",\r\n        \"apiDescription\": \"Chuck Norris facts are satirical factoids about martial artist and actor Chuck Norris that have become an Internet phenomenon and as a result have become widespread in popular culture. The 'facts' are normally absurd hyperbolic claims about Norris' toughness, attitude, virility, sophistication, and masculinity.\",\r\n        \"isActive\": false,\r\n        \"type\": \"REST\",\r\n        \"publishedPortals\": [],\r\n        \"systemVersion\": 1,\r\n        \"id\": \"25fb937a-8360-41ab-8be5-987b14fe631d\"\r\n      },\r\n      \"responseStatus\": \"SUCCESS\",\r\n  \"teams\": [\r\n                {\r\n                    \"id\": \"Administrators\",\r\n                    \"name\": \"Administrators\",\r\n                    \"canDelete\": \"false\"\r\n                },\r\n                {\r\n                    \"id\": \"Default\",\r\n                    \"name\": \"Default\",\r\n                    \"canDelete\": \"true\"\r\n                }\r\n            ]\r\n      }\r\n  ]\r\n}"
             },
             "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/APIResponseGetAPIs"
-              }
+              "$ref" : "#/definitions/APIResponsesModel"
             }
           },
           "401" : {
@@ -1835,6 +1832,33 @@
           }
         }
       }
+    },
+    "APIResponseModel" : {
+      "type" : "object",
+      "properties" : {
+        "api" : {
+          "$ref" : "#/definitions/APIResponseGetAPIs"
+        },
+        "responseStatus" : {
+          "type" : "string",
+          "description" : "Response status",
+          "enum" : [ "CREATED", "SUCCESS", "ERROR", "UNEXPECTED_ERROR", "NOT_FOUND", "NO_CONTENT", "LOCKED", "UPDATED", "ACTIVATED", "DEACTIVATED", "PUBLISHED", "UNPUBLISHED" ]
+        }
+      },
+      "description" : "This model contains the basics details of an API."
+    },
+    "APIResponsesModel" : {
+      "type" : "object",
+      "properties" : {
+        "apiResponse" : {
+          "type" : "array",
+          "description" : "API Response",
+          "items" : {
+            "$ref" : "#/definitions/APIResponseModel"
+          }
+        }
+      },
+      "description" : "This model contains the basics details of all APIs."
     },
     "AbstractParameter" : {
       "type" : "object",
