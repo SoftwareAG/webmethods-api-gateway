@@ -1,0 +1,327 @@
+{
+	"info": {
+		"_postman_id": "cc1a69b5-b9ec-4664-b1fb-f62b56bab6f2",
+		"name": "APIGateway UseCase - Get Application Count by APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all APIs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(null);\r",
+							"\r",
+							"//clear the global variables\r",
+							"pm.globals.unset(\"apiObj\");\r",
+							"pm.globals.unset(\"remainingAPIObjects\");\r",
+							"pm.globals.unset(\"runningTotalAPINames\");\r",
+							"pm.globals.unset(\"runningTotalAPIApplicationsCounts\");\r",
+							"\r",
+							"let apis = JSON.parse(responseBody).apiResponse;\r",
+							"let apiObjects = [];\r",
+							"\r",
+							"if (apis === undefined || apis === null || apis.length === 0 || apis[0].responseStatus === \"NOT_FOUND\") {\r",
+							"    console.log(\"No API found!\");\r",
+							"} else {\r",
+							"    for (var i=0; i<apis.length; i++) {\r",
+							"        apiObjects.push({\r",
+							"            id: apis[i].api.id,\r",
+							"            name: apis[i].api.apiName,\r",
+							"            version: apis[i].api.apiVersion\r",
+							"        });\r",
+							"    }\r",
+							"    postman.setNextRequest(\"Get Applications associated with API\");\r",
+							"}\r",
+							"\r",
+							"if (apiObjects !== null && apiObjects.length > 0) {\r",
+							"    let apiObj = apiObjects.shift();\r",
+							"    pm.globals.set(\"apiObj\", JSON.stringify(apiObj));\r",
+							"    pm.globals.set(\"remainingAPIObjects\", JSON.stringify(apiObjects));\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/apis",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"apis"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Applications associated with API",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let currentAPIObj = {};",
+							"let apiObjString = pm.globals.get(\"apiObj\");",
+							"if (apiObjString !== null) {",
+							"    currentAPIObj = JSON.parse(apiObjString);",
+							"    pm.globals.set(\"apiId\", currentAPIObj.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"postman.setNextRequest(null);",
+							"",
+							"//Get content of api call",
+							"let jsonData = JSON.parse(responseBody);",
+							"let applications = jsonData.applications;",
+							"let appCount = 0;",
+							"if( applications !== undefined && applications !== null)",
+							"    appCount = applications.length;",
+							"",
+							"//current apiobject",
+							"let currentAPIObj = {};",
+							"let apiObjString = pm.globals.get(\"apiObj\");",
+							"if (apiObjString !== null) {",
+							"    currentAPIObj = JSON.parse(apiObjString);",
+							"}",
+							"",
+							"//save all current values to 2 arrays for further visualizations",
+							"let runningTotalAPINames = pm.globals.get(\"runningTotalAPINames\");",
+							"let runningTotalAPIApplicationsCounts = pm.globals.get(\"runningTotalAPIApplicationsCounts\");",
+							"if (currentAPIObj !== null) {",
+							"    if (runningTotalAPINames === undefined || runningTotalAPINames === null){",
+							"        runningTotalAPINames = [ currentAPIObj.name + \"-\" + currentAPIObj.version ];",
+							"    } else {",
+							"        runningTotalAPINames = JSON.parse(runningTotalAPINames);",
+							"        runningTotalAPINames.push(currentAPIObj.name + \"-\" + currentAPIObj.version);",
+							"    }",
+							"    ",
+							"    if (runningTotalAPIApplicationsCounts === undefined || runningTotalAPIApplicationsCounts === null){",
+							"        runningTotalAPIApplicationsCounts = [ appCount ];",
+							"    } else {",
+							"        runningTotalAPIApplicationsCounts = JSON.parse(runningTotalAPIApplicationsCounts);",
+							"        runningTotalAPIApplicationsCounts.push(appCount);",
+							"    }",
+							"",
+							"    //save new array to vars again",
+							"    pm.globals.set(\"runningTotalAPINames\", JSON.stringify(runningTotalAPINames));",
+							"    pm.globals.set(\"runningTotalAPIApplicationsCounts\", JSON.stringify(runningTotalAPIApplicationsCounts));",
+							"}",
+							"",
+							"// the remaining loop items",
+							"let remainingAPIObjectsString = pm.globals.get(\"remainingAPIObjects\");",
+							"let remainingAPIObjects = JSON.parse(remainingAPIObjectsString);",
+							"if (remainingAPIObjects !== null && remainingAPIObjects.length > 0) {",
+							"    nextAPIObj = remainingAPIObjects.shift();",
+							"    //pm.globals.set(\"apiId\", nextAPIObj.id);",
+							"    pm.globals.set(\"apiObj\", JSON.stringify(nextAPIObj));",
+							"    pm.globals.set(\"remainingAPIObjects\", JSON.stringify(remainingAPIObjects));",
+							"",
+							"    postman.setNextRequest(\"Get Applications associated with API\");",
+							"} else {",
+							"    postman.setNextRequest(\"Vizualize\");",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/apis/{{apiId}}/applications",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"apis",
+						"{{apiId}}",
+						"applications"
+					]
+				},
+				"description": "Retrieves the list of registered applications of an API"
+			},
+			"response": []
+		},
+		{
+			"name": "Vizualize",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let runningTotalAPINamesString = pm.globals.get(\"runningTotalAPINames\");",
+							"let runningTotalAPINames = JSON.parse(runningTotalAPINamesString);",
+							"let runningTotalAPIApplicationsCountsString = pm.globals.get(\"runningTotalAPIApplicationsCounts\");",
+							"let runningTotalAPIApplicationsCounts = JSON.parse(runningTotalAPIApplicationsCountsString);",
+							"",
+							"console.log(\"Data - API Names:\" + runningTotalAPINamesString);",
+							"console.log(\"Data - Application Counts:\" + runningTotalAPIApplicationsCountsString);",
+							"",
+							"// EDIT THIS OBJECT TO BIND YOUR DATA",
+							"const vizData = {",
+							"    ",
+							"    // Labels take an array of strings",
+							"    labels: runningTotalAPINames,",
+							"    ",
+							"    // Data takes an array of numbers",
+							"    data: runningTotalAPIApplicationsCounts",
+							"};",
+							"",
+							"// ------------",
+							"// - Template -",
+							"// ------------",
+							"",
+							"// Configure the template",
+							"var template = `",
+							"<canvas id=\"myChart\" height=\"75\"></canvas>",
+							"",
+							"<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\"></script> ",
+							"",
+							"<script>",
+							"    // Get DOM element to render the chart in",
+							"    var ctx = document.getElementById(\"myChart\");",
+							"",
+							"    // Configure Chart JS here.",
+							"    // You can customize the options passed to this constructor to",
+							"    // make the chart look and behave the way you want",
+							"    var myChart = new Chart(ctx, {",
+							"        type: \"bar\",",
+							"        data: {",
+							"            labels: [], // We will update this later in pm.getData()",
+							"            datasets: [{",
+							"                data: [], // We will update this later in pm.getData()",
+							"                ",
+							"                // Change these colours to customize the chart",
+							"                backgroundColor: [\"#003f5c\", \"#58508d\", \"#bc5090\", \"#ff6361\", \"#ffa600\"],",
+							"            }]",
+							"        },",
+							"        options: {",
+							"            legend: { display: false },",
+							"            title: {",
+							"                display: true,",
+							"                text: 'Count'",
+							"            },",
+							"            scales: {",
+							"                xAxes: [{",
+							"                    display: true,",
+							"                    scaleLabel: {",
+							"                        display: true,",
+							"                        labelString: 'Items'",
+							"                    }",
+							"                }],",
+							"                yAxes: [{",
+							"                    display: true,",
+							"                    scaleLabel: {",
+							"                        display: true,",
+							"                        labelString: 'Count'",
+							"                    }",
+							"                }]",
+							"            }",
+							"        }",
+							"",
+							"    });",
+							"",
+							"    // Access the data passed to pm.visualizer.set() from the JavaScript",
+							"    // code of the Visualizer template",
+							"    pm.getData(function (err, value) {",
+							"        myChart.data.datasets[0].data = value.data;",
+							"        myChart.data.labels = value.labels;",
+							"        myChart.update();",
+							"    });",
+							"",
+							"</script>`;",
+							"",
+							"// -------------------------",
+							"// - Bind data to template -",
+							"// -------------------------",
+							"",
+							"// Set the visualizer template",
+							"pm.visualizer.set(template, vizData);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://postman-echo.com/post",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{Password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{User}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({key: 'Accept', value: 'application/json' })"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

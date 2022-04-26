@@ -1,0 +1,133 @@
+{
+	"info": {
+		"_postman_id": "15c44a28-6029-4491-912e-11a7405b1591",
+		"name": "APIGateway UseCase - Delete All Custom Aliases",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all Aliases",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(null);\r",
+							"\r",
+							"let apiResponse=JSON.parse(responseBody);\r",
+							"let aliases = apiResponse.alias;\r",
+							"if (aliases === undefined || aliases === null) {\r",
+							"    console.log(\"No alias found!\");\r",
+							"} else {\r",
+							"    for (i in aliases) {\r",
+							"        if (![\"ServiceConsulDefault\",\"EurekaDefault\",\"OKTA\",\"PingFederate\",\"local\"].includes(aliases[i].id)) {\r",
+							"            pm.globals.set(\"aliasId\", aliases[i].id);\r",
+							"\r",
+							"            console.log(\"Delete alias\");\r",
+							"            console.log(\"ID: \" + aliases[i].id);\r",
+							"            console.log(\"Name: \" + aliases[i].name);\r",
+							"            console.log(\"Description: \" + aliases[i].description);\r",
+							"\r",
+							"            postman.setNextRequest(\"Delete one Alias\");\r",
+							"            break;\r",
+							"        }\r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseGatewaySysAPIsUrl}}/alias",
+					"host": [
+						"{{baseGatewaySysAPIsUrl}}"
+					],
+					"path": [
+						"alias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete one Alias",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(null);\r",
+							"\r",
+							"if (pm.response.code === 204) {\r",
+							"    postman.setNextRequest(\"Get all Aliases\");\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseGatewaySysAPIsUrl}}/alias/{{aliasId}}",
+					"host": [
+						"{{baseGatewaySysAPIsUrl}}"
+					],
+					"path": [
+						"alias",
+						"{{aliasId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{Password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{User}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({key: 'Accept', value: 'application/json' })"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
