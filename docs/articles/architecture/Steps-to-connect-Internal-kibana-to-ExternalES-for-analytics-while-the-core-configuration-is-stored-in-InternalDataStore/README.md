@@ -34,11 +34,11 @@ Steps to be followed to connect Default Kibana(bundled with API Gateway) to Exte
     external Elasticsearch. 
     You can execute the below commands and cross verify the result after running the postman collection.
     
-    -   **GET http://<_ExternalElasticsearchHost_>:<_ExternalElasticsearchPort_>/_cat/indices**
+    -   **GET http://{{externalESHost}}:{{externalESPort}}/_cat/indices**
         
         ![](attachments/catIndices.png)
         
-    -  **GET http://<_ExternalElasticsearchHost_>:<_ExternalElasticsearchPort_>/_cat/templates/template__***
+    -  **GET http://{{externalESHost}}:{{externalESPort}}/\_cat/templates/template_***
     
         ![](attachments/catTemplates.png)
         
@@ -69,3 +69,9 @@ Limitations
 1. Threat Protection, Cache Statistics, API usage details dashboards and Custom dashboards will not work with this setup.
 
 2. API Gateway analytics can render data from only ONE source. It cannot pull from multiple sources like Internal Data Store and external Elasticsearch.
+
+# **Troubleshooting**
+
+|**#**|**Problem**|**Solution**|
+| ----------- | ------------- | ------ |
+|1| "type": "mapper_parsing_exception",<br /> "reason": "Root mapping definition has unsupported parameters:  [_size : {enabled=true}]"|mapper-size plugin need to be installed on the External ElasticSearch. https://www.elastic.co/guide/en/elasticsearch/plugins/current/mapper-size.html article explains the steps to install mapper-size plugin on elasticsearch.|
