@@ -43,10 +43,7 @@
               "application/json" : "{\r\n  \"apiResponse\": [\r\n    {\r\n      \"api\": {\r\n        \"apiName\": \"ChuckNorrisAPI\",\r\n        \"apiVersion\": \"v2\",\r\n        \"apiDescription\": \"Chuck Norris facts are satirical factoids about martial artist and actor Chuck Norris that have become an Internet phenomenon and as a result have become widespread in popular culture. The 'facts' are normally absurd hyperbolic claims about Norris' toughness, attitude, virility, sophistication, and masculinity.\",\r\n        \"isActive\": false,\r\n        \"type\": \"REST\",\r\n        \"publishedPortals\": [],\r\n        \"systemVersion\": 2,\r\n        \"id\": \"46df4227-a100-486c-9580-0bf388ec6ec7\"\r\n      },\r\n      \"responseStatus\": \"SUCCESS\"\r\n    },\r\n    {\r\n      \"api\": {\r\n        \"apiName\": \"ChuckNorrisAPI\",\r\n        \"apiVersion\": \"1.0\",\r\n        \"apiDescription\": \"Chuck Norris facts are satirical factoids about martial artist and actor Chuck Norris that have become an Internet phenomenon and as a result have become widespread in popular culture. The 'facts' are normally absurd hyperbolic claims about Norris' toughness, attitude, virility, sophistication, and masculinity.\",\r\n        \"isActive\": false,\r\n        \"type\": \"REST\",\r\n        \"publishedPortals\": [],\r\n        \"systemVersion\": 1,\r\n        \"id\": \"25fb937a-8360-41ab-8be5-987b14fe631d\"\r\n      },\r\n      \"responseStatus\": \"SUCCESS\",\r\n  \"teams\": [\r\n                {\r\n                    \"id\": \"Administrators\",\r\n                    \"name\": \"Administrators\",\r\n                    \"canDelete\": \"false\"\r\n                },\r\n                {\r\n                    \"id\": \"Default\",\r\n                    \"name\": \"Default\",\r\n                    \"canDelete\": \"true\"\r\n                }\r\n            ]\r\n      }\r\n  ]\r\n}"
             },
             "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/APIResponseDelete"
-              }
+              "$ref" : "#/definitions/APIResponsesModel"
             }
           },
           "401" : {
@@ -243,6 +240,14 @@
           "required" : true,
           "type" : "string",
           "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        }, {
+          "name" : "overwriteTags",
+          "in" : "query",
+          "description" : "When an API is updated using a URL / file, the existing tags will be overwritten if this value is true.",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false,
+          "x-example" : true
         }, {
           "name" : "file",
           "in" : "formData",
@@ -965,7 +970,7 @@
               "application/json" : "{\r\n    \"apiResponse\": {\r\n        \"api\": {\r\n            \"apiDefinition\": {\r\n                \"type\": \"rest\",\r\n                \"info\": {\r\n                    \"description\": \"Chuck Norris facts are satirical factoids about martial artist and actor Chuck Norris that have become an Internet phenomenon and as a result have become widespread in popular culture. The 'facts' are normally absurd hyperbolic claims about Norris' toughness, attitude, virility, sophistication, and masculinity.\",\r\n                    \"version\": \"1.0\",\r\n                    \"title\": \"ChuckNorrisAPI\"\r\n                },\r\n                \"host\": \"api.chucknorris.io\",\r\n                \"basePath\": \"/jokes\",\r\n                \"schemes\": [\r\n                    \"https\"\r\n                ],\r\n                \"security\": [],\r\n                \"paths\": {\r\n                    \"/random\": {\r\n                        \"get\": {\r\n                            \"summary\": \"GET\",\r\n                            \"description\": \"\",\r\n                            \"operationId\": \"GET\",\r\n                            \"produces\": [\r\n                                \"application/json\"\r\n                            ],\r\n                            \"responses\": {},\r\n                            \"enabled\": true\r\n                        },\r\n                        \"enabled\": true\r\n                    }\r\n                },\r\n                \"securityDefinitions\": {},\r\n                \"definitions\": {},\r\n                \"baseUriParameters\": [],\r\n                \"externalDocs\": [],\r\n                \"servers\": [\r\n                    {\r\n                        \"url\": \"https://api.chucknorris.io/jokes\"\r\n                    }\r\n                ],\r\n                \"components\": {\r\n                    \"schemas\": {}\r\n                }\r\n            },\r\n            \"nativeEndpoint\": [\r\n                {\r\n                    \"passSecurityHeaders\": true,\r\n                    \"uri\": \"https://api.chucknorris.io/jokes\",\r\n                    \"connectionTimeoutDuration\": 0,\r\n                    \"alias\": false\r\n                }\r\n            ],\r\n            \"apiName\": \"ChuckNorris\",\r\n            \"apiVersion\": \"1.0\",\r\n            \"apiDescription\": \"Chuck Norris facts are satirical factoids about martial artist and actor Chuck Norris that have become an Internet phenomenon and as a result have become widespread in popular culture. The 'facts' are normally absurd hyperbolic claims about Norris' toughness, attitude, virility, sophistication, and masculinity.\",\r\n            \"maturityState\": \"Beta\",\r\n            \"isActive\": false,\r\n            \"type\": \"REST\",\r\n            \"owner\": \"Administrator\",\r\n            \"policies\": [\r\n                \"08afbfa9-78e1-4c23-bb19-c0012464047e\"\r\n            ],\r\n            \"scopes\": [],\r\n            \"publishedPortals\": [],\r\n            \"creationDate\": \"2018-09-03 11:56:21 GMT\",\r\n            \"systemVersion\": 1,\r\n            \"id\": \"badc18e6-446f-4aa3-96cd-33e46bd40fb5\"\r\n        },\r\n        \"responseStatus\": \"SUCCESS\",\r\n        \"versions\": [\r\n            {\r\n                \"versionNumber\": \"1.0\",\r\n                \"apiId\": \"badc18e6-446f-4aa3-96cd-33e46bd40fb5\"\r\n            }\r\n        ]\r\n    }\r\n}"
             },
             "schema" : {
-              "$ref" : "#/definitions/APIResponseDelete"
+              "$ref" : "#/definitions/APIResponseGetAPIs"
             }
           },
           "401" : {
@@ -1515,56 +1520,17 @@
     "APIResponseDelete" : {
       "type" : "object",
       "properties" : {
-        "active" : {
-          "type" : "boolean"
-        },
         "apiId" : {
           "type" : "string"
-        },
-        "apiName" : {
-          "type" : "string",
-          "description" : "API Name"
-        },
-        "apiVersion" : {
-          "type" : "string",
-          "description" : "API Version"
         },
         "errorReason" : {
           "type" : "string"
         },
-        "id" : {
-          "type" : "string",
-          "description" : "API Id"
-        },
-        "publishedPortals" : {
-          "type" : "array",
-          "description" : "Published portals of an API",
-          "items" : {
-            "type" : "string"
-          }
-        },
         "responseStatus" : {
           "type" : "string",
           "enum" : [ "SUCCESS", "ERROR", "NOT_FOUND", "BAD_REQUEST", "PARTIAL_SUCCESS" ]
-        },
-        "systemVersion" : {
-          "type" : "integer",
-          "format" : "int32",
-          "description" : "System version of an API"
-        },
-        "teams" : {
-          "type" : "array",
-          "description" : "Contains teams belonging to an API.",
-          "items" : {
-            "$ref" : "#/definitions/Team"
-          }
-        },
-        "type" : {
-          "type" : "string",
-          "description" : "API Type"
         }
-      },
-      "description" : "This model contains the basics details of an API."
+      }
     },
     "APIResponseGatewayEndpoint" : {
       "type" : "object",
@@ -1620,6 +1586,60 @@
         }
       }
     },
+    "APIResponseGetAPIs" : {
+      "type" : "object",
+      "properties" : {
+        "active" : {
+          "type" : "boolean"
+        },
+        "apiId" : {
+          "type" : "string"
+        },
+        "apiName" : {
+          "type" : "string",
+          "description" : "API Name"
+        },
+        "apiVersion" : {
+          "type" : "string",
+          "description" : "API Version"
+        },
+        "errorReason" : {
+          "type" : "string"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "API Id"
+        },
+        "publishedPortals" : {
+          "type" : "array",
+          "description" : "Published portals of an API",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "responseStatus" : {
+          "type" : "string",
+          "enum" : [ "SUCCESS", "ERROR", "NOT_FOUND", "BAD_REQUEST", "PARTIAL_SUCCESS" ]
+        },
+        "systemVersion" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "System version of an API"
+        },
+        "teams" : {
+          "type" : "array",
+          "description" : "Contains teams belonging to an API.",
+          "items" : {
+            "$ref" : "#/definitions/Team"
+          }
+        },
+        "type" : {
+          "type" : "string",
+          "description" : "API Type"
+        }
+      },
+      "description" : "This model contains the basics details of an API."
+    },
     "APIResponseGetGlobalPolicies" : {
       "type" : "object",
       "properties" : {
@@ -1630,6 +1650,33 @@
           }
         }
       }
+    },
+    "APIResponseModel" : {
+      "type" : "object",
+      "properties" : {
+        "api" : {
+          "$ref" : "#/definitions/APIResponseGetAPIs"
+        },
+        "responseStatus" : {
+          "type" : "string",
+          "description" : "Response status",
+          "enum" : [ "CREATED", "SUCCESS", "ERROR", "UNEXPECTED_ERROR", "NOT_FOUND", "NO_CONTENT", "LOCKED", "UPDATED", "ACTIVATED", "DEACTIVATED", "PUBLISHED", "UNPUBLISHED" ]
+        }
+      },
+      "description" : "This model contains the basics details of an API."
+    },
+    "APIResponsesModel" : {
+      "type" : "object",
+      "properties" : {
+        "apiResponse" : {
+          "type" : "array",
+          "description" : "API Response",
+          "items" : {
+            "$ref" : "#/definitions/APIResponseModel"
+          }
+        }
+      },
+      "description" : "This model contains the basics details of all APIs."
     },
     "AbstractParameter" : {
       "type" : "object",
@@ -2704,6 +2751,7 @@
         },
         "gatewayEndpoints" : {
           "type" : "object",
+          "readOnly" : true,
           "additionalProperties" : {
             "type" : "string"
           }
@@ -4207,6 +4255,7 @@
         },
         "tags" : {
           "type" : "array",
+          "description" : "A list of path level tags for API documentation control. Tags can be used for logical grouping of operations by resources or any other qualifier",
           "items" : {
             "type" : "string"
           }
@@ -4684,6 +4733,13 @@
       }, {
         "type" : "object",
         "properties" : {
+          "apiTags" : {
+            "type" : "array",
+            "description" : "A list of API level tags for API documentation control. Tags can be used for logical grouping of operations by resources or any other qualifier",
+            "items" : {
+              "type" : "string"
+            }
+          },
           "components" : {
             "$ref" : "#/definitions/Components"
           },
@@ -4815,6 +4871,13 @@
       }, {
         "type" : "object",
         "properties" : {
+          "apiTags" : {
+            "type" : "array",
+            "description" : "A list of API level tags for API documentation control. Tags can be used for logical grouping of operations by resources or any other qualifier",
+            "items" : {
+              "type" : "string"
+            }
+          },
           "baseWsdlUri" : {
             "type" : "string"
           },
@@ -4856,6 +4919,13 @@
           "serviceRegistryDisplayName" : {
             "type" : "string",
             "description" : "The name of the API in service registry when the API is published to a service registry."
+          },
+          "tags" : {
+            "type" : "array",
+            "description" : "A list of tags with additional metadata",
+            "items" : {
+              "$ref" : "#/definitions/Tag"
+            }
           },
           "wsdl" : {
             "type" : "string"
