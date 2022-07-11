@@ -18,7 +18,7 @@
 #  *
 #  */
 
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "apigateway.customPrefix" . }}{{ .Values.global.app }}-ingress
@@ -31,14 +31,20 @@ spec:
   - host: {{ .Values.global.app }}-rt-{{ .Release.Namespace }}{{ .Values.k8sClusterSuffix }}
     http:
       paths:
-      - backend:
-          serviceName: {{ include "apigateway.customPrefix" . }}{{ .Values.externalLoadBalancer | ternary .Values.nginxService .Values.apigwRtService }}
-          servicePort: {{ int .Values.apigwRuntimePort }}
-        path: /
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "apigateway.customPrefix" . }}{{ .Values.externalLoadBalancer | ternary .Values.nginxService .Values.apigwRtService }}
+            port:
+              number: {{ int .Values.apigwRuntimePort }}
   - host: {{ .Values.global.app }}-ui-{{ .Release.Namespace }}{{ .Values.k8sClusterSuffix }}
     http:
       paths:
-      - backend:
-          serviceName: {{ include "apigateway.customPrefix" . }}{{ .Values.externalLoadBalancer | ternary .Values.nginxService .Values.apigwUiService }}
-          servicePort: {{ int .Values.apigwUiPort }}
-        path: /
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "apigateway.customPrefix" . }}{{ .Values.externalLoadBalancer | ternary .Values.nginxService .Values.apigwUiService }}
+            port: 
+              number: {{ int .Values.apigwUiPort }}
