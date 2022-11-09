@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "4772e73e-c232-4fc8-bd66-728227c8db5d",
+		"name": "APIGateway UseCase - API Registered Applications - Enable All by API name/version",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Util - Search API by name/version",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"postman.setNextRequest(null);",
+							"",
+							"let apis = JSON.parse(responseBody).api;",
+							"if (apis === undefined || apis === null || apis.length === 0 || apis[0].responseStatus === \"NOT_FOUND\") {",
+							"    console.log(\"No API found!\");",
+							"} else {    ",
+							"    console.log(\"API ID: \" + apis[0].id);",
+							"    console.log(\"API Name: \" + apis[0].apiName);",
+							"    console.log(\"API Version: \" + apis[0].apiVersion);",
+							"    pm.globals.set(\"apiId\", apis[0].id);",
+							"    postman.setNextRequest(\"Get Applications associated with API\");",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"types\": [\n    \"API\"\n  ],\n  \"condition\" : \"and\",\n  \"scope\": [\n    {\n      \"attributeName\": \"apiName\",\n      \"keyword\": \"{{apiName}}\"\n    },\n    {\n      \"attributeName\": \"apiVersion\",\n      \"keyword\": \"{{apiVersion}}\"\n    }\n  ],\n  \"responseFields\": [\n    \"id\",\"apiName\",\"apiVersion\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseGatewaySysAPIsUrl}}/search",
+					"host": [
+						"{{baseGatewaySysAPIsUrl}}"
+					],
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Applications associated with API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(null);\r",
+							"\r",
+							"let applications = JSON.parse(responseBody).applications;\r",
+							"if (applications === undefined || applications === null || applications.length === 0 || applications[0].responseStatus === \"NOT_FOUND\") {\r",
+							"    console.log(\"No Application found!\");\r",
+							"} else {\r",
+							"    for(i in applications){\r",
+							"        console.log(\"Application ID: \" + applications[i].id);\r",
+							"        console.log(\"Application Name: \" + applications[i].name);\r",
+							"        console.log(\"Application Suspended: \" + applications[i].isSuspended);\r",
+							"        if (applications[i].isSuspended !== undefined && applications[i].isSuspended !== null && applications[i].isSuspended) {\r",
+							"            pm.globals.set(\"applicationId\", applications[i].id);\r",
+							"            postman.setNextRequest(\"Enable one Application\");\r",
+							"            console.log(\"Enabling Application\");\r",
+							"            break;\r",
+							"        }\r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseGatewaySysAPIsUrl}}/apis/{{apiId}}/applications",
+					"host": [
+						"{{baseGatewaySysAPIsUrl}}"
+					],
+					"path": [
+						"apis",
+						"{{apiId}}",
+						"applications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enable one Application",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"postman.setNextRequest(null);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response does not contain isSuspended\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.isSuspended).to.undefined || pm.expect(jsonData.isSuspended).to.be.false;\r",
+							"});\r",
+							"\r",
+							"postman.setNextRequest(\"Get Applications associated with API\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"isSuspended\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseGatewaySysAPIsUrl}}/applications/{{applicationId}}",
+					"host": [
+						"{{baseGatewaySysAPIsUrl}}"
+					],
+					"path": [
+						"applications",
+						"{{applicationId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{Password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{User}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({key: 'Accept', value: 'application/json' })"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "apiName",
+			"value": "SOME_API_NAME",
+			"type": "default"
+		},
+		{
+			"key": "apiVersion",
+			"value": "SOME_API_VERSION",
+			"type": "default"
+		}
+	]
+}
