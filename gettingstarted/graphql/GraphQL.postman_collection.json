@@ -1,0 +1,83 @@
+{
+	"info": {
+		"_postman_id": "5da49404-66d3-4a56-8dae-2f977592ac2a",
+		"name": "GraphQL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Starwars API GW",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "longTime@001",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "praa@softwareag.com",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\r\n  allFilms {\r\n    films {\r\n      title\r\n    }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://env616304.apigw-aw-eu.webmethods.io/gql/Starwars/1",
+					"protocol": "http",
+					"host": [
+						"env616304",
+						"apigw-aw-eu",
+						"webmethods",
+						"io"
+					],
+					"path": [
+						"gql",
+						"Starwars",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Starwars Native endpoint",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\r\n  allFilms {\r\n    films {\r\n      title\r\n    }\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "https://swapi-graphql.netlify.app/.netlify/functions/index",
+					"protocol": "https",
+					"host": [
+						"swapi-graphql",
+						"netlify",
+						"app"
+					],
+					"path": [
+						".netlify",
+						"functions",
+						"index"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

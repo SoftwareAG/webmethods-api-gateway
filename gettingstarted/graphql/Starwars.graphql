@@ -1,0 +1,429 @@
+schema {
+  query: Root
+}
+
+"Directs the executor to include this field or fragment only when the `if` argument is true"
+directive @include(
+    "Included when true."
+    if: Boolean!
+  ) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"Directs the executor to skip this field or fragment when the `if`'argument is true."
+directive @skip(
+    "Skipped when true."
+    if: Boolean!
+  ) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+
+"Marks the field or enum value as deprecated"
+directive @deprecated(
+    "The reason for the deprecation"
+    reason: String = "No longer supported"
+  ) on FIELD_DEFINITION | ENUM_VALUE
+
+"Exposes a URL that specifies the behaviour of this scalar."
+directive @specifiedBy(
+    "The URL that specifies the behaviour of this scalar."
+    url: String!
+  ) on SCALAR
+
+interface Node {
+  id: ID!
+}
+
+type Film implements Node {
+  characterConnection(after: String, before: String, first: Int, last: Int): FilmCharactersConnection
+  created: String
+  director: String
+  edited: String
+  episodeID: Int
+  id: ID!
+  openingCrawl: String
+  planetConnection(after: String, before: String, first: Int, last: Int): FilmPlanetsConnection
+  producers: [String]
+  releaseDate: String
+  speciesConnection(after: String, before: String, first: Int, last: Int): FilmSpeciesConnection
+  starshipConnection(after: String, before: String, first: Int, last: Int): FilmStarshipsConnection
+  title: String
+  vehicleConnection(after: String, before: String, first: Int, last: Int): FilmVehiclesConnection
+}
+
+type FilmCharactersConnection {
+  characters: [Person]
+  edges: [FilmCharactersEdge]
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type FilmCharactersEdge {
+  cursor: String!
+  node: Person
+}
+
+type FilmPlanetsConnection {
+  edges: [FilmPlanetsEdge]
+  pageInfo: PageInfo!
+  planets: [Planet]
+  totalCount: Int
+}
+
+type FilmPlanetsEdge {
+  cursor: String!
+  node: Planet
+}
+
+type FilmSpeciesConnection {
+  edges: [FilmSpeciesEdge]
+  pageInfo: PageInfo!
+  species: [Species]
+  totalCount: Int
+}
+
+type FilmSpeciesEdge {
+  cursor: String!
+  node: Species
+}
+
+type FilmStarshipsConnection {
+  edges: [FilmStarshipsEdge]
+  pageInfo: PageInfo!
+  starships: [Starship]
+  totalCount: Int
+}
+
+type FilmStarshipsEdge {
+  cursor: String!
+  node: Starship
+}
+
+type FilmVehiclesConnection {
+  edges: [FilmVehiclesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int
+  vehicles: [Vehicle]
+}
+
+type FilmVehiclesEdge {
+  cursor: String!
+  node: Vehicle
+}
+
+type FilmsConnection {
+  edges: [FilmsEdge]
+  films: [Film]
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type FilmsEdge {
+  cursor: String!
+  node: Film
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
+type PeopleConnection {
+  edges: [PeopleEdge]
+  pageInfo: PageInfo!
+  people: [Person]
+  totalCount: Int
+}
+
+type PeopleEdge {
+  cursor: String!
+  node: Person
+}
+
+type Person implements Node {
+  birthYear: String
+  created: String
+  edited: String
+  eyeColor: String
+  filmConnection(after: String, before: String, first: Int, last: Int): PersonFilmsConnection
+  gender: String
+  hairColor: String
+  height: Int
+  homeworld: Planet
+  id: ID!
+  mass: Float
+  name: String
+  skinColor: String
+  species: Species
+  starshipConnection(after: String, before: String, first: Int, last: Int): PersonStarshipsConnection
+  vehicleConnection(after: String, before: String, first: Int, last: Int): PersonVehiclesConnection
+}
+
+type PersonFilmsConnection {
+  edges: [PersonFilmsEdge]
+  films: [Film]
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type PersonFilmsEdge {
+  cursor: String!
+  node: Film
+}
+
+type PersonStarshipsConnection {
+  edges: [PersonStarshipsEdge]
+  pageInfo: PageInfo!
+  starships: [Starship]
+  totalCount: Int
+}
+
+type PersonStarshipsEdge {
+  cursor: String!
+  node: Starship
+}
+
+type PersonVehiclesConnection {
+  edges: [PersonVehiclesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int
+  vehicles: [Vehicle]
+}
+
+type PersonVehiclesEdge {
+  cursor: String!
+  node: Vehicle
+}
+
+type Planet implements Node {
+  climates: [String]
+  created: String
+  diameter: Int
+  edited: String
+  filmConnection(after: String, before: String, first: Int, last: Int): PlanetFilmsConnection
+  gravity: String
+  id: ID!
+  name: String
+  orbitalPeriod: Int
+  population: Float
+  residentConnection(after: String, before: String, first: Int, last: Int): PlanetResidentsConnection
+  rotationPeriod: Int
+  surfaceWater: Float
+  terrains: [String]
+}
+
+type PlanetFilmsConnection {
+  edges: [PlanetFilmsEdge]
+  films: [Film]
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type PlanetFilmsEdge {
+  cursor: String!
+  node: Film
+}
+
+type PlanetResidentsConnection {
+  edges: [PlanetResidentsEdge]
+  pageInfo: PageInfo!
+  residents: [Person]
+  totalCount: Int
+}
+
+type PlanetResidentsEdge {
+  cursor: String!
+  node: Person
+}
+
+type PlanetsConnection {
+  edges: [PlanetsEdge]
+  pageInfo: PageInfo!
+  planets: [Planet]
+  totalCount: Int
+}
+
+type PlanetsEdge {
+  cursor: String!
+  node: Planet
+}
+
+type Root {
+  allFilms(after: String, before: String, first: Int, last: Int): FilmsConnection
+  allPeople(after: String, before: String, first: Int, last: Int): PeopleConnection
+  allPlanets(after: String, before: String, first: Int, last: Int): PlanetsConnection
+  allSpecies(after: String, before: String, first: Int, last: Int): SpeciesConnection
+  allStarships(after: String, before: String, first: Int, last: Int): StarshipsConnection
+  allVehicles(after: String, before: String, first: Int, last: Int): VehiclesConnection
+  film(filmID: ID, id: ID): Film
+  node(id: ID!): Node
+  person(id: ID, personID: ID): Person
+  planet(id: ID, planetID: ID): Planet
+  species(id: ID, speciesID: ID): Species
+  starship(id: ID, starshipID: ID): Starship
+  vehicle(id: ID, vehicleID: ID): Vehicle
+}
+
+type Species implements Node {
+  averageHeight: Float
+  averageLifespan: Int
+  classification: String
+  created: String
+  designation: String
+  edited: String
+  eyeColors: [String]
+  filmConnection(after: String, before: String, first: Int, last: Int): SpeciesFilmsConnection
+  hairColors: [String]
+  homeworld: Planet
+  id: ID!
+  language: String
+  name: String
+  personConnection(after: String, before: String, first: Int, last: Int): SpeciesPeopleConnection
+  skinColors: [String]
+}
+
+type SpeciesConnection {
+  edges: [SpeciesEdge]
+  pageInfo: PageInfo!
+  species: [Species]
+  totalCount: Int
+}
+
+type SpeciesEdge {
+  cursor: String!
+  node: Species
+}
+
+type SpeciesFilmsConnection {
+  edges: [SpeciesFilmsEdge]
+  films: [Film]
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type SpeciesFilmsEdge {
+  cursor: String!
+  node: Film
+}
+
+type SpeciesPeopleConnection {
+  edges: [SpeciesPeopleEdge]
+  pageInfo: PageInfo!
+  people: [Person]
+  totalCount: Int
+}
+
+type SpeciesPeopleEdge {
+  cursor: String!
+  node: Person
+}
+
+type Starship implements Node {
+  MGLT: Int
+  cargoCapacity: Float
+  consumables: String
+  costInCredits: Float
+  created: String
+  crew: String
+  edited: String
+  filmConnection(after: String, before: String, first: Int, last: Int): StarshipFilmsConnection
+  hyperdriveRating: Float
+  id: ID!
+  length: Float
+  manufacturers: [String]
+  maxAtmospheringSpeed: Int
+  model: String
+  name: String
+  passengers: String
+  pilotConnection(after: String, before: String, first: Int, last: Int): StarshipPilotsConnection
+  starshipClass: String
+}
+
+type StarshipFilmsConnection {
+  edges: [StarshipFilmsEdge]
+  films: [Film]
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type StarshipFilmsEdge {
+  cursor: String!
+  node: Film
+}
+
+type StarshipPilotsConnection {
+  edges: [StarshipPilotsEdge]
+  pageInfo: PageInfo!
+  pilots: [Person]
+  totalCount: Int
+}
+
+type StarshipPilotsEdge {
+  cursor: String!
+  node: Person
+}
+
+type StarshipsConnection {
+  edges: [StarshipsEdge]
+  pageInfo: PageInfo!
+  starships: [Starship]
+  totalCount: Int
+}
+
+type StarshipsEdge {
+  cursor: String!
+  node: Starship
+}
+
+type Vehicle implements Node {
+  cargoCapacity: Float
+  consumables: String
+  costInCredits: Float
+  created: String
+  crew: String
+  edited: String
+  filmConnection(after: String, before: String, first: Int, last: Int): VehicleFilmsConnection
+  id: ID!
+  length: Float
+  manufacturers: [String]
+  maxAtmospheringSpeed: Int
+  model: String
+  name: String
+  passengers: String
+  pilotConnection(after: String, before: String, first: Int, last: Int): VehiclePilotsConnection
+  vehicleClass: String
+}
+
+type VehicleFilmsConnection {
+  edges: [VehicleFilmsEdge]
+  films: [Film]
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+type VehicleFilmsEdge {
+  cursor: String!
+  node: Film
+}
+
+type VehiclePilotsConnection {
+  edges: [VehiclePilotsEdge]
+  pageInfo: PageInfo!
+  pilots: [Person]
+  totalCount: Int
+}
+
+type VehiclePilotsEdge {
+  cursor: String!
+  node: Person
+}
+
+type VehiclesConnection {
+  edges: [VehiclesEdge]
+  pageInfo: PageInfo!
+  totalCount: Int
+  vehicles: [Vehicle]
+}
+
+type VehiclesEdge {
+  cursor: String!
+  node: Vehicle
+}
