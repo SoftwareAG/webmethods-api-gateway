@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway Alias Management Service allows you to manage aliases in the API Gateway. Any user with the 'Manage aliases' functional previlige can manage the aliases in API Gateway. By default, the users who are part of API-Gateway-Administrators group will have this privilege. \n\n An alias in API Gateway holds environment-specific property values that can be used in policy routing configurations. The aliases can be referred to in routing endpoints, routing rules, endpoint connection properties, outbound authentication tokens, and outbound HTTP headers instead of providing an actual value. The corresponding alias value based on the stage is obtained and is substituted in place of an alias name during run-time. Thus the same alias can be referred to in multiple policies and the change in a particular alias would affect all the policy properties in which it is being referred. \n\n There are mainly six types of alias \n 1. Simple alias - Holds a simple value \n 2. Endpoint alias - Holds the endpoint value along with additional properties such as connection timeout, read timeout, whether to pass security headers or not, keystore alias, key alias \n 3. HTTP Transport security alias - Contains the transport level security information required while accessing the native API. Used in the outbound policies \n 4. SOAP message security alias - Contains message level security information that is required to access the native API \n 5. webMethods Integration Server alias - Holds the ESB service value. Can be used in the Invoke webMethods IS policy for request and response processing.\n 6. Transformation alias - Holds a list of XSLT style sheets. Can be used in the XSLT Transformation policies for request and response processing.\n\n In addition to the above alias types, the configurations for \n SAML issuer - which holds the configuration to communicate to STS (Security Token Service) to retrieve the SAML token. Used in the Outbound policies, \n Authorization server - which holds configuration of authorization server(internal/external)for introspection/Dynamic client registration. Used in the token validation and OAuth2 client creation, \n Client metadata mapping - which holds the authorization service provider metadata information. Used in the Dynamic client registration for the authorization server alias and \n Service Registry- which holds registry endpoint and service paths information. Used in the client side and server side discovery \n are internally stored as aliases.\n AWS Configuration Alias- which holds AWS instance configuaration details. This can be configured in any custom policies for invoking a lambda service\n running in any AWS cloud instance.\n Integration servers - This holds webMethods Integration Server accounts details. This configuration will be used to create connection to the integration server when publishing APIs to an integration server for implementing the API. You can refer to API Gateway Service Management Swagger documentation for information about how to publish API Gateway APIs to Integration servers.",
-    "version" : "10.11",
+    "version" : "10.15",
     "title" : "API Gateway Alias Management Service"
   },
   "host" : "localhost:5555",
@@ -305,6 +305,7 @@
           "scopes" : {
             "type" : "array",
             "description" : "List of scopes available in the authorization server",
+            "uniqueItems" : true,
             "items" : {
               "$ref" : "#/definitions/Scope"
             }
@@ -411,7 +412,7 @@
         },
         "password" : {
           "type" : "string",
-          "description" : "Specify a password to access the native API"
+          "description" : "Specify a base64 encoded password to access the native API"
         },
         "userName" : {
           "type" : "string",
@@ -456,7 +457,7 @@
           "optimizationTechnique" : {
             "type" : "string",
             "description" : "Type of optimization technique used for SOAP messages",
-            "enum" : [ "NONE", "MTOM", "SWA" ]
+            "enum" : [ "None", "MTOM", "SwA" ]
           },
           "passSecurityHeaders" : {
             "type" : "boolean",
@@ -493,7 +494,18 @@
       }
     },
     "GatewaySecret" : {
-      "type" : "object"
+      "type" : "object",
+      "properties" : {
+        "cachedSecret" : {
+          "type" : "string"
+        },
+        "secret" : {
+          "type" : "string"
+        },
+        "xrayview" : {
+          "type" : "string"
+        }
+      }
     },
     "HTTPTransportSecurityAlias" : {
       "allOf" : [ {
@@ -519,7 +531,7 @@
           },
           "oauth2Token" : {
             "type" : "string",
-            "description" : "OAuth2 token that is used for authentication"
+            "description" : "Specify a base64 encoded OAuth2 token that is used for authentication"
           }
         }
       } ]
@@ -532,7 +544,7 @@
         "properties" : {
           "contentModelComplianceForWSDL" : {
             "type" : "string",
-            "enum" : [ "STRICT", "LAX", "NONE" ]
+            "enum" : [ "Strict", "Lax", "None" ]
           },
           "enableMTOM" : {
             "type" : "boolean"
@@ -582,7 +594,7 @@
       "properties" : {
         "clientPassword" : {
           "type" : "string",
-          "description" : "password for the client principal"
+          "description" : "Specify a base64 encoded password for the client principal"
         },
         "clientPrincipal" : {
           "type" : "string",
@@ -599,7 +611,7 @@
         "servicePrincipalNameForm" : {
           "type" : "string",
           "description" : "the format in which you want to specify the principal name of the service that is registered with the principal database",
-          "enum" : [ "HOST_BASED", "USERNAME_BASED" ]
+          "enum" : [ "hostbased", "username" ]
         }
       }
     },
@@ -732,7 +744,7 @@
           },
           "openIDResponseType" : {
             "type" : "string",
-            "enum" : [ "code", "id_token", "token_id_token", "id_token_token" ]
+            "enum" : [ "code", "id_token", "token id_token", "id_token token" ]
           },
           "openIDScopes" : {
             "type" : "array",
@@ -1037,7 +1049,7 @@
           },
           "password" : {
             "type" : "string",
-            "description" : "Password that is used in the Basic authentication when communicating with the service registry"
+            "description" : "Base64 encoded password that is used in the Basic authentication when communicating with the service registry"
           },
           "readTimeout" : {
             "type" : "integer",
@@ -1211,7 +1223,7 @@
       "properties" : {
         "password" : {
           "type" : "string",
-          "description" : "password for the username"
+          "description" : "Specify a base64 encoded password for the username"
         },
         "passwordType" : {
           "type" : "string",

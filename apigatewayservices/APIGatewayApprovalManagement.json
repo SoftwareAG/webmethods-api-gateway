@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway user can do basic CRUD operations on resources like Api, Application, Package and Plans and so on without any supervision. But if the user wants to restrict the basic CRUD operations then they can use Approval Configuration. Once the user enabled approval configuration for respective events then without accepting/rejecting the approval request nothing will take place. API Gateway Approval Management Service allows user to manage the different types of approval configuration in API Gateway. Any user with the 'Manage general administration configurations' functional privilege can manage the Approval configuration. Any user as part of Approval Team can approve or reject the Approval requests. By default, the users who are part of 'Administrators' Team will have this privilege. Any user with the 'Manage applications' functional privilege can approve or reject the Approval request but they can't delete it. The approval request can be deleted by the one who created it or the one who has 'Manage general administration configurations' functional privilege. Available approval configuration events are 1. Create application, 2. Register application, 3. Update application, 4. Subscribe package and 5. Change owner/teams. Once user enabled any of the event then the respective operation will not happen without approving the request. For example if user enables Create application Approval configuration, then while creating application any of the user in the Approver Team need to approve the application creation approval request to create the application. Until then users can't view the application in the Applications page. This is the same with the other configurations also. In addition to that user can enable send notification option to send notification via email to approver for 1. Approval initiation, 2. Accepting approval and 3. Rejecting Approval. User can also configure the email template for the events to be sent to the approver. To send email to the approvers, users need to configure the Email under Administration -> Destinations-> Email configuration.",
-    "version" : "10.11",
+    "version" : "10.15",
     "title" : "API Gateway Approvals Management Service"
   },
   "host" : "localhost:5555",
@@ -358,6 +358,10 @@
           "type" : "string",
           "description" : "Approvers Accessprofile Identifier. Whoever belongs to the selected team will be considered as Approvers"
         },
+        "autoApproval" : {
+          "type" : "boolean",
+          "description" : "The created request will be auto-approved when the requester is a valid approver and the value is true. Default value is true."
+        },
         "eventType" : {
           "type" : "string",
           "description" : "Event Type: Any of 'createApplication', 'updateApplication', 'registerApplication', 'subscribePackage' and 'changeOwner'"
@@ -375,6 +379,10 @@
         },
         "rejectedEmailConfiguration" : {
           "$ref" : "#/definitions/EmailConfiguration"
+        },
+        "teamApprovers" : {
+          "type" : "boolean",
+          "description" : "The asset specific team approvers will be the approvers when the value is true. Default value is false."
         }
       },
       "description" : "This model contains details about an ApprovalConfiguration in API Gateway"
@@ -453,9 +461,6 @@
           "type" : "string",
           "description" : "Current status of the request",
           "enum" : [ "pending", "approved", "rejected" ]
-        },
-        "subjectId" : {
-          "type" : "string"
         }
       }
     },

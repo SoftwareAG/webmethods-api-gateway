@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "This swagger doc contains API Definition of API gateway ServerInfo.",
-    "version" : "10.11",
+    "version" : "10.15",
     "title" : "API Gateway Server Information"
   },
   "host" : "localhost:5555",

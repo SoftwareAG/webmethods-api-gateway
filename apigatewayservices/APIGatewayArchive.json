@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "The API Gateway archive service exposes the interface to the API Gateway export archives. An API Gateway export archive is a ZIP file that contains APIs, policies, global policies, users, groups, access profiles, aliases, keystores, trustores, ports, JMS connections, JMS providers, JMS triggers, service registries, various administrative configurations like approval configurations, keystore/trustore configurations, cache configurations, log configurations, LDAP configurations, user account settings and all the other assets in API Gateway. You can use this service to export/import all type of assets into API Gateway. \n\n In general, for any asset being exported, all the dependent assets are automatically exported. For example, when exporting APIs,  the export archive contains the APIs, the API level policies, the policy actions associated with the API level policies, and the aliases referenced by the policy actions. Additionally, the archive may also contain the applications registered to the exported APIs.\n When exporting global policy the archive contains the global policies, the policy actions associated with the global policies, and the aliases referenced to the policy actions.\n When exporting approval configuration the archive contains the approval configuration and the access profile associated with the approval configuration. \n When exporting port the archive contains the port, the keystore and trustore associated with the port. \n When exporting LDAP configuration the archive contains the LDAP configuration, the group associated with the LDAP configuration. \n\nEach artifact in an archive is associated with a universally unique identifier (UUID) across all API Gateway installations. When importing an archive, the UUID helps in determining whether the corresponding artifact is already available in API Gateway. In such a situation, you can specify whether to overwrite an already existing artifact during the import process. \n\n Any user with the 'Export assets' functional privilege can export  archives in API Gateway and any user with the 'Import assets' privilege can import the archives. By default, the users who are part of API-Gateway-Administrators group will have these privileges.",
-    "version" : "10.11",
+    "version" : "10.15",
     "title" : "API Gateway Archive Service"
   },
   "host" : "localhost:5555",
@@ -115,7 +115,7 @@
         }, {
           "name" : "outboundProxies",
           "in" : "query",
-          "description" : "This parameter identifies the outbound proxy aliases to be exported. outbound proxy aliases are idetified with it's name.\nThe wildcard \"*\" selects all the outbound proxy aliases. \nFor example a single outbound proxy alias can be exported using the following request:\nGET /rest/apigateway/archive?outboundProxies=testOutboundProxyAlias\n\nWhereas, all the outbound proxy aliases can be exported using the following request:\nGET /rest/apigateway/archive?outboundProxies=*",
+          "description" : "This parameter identifies the outbound proxy aliases to be exported. outbound proxy aliases are identified with it's name.\nThe wildcard \"*\" selects all the outbound proxy aliases. \nFor example a single outbound proxy alias can be exported using the following request:\nGET /rest/apigateway/archive?outboundProxies=testOutboundProxyAlias\n\nWhereas, all the outbound proxy aliases can be exported using the following request:\nGET /rest/apigateway/archive?outboundProxies=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -126,7 +126,7 @@
         }, {
           "name" : "urlAliases",
           "in" : "query",
-          "description" : "This parameter identifies the URL aliases to be exported. URL aliases are idetified with it's name.\nThe wildcard \"*\" selects all the URL aliases. \nFor example, a single URL alias can be exported using the following request:\nGET /rest/apigateway/archive?urlAliases=testUrlAlias\n\nWhereas, all the URL aliases can be exported using the following request:\nGET /rest/apigateway/archive?testUrlAlias=*",
+          "description" : "This parameter identifies the URL aliases to be exported. URL aliases are identified with it's name.\nThe wildcard \"*\" selects all the URL aliases. \nFor example, a single URL alias can be exported using the following request:\nGET /rest/apigateway/archive?urlAliases=testUrlAlias\n\nWhereas, all the URL aliases can be exported using the following request:\nGET /rest/apigateway/archive?testUrlAlias=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -137,7 +137,7 @@
         }, {
           "name" : "keyStores",
           "in" : "query",
-          "description" : "This parameter identifies the keystore aliases to be exported. Keystore aliases are idetified with it's name.\nThe wildcard \"*\" selects all the keystore aliases. \nFor example, a single keystore alias can be exported using the following request:\nGET /rest/apigateway/archive?keyStores=test_keystore\n\nWhereas, all the keystore aliases can be exported using the following request:\nGET /rest/apigateway/archive?keyStores=*",
+          "description" : "This parameter identifies the keystore aliases to be exported. Keystore aliases are identified with it's name.\nThe wildcard \"*\" selects all the keystore aliases. \nFor example, a single keystore alias can be exported using the following request:\nGET /rest/apigateway/archive?keyStores=test_keystore\n\nWhereas, all the keystore aliases can be exported using the following request:\nGET /rest/apigateway/archive?keyStores=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -148,7 +148,7 @@
         }, {
           "name" : "trustStores",
           "in" : "query",
-          "description" : "This parameter identifies the truststore aliases to be exported. Truststore aliases are idetified with it's name.\nThe wildcard \"*\" selects all the truststore aliases. \nFor example, a single truststore alias can be exported using the following request:\nGET /rest/apigateway/archive?trustStores=test_truststore\n\nWhereas, all the truststore aliases can be exported using the following request:\nGET /rest/apigateway/archive?trustStores=*",
+          "description" : "This parameter identifies the truststore aliases to be exported. Truststore aliases are identified with it's name.\nThe wildcard \"*\" selects all the truststore aliases. \nFor example, a single truststore alias can be exported using the following request:\nGET /rest/apigateway/archive?trustStores=test_truststore\n\nWhereas, all the truststore aliases can be exported using the following request:\nGET /rest/apigateway/archive?trustStores=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -159,7 +159,7 @@
         }, {
           "name" : "JNDIProviderAliases",
           "in" : "query",
-          "description" : "This parameter identifies the JNDI provider aliases to be exported. JNDI provider aliases are idetified with it's name.\nThe wildcard \"*\" selects all the JNDI provider aliases. \nFor example, a single JNDI provider alias can be exported using the following request:\nGET /rest/apigateway/archive?JNDIProviderAliases=test_jndiProviderAlias\n\nWhereas, all the JNDI provider aliases can be exported using the following request:\nGET /rest/apigateway/archive?JNDIProviderAliases=*",
+          "description" : "This parameter identifies the JNDI provider aliases to be exported. JNDI provider aliases are identified with it's name.\nThe wildcard \"*\" selects all the JNDI provider aliases. \nFor example, a single JNDI provider alias can be exported using the following request:\nGET /rest/apigateway/archive?JNDIProviderAliases=test_jndiProviderAlias\n\nWhereas, all the JNDI provider aliases can be exported using the following request:\nGET /rest/apigateway/archive?JNDIProviderAliases=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -170,7 +170,7 @@
         }, {
           "name" : "JMSConnectionAliases",
           "in" : "query",
-          "description" : "This parameter identifies the JMS connection aliases to be exported. JMS connection aliases are idetified with it's name.\nThe wildcard \"*\" selects all the JNDI provider aliases. \nFor example, a single JNDI provider alias can be exported using the following request:\nGET /rest/apigateway/archive?JMSConnectionAliases=test_jmsConnectionAlias\n\nWhereas, all the JMS connection aliases can be exported using the following request:\nGET /rest/apigateway/archive?JMSConnectionAliases=*",
+          "description" : "This parameter identifies the JMS connection aliases to be exported. JMS connection aliases are identified with it's name.\nThe wildcard \"*\" selects all the JNDI provider aliases. \nFor example, a single JNDI provider alias can be exported using the following request:\nGET /rest/apigateway/archive?JMSConnectionAliases=test_jmsConnectionAlias\n\nWhereas, all the JMS connection aliases can be exported using the following request:\nGET /rest/apigateway/archive?JMSConnectionAliases=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -181,7 +181,7 @@
         }, {
           "name" : "JMSTriggers",
           "in" : "query",
-          "description" : "This parameter identifies the JMS triggers to be exported. JMS triggers are idetified with it's name.\nThe wildcard \"*\" selects all the JMS triggers. \nFor example, a single JMS trigger can be exported using the following request:\nGET /rest/apigateway/archive?JMSTriggers=test_jmsTrigger\n\nWhereas, all the JMS triggers can be exported using the following request:\nGET /rest/apigateway/archive?JMSTriggers=*",
+          "description" : "This parameter identifies the JMS triggers to be exported. JMS triggers are identified with it's name.\nThe wildcard \"*\" selects all the JMS triggers. \nFor example, a single JMS trigger can be exported using the following request:\nGET /rest/apigateway/archive?JMSTriggers=test_jmsTrigger\n\nWhereas, all the JMS triggers can be exported using the following request:\nGET /rest/apigateway/archive?JMSTriggers=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -192,7 +192,7 @@
         }, {
           "name" : "webserviceEndpointAliases",
           "in" : "query",
-          "description" : "This parameter identifies the 'web service endpoint' aliases to be exported. Web service endpoint aliases are idetified with it's name.\nThe wildcard \"*\" selects all the web service endpoint aliases. \nFor example, a single web service endpoint alias can be exported using the following request:\nGET /rest/apigateway/archive?webserviceEndpointAliases=test_wsEndpointAlias\n\nWhereas, all the JMS triggers can be exported using the following request:\nGET /rest/apigateway/archive?webserviceEndpointAliases=*",
+          "description" : "This parameter identifies the 'web service endpoint' aliases to be exported. Web service endpoint aliases are identified with it's name.\nThe wildcard \"*\" selects all the web service endpoint aliases. \nFor example, a single web service endpoint alias can be exported using the following request:\nGET /rest/apigateway/archive?webserviceEndpointAliases=test_wsEndpointAlias\n\nWhereas, all the JMS triggers can be exported using the following request:\nGET /rest/apigateway/archive?webserviceEndpointAliases=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -263,6 +263,17 @@
           },
           "collectionFormat" : "multi",
           "x-example" : "packages=73c93393-1477-4a99-9e44-c9b3e679de0c"
+        }, {
+          "name" : "portalGateways",
+          "in" : "query",
+          "description" : "This parameter identifies the portal configurations to be exported. \nThe wildcard \"*\" selects all portal configurations.\nFor example, a single portal configuration can be exported using the following requrest:\nGET /rest/apigateway/archive?portalGateways=ae196583-d109-4e9e-b593-dd7b984fe8ca\n\nWhereas, all the portal configurations can be exported using the following request:\nGET /rest/apigateway/archive?portalGateways=*",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "collectionFormat" : "multi",
+          "x-example" : "portalGateways=ae196583-d109-4e9e-b593-dd7b984fe8ca"
         }, {
           "name" : "configurations",
           "in" : "query",
@@ -344,7 +355,7 @@
         }, {
           "name" : "apis",
           "in" : "query",
-          "description" : "This parameter identifies the APIs to be imported. The wildcard \"*\" imports all the APIs. \nFor example a single API can be imported using the following request:\nPOST /rest/apigateway/archive?apis=e2996867-af49-4ac6-98e7-cba48837c13e\n\nWhereas, all the APIs from an archive can be imported using the following request:\nPOST /rest/apigateway/archive?apis=*",
+          "description" : "This parameter identifies the APIs to be imported. The wildcard \"*\" selects all the APIs. \nFor example a single API can be imported using the following request:\nPOST /rest/apigateway/archive?apis=e2996867-af49-4ac6-98e7-cba48837c13e\n\nWhereas, all the APIs can be imported using the following request:\nPOST /rest/apigateway/archive?apis=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -389,7 +400,7 @@
         }, {
           "name" : "outboundProxies",
           "in" : "query",
-          "description" : "This parameter identifies the outbound proxy aliases to be imported. outbound proxy aliases are idetified with it's name.\nThe wildcard \"*\" selects all the outbound proxy aliases. \nFor example a single outbound proxy alias can be imported using the following request:\nPOST /rest/apigateway/archive?outboundProxies=testOutboundProxyAlias\n\nWhereas, all the outbound proxy aliases can be imported using the following request:\nPOST /rest/apigateway/archive?outboundProxies=*",
+          "description" : "This parameter identifies the outbound proxy aliases to be imported. outbound proxy aliases are identified with it's name.\nThe wildcard \"*\" selects all the outbound proxy aliases. \nFor example a single outbound proxy alias can be imported using the following request:\nPOST /rest/apigateway/archive?outboundProxies=testOutboundProxyAlias\n\nWhereas, all the outbound proxy aliases can be imported using the following request:\nPOST /rest/apigateway/archive?outboundProxies=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -400,7 +411,7 @@
         }, {
           "name" : "urlAliases",
           "in" : "query",
-          "description" : "This parameter identifies the URL aliases to be imported. URL aliases are idetified with it's name.\nThe wildcard \"*\" selects all the URL aliases. \nFor example, a single URL alias can be imported using the following request:\nPOST /rest/apigateway/archive?urlAliases=testUrlAlias\n\nWhereas, all the URL aliases can be imported using the following request:\nPOST /rest/apigateway/archive?testUrlAlias=*",
+          "description" : "This parameter identifies the URL aliases to be imported. URL aliases are identified with it's name.\nThe wildcard \"*\" selects all the URL aliases. \nFor example, a single URL alias can be imported using the following request:\nPOST /rest/apigateway/archive?urlAliases=testUrlAlias\n\nWhereas, all the URL aliases can be imported using the following request:\nPOST /rest/apigateway/archive?testUrlAlias=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -411,7 +422,7 @@
         }, {
           "name" : "keyStores",
           "in" : "query",
-          "description" : "This parameter identifies the keystore aliases to be imported. Keystore aliases are idetified with it's name.\nThe wildcard \"*\" selects all the keystore aliases. \nFor example, a single keystore alias can be imported using the following request:\nPOST /rest/apigateway/archive?keyStores=test_keystore\n\nWhereas, all the keystore aliases can be imported using the following request:\nPOST /rest/apigateway/archive?keyStores=*",
+          "description" : "This parameter identifies the keystore aliases to be imported. Keystore aliases are identified with it's name.\nThe wildcard \"*\" selects all the keystore aliases. \nFor example, a single keystore alias can be imported using the following request:\nPOST /rest/apigateway/archive?keyStores=test_keystore\n\nWhereas, all the keystore aliases can be imported using the following request:\nPOST /rest/apigateway/archive?keyStores=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -422,7 +433,7 @@
         }, {
           "name" : "trustStores",
           "in" : "query",
-          "description" : "This parameter identifies the truststore aliases to be imported. Truststore aliases are idetified with it's name.\nThe wildcard \"*\" selects all the truststore aliases. \nFor example, a single truststore alias can be imported using the following request:\nPOST /rest/apigateway/archive?trustStores=test_truststore\n\nWhereas, all the truststore aliases can be imported using the following request:\nPOST /rest/apigateway/archive?trustStores=*",
+          "description" : "This parameter identifies the truststore aliases to be imported. Truststore aliases are identified with it's name.\nThe wildcard \"*\" selects all the truststore aliases. \nFor example, a single truststore alias can be imported using the following request:\nPOST /rest/apigateway/archive?trustStores=test_truststore\n\nWhereas, all the truststore aliases can be imported using the following request:\nPOST /rest/apigateway/archive?trustStores=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -433,7 +444,7 @@
         }, {
           "name" : "JNDIProviderAliases",
           "in" : "query",
-          "description" : "This parameter identifies the JNDI provider aliases to be imported. JNDI provider aliases are idetified with it's name.\nThe wildcard \"*\" selects all the JNDI provider aliases. \nFor example, a single JNDI provider alias can be imported using the following request:\nPOST /rest/apigateway/archive?JNDIProviderAliases=test_jndiProviderAlias\n\nWhereas, all the JNDI provider aliases can be imported using the following request:\nPOST /rest/apigateway/archive?JNDIProviderAliases=*",
+          "description" : "This parameter identifies the JNDI provider aliases to be imported. JNDI provider aliases are identified with it's name.\nThe wildcard \"*\" selects all the JNDI provider aliases. \nFor example, a single JNDI provider alias can be imported using the following request:\nPOST /rest/apigateway/archive?JNDIProviderAliases=test_jndiProviderAlias\n\nWhereas, all the JNDI provider aliases can be imported using the following request:\nPOST /rest/apigateway/archive?JNDIProviderAliases=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -444,7 +455,7 @@
         }, {
           "name" : "JMSConnectionAliases",
           "in" : "query",
-          "description" : "This parameter identifies the JMS connection aliases to be imported. JMS connection aliases are idetified with it's name.\nThe wildcard \"*\" selects all the JNDI provider aliases. \nFor example, a single JNDI provider alias can be imported using the following request:\nPOST /rest/apigateway/archive?JMSConnectionAliases=test_jmsConnectionAlias\n\nWhereas, all the JMS connection aliases can be imported using the following request:\nPOST /rest/apigateway/archive?JMSConnectionAliases=*",
+          "description" : "This parameter identifies the JMS connection aliases to be imported. JMS connection aliases are identified with it's name.\nThe wildcard \"*\" selects all the JNDI provider aliases. \nFor example, a single JNDI provider alias can be imported using the following request:\nPOST /rest/apigateway/archive?JMSConnectionAliases=test_jmsConnectionAlias\n\nWhereas, all the JMS connection aliases can be imported using the following request:\nPOST /rest/apigateway/archive?JMSConnectionAliases=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -455,7 +466,7 @@
         }, {
           "name" : "JMSTriggers",
           "in" : "query",
-          "description" : "This parameter identifies the JMS triggers to be imported. JMS triggers are idetified with it's name.\nThe wildcard \"*\" selects all the JMS triggers. \nFor example, a single JMS trigger can be imported using the following request:\nPOST /rest/apigateway/archive?JMSTriggers=test_jmsTrigger\n\nWhereas, all the JMS triggers can be imported using the following request:\nPOST /rest/apigateway/archive?JMSTriggers=*",
+          "description" : "This parameter identifies the JMS triggers to be imported. JMS triggers are identified with it's name.\nThe wildcard \"*\" selects all the JMS triggers. \nFor example, a single JMS trigger can be imported using the following request:\nPOST /rest/apigateway/archive?JMSTriggers=test_jmsTrigger\n\nWhereas, all the JMS triggers can be imported using the following request:\nPOST /rest/apigateway/archive?JMSTriggers=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -466,7 +477,7 @@
         }, {
           "name" : "webserviceEndpointAliases",
           "in" : "query",
-          "description" : "This parameter identifies the 'web service endpoint' aliases to be imported. Web service endpoint aliases are idetified with it's name.\nThe wildcard \"*\" selects all the web service endpoint aliases. \nFor example, a single web service endpoint alias can be imported using the following request:\nPOST /rest/apigateway/archive?webserviceEndpointAliases=test_wsEndpointAlias\n\nWhereas, all the JMS triggers can be imported using the following request:\nPOST /rest/apigateway/archive?webserviceEndpointAliases=*",
+          "description" : "This parameter identifies the 'web service endpoint' aliases to be imported. Web service endpoint aliases are identified with it's name.\nThe wildcard \"*\" selects all the web service endpoint aliases. \nFor example, a single web service endpoint alias can be imported using the following request:\nPOST /rest/apigateway/archive?webserviceEndpointAliases=test_wsEndpointAlias\n\nWhereas, all the JMS triggers can be imported using the following request:\nPOST /rest/apigateway/archive?webserviceEndpointAliases=*",
           "required" : false,
           "type" : "array",
           "items" : {
@@ -513,8 +524,8 @@
           "description" : "This parameter identifies the kerberos configuration to be imported.\nThe kerberos configuration can be imported using the following request:\nPOST /rest/apigateway/archive?kerberosSetting=kerberosSetting",
           "required" : false,
           "type" : "string",
-          "enum" : [ "kerberosSetting" ],
-          "x-example" : "kerberosSetting=kerberosSetting"
+          "x-example" : "kerberosSetting=kerberosSetting",
+          "enum" : [ "kerberosSetting" ]
         }, {
           "name" : "plans",
           "in" : "query",
@@ -712,21 +723,7 @@
         "$ref" : "#/definitions/IAggregation"
       }, {
         "type" : "object",
-        "properties" : {
-          "fields" : {
-            "type" : "string",
-            "description" : "Input aggregation fields"
-          },
-          "name" : {
-            "type" : "string",
-            "description" : "Name of the aggregation in the search aggregation response"
-          },
-          "type" : {
-            "type" : "string",
-            "description" : "Type of the aggregation.",
-            "enum" : [ "metrics", "timeseries", "group" ]
-          }
-        },
+        "properties" : { },
         "description" : "This defines the aggregation structure to search across API Gateway"
       } ]
     },
@@ -735,13 +732,17 @@
       "discriminator" : "type",
       "properties" : {
         "fields" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Input aggregation fields"
         },
         "name" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Name of the aggregation in the search aggregation response"
         },
         "type" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "Type of the aggregation.",
+          "enum" : [ "metrics", "timeseries", "group" ]
         }
       },
       "description" : "This defines the aggregation structure to search across API Gateway"
@@ -814,23 +815,10 @@
       }, {
         "type" : "object",
         "properties" : {
-          "fields" : {
-            "type" : "string",
-            "description" : "Input aggregation fields"
-          },
           "metricsType" : {
             "type" : "string",
             "description" : "Type of the metrics aggregation.",
             "enum" : [ "avg", "min", "max", "sum" ]
-          },
-          "name" : {
-            "type" : "string",
-            "description" : "Name of the aggregation in the search aggregation response"
-          },
-          "type" : {
-            "type" : "string",
-            "description" : "Type of the aggregation.",
-            "enum" : [ "metrics", "timeseries", "group" ]
           }
         },
         "description" : "This defines the aggregation structure to search across API Gateway"
@@ -884,10 +872,6 @@
       }, {
         "type" : "object",
         "properties" : {
-          "fields" : {
-            "type" : "string",
-            "description" : "Input aggregation fields"
-          },
           "interval" : {
             "type" : "string",
             "description" : "Interval of the time series in aggregation.",
@@ -895,15 +879,6 @@
           },
           "intervalTypeAsString" : {
             "type" : "string"
-          },
-          "name" : {
-            "type" : "string",
-            "description" : "Name of the aggregation in the search aggregation response"
-          },
-          "type" : {
-            "type" : "string",
-            "description" : "Type of the aggregation.",
-            "enum" : [ "metrics", "timeseries", "group" ]
           }
         },
         "description" : "This defines the aggregation structure to search across API Gateway"

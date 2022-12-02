@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway Service Management Service allows you to manage the APIs in the API Gateway. Any user with the 'Manage APIs' functional privilege can manage the APIs in the API Gateway. By default, the users who are part of either API-Gateway-Providers or API-Gateway-Administrators groups will have this privilege.\n\nAPI Gateway supports four types of APIs - REST APIs, SOAP APIs, WebSocket APIs and OData APIs. REST APIs can be created by providing the swagger (file/url), openAPI (file/url), raml (file/url) or can be created from scratch. SOAP APIs can be created using the WSDL (file/url). If the API definitions has reference schemas, then an archive containing all the definitions can be provided as an input. WebSocket APIs can be created from scratch. OData APIs can be created using their service document or metadata document url.\n\nThis service provides you with the options to create, update, read and delete of all the above API types.\n\nAn API can either be in an Active or an InActive state. An Active state indicates that the API is available for consumers. The users can use this service to activate or deactivate the API. Post activation, API Gateway generates 'Gateway Endpoints' which can be used by the API consumers to access the API.  Generally API consumers use their applications to consume the APIs.\n\nThis service can also be used to manage the API Scopes. An API Scope is a collection of resources or operations in the API. Users can create multiple scopes for a single API.\n\nOnce the API is created, users can enforce the access restrictions and other rules on the API by add the policies to the API. Policies can be attached to REST, SOAP and OData APIs.  Refer to the Policy Management API documentation for more details on the policies. Refer to the Document Management API documentation for more details on attaching documents to an API.\n\nThis service can also be used to publish/unpublish the APIs to/from a service registry.  An API in an active state can be registered (published) to one or more service registries.",
-    "version" : "10.11",
+    "version" : "10.15",
     "title" : "API Gateway Service Management Service"
   },
   "host" : "localhost:5555",
@@ -240,6 +240,14 @@
           "required" : true,
           "type" : "string",
           "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        }, {
+          "name" : "overwriteTags",
+          "in" : "query",
+          "description" : "When an API is updated using a URL / file, the existing tags will be overwritten if this value is true.",
+          "required" : false,
+          "type" : "boolean",
+          "default" : false,
+          "x-example" : true
         }, {
           "name" : "file",
           "in" : "formData",
@@ -680,6 +688,41 @@
           },
           "401" : {
             "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the apiId specified is not found in the API Gateway"
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/apis/{apiId}/packages" : {
+      "get" : {
+        "description" : "Retrieves the list of packages of an API",
+        "operationId" : "getPackagesForAPI",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "apiId",
+          "in" : "path",
+          "description" : "API Id for the API to find the associated packages",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "353bd366-47d4-4703-aecf-9cb40cdcc864"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the list of associated packages",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Package"
+              }
+            }
+          },
+          "401" : {
+            "description" : ""
           },
           "404" : {
             "description" : "This status code indicates that the apiId specified is not found in the API Gateway"
@@ -1984,6 +2027,10 @@
           "type" : "string",
           "description" : "owner of the application"
         },
+        "ownerType" : {
+          "type" : "string",
+          "description" : "The application's owner type can be user or a team. By default, its the user who created the application."
+        },
         "primaryNode" : {
           "$ref" : "#/definitions/Node"
         },
@@ -2140,6 +2187,9 @@
         },
         "type" : {
           "type" : "string"
+        },
+        "urlMatcher" : {
+          "$ref" : "#/definitions/UrlMatcher"
         },
         "value" : {
           "type" : "string"
@@ -2787,6 +2837,12 @@
     "EntityType" : {
       "type" : "object",
       "properties" : {
+        "getmIDs" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
         "methods" : {
           "type" : "object",
           "additionalProperties" : {
@@ -2803,6 +2859,12 @@
           "type" : "object",
           "additionalProperties" : {
             "type" : "object"
+          }
+        },
+        "props" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
           }
         }
       }
@@ -3001,7 +3063,7 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ "API_GATEWAY", "MICROGATEWAY", "MICROGATEWAY_PROXY", "APPMESH" ]
+            "enum" : [ "APIGateway", "Microgateway", "MicrogatewayProxy", "AppMesh" ]
           }
         },
         "gatewayEndpoints" : {
@@ -4986,6 +5048,9 @@
       }, {
         "type" : "object",
         "properties" : {
+          "additionalProperties" : {
+            "type" : "object"
+          },
           "allowEmptyValue" : {
             "type" : "boolean"
           },
@@ -5401,6 +5466,93 @@
     },
     "OutputStream" : {
       "type" : "object"
+    },
+    "Package" : {
+      "type" : "object",
+      "required" : [ "name" ],
+      "properties" : {
+        "active" : {
+          "type" : "boolean"
+        },
+        "apiIds" : {
+          "type" : "array",
+          "description" : "List of api ids needs to be associated to package. It can be either provided during the package creation or separately using package update call",
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "creationDate" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "The creation date of package in milli seconds",
+          "readOnly" : true
+        },
+        "customFields" : {
+          "type" : "object",
+          "description" : "This can be used to store additional information needed for a package",
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "Description of the package"
+        },
+        "icon" : {
+          "type" : "string",
+          "description" : "An inline base64 encoded string representation of icon to be used in package"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "Id of the package. It will be autogenerated for the package on creation",
+          "readOnly" : true
+        },
+        "modifiedDate" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "The modified date of package in milli seconds. This will be updated for package on update, hot edit, activate and deactivate.",
+          "readOnly" : true
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "Name of the package"
+        },
+        "planIds" : {
+          "type" : "array",
+          "description" : "List of plan ids needs to be associated to the package. It can be either provided during the package creation or separately using package update call",
+          "uniqueItems" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "policyIds" : {
+          "type" : "array",
+          "description" : "Policy id that contains the IAM policy to use for APIs associated to package. It will be created automatically.",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "publishedPortals" : {
+          "type" : "array",
+          "description" : "List of published portal ids of the package.",
+          "readOnly" : true,
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "tags" : {
+          "type" : "array",
+          "description" : "List of tags of the package. Either it can provided during the creation of the package or separately using the package update call",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "version" : {
+          "type" : "string",
+          "description" : "Version of the package created"
+        }
+      }
     },
     "PackageFolderPair" : {
       "type" : "object",
@@ -6140,7 +6292,8 @@
           "$ref" : "#/definitions/Operation"
         },
         "description" : {
-          "type" : "string"
+          "type" : "string",
+          "description" : "An optional, string description, intended to apply to all operations in this path"
         },
         "displayName" : {
           "type" : "string"
@@ -6216,6 +6369,9 @@
       }, {
         "type" : "object",
         "properties" : {
+          "algorithmSuite" : {
+            "type" : "string"
+          },
           "apiTags" : {
             "type" : "array",
             "description" : "A list of API level tags for API documentation control. Tags can be used for logical grouping of operations by resources or any other qualifier",
@@ -6247,12 +6403,6 @@
             "uniqueItems" : true,
             "items" : {
               "$ref" : "#/definitions/SOAPOperation"
-            }
-          },
-          "primaryEndpoint" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "boolean"
             }
           },
           "rootFileFolder" : {
@@ -6339,6 +6489,12 @@
         "enabled" : {
           "type" : "boolean"
         },
+        "headers" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
         "isRESTInvokeEnabled" : {
           "type" : "boolean"
         },
@@ -6400,6 +6556,9 @@
       "properties" : {
         "additionalProperties" : {
           "$ref" : "#/definitions/Schema"
+        },
+        "additionalPropertiesAsBoolean" : {
+          "type" : "boolean"
         },
         "default" : {
           "type" : "object",
@@ -7079,6 +7238,9 @@
           }
         }
       }
+    },
+    "UrlMatcher" : {
+      "type" : "object"
     },
     "Version" : {
       "type" : "object",

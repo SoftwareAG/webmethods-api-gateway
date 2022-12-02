@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "The API Gateway Ports Service allows you to manage port configurations. Each port is associated with a specific type of protocol, HTTP or HTTPS. In addition to these port types, API Gateway also supports the external port, the internal listener port, and the WebSocket listener port type. You can specify one or more HTTP or HTTPS ports on which the API Gateway Admin APIs and the deployed APIs are available for consumption. By default, they are available on the primary port. The primary port is an HTTP or HTTPS port that you designate as the main listening port for API Gateway. API Gateway does not allow the primary port to be deletd, which guarantees that at least one port is always available.",
-    "version" : "10.11",
+    "version" : "10.15",
     "title" : "API Gateway Port Management Service"
   },
   "basePath" : "/rest/apigateway",

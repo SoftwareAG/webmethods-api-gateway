@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway User Management Service allows you to manage Users, Groups and Access profiles in the API Gateway. Any user with the 'Manage user administration' functional privilege can manage the Users, Groups and Access profiles in API Gateway. By default, the users who are part of API-Gateway-Administrators groups will have this privilege.\n\nAPI Gateway allows you to manage the password restrictions settings. For security purposes, API Gateway places length and character restrictions on passwords for administrator and non-administrator users. API Gateway contains a default set of password requirements. However, you can change these using the API Gateway Administration Service. Refer the REST resource '/configurations/passwordRestrictions' in the API Gateway Administration Service. \n\nAPI Gateway allows you to manage the password expiration settings. For security purposes, API Gateway allows administrators to set password expiration requirements on passwords for administrator and non-administrator users. API Gateway contains a default set of password expiry settings. However, you can change these with the API Gateway Administration service. Refer the REST resource '/configurations/passwordExpiry' in the API Gateway Administration Service. \n\nAPI Gateway allows you to manage the account locking settings. For security purposes, it is important to lock a user account when the user fails to provide the correct password after a specified number of failed login attempts to API Gateway. A locked user account remains locked for a specific period of time, after which the account gets unlocked. API Gateway allows administrators to configure these account locking settings for administrator and non-administrator users. Using API Gateway Administration Service, you can set the values for number of attempts by a user before locking the account and also the duration of the lock interval. Refer the REST resource '/configurations/accountLockSettings' in the API Gateway Administration Service.\n\nAPI Gateway allows you to view the locked user accounts and also allows to manually unlock locked user accounts before the automatic unlocking period. This can be achieved using the REST resource '/is/lockedAccounts' in the API Gateway User Management Service. \n\nAPI Gateway allows you to configure LDAP directories. If your server uses Lightweight Directory Access Protocol (LDAP) for user and group information, you can configure API Gateway to obtain user and group information from the external LDAP directory. You can configure API Gateway to use more than one LDAP directory at a time, allowing API Gateway to work with different LDAP directories for users in different locations or different organizations. You can manage the LDAP directories and LDAP configurations using the API Gateway Administration service. Refer the REST resource '/configurations/ldapConfig' in the API Gateway Administration Service.\n\nGlobal Team Assignments : When Teamwork feature is enabled, one can automate the team assignment for assets, by defining Global Team Assignment rules. Rules are defined by specifying one or more asset based conditions, and by configuring the rule output if the conditions are met. Management of such rules are exposed through an REST API. Refer the REST resource '/rule' in the API Gateway Administration Service.",
-    "version" : "10.11",
+    "version" : "10.15",
     "title" : "API Gateway User Management Service"
   },
   "host" : "localhost:5555",
@@ -14,7 +14,7 @@
     "/accessProfiles" : {
       "get" : {
         "description" : "The method retrieves list of all teams in API Gateway.",
-        "operationId" : "getAccessProfilesFromIC",
+        "operationId" : "getAccessProfiles",
         "produces" : [ "application/json" ],
         "parameters" : [ ],
         "responses" : {
@@ -49,7 +49,7 @@
             "$ref" : "#/definitions/AccessProfile"
           },
           "x-examples" : {
-            "application/json" : "{\r\n    \"name\": \"TestProfile\",\r\n    \"description\": \"Test\",\r\n    \"privilege\": \"101110000001100000110101\",\r\n    \"groupIds\": [\r\n        \"be9147a8-6e53-4472-b1bd-16337a84d314\"\r\n    ],\r\n    \"teamAdmin\": {\r\n        \"userIds\": [\r\n            \"Administrator\"\r\n        ],\r\n        \"groupIds\": [\r\n            \"Administrators\"\r\n        ]\r\n    }\r\n}"
+            "application/json" : "{\r\n    \"name\": \"TestProfile\",\r\n    \"description\": \"Test\",\r\n    \"privilege\": \"1011100000011000001101010001\",\r\n    \"groupIds\": [\r\n        \"be9147a8-6e53-4472-b1bd-16337a84d314\"\r\n    ],\r\n    \"teamAdmin\": {\r\n        \"userIds\": [\r\n            \"Administrator\"\r\n        ],\r\n        \"groupIds\": [\r\n            \"Administrators\"\r\n        ]\r\n    }\r\n}"
           }
         } ],
         "responses" : {
@@ -714,6 +714,10 @@
           "description" : "AccessProfile ID",
           "readOnly" : true
         },
+        "includeTeamAdminsAsApprovers" : {
+          "type" : "boolean",
+          "description" : "When the property is set to true, all the team administrators becomes approvers. The default value is false"
+        },
         "name" : {
           "type" : "string",
           "description" : "name of the accessprofile"
@@ -723,6 +727,9 @@
         },
         "teamAdmin" : {
           "$ref" : "#/definitions/TeamAdmin"
+        },
+        "teamApprovers" : {
+          "$ref" : "#/definitions/TeamApprovers"
         }
       },
       "description" : "This model contains details about a Team in API Gateway"
@@ -778,14 +785,33 @@
       "properties" : {
         "groupIds" : {
           "type" : "array",
-          "description" : "list of groupIds to be assigned as the team administrator. All users in the group will become team administrator.",
+          "description" : "List of groupIds to be assigned as the team administrator. All users in the group will become team administrator.",
           "items" : {
             "type" : "string"
           }
         },
         "userIds" : {
           "type" : "array",
-          "description" : "list of userIds to be assigned as the team administrator.",
+          "description" : "List of userIds to be assigned as the team administrator.",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "TeamApprovers" : {
+      "type" : "object",
+      "properties" : {
+        "groupIds" : {
+          "type" : "array",
+          "description" : "List of groupIds to be assigned as the team approvers. All users in the group will become team approvers.",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "userIds" : {
+          "type" : "array",
+          "description" : "List of userIds to be assigned as the team approvers.",
           "items" : {
             "type" : "string"
           }
