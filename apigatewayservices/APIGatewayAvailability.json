@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "The purpose of the availability API is to monitor the availability and health status of API Gateway. It provides endpoints for verifying the availabilty of administrative functions, the ability of processing API calls and availability of external services. The responses of the availability API display a status field as the first entry. The status can have the values green, yellow or red describing the overall status of the components to check. This means that when any of the components signals a problem, then the status is set to red. ",
-    "version" : "10.11",
+    "version" : "10.15",
     "title" : "availability"
   },
   "host" : "localhost:5555",

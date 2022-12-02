@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API gateway monetization service allows API Providers to create plans & packages and associate the packages to different plans. The providers can either publish the packages to API Portal to allow creating subscriptions from portal or directly use the subscriptions APIs in the API Gateway to create and manage subscriptions. Note: It is important to enable the log invocation policy to all the APIs that are used in package to track the transactions usage. Alternatively global policy can be used to associate the log invocation to all the APIs. For more details on the API Monetization, please refer to the API Gateway User Guide",
-    "version" : "10.11",
+    "version" : "10.15",
     "title" : "API Gateway Monetization Service"
   },
   "host" : "localhost:5555",
@@ -1189,6 +1189,10 @@
           "type" : "string",
           "description" : "owner of the application"
         },
+        "ownerType" : {
+          "type" : "string",
+          "description" : "The application's owner type can be user or a team. By default, its the user who created the application."
+        },
         "primaryNode" : {
           "$ref" : "#/definitions/Node"
         },
@@ -1762,6 +1766,12 @@
     "EntityType" : {
       "type" : "object",
       "properties" : {
+        "getmIDs" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
         "methods" : {
           "type" : "object",
           "additionalProperties" : {
@@ -1778,6 +1788,12 @@
           "type" : "object",
           "additionalProperties" : {
             "type" : "object"
+          }
+        },
+        "props" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
           }
         }
       }
@@ -3434,6 +3450,9 @@
       }, {
         "type" : "object",
         "properties" : {
+          "additionalProperties" : {
+            "type" : "object"
+          },
           "allowEmptyValue" : {
             "type" : "boolean"
           },
@@ -4966,12 +4985,6 @@
               "$ref" : "#/definitions/SOAPOperation"
             }
           },
-          "primaryEndpoint" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "boolean"
-            }
-          },
           "rootFileFolder" : {
             "type" : "string"
           },
@@ -5123,6 +5136,9 @@
       "properties" : {
         "additionalProperties" : {
           "$ref" : "#/definitions/Schema"
+        },
+        "additionalPropertiesAsBoolean" : {
+          "type" : "boolean"
         },
         "default" : {
           "type" : "object",
@@ -5517,11 +5533,15 @@
     },
     "SubscriptionUpdateRequest" : {
       "type" : "object",
-      "required" : [ "newPlanId" ],
+      "required" : [ "newPackageId", "newPlanId" ],
       "properties" : {
-        "newPlanId" : {
+        "newPackageId" : {
           "type" : "string",
           "description" : "Package id to which the subscription needs to be switched"
+        },
+        "newPlanId" : {
+          "type" : "string",
+          "description" : "Plan id to which the subscription needs to be switched"
         },
         "requesterComment" : {
           "type" : "string",
