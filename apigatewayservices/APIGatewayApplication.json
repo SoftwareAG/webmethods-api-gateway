@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway Application Management Service allows you to manage the Applications in API Gateway. Any user with the 'Manage applications' functional privilege can manage the APIs in the API Gateway. By default, the users who are part of either API-Gateway-Providers or API-Gateway-Administrators groups will have this privilege.\n\n An application defines the precise identifiers by which messages from a particular consumer application is recognized at run time. The identifiers can be, for example, user name in HTTP headers, a range of IP addresses, etc., such that API Gateway can identify or authenticate the consumers that are requesting an API. To view the list of all possible identifiers, refer the sample payload for /applications POST request.\n\n. The ability of API Gateway to relate a request to a specific consumer application enables it to:\n\n 1. Control access to an API at run time (that is, allow only authorized consumer applications to invoke an API).\n\n 2. Monitor an API for violations of a Service-Level Agreement (SLA) for a specified application.\n\n 3. Indicate the consumer application to which a logged transaction event belongs.\n\n\n\n An application has the following attributes for specifying the identifiers:\n\n 1. IP address, which specifies one or more IP addresses that identify requests from a particular consumer application. Example: 192.168.0.10\n\n This attribute is queried when the Identify and Authorize Application policy is configured to identify consumer applications by IP address.\n\n 2. JWT claims set, which specifies one or more claims that identify requests from a particular consumer application. The claims are a set of name-value pairs that provide sufficient information about the application. Example: sub = Administrator.\n\n This attribute is queried when the Identify and Authorize Application policy is configured to identify consumer applications by JSON Web Token (JWT).\n\n 3. Consumer certificate, which specifies the X.509 certificates that identify requests from a particular consumer.\n\n This attribute is queried when the Identify and authenticate consumer policy is configured to identify the consumer applications by a consumer certificate.\n\n 4. Identification token, which specifies the host names, user names or other distinguishing strings that identify requests from a particular consumer application.\n\n This attribute is queried when the Identify and authenticate consumer policy action is configured to identify consumer applications by host name, HTTP user name, and WSS user name.\n\n \n\n As an API provider or an API Gateway Administrator you can create and manage applications, and register applications with the APIs.\n\n These are the high level stages of managing and using an application:\n\n 1. API developers request the API Gateway administrators to create an application for access as per the required identification criteria.\n\n 2. API Gateway provider or administrator validates the request and creates a new application, there by provisioning the application specific access tokens (API access key and OAuth credentials).\n\n 3. API Developer, upon finding a suitable API, sends a request to API Gateway for consumption by providing the application details.\n\n 4. After validating the request, API Gateway provider or administrator associates the application with the API. Keys are generated for applications and not for every API that the application consumes. \n\n Note:  The approval process, if any, is handled by the requesting application and not handled by API Gateway.\n\n 5. The API developer can then use the application with the proper identifier (such as the access key or identifier) to access the API. \n\n Strategies: \n\n A strategy is a way to authenticate the incoming request and provides multiple authentication mechanisms or multiple authorization servers for a single authentication scheme. API Gateway identifies the application and validates the token submitted through the strategy configured in the application. You can create multiple strategies authorized by an API for an application. For example, in case of OAuth authentication scheme, you want the application to support both OKTA and PINGFederate or OKTA with multiple tenants. This can be configured as OAuth strategy for the application.",
-    "version" : "10.15",
+    "version" : "10.11",
     "title" : "API Gateway Application Management Service"
   },
   "host" : "localhost:5555",
@@ -18,6 +18,20 @@
         "produces" : [ "application/json" ],
         "parameters" : [ ],
         "responses" : {
+          "200" : {
+            "description" : "This status code indicates that a list of the available applications is retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n    \"applications\": [\n        {\n            \"name\": \"TestSampleApp\",\n            \"description\": null,\n            \"contactEmails\": [],\n            \"identifiers\": [\n                {\n                    \"id\": \"3ce6f4df-e773-4fdb-bed3-3d63b5cb520c\",\n                    \"name\": \"Username\",\n                    \"key\": \"httpBasicAuth\",\n                    \"value\": [\n                        \"Administrator\"\n                    ]\n                }\n            ],\n            \"siteURLs\": [],\n            \"jsOrigins\": [],\n            \"authStrategyIds\": [\n                \"81df9682-6a28-4ebc-92fd-2c486d3f75c2\"\n            ],\n            \"version\": \"1.0\",\n            \"id\": \"803b7f16-45c6-4b1c-be26-4da053d40640\",\n            \"created\": \"2018-12-04 05:27:56 GMT\",\n            \"lastupdated\": null,\n            \"owner\": \"Administrator\",\n            \"consumingAPIs\": [],\n            \"accessTokens\": {\n                \"apiAccessKey_credentials\": {\n                    \"apiAccessKey\": \"f293cbb5cb0f1367ecc55b4c5b1717dad4073f77d2bde869cf8ee0162cc08f38\",\n                    \"expirationInterval\": null,\n                    \"expirationDate\": null,\n                    \"expired\": false\n                },\n                \"oauth_credentials\": {\n                    \"clientID\": null,\n                    \"clientSecret\": null,\n                    \"clientName\": null,\n                    \"scopes\": null,\n                    \"token_lifetime\": null,\n                    \"token_refresh_limit\": null,\n                    \"redirect_uris\": [],\n                    \"Type\": \"confidential\"\n                }\n            }\n        ,\r\n\t\t\t\"teams\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"id\": \"Administrators\",\r\n\t\t\t\t\t\"name\": \"Administrators\",\r\n\t\t\t\t\t\"canDelete\": \"false\"\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"id\": \"Default\",\r\n\t\t\t\t\t\"name\": \"Default\",\r\n\t\t\t\t\t\"canDelete\": \"true\"\r\n\t\t\t\t}\r\n\t\t\t]    }\n    ]\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "responsesObject" : {
           "200" : {
             "description" : "This status code indicates that a list of the available applications is retrieved successfully.",
             "examples" : {
@@ -66,6 +80,20 @@
             "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
+        "responsesObject" : {
+          "200" : {
+            "description" : "This status code indicates that the application has been successfully created in API Gateway.",
+            "examples" : {
+              "application/json" : "{\r\n\t\"name\": \"TestApp\",\r\n\t\"description\": \"My Test Application\",\r\n\t\"contactEmails\": [],\r\n\t\"identifiers\": [\r\n\t\t{\r\n\t\t\t\"id\": \"47252f48-b8ed-4759-8bfd-1a52ddc4e9cd\",\r\n\t\t\t\"name\": \"Hostname\",\r\n\t\t\t\"key\": \"hostNameAddress\",\r\n\t\t\t\"value\": [\r\n\t\t\t\t\"host1\"\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"id\": \"ac3f2d03-f4dd-496e-bb0c-10b4e09958ab\",\r\n\t\t\t\"name\": \"localhostcert.der\",\r\n\t\t\t\"key\": \"httpsCertificate\",\r\n\t\t\t\"value\": [\r\n\t\t\t\t\"LS0t...o=\"\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"id\": \"3c1ba8c7-c3c7-4faf-bb4b-1ef5b8108175\",\r\n\t\t\t\"name\": \"Username\",\r\n\t\t\t\"key\": \"httpBasicAuth\",\r\n\t\t\t\"value\": [\r\n\t\t\t\t\"user1\"\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"id\": \"89fc1704-092f-4b55-93d8-944260fe9e06\",\r\n\t\t\t\"name\": \"claimset1\",\r\n\t\t\t\"key\": \"jwtClaims\",\r\n\t\t\t\"value\": [\r\n\t\t\t\t\"{\\\"claim1\\\":\\\"val1\\\",\\\"claim2\\\":\\\"val2\\\"}\"\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"id\": \"7f9c9835-6727-4bc4-8ab1-e46147dfe42b\",\r\n\t\t\t\"name\": \"WS-Security username\",\r\n\t\t\t\"key\": \"wssecUsernameToken\",\r\n\t\t\t\"value\": [\r\n\t\t\t\t\"wssuser1\"\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"id\": \"6b6c6006-8475-447f-89be-f6fee0d06e50\",\r\n\t\t\t\"name\": \"XPath\",\r\n\t\t\t\"key\": \"payloadElement\",\r\n\t\t\t\"value\": [\r\n\t\t\t\t\"xpath1\"\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"id\": \"0f6ecdb8-f715-4828-b228-e8bc74d3e2f0\",\r\n\t\t\t\"name\": \"Token\",\r\n\t\t\t\"key\": \"token\",\r\n\t\t\t\"value\": [\r\n\t\t\t\t\"token1\"\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"id\": \"732fb347-1e71-46e5-98ca-1b94e5d9cf94\",\r\n\t\t\t\"name\": \"IP Addresses\",\r\n\t\t\t\"key\": \"ipAddressRange\",\r\n\t\t\t\"value\": [\r\n\t\t\t\t\"10.60.37.12-10.60.37.15\",\r\n\t\t\t\t\"10.60.37.16-10.60.37.17\"\r\n\t\t\t]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"id\": \"d2042269-ffa2-459e-aa43-c2e9f9885c64\",\r\n\t\t\t\"name\": \"Partner ID\",\r\n\t\t\t\"key\": \"partnerId\",\r\n\t\t\t\"value\": [\r\n\t\t\t\t\"partner1\"\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"siteURLs\": [],,\r\n\t\"jsOrigins\": [],\r\n    \"authStrategyIds\": []\r\n\t\"version\": \"1.0\",\r\n\t\"id\": \"ea8700af-e7ce-4b57-8f60-1922f87e47a9\",\r\n\t\"created\": \"2019-11-01 09:47:53 GMT\",\r\n\t\"lastupdated\": null,\r\n\t\"owner\": \"Administrator\",\r\n\t\"consumingAPIs\": [],\r\n\t\"accessTokens\": {\r\n\t\t\"apiAccessKey_credentials\": {\r\n\t\t\t\"apiAccessKey\": \"2050c4b7-f51b-4a4d-9bb6-eca2bc590536\",\r\n\t\t\t\"expirationInterval\": null,\r\n\t\t\t\"expirationDate\": null,\r\n\t\t\t\"expired\": false\r\n\t\t}\r\n\t}\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
         "security" : [ {
           "Basic" : [ ]
         } ]
@@ -82,6 +110,17 @@
           "type" : "string"
         } ],
         "responses" : {
+          "204" : {
+            "description" : "This status code indicates that the specified application has been successfully deleted from API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          }
+        },
+        "responsesObject" : {
           "204" : {
             "description" : "This status code indicates that the specified application has been successfully deleted from API Gateway."
           },
@@ -123,6 +162,14 @@
             "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
+        "responsesObject" : {
+          "200" : {
+            "description" : "This status code indicates that the access tokens are successfully updated with the new expiry date."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
         "security" : [ {
           "Basic" : [ ]
         } ]
@@ -141,6 +188,23 @@
           "type" : "string"
         } ],
         "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the details of the specified application are retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n    \"applications\": [\n        {\n            \"name\": \"TestApp\",\n            \"description\": null,\n            \"contactEmails\": [],\n            \"identifiers\": [\n                {\n                    \"id\": \"820332c8-7467-4340-bef8-dae595c69f7b\",\n                    \"name\": \"Username\",\n                    \"key\": \"httpBasicAuth\",\n                    \"value\": [\n                        \"admin\"\n                    ]\n                }\n            ],\n            \"siteURLs\": [],\n            \"jsOrigins\": [],\n            \"authStrategyIds\": [],\n            \"version\": \"1.0\",\n            \"id\": \"79251257-1ea5-4df7-a8bf-a345ea835592\",\n            \"created\": \"2018-12-04 05:33:20 GMT\",\n            \"lastupdated\": null,\n            \"owner\": \"Administrator\",\n            \"consumingAPIs\": [],\n            \"accessTokens\": {\n                \"apiAccessKey_credentials\": {\n                    \"apiAccessKey\": \"eb3fcb16-89bd-4d0b-b45b-c1257686e4d6\",\n                    \"expirationInterval\": null,\n                    \"expirationDate\": null,\n                    \"expired\": false\n                },\n                \"oauth_credentials\": {\n                    \"clientID\": null,\n                    \"clientSecret\": null,\n                    \"clientName\": null,\n                    \"scopes\": null,\n                    \"token_lifetime\": null,\n                    \"token_refresh_limit\": null,\n                    \"redirect_uris\": [],\n                    \"Type\": \"confidential\"\n                }\n            }\n        }\n    ]\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          }
+        },
+        "responsesObject" : {
           "200" : {
             "description" : "This status code indicates that the details of the specified application are retrieved successfully.",
             "examples" : {
@@ -201,6 +265,23 @@
             "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
+        "responsesObject" : {
+          "200" : {
+            "description" : "This status code indicates that the specified application has been successfully updated in API Gateway.",
+            "examples" : {
+              "application/json" : "{\r\n    \"name\": \"TestApp\",\r\n    \"description\": \"My Test Application\",\r\n    \"contactEmails\": [],\r\n    \"identifiers\": [],\r\n    \"siteURLs\": [],\r\n    \"jsOrigins\": [\r\n        \"orgn1\",\r\n        \"orgn2\"\r\n    ],\r\n    \"authStrategyIds\": [\r\n        \"4d5006b8-80b0-4770-9a4f-32f176dd2e59\"\r\n    ],\r\n    \"version\": \"1.0\",\r\n    \"id\": \"cf24b278-f126-4e77-bb10-e32e4a7f845e\",\r\n    \"created\": \"2019-11-19 12:54:11 GMT\",\r\n    \"lastupdated\": \"2019-11-19 15:08:15 GMT\",\r\n    \"owner\": \"Administrator\",\r\n    \"consumingAPIs\": [],\r\n    \"accessTokens\": {\r\n        \"apiAccessKey_credentials\": {\r\n            \"apiAccessKey\": \"52dd7cf2172f7770a79cb699309eda289af863eb5ba67ce85d2cc7956220988a\",\r\n            \"expirationInterval\": null,\r\n            \"expirationDate\": null,\r\n            \"expired\": false\r\n        }\r\n    }\r\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the specified application could not be updated"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
         "security" : [ {
           "Basic" : [ ]
         } ]
@@ -217,6 +298,17 @@
           "type" : "string"
         } ],
         "responses" : {
+          "204" : {
+            "description" : "This status code indicates that the specified application has been successfully deleted from API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          }
+        },
+        "responsesObject" : {
           "204" : {
             "description" : "This status code indicates that the specified application has been successfully deleted from API Gateway."
           },
@@ -268,6 +360,20 @@
             "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
+        "responsesObject" : {
+          "200" : {
+            "description" : "This status code indicates that the specified application has been successfully updated in API Gateway.",
+            "schema" : {
+              "$ref" : "#/definitions/Application"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the specified application could not be updated"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
         "security" : [ {
           "Basic" : [ ]
         } ]
@@ -277,7 +383,6 @@
       "get" : {
         "description" : "The method retrieves a map of access token endpoints for all the authorization servers configured",
         "operationId" : "getAccessTokenEndpoints",
-        "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "applicationId",
           "in" : "path",
@@ -286,6 +391,20 @@
           "type" : "string"
         } ],
         "responses" : {
+          "200" : {
+            "description" : "This status code indicates that a list of access token endpoints for the application are retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n    \"local\": {\n        \"uris\": {\n            \"authorizeUrl\": \"http://vm:5555/invoke/pub.apigateway.oauth2/authorize\",\n            \"accessTokenUrl\": \"http://vm:5555/invoke/pub.apigateway.oauth2/getAccessToken\",\n            \"refreshTokenUrl\": \"http://vm:5555/invoke/pub.oauth/refreshAccessToken\"\n        }\n    }\n}"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          }
+        },
+        "responsesObject" : {
           "200" : {
             "description" : "This status code indicates that a list of access token endpoints for the application are retrieved successfully.",
             "examples" : {
@@ -337,6 +456,17 @@
             "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
+        "responsesObject" : {
+          "200" : {
+            "description" : "This status code indicates that the access tokens are successfully regenerated for the application in API Gateway."
+          },
+          "400" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
         "security" : [ {
           "Basic" : [ ]
         } ]
@@ -355,6 +485,20 @@
           "type" : "string"
         } ],
         "responses" : {
+          "200" : {
+            "description" : "This status code indicates that a list of registered APIs for the application is retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n  \"apiIDs\": [\n    \"2aa651f4-2696-425b-96c4-440ad78b0305\"\n  ]\n}"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          }
+        },
+        "responsesObject" : {
           "200" : {
             "description" : "This status code indicates that a list of registered APIs for the application is retrieved successfully.",
             "examples" : {
@@ -409,6 +553,17 @@
             "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
+        "responsesObject" : {
+          "200" : {
+            "description" : "This status code indicates that the given APIs have been successfully registered with the specified application in API Gateway."
+          },
+          "400" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
         "security" : [ {
           "Basic" : [ ]
         } ]
@@ -424,10 +579,7 @@
           "description" : "This parameter specifies the ID of a registered API that is to be updated in API Gateway.",
           "required" : true,
           "schema" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
+            "$ref" : "#/definitions/RegisterAPIModel"
           },
           "x-examples" : {
             "application/json" : "{\r\n\t\"apiIDs\": [\r\n\t\t\"3de85431-d45b-418d-b5aa-0be5c3b5714d\",\r\n\t\t\"375db639-01f7-4488-b14f-09daae622e18\"\r\n\t]\r\n}"
@@ -450,6 +602,17 @@
             "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
+        "responsesObject" : {
+          "200" : {
+            "description" : "This status code indicates that the registered API has been successfully updated in API Gateway."
+          },
+          "400" : {
+            "description" : "This status code indicates that an application with the given ID could not be found in API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
         "security" : [ {
           "Basic" : [ ]
         } ]
@@ -462,6 +625,20 @@
         "produces" : [ "application/json" ],
         "parameters" : [ ],
         "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the list of strategies is successfully retrieved.",
+            "examples" : {
+              "application/json" : "{\n    \"strategies\": [\n        {\n            \"id\": \"e1f151e1-3210-4283-992b-b3f1d1cf6a92\",\n            \"type\": \"OAUTH2\",\n            \"authServerAlias\": \"local\",\n            \"name\": \"test-oauth2-strategy\",\n            \"description\": \"\",\n            \"clientId\": \"e65b0fe2-d73d-4ea7-a92a-20c949e08235\",\n            \"dcrConfig\": {\n                \"allowedGrantTypes\": [\n                    \"authorization_code\",\n                    \"password\"\n                ],\n                \"applicationType\": \"WEB\",\n                \"clientType\": \"PUBLIC\",\n                \"clientName\": \"test-oauth2-strategy\",\n                \"clientVersion\": \"1.0\",\n                \"expirationInterval\": \"3600\",\n                \"refreshCount\": \"0\",\n                \"redirectUris\": [\n                    \"https://redirect.uri\"\n                ]\n            },\n            \"clientRegistration\": {\n                \"clientId\": \"e65b0fe2-d73d-4ea7-a92a-20c949e08235\",\n                \"name\": \"test-oauth2-strategy\",\n                \"version\": \"1.0\",\n                \"type\": \"public\",\n                \"tokenLifetime\": 3600,\n                \"tokenRefreshLimit\": 0,\n                \"clientSecret\": \"f3d2edb1-0bf4-47a8-9e34-775c1a943e70\",\n                \"enabled\": true,\n                \"redirectUris\": [\n                    \"https://redirect.uri\"\n                ],\n                \"clScopes\": [],\n                \"authCodeAllowed\": true,\n                \"implicitAllowed\": false,\n                \"clientCredentialsAllowed\": false,\n                \"resourceOwnerAllowed\": true\n            }\n        }\n    ]\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/OneOfStrategyModel"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "responsesObject" : {
           "200" : {
             "description" : "This status code indicates that the list of strategies is successfully retrieved.",
             "examples" : {
@@ -513,30 +690,21 @@
             "description" : "This status code indicates that either the user didn't provide right credentials or the user doesn't have required privileges to access this API."
           }
         },
-        "security" : [ {
-          "Basic" : [ ]
-        } ]
-      },
-      "delete" : {
-        "description" : "The method deletes the specified strategy in API Gateway.",
-        "operationId" : "deleteStrategy",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "ids",
-          "in" : "query",
-          "description" : "This parameter specifies the ID of a strategy that is to be deleted in API Gateway.",
-          "required" : false,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "204" : {
-            "description" : "This status code indicates that the specified strategy has been successfully deleted from API Gateway."
+        "responsesObject" : {
+          "200" : {
+            "description" : "The method creates a strategy in API Gateway. The API request body must contain the payload for the strategy",
+            "examples" : {
+              "application/json" : "{\n    \"strategy\": {\n        \"id\": \"370f88ca-205e-45df-8e16-998088f32dc2\",\n        \"type\": \"OAUTH2\",\n        \"authServerAlias\": \"local\",\n        \"name\": \"Test\",\n        \"description\": \"\",\n        \"clientId\": \"2b54de1c-a8fa-4965-a832-cacf6b656012\",\n        \"dcrConfig\": {\n            \"allowedGrantTypes\": [\n                \"authorization_code\",\n                \"password\",\n                \"implicit\"\n            ],\n            \"applicationType\": \"WEB\",\n            \"clientType\": \"PUBLIC\",\n            \"clientName\": \"Test\",\n            \"clientVersion\": \"1.0\",\n            \"expirationInterval\": \"3600\",\n            \"refreshCount\": \"0\",\n            \"redirectUris\": [\n                \"http://vm:5555/redirect\"\n            ]\n        },\n        \"clientRegistration\": {\n            \"clientId\": \"2b54de1c-a8fa-4965-a832-cacf6b656012\",\n            \"name\": \"Test\",\n            \"version\": \"1.0\",\n            \"type\": \"public\",\n            \"tokenLifetime\": 3600,\n            \"tokenRefreshLimit\": 0,\n            \"clientSecret\": \"6a3d98c3-e5b0-47fc-9acf-b454401cd87d\",\n            \"enabled\": true,\n            \"redirectUris\": [\n                \"http://vm:5555/redirect\"\n            ],\n            \"clScopes\": [],\n            \"authCodeAllowed\": true,\n            \"implicitAllowed\": true,\n            \"clientCredentialsAllowed\": false,\n            \"resourceOwnerAllowed\": true\n        }\n    }\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/OneOfStrategyModel"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that a strategy with the given ID already exists in API Gateway"
           },
           "401" : {
             "description" : "This status code indicates that either the user didn't provide right credentials or the user doesn't have required privileges to access this API."
-          },
-          "404" : {
-            "description" : "This status code indicates that a strategy with the given ID could not be found in API Gateway."
           }
         },
         "security" : [ {
@@ -557,6 +725,23 @@
           "type" : "string"
         } ],
         "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the details of the specified strategy are retrieved successfully.",
+            "examples" : {
+              "application/json" : "{\n    \"strategy\": {\n        \"id\": \"a2641013-701c-420d-9eba-30cd9da1f0f5\",\n        \"type\": \"OAUTH2\",\n        \"authServerAlias\": \"local\",\n        \"name\": \"testapp-$sys-default-oauth\",\n        \"clientId\": \"5b5e2fee-b786-4abe-9fd4-584c265d260a\",\n        \"dcrConfig\": {\n            \"allowedGrantTypes\": [\n                \"implicit\",\n                \"client_credentials\",\n                \"authorization_code\"\n            ],\n            \"clientType\": \"CONFIDENTIAL\",\n            \"clientName\": \"4425af88-a80d-4f6c-b6e0-84008c720889\",\n            \"clientVersion\": \"1.0\",\n            \"expirationInterval\": \"3600\",\n            \"redirectUris\": []\n        },\n        \"clientRegistration\": {\n            \"clientId\": \"5b5e2fee-b786-4abe-9fd4-584c265d260a\",\n            \"name\": \"4425af88-a80d-4f6c-b6e0-84008c720889\",\n            \"version\": \"1.0\",\n            \"type\": \"confidential\",\n            \"tokenLifetime\": 3600,\n            \"tokenRefreshLimit\": 0,\n            \"clientSecret\": \"1bd1bcd0-7eb2-4aa9-a50a-41c038ad92b2\",\n            \"enabled\": true,\n            \"redirectUris\": [\n                \"https://placeholder_redirect_uri\"\n            ],\n            \"clScopes\": [],\n            \"authCodeAllowed\": true,\n            \"implicitAllowed\": true,\n            \"clientCredentialsAllowed\": true,\n            \"resourceOwnerAllowed\": false\n        }\n    }\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/OneOfStrategyModel"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that a strategy with the given ID could not be found in API Gateway."
+          }
+        },
+        "responsesObject" : {
           "200" : {
             "description" : "This status code indicates that the details of the specified strategy are retrieved successfully.",
             "examples" : {
@@ -617,6 +802,60 @@
             "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
           }
         },
+        "responsesObject" : {
+          "200" : {
+            "description" : "This status code indicates that the specified strategy has been successfully updated in API Gateway.",
+            "examples" : {
+              "application/json" : "{\n    \"strategy\": {\n        \"id\": \"a2641013-701c-420d-9eba-30cd9da1f0f5\",\n        \"type\": \"OAUTH2\",\n        \"authServerAlias\": \"local\",\n        \"name\": \"testapp-$sys-default-oauth\",\n        \"clientId\": \"5b5e2fee-b786-4abe-9fd4-584c265d260a\",\n        \"dcrConfig\": {\n            \"allowedGrantTypes\": [\n                \"implicit\",\n                \"client_credentials\",\n                \"authorization_code\"\n            ],\n            \"clientType\": \"CONFIDENTIAL\",\n            \"clientName\": \"4425af88-a80d-4f6c-b6e0-84008c720889\",\n            \"clientVersion\": \"1.0\",\n            \"expirationInterval\": \"3600\",\n            \"redirectUris\": []\n        },\n        \"clientRegistration\": {\n            \"clientId\": \"5b5e2fee-b786-4abe-9fd4-584c265d260a\",\n            \"name\": \"4425af88-a80d-4f6c-b6e0-84008c720889\",\n            \"version\": \"1.0\",\n            \"type\": \"confidential\",\n            \"tokenLifetime\": 3600,\n            \"tokenRefreshLimit\": 0,\n            \"clientSecret\": \"1bd1bcd0-7eb2-4aa9-a50a-41c038ad92b2\",\n            \"enabled\": true,\n            \"redirectUris\": [],\n            \"clScopes\": [],\n            \"authCodeAllowed\": true,\n            \"implicitAllowed\": true,\n            \"clientCredentialsAllowed\": true,\n            \"resourceOwnerAllowed\": false\n        }\n    }\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/OneOfStrategyModel"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the specified strategy could not be updated"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "The method deletes the specified strategy in API Gateway.",
+        "operationId" : "deleteStrategy",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "strategyId",
+          "in" : "path",
+          "description" : "This parameter specifies the ID of a strategy that is to be deleted in API Gateway.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "This status code indicates that the specified strategy has been successfully deleted from API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either the user didn't provide right credentials or the user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that a strategy with the given ID could not be found in API Gateway."
+          }
+        },
+        "responsesObject" : {
+          "204" : {
+            "description" : "This status code indicates that the specified strategy has been successfully deleted from API Gateway."
+          },
+          "401" : {
+            "description" : "This status code indicates that either the user didn't provide right credentials or the user doesn't have required privileges to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that a strategy with the given ID could not be found in API Gateway."
+          }
+        },
         "security" : [ {
           "Basic" : [ ]
         } ]
@@ -647,6 +886,23 @@
           }
         } ],
         "responses" : {
+          "200" : {
+            "description" : "This status code indicates that the specified strategy has been successfully updated in API Gateway",
+            "examples" : {
+              "application/json" : "{\n    \"strategy\": {\n        \"id\": \"a2641013-701c-420d-9eba-30cd9da1f0f5\",\n        \"type\": \"OAUTH2\",\n        \"authServerAlias\": \"local\",\n        \"name\": \"testapp-$sys-default-oauth\",\n        \"clientId\": \"5b5e2fee-b786-4abe-9fd4-584c265d260a\",\n        \"dcrConfig\": {\n            \"allowedGrantTypes\": [\n                \"implicit\",\n                \"client_credentials\",\n                \"authorization_code\"\n            ],\n            \"clientType\": \"CONFIDENTIAL\",\n            \"clientName\": \"4425af88-a80d-4f6c-b6e0-84008c720889\",\n            \"clientVersion\": \"1.0\",\n            \"expirationInterval\": \"3600\",\n            \"redirectUris\": []\n        },\n        \"clientRegistration\": {\n            \"clientId\": \"5b5e2fee-b786-4abe-9fd4-584c265d260a\",\n            \"name\": \"4425af88-a80d-4f6c-b6e0-84008c720889\",\n            \"version\": \"1.0\",\n            \"type\": \"confidential\",\n            \"tokenLifetime\": 3600,\n            \"tokenRefreshLimit\": 0,\n            \"clientSecret\": \"1bd1bcd0-7eb2-4aa9-a50a-41c038ad92b2\",\n            \"enabled\": true,\n            \"redirectUris\": [],\n            \"clScopes\": [],\n            \"authCodeAllowed\": true,\n            \"implicitAllowed\": true,\n            \"clientCredentialsAllowed\": true,\n            \"resourceOwnerAllowed\": false\n        }\n    }\n}"
+            },
+            "schema" : {
+              "$ref" : "#/definitions/OneOfStrategyModel"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the specified strategy could not be refreshed"
+          },
+          "401" : {
+            "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have required privileges to access this API."
+          }
+        },
+        "responsesObject" : {
           "200" : {
             "description" : "This status code indicates that the specified strategy has been successfully updated in API Gateway",
             "examples" : {
@@ -779,10 +1035,6 @@
         "owner" : {
           "type" : "string",
           "description" : "owner of the application"
-        },
-        "ownerType" : {
-          "type" : "string",
-          "description" : "The application's owner type can be user or a team. By default, its the user who created the application."
         },
         "primaryNode" : {
           "$ref" : "#/definitions/Node"
@@ -1424,6 +1676,18 @@
           "type" : "string",
           "description" : "The type of the strategy",
           "enum" : [ "JWT_RSA", "JWT_HSA", "OPENID_CONNECT_RSA", "OPENID_CONNECT_HSA", "OAUTH2", "OAUTH2_LOCAL_RSA", "OAUTH2_LOCAL_HSA", "COMPOSITE" ]
+        }
+      }
+    },
+    "RegisterAPIModel" : {
+      "type" : "object",
+      "properties" : {
+        "apiIDs" : {
+          "type" : "array",
+          "description" : "List of api to be registered with the Application",
+          "items" : {
+            "type" : "string"
+          }
         }
       }
     },
