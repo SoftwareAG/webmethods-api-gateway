@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "fcf030a9-305c-4dfd-ba9e-ae7ca372ec25",
+		"_postman_id": "5c1ae95a-4347-4c2b-8618-80cbac610bf3",
 		"name": "Service Management",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23580045"
 	},
 	"item": [
 		{
@@ -178,9 +179,9 @@
 									],
 									"variable": [
 										{
-											"description": "(Required) API Id for the API to be versioned",
 											"key": "apiId",
-											"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0"
+											"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0",
+											"description": "(Required) API Id for the API to be versioned"
 										}
 									]
 								},
@@ -346,7 +347,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "9caeabbd-f2af-45fe-b2ab-6a2385d8d5e6",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -356,16 +356,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7a0bcd00-2a59-40f9-808f-22d4d4ec8a5a",
 								"type": "text/javascript",
 								"exec": [
 									""
 								]
 							}
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				},
 				{
 					"name": "Mocking",
@@ -401,9 +398,9 @@
 									],
 									"variable": [
 										{
-											"description": "(Required) API Id for the API to be activated",
 											"key": "apiId",
-											"value": "3c575e49-73d5-4ae8-a3a5-552544e5a4a0"
+											"value": "3c575e49-73d5-4ae8-a3a5-552544e5a4a0",
+											"description": "(Required) API Id for the API to be activated"
 										}
 									]
 								},
@@ -756,7 +753,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "b75fb5b6-7516-4ac6-80c6-d6b1bf255175",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -766,16 +762,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c6625976-1a14-4fa7-bd87-9ebf3acea429",
 								"type": "text/javascript",
 								"exec": [
 									""
 								]
 							}
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				},
 				{
 					"name": "Scopes",
@@ -1075,7 +1068,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "e62e1815-b4d5-478e-885e-7fbcba6f19e1",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1085,16 +1077,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "08865f17-53f1-4744-aa55-1f4348631d77",
 								"type": "text/javascript",
 								"exec": [
 									""
 								]
 							}
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				},
 				{
 					"name": "Gateway Scope Mapping",
@@ -1274,6 +1263,154 @@
 					]
 				},
 				{
+					"name": "Tracer",
+					"item": [
+						{
+							"name": "Enable Tracer",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}/apis/{apiId}/tracing/enable",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"apis",
+										"{apiId}",
+										"tracing",
+										"enable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Disable Tracer",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}/apis/{apiId}/tracing/disable",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"apis",
+										"{apiId}",
+										"tracing",
+										"disable"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Archive Tracer events",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"correlationIDs\": [\r\n\t\t{\r\n\t\t\t\"correlationID\": \"APIGW:6a0305cc-f4e3-4264-8390-b71a74cae2f7:1053\",\r\n\t\t\t\"creationDate\": 1678122074,\r\n\t\t\t\"statusCode\": \"200\",\r\n\t\t\t\"status\": \"SUCCESS\"\r\n\t\t}\r\n\t],\r\n\t\"apiId\": \"e9cd0d92-a946-4622-b51d-07f6957edb8b\",\r\n\t\"apiType\": \"REST\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/tracer/archive",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"tracer",
+										"archive"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "import Tracer Archive",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseURL}}/tracer/import",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"tracer",
+										"import"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Tracer info from correlationID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}/tracer/{correlationID}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"tracer",
+										"{correlationID}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Get API Details by Id",
 					"request": {
 						"method": "GET",
@@ -1295,9 +1432,9 @@
 							],
 							"variable": [
 								{
-									"description": "(Required) API Id for the API to be retrieved",
 									"key": "apiId",
-									"value": "3c575e49-73d5-4ae8-a3a5-552544e5a4a0"
+									"value": "3c575e49-73d5-4ae8-a3a5-552544e5a4a0",
+									"description": "(Required) API Id for the API to be retrieved"
 								}
 							]
 						},
@@ -1391,7 +1528,7 @@
 							"body": ""
 						},
 						{
-							"name": "If the format is swagger, returns the swagger content in json and raml returns the raml content in yaml. If the format is openapi, returns the open api content in json. If the format is odata, you get a zip file holding the OData metadata and service document.",
+							"name": "If the format is swagger, returns the swagger content in json and raml returns the raml content in yaml. If the format is openapi, returns the open api content in json. If the format is odata, you get a zip file holding the OData metadata and service docu",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -1863,9 +2000,9 @@
 							],
 							"variable": [
 								{
-									"description": "(Required) API Id for the API to be deactivated",
 									"key": "apiId",
-									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0"
+									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0",
+									"description": "(Required) API Id for the API to be deactivated"
 								}
 							]
 						},
@@ -2047,9 +2184,9 @@
 							],
 							"variable": [
 								{
-									"description": "(Required) API Id for the API to be published",
 									"key": "apiId",
-									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0"
+									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0",
+									"description": "(Required) API Id for the API to be published"
 								}
 							]
 						},
@@ -2243,9 +2380,9 @@
 							],
 							"variable": [
 								{
-									"description": "(Required) API Id for the API to be unpublished",
 									"key": "apiId",
-									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0"
+									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0",
+									"description": "(Required) API Id for the API to be unpublished"
 								}
 							]
 						},
@@ -2430,9 +2567,9 @@
 							],
 							"variable": [
 								{
-									"description": "(Required) API Id for the API to be updated",
 									"key": "apiId",
-									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0"
+									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0",
+									"description": "(Required) API Id for the API to be updated"
 								}
 							]
 						},
@@ -2792,9 +2929,9 @@
 							],
 							"variable": [
 								{
-									"description": "(Required) API Id for the API to download the source content",
 									"key": "apiId",
-									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0"
+									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0",
+									"description": "(Required) API Id for the API to download the source content"
 								}
 							]
 						},
@@ -2962,9 +3099,9 @@
 							],
 							"variable": [
 								{
-									"description": "(Required) API Id for the API to find the list of applicable global policies",
 									"key": "apiId",
-									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0"
+									"value": "2c843837-cc6c-4ba1-aaf3-b10f8e9adbe0",
+									"description": "(Required) API Id for the API to find the list of applicable global policies"
 								}
 							]
 						},
@@ -3417,50 +3554,32 @@
 										{
 											"key": "file",
 											"value": "petstore.json",
-											"description": {
-												"content": "Input swagger / raml / wsdl file to be imported",
-												"type": "text/plain"
-											}
+											"description": "Input swagger / raml / wsdl file to be imported"
 										},
 										{
 											"key": "apiName",
 											"value": "Swagger Petstore",
-											"description": {
-												"content": "Name of the API",
-												"type": "text/plain"
-											}
+											"description": "Name of the API"
 										},
 										{
 											"key": "type",
 											"value": "swagger",
-											"description": {
-												"content": "Input file type (This can only be one of swagger,raml,wsdl,openapi)",
-												"type": "text/plain"
-											}
+											"description": "Input file type (This can only be one of swagger,raml,wsdl,openapi)"
 										},
 										{
 											"key": "apiDescription",
 											"value": "This is a sample server Petstore server",
-											"description": {
-												"content": "Description of the API",
-												"type": "text/plain"
-											}
+											"description": "Description of the API"
 										},
 										{
 											"key": "apiVersion",
 											"value": "V1",
-											"description": {
-												"content": "Version of the API",
-												"type": "text/plain"
-											}
+											"description": "Version of the API"
 										},
 										{
 											"key": "rootFileName",
 											"value": "mainFile.wsdl",
-											"description": {
-												"content": "Name of the main file in the zip. Required only when the input file is zip format",
-												"type": "text/plain"
-											}
+											"description": "Name of the main file in the zip. Required only when the input file is zip format"
 										}
 									]
 								},
@@ -3497,50 +3616,32 @@
 										{
 											"key": "file",
 											"value": "petstore.json",
-											"description": {
-												"content": "Input swagger / raml / wsdl file to be imported",
-												"type": "text/plain"
-											}
+											"description": "Input swagger / raml / wsdl file to be imported"
 										},
 										{
 											"key": "apiName",
 											"value": "Swagger Petstore",
-											"description": {
-												"content": "Name of the API",
-												"type": "text/plain"
-											}
+											"description": "Name of the API"
 										},
 										{
 											"key": "type",
 											"value": "swagger",
-											"description": {
-												"content": "Input file type (This can only be one of swagger,raml,wsdl,openapi)",
-												"type": "text/plain"
-											}
+											"description": "Input file type (This can only be one of swagger,raml,wsdl,openapi)"
 										},
 										{
 											"key": "apiDescription",
 											"value": "This is a sample server Petstore server",
-											"description": {
-												"content": "Description of the API",
-												"type": "text/plain"
-											}
+											"description": "Description of the API"
 										},
 										{
 											"key": "apiVersion",
 											"value": "V1",
-											"description": {
-												"content": "Version of the API",
-												"type": "text/plain"
-											}
+											"description": "Version of the API"
 										},
 										{
 											"key": "rootFileName",
 											"value": "mainFile.wsdl",
-											"description": {
-												"content": "Name of the main file in the zip. Required only when the input file is zip format",
-												"type": "text/plain"
-											}
+											"description": "Name of the main file in the zip. Required only when the input file is zip format"
 										}
 									]
 								},
@@ -3577,50 +3678,32 @@
 										{
 											"key": "file",
 											"value": "petstore.json",
-											"description": {
-												"content": "Input swagger / raml / wsdl file to be imported",
-												"type": "text/plain"
-											}
+											"description": "Input swagger / raml / wsdl file to be imported"
 										},
 										{
 											"key": "apiName",
 											"value": "Swagger Petstore",
-											"description": {
-												"content": "Name of the API",
-												"type": "text/plain"
-											}
+											"description": "Name of the API"
 										},
 										{
 											"key": "type",
 											"value": "swagger",
-											"description": {
-												"content": "Input file type (This can only be one of swagger,raml,wsdl,openapi)",
-												"type": "text/plain"
-											}
+											"description": "Input file type (This can only be one of swagger,raml,wsdl,openapi)"
 										},
 										{
 											"key": "apiDescription",
 											"value": "This is a sample server Petstore server",
-											"description": {
-												"content": "Description of the API",
-												"type": "text/plain"
-											}
+											"description": "Description of the API"
 										},
 										{
 											"key": "apiVersion",
 											"value": "V1",
-											"description": {
-												"content": "Version of the API",
-												"type": "text/plain"
-											}
+											"description": "Version of the API"
 										},
 										{
 											"key": "rootFileName",
 											"value": "mainFile.wsdl",
-											"description": {
-												"content": "Name of the main file in the zip. Required only when the input file is zip format",
-												"type": "text/plain"
-											}
+											"description": "Name of the main file in the zip. Required only when the input file is zip format"
 										}
 									]
 								},
@@ -3696,50 +3779,32 @@
 										{
 											"key": "file",
 											"value": "petstore.json",
-											"description": {
-												"content": "Input swagger / raml / wsdl file to be imported",
-												"type": "text/plain"
-											}
+											"description": "Input swagger / raml / wsdl file to be imported"
 										},
 										{
 											"key": "apiName",
 											"value": "Swagger Petstore",
-											"description": {
-												"content": "Name of the API",
-												"type": "text/plain"
-											}
+											"description": "Name of the API"
 										},
 										{
 											"key": "type",
 											"value": "swagger",
-											"description": {
-												"content": "Input file type (This can only be one of swagger,raml,wsdl,openapi)",
-												"type": "text/plain"
-											}
+											"description": "Input file type (This can only be one of swagger,raml,wsdl,openapi)"
 										},
 										{
 											"key": "apiDescription",
 											"value": "This is a sample server Petstore server",
-											"description": {
-												"content": "Description of the API",
-												"type": "text/plain"
-											}
+											"description": "Description of the API"
 										},
 										{
 											"key": "apiVersion",
 											"value": "V1",
-											"description": {
-												"content": "Version of the API",
-												"type": "text/plain"
-											}
+											"description": "Version of the API"
 										},
 										{
 											"key": "rootFileName",
 											"value": "mainFile.wsdl",
-											"description": {
-												"content": "Name of the main file in the zip. Required only when the input file is zip format",
-												"type": "text/plain"
-											}
+											"description": "Name of the main file in the zip. Required only when the input file is zip format"
 										}
 									]
 								},
@@ -3776,50 +3841,32 @@
 										{
 											"key": "file",
 											"value": "petstore.json",
-											"description": {
-												"content": "Input swagger / raml / wsdl file to be imported",
-												"type": "text/plain"
-											}
+											"description": "Input swagger / raml / wsdl file to be imported"
 										},
 										{
 											"key": "apiName",
 											"value": "Swagger Petstore",
-											"description": {
-												"content": "Name of the API",
-												"type": "text/plain"
-											}
+											"description": "Name of the API"
 										},
 										{
 											"key": "type",
 											"value": "swagger",
-											"description": {
-												"content": "Input file type (This can only be one of swagger,raml,wsdl,openapi)",
-												"type": "text/plain"
-											}
+											"description": "Input file type (This can only be one of swagger,raml,wsdl,openapi)"
 										},
 										{
 											"key": "apiDescription",
 											"value": "This is a sample server Petstore server",
-											"description": {
-												"content": "Description of the API",
-												"type": "text/plain"
-											}
+											"description": "Description of the API"
 										},
 										{
 											"key": "apiVersion",
 											"value": "V1",
-											"description": {
-												"content": "Version of the API",
-												"type": "text/plain"
-											}
+											"description": "Version of the API"
 										},
 										{
 											"key": "rootFileName",
 											"value": "mainFile.wsdl",
-											"description": {
-												"content": "Name of the main file in the zip. Required only when the input file is zip format",
-												"type": "text/plain"
-											}
+											"description": "Name of the main file in the zip. Required only when the input file is zip format"
 										}
 									]
 								},
@@ -3856,50 +3903,32 @@
 										{
 											"key": "file",
 											"value": "petstore.json",
-											"description": {
-												"content": "Input swagger / raml / wsdl file to be imported",
-												"type": "text/plain"
-											}
+											"description": "Input swagger / raml / wsdl file to be imported"
 										},
 										{
 											"key": "apiName",
 											"value": "Swagger Petstore",
-											"description": {
-												"content": "Name of the API",
-												"type": "text/plain"
-											}
+											"description": "Name of the API"
 										},
 										{
 											"key": "type",
 											"value": "swagger",
-											"description": {
-												"content": "Input file type (This can only be one of swagger,raml,wsdl,openapi)",
-												"type": "text/plain"
-											}
+											"description": "Input file type (This can only be one of swagger,raml,wsdl,openapi)"
 										},
 										{
 											"key": "apiDescription",
 											"value": "This is a sample server Petstore server",
-											"description": {
-												"content": "Description of the API",
-												"type": "text/plain"
-											}
+											"description": "Description of the API"
 										},
 										{
 											"key": "apiVersion",
 											"value": "V1",
-											"description": {
-												"content": "Version of the API",
-												"type": "text/plain"
-											}
+											"description": "Version of the API"
 										},
 										{
 											"key": "rootFileName",
 											"value": "mainFile.wsdl",
-											"description": {
-												"content": "Name of the main file in the zip. Required only when the input file is zip format",
-												"type": "text/plain"
-											}
+											"description": "Name of the main file in the zip. Required only when the input file is zip format"
 										}
 									]
 								},
@@ -4117,7 +4146,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "68328b5e-4249-48e8-a287-f36ed92654c2",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -4127,15 +4155,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "c71aec70-5a83-4464-a155-c9565d39ce3d",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Service Registry",
@@ -4540,7 +4566,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "08b030c3-b10b-4858-98e9-5c9e38bc32a8",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -4550,15 +4575,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d8ca7ebe-55af-4b21-b342-63d92cdc077c",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Integration Server",
@@ -4865,7 +4888,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "c59419e7-a8e1-4085-bf17-92b05d42baed",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -4875,15 +4897,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7c9cdf2d-737f-4160-9a3a-f5a5f67feff7",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		}
 	],
 	"auth": {
@@ -4905,7 +4925,6 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "e9365a3d-fd8d-488e-adcd-a867725f723a",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -4915,7 +4934,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "c2e9a969-d744-4e17-98cd-716d288b31b1",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -4925,11 +4943,9 @@
 	],
 	"variable": [
 		{
-			"id": "55efcb8f-610f-4894-9dcc-e2751391ac22",
 			"key": "baseURL",
 			"value": "http://localhost:5555/rest/apigateway",
 			"type": "string"
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
