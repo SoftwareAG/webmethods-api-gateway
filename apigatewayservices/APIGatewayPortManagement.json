@@ -390,8 +390,54 @@
           }
         }
       },
+	  "post" : {
+        "description" : "The POST defines the access mode for an API Gateway port configuration",
+        "operationId" : "createAccessMode",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "listenerKey",
+          "in" : "path",
+          "description" : "The listenerKey parameter uniquely identifies a port configuration within the WmRoot package.",
+		  "required" : true,
+          "type" : "string"
+        },
+        {
+          "in" : "body",
+          "name" : "body",
+		  "description" : "The request contains the access mode information.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AccessModeType"
+          }
+        }		
+		],
+        "responses" : {
+          "200" : {
+            "description" : "Access mode information updated successfully. The response body holds the updated access mode information.",
+            "schema" : {
+              "$ref" : "#/definitions/AccessModeType"
+            }
+          },
+         "404" : {
+            "description" : "Resorce not found, the specified port configuration can be found in the WmRoot package.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }	  
+	  },
 	  "put" : {
-        "description" : "The PUT updates the access mode for an API Gateway port configuration",
+        "description" : "The PUT updates the services for the access mode for an API Gateway port configuration",
         "operationId" : "updateAccessMode",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -405,10 +451,10 @@
         {
           "in" : "body",
           "name" : "body",
-		  "description" : "The request contains the updated access mode information.",
+		  "description" : "The request contains the updated services access mode information.",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/AccessMode"
+            "$ref" : "#/definitions/AccessModeServices"
           }
         }		
 		],
@@ -416,7 +462,7 @@
           "200" : {
             "description" : "Access mode information updated successfully. The response body holds the updated access mode information.",
             "schema" : {
-              "$ref" : "#/definitions/AccessMode"
+              "$ref" : "#/definitions/AccessModeServices"
             }
           },
          "404" : {
@@ -453,7 +499,7 @@
         {
           "in" : "body",
           "name" : "body",
-		  "description" : "The request contains the updated IP access mode information.",
+		  "description" : "The request contains the IP access mode information.",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/IPAccessMode"
@@ -484,7 +530,53 @@
           }
         }
       },
-	  "put" : {
+	  "post" : {
+        "description" : "The POST creates the ipAccessMode for an API Gateway port configuration",
+        "operationId" : "createIPAccessMode",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "listenerKey",
+          "in" : "path",
+          "description" : "The listenerKey parameter uniquely identifies a port configuration within the WmRoot package.",
+		  "required" : true,
+          "type" : "string"
+        },
+        {
+          "in" : "body",
+          "name" : "body",
+		  "description" : "The request contains the ip access mode type information.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/IPAccessModeType"
+          }
+        }
+        ],        
+        "responses" : {
+          "200" : {
+            "description" : "IP access mode information updated successfully. The response body holds the requested IP access mode.",
+            "schema" : {
+              "$ref" : "#/definitions/IPAccessModeType"
+            }
+          },
+         "404" : {
+            "description" : "Resorce not found, the specified port configuration can be found in the WmRoot package.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          },
+          "401" : {
+            "description" : "Authentication failed, the provided credentials are invalid or the user does not have the required privileges."
+          },
+          "500" : {
+            "description" : "Server error, the API Gateway encountered an internal error.",
+			"schema" : {
+              "$ref" : "#/definitions/MessageWithPortReference"
+            }
+          }
+        }	  
+	  },
+      "put" : {
         "description" : "The PUT updates the ipAccessMode for an API Gateway port configuration",
         "operationId" : "updatedIPAccessMode",
         "consumes" : [ "application/json" ],
@@ -495,12 +587,22 @@
           "description" : "The listenerKey parameter uniquely identifies a port configuration within the WmRoot package.",
 		  "required" : true,
           "type" : "string"
-        } ],
+        } ,
+        {
+          "in" : "body",
+          "name" : "body",
+		  "description" : "The request contains update the ip access mode hosts list information.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/IPAccessModeHostsList"
+          }
+        }
+        ],      
         "responses" : {
           "200" : {
             "description" : "IP access mode information updated successfully. The response body holds the requested IP access mode.",
             "schema" : {
-              "$ref" : "#/definitions/Port"
+              "$ref" : "#/definitions/IPAccessModeHostsList"
             }
           },
          "404" : {
@@ -680,30 +782,62 @@
 	"AccessMode" : {
 		"type": "object",
         "properties" : { 
-		   "services": {
-		     "type" : "array",
-			 "items" : {
-               "type" : "string"
-			  }
+		   "accessModeSevices": {
+		     "$ref" : "#/definitions/AccessModeServices"
 		   },
+		   "accessModeType": {
+		     "$ref" : "#/definitions/AccessModeType"
+		   }
+		}
+    },    
+    "AccessModeType": {
+        "type": "object",
+        "properties" : { 
 		   "accessMode": {
 		     "type" : "string"
 		   }
-		}
-    },	
-	"IPAccessMode" : {
-		"type": "object",
+        }           
+    },       
+    "AccessModeServices": {
+        "type": "object",
         "properties" : { 
-		   "ipAccessType": {
-		     "type" : "string"
-		   },
-		   "hostsList": {
+          "services": {
 		     "type" : "array",
 			 "items" : {
                "type" : "string"
 			  }
 		   }
+        }           
+    },    
+	"IPAccessMode" : {
+		"type": "object",
+        "properties" : { 
+		   "ipAccessModeType": {
+		     "$ref" : "#/definitions/IPAccessModeType"
+		   },
+		   "ipAccessModeHostsList": {
+		     "$ref" : "#/definitions/IPAccessModeHostsList"
+		   }
         }
+    },
+    "IPAccessModeType" : {
+		"type": "object",
+         "properties" : { 
+		   "ipAccessType": {
+		     "type" : "string"
+		   }
+         }
+    },
+     "IPAccessModeHostsList" : {
+		"type": "object",
+         "properties" : { 
+            "hostsList": {
+		     "type" : "array",
+			 "items" : {
+               "type" : "string"
+			  }
+		   }
+         }
     }
   }
 }
