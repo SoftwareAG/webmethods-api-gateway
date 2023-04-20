@@ -22,7 +22,7 @@
               "application/json" : "{\"status\":\"green\",\"ui\":{\"status\":\"green\",\"response_time_ms\":\"10\"},\"kibana\":{\"status\":{\"overall\":{\"state\":\"green\",\"nickname\":\"Looking good\",\"icon\":\"success\",\"uiColor\":\"secondary\"}},\"response_time_ms\":\"11\"}}"
             },
             "schema" : {
-              "$ref" : "#/definitions/HealthCheckAdminResult",
+              "$ref" : "#/definitions/HealthCheckAdminResult"
             }
           },
           "401" : {
@@ -41,7 +41,7 @@
           "200" : {
             "description" : "successful operation",
             "schema" : {
-              "$ref" : "#/definitions/HealthCheckAllResult",
+              "$ref" : "#/definitions/HealthCheckAllResult"
             }
           },
           "401" : {
@@ -63,7 +63,7 @@
               "application/json" : "{\"status\":\"green\",\"elasticsearch\":{\"cluster_name\":\"SAG_EventDataStore\",\"status\":\"yellow\"},\"is\":{\"status\":\"green\",\"response_time_ms\":\"30\",\"diskspace\":{\"status\":\"up\"},\"memory\":{\"status\":\"up\",\"freemem\":\"501744736\"}},\"terracotta\":{\"status\":\"green\",\"nodes\":\"1\",\"healthy_nodes\":\"1\",\"response_time_ms\":\"2\"}}"
             },
             "schema" : {
-              "$ref" : "#/definitions/HealthCheckEngineResult",
+              "$ref" : "#/definitions/HealthCheckEngineResult"
             }
           },
           "401" : {
@@ -85,7 +85,7 @@
               "application/json" : "{\"status\":\"green\",\"destinations\":[{\"type\":\"centrasite\",\"name\":\"centrasite\",\"status\":\"not configured\",\"response_time_ms\":\"0\"},{\"type\":\"centrasite\",\"name\":\"centrasite_snmp\",\"status\":\"not configured\",\"response_time_ms\":\"0\"},{\"type\":\"api_portal\",\"name\":\"api_portal\",\"status\":\"green\",\"response_time_ms\":\"687\"},{\"type\":\"snmp\",\"name\":\"snmp\",\"status\":\"green\",\"response_time_ms\":\"1\"}],\"external_accounts\":[{\"type\":\"service_registry\",\"name\":\"service_registry\",\"status\":\"green\",\"response_time_ms\":\"0\"}]}"
             },
             "schema" : {
-              "$ref" : "#/definitions/HealthCheckExternalResult",
+              "$ref" : "#/definitions/HealthCheckExternalResult"
             }
           },
           "401" : {
@@ -119,13 +119,13 @@
       "type" : "object",
       "properties" : {
         "admin" : {
-          "$ref" : "#/definitions/HealthCheckAdminResult",
+          "$ref" : "#/definitions/HealthCheckAdminResult"
         },
         "engine" : {
-          "$ref" : "#/definitions/HealthCheckEngineResult",
+          "$ref" : "#/definitions/HealthCheckEngineResult"
         },
         "external" : {
-          "$ref" : "#/definitions/HealthCheckExternalResult",
+          "$ref" : "#/definitions/HealthCheckExternalResult"
         }
       }
     },
