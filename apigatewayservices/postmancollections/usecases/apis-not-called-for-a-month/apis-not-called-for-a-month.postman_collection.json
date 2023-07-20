@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "3cbeb0f2-5b62-40ac-89a4-2248292d317b",
+		"name": "apis-not-called-for-a-month",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1925327"
+	},
+	"item": [
+		{
+			"name": "Search APIs not called for a month",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"types\": [\n        \"TRANSACTION_EVENTS\"\n    ],\n    \"scope\": [\n        {\n            \"attributeName\": \"creationDate\",\n            \"range\": {\n                \"to\": \"2023-06-01\"\n            }\n        }\n    ],\n    \"aggregations\": [\n        {\n            \"fields\": \"apiName,apiVersion\",\n            \"type\": \"group\",\n            \"name\": \"Grouping Info APIwise\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/search/_aggregations",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"search",
+						"_aggregations"
+					]
+				},
+				"description": "Find all the APIs that have not been called for a month is by checking APIs that were not called since <creationDate>"
+			},
+			"response": []
+		}
+	]
+}
