@@ -2,7 +2,7 @@
 <SoftwareAG_License>
 <Component Id="SalesInfo">
 <SerialNumber>0000035080</SerialNumber>
-<LicenseKey>CEA98F636A8C269B04EBFBD010DF5B4A</LicenseKey>
+<LicenseKey>56D8EB1B0B4E43F78EFDE364DB5FF427</LicenseKey>
 <CustomerID>1</CustomerID>
 <CustomerName>Free trial only</CustomerName>
 <ContractDetails>1</ContractDetails>
@@ -11,7 +11,7 @@
 <AutoCallHome/>
 </Component>
 <Component Id="ProductInfo">
-<ExpirationDate>2024/01/10</ExpirationDate>
+<ExpirationDate>2024/02/01</ExpirationDate>
 <OS>Linux</OS>
 <ProductCode>YAM</ProductCode>
 <ProductID/>

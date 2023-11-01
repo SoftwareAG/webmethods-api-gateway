@@ -2,7 +2,7 @@
 <SoftwareAG_License>
 <Component Id="SalesInfo">
 <SerialNumber>0000708817</SerialNumber>
-<LicenseKey>4B56C46A5F02A7A2E0F9C473FDC531A2</LicenseKey>
+<LicenseKey>3A6A76350F25D14CA48C2504538BD427</LicenseKey>
 <CustomerID>1</CustomerID>
 <CustomerName>Free trial only</CustomerName>
 <ContractDetails>1</ContractDetails>
@@ -11,7 +11,7 @@
 <AutoCallHome>No</AutoCallHome>
 </Component>
 <Component Id="ProductInfo">
-<ExpirationDate>2024/01/10</ExpirationDate>
+<ExpirationDate>2024/02/01</ExpirationDate>
 <OS>Linux</OS>
 <ProductCode>YAIAA</ProductCode>
 <ProductID/>
