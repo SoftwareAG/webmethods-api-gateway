@@ -29,7 +29,7 @@ Hope, everything went well in product provisioning . Lets now get started to exp
 
 Hurrah!!!!.. Now that the product is up and running and let's get into the real action of using it. First let us create an API and add some enforcement to it.
 
-1.  Login to the webapp ([http://localhost:9072/)](http://localhost:9072/)) using the default credentials (Administrator/manage). If you are using API cloud, make sure to launch the "API Gateway" app. 
+1.  Login to the webapp ([http://localhost:9072/)](http://localhost:9072/)) using the default credentials. If you are using API cloud, make sure to launch the "API Gateway" app. 
     
 2.  Create a "DateAPI" by importing [the attached archive](attachments/651659260/651661834.zip) through the import option under the user menu. By default, this API is protected with the API Key security enforcement.
     
