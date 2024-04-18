@@ -6,8 +6,8 @@ replicaCount: 1
 
 image:
     # Use the url pointing to your repository.
-    repository: <yourDockerRegistry>:<RegistryPort>/<PathToApiGateway>
-    tag: <ImageTag>
+    repository: "sagcr.azurecr.io/apigateway"
+    tag: "11.0"
         # The default pull policy is IfNotPresent which causes the Kubelet to skip pulling an image if it already exists.
         # If you would like to always force a pull use "Always"
     pullPolicy: IfNotPresent
@@ -35,19 +35,22 @@ apigateway:
     # Use true if your elasticsearch has https enabled, false if not.
     # Fill in your elasticsearch username for example: elastic
     # Fill in your elasticsearch password for example: changeme
-#Elasticsearch_external:
-#    host: "<UrlToYourExternalElasticsearch>:<elasticsearchPort>"
-#    https: <"false" or "true">
-#    username: <elasticsearchUsername>
-#    password: <elasticsearchPassword>
 
-# Docker image for elasticsearch. Default is: docker.elastic.co/elasticsearch/elasticsearch:5.6.4
+#Elasticsearch_external:
+#    host: "elasticsearch-svc"
+#    port: 9200
+#    https: "false"
+#    username: 
+#    password: 
+
+# Docker image for elasticsearch. Default is: docker.elastic.co/elasticsearch/elasticsearch:8.2.3
 elasticsearch_sidecar:
     image: docker.elastic.co/elasticsearch/elasticsearch
-    tag: 7.2.0
+    tag: 8.2.3
 
 # Port of the embedded elasticsearch used inside off the container. Default is: 9240
 #elasticsearch_embedded:
+#    use: false
 #    port: 9240
 
 # If a terracotta_host is set, the api gateway(s) will try to connect them to the terracotta host and cluster them.
