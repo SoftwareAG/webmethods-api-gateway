@@ -30,6 +30,4 @@ data:
     server.host: "0.0.0.0"
     server.port: {{ int .Values.kibanaPort }}
     elasticsearch.hosts: [ "http://{{ include "apigateway.customPrefix" . }}{{ .Values.elasticSearchService }}:{{ int .Values.elasticSearchPort }}" ]
-    console.enabled: false
     server.basePath: "/apigatewayui/dashboardproxy"
-    kibana.index: "gateway_{{ .Values.global.integrationServerInstanceName }}_dashboard"
