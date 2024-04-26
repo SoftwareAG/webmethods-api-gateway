@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway Service Management Service allows you to manage the APIs in the API Gateway. Any user with the 'Manage APIs' functional privilege can manage the APIs in the API Gateway. By default, the users who are part of either API-Gateway-Providers or API-Gateway-Administrators groups will have this privilege.\n\nAPI Gateway supports four types of APIs - REST APIs, SOAP APIs, WebSocket APIs and OData APIs. REST APIs can be created by providing the swagger (file/url), openAPI (file/url), raml (file/url) or can be created from scratch. SOAP APIs can be created using the WSDL (file/url). If the API definitions has reference schemas, then an archive containing all the definitions can be provided as an input. WebSocket APIs can be created from scratch. OData APIs can be created using their service document or metadata document url.\n\nThis service provides you with the options to create, update, read and delete of all the above API types.\n\nAn API can either be in an Active or an InActive state. An Active state indicates that the API is available for consumers. The users can use this service to activate or deactivate the API. Post activation, API Gateway generates 'Gateway Endpoints' which can be used by the API consumers to access the API.  Generally API consumers use their applications to consume the APIs.\n\nThis service can also be used to manage the API Scopes. An API Scope is a collection of resources or operations in the API. Users can create multiple scopes for a single API.\n\nOnce the API is created, users can enforce the access restrictions and other rules on the API by add the policies to the API. Policies can be attached to REST, SOAP and OData APIs.  Refer to the Policy Management API documentation for more details on the policies. Refer to the Document Management API documentation for more details on attaching documents to an API.\n\nThis service can also be used to publish/unpublish the APIs to/from a service registry.  An API in an active state can be registered (published) to one or more service registries.",
-    "version" : "10.15",
+    "version" : "11.0",
     "title" : "API Gateway Service Management Service"
   },
   "host" : "localhost:5555",
@@ -429,10 +429,7 @@
               "application/json" : "{\r\n  \"applications\": [\r\n    {\r\n      \"name\": \"app1\",\r\n      \"description\": null,\r\n      \"contactEmails\": [],\r\n      \"identifiers\": [],\r\n      \"siteURLs\": [],\r\n      \"version\": \"1.0\",\r\n      \"id\": \"ae48cd69-421e-4bdf-a4d0-e86996a78f68\",\r\n      \"created\": \"2017-03-13 13:12:03 GMT\",\r\n      \"lastupdated\": null,\r\n      \"consumingAPIs\": [\r\n        \"25fb937a-8360-41ab-8be5-987b14fe631d\"\r\n      ],\r\n      \"accessTokens\": {\r\n        \"apiAccessKey_credentials\": {\r\n          \"apiAccessKey\": \"cec4b46b-3569-4f73-a561-172dd67c182a\",\r\n          \"expirationInterval\": null\r\n        },\r\n        \"oauth_credentials\": {\r\n          \"clientID\": \"40b78ed3-d171-4bd3-99db-51dd2fa71753\",\r\n          \"clientSecret\": \"024b9525-6526-45c8-a66c-d192442064e1\",\r\n          \"clientName\": \"app1-6b753c2a-0567-462d-a4ea-1b143ab7a381\",\r\n          \"scopes\": [\r\n            \"25fb937a-8360-41ab-8be5-987b14fe631d\"\r\n          ],\r\n          \"token_lifetime\": \"3600\",\r\n          \"token_refresh_limit\": \"0\",\r\n          \"redirect_uris\": [\r\n            \"https://placeholder_redirect_uri\"\r\n          ],\r\n          \"Type\": \"confidential\"\r\n        }\r\n      }\r\n    }\r\n  ]\r\n}"
             },
             "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Application"
-              }
+              "$ref" : "#/definitions/ApplicationList"
             }
           },
           "401" : {
@@ -843,10 +840,7 @@
               "application/json" : "{\r\n  \"scopeReferences\": [\r\n    {\r\n      \"references\": [\r\n        {\r\n          \"resourcePath\": \"/random\",\r\n          \"supportedOperations\": []\r\n        }\r\n      ],\r\n      \"scope\": {\r\n        \"name\": \"Get_Scopes\",\r\n        \"description\": \"Dummy description of the scope\",\r\n        \"policies\": [\r\n          \"db1a42f4-e038-4a1b-82f4-8fee6fbd5687\"\r\n        ]\r\n      }\r\n    }\r\n  ]\r\n}"
             },
             "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/ScopeResourceIndex"
-              }
+              "$ref" : "#/definitions/ScopeReferences"
             }
           },
           "401" : {
@@ -888,10 +882,7 @@
               "application/json" : "{\r\n  \"scopeReferences\": [\r\n    {\r\n      \"references\": [\r\n        {\r\n          \"resourcePath\": \"/random\",\r\n          \"supportedOperations\": []\r\n        }\r\n      ],\r\n      \"scope\": {\r\n        \"name\": \"Get_Scopes\",\r\n        \"description\": \"Dummy description of the scope\",\r\n        \"policies\": [\r\n          \"db1a42f4-e038-4a1b-82f4-8fee6fbd5687\"\r\n        ]\r\n      }\r\n    }\r\n  ]\r\n}"
             },
             "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/ScopeResourceIndex"
-              }
+              "$ref" : "#/definitions/ScopeReferences"
             }
           },
           "401" : {
@@ -2076,6 +2067,18 @@
         }
       }
     },
+    "ApplicationList" : {
+      "type" : "object",
+      "properties" : {
+        "applications" : {
+          "type" : "array",
+          "description" : "List of applications",
+          "items" : {
+            "$ref" : "#/definitions/Application"
+          }
+        }
+      }
+    },
     "ApplicationToken" : {
       "type" : "object",
       "properties" : {
@@ -2202,6 +2205,12 @@
       }, {
         "type" : "object",
         "properties" : {
+          "enum" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          },
           "exclusiveMaximum" : {
             "type" : "boolean"
           },
@@ -2749,6 +2758,12 @@
       }, {
         "type" : "object",
         "properties" : {
+          "enum" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          },
           "exclusiveMaximum" : {
             "type" : "boolean"
           },
@@ -3180,9 +3195,6 @@
         "type" : "object",
         "properties" : {
           "schema" : {
-            "type" : "string"
-          },
-          "type" : {
             "type" : "string"
           }
         }
@@ -5359,6 +5371,9 @@
       }, {
         "type" : "object",
         "properties" : {
+          "additionalProperties" : {
+            "type" : "object"
+          },
           "properties" : {
             "type" : "object",
             "additionalProperties" : {
@@ -5874,6 +5889,9 @@
         "name" : {
           "type" : "string"
         },
+        "nullable" : {
+          "type" : "boolean"
+        },
         "position" : {
           "type" : "integer",
           "format" : "int32"
@@ -6382,6 +6400,9 @@
           "baseWsdlUri" : {
             "type" : "string"
           },
+          "differentBindings" : {
+            "type" : "boolean"
+          },
           "isRESTInvokeEnabled" : {
             "type" : "boolean"
           },
@@ -6406,6 +6427,9 @@
             }
           },
           "rootFileFolder" : {
+            "type" : "string"
+          },
+          "selectedNativeEndpoint" : {
             "type" : "string"
           },
           "serviceName" : {
@@ -6735,6 +6759,18 @@
           "type" : "array",
           "items" : {
             "type" : "string"
+          }
+        }
+      }
+    },
+    "ScopeReferences" : {
+      "type" : "object",
+      "properties" : {
+        "scopes" : {
+          "type" : "array",
+          "description" : "List of scopes",
+          "items" : {
+            "$ref" : "#/definitions/ScopeResourceIndex"
           }
         }
       }

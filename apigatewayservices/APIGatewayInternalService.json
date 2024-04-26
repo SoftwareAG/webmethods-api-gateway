@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "Services in this category work on identified application.  API Gateway will first try to identify the application based on identifiers such as API Key, OAuth token, ip address etc (as defined in the Application) and then executes the API for that application.",
-    "version" : "10.15",
+    "version" : "11.0",
     "title" : "API Gateway Internal Service"
   },
   "host" : "localhost:5555",

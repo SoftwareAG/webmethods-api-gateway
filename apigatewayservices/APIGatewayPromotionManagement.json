@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway supports staging and promotion of assets. In a typical enterprise-level,\nsolutions are separated according to the different stages of Software Development\nLifecycle (SDLC) such as development, quality assurance (QA), and production stages. Staging and promotion allows you to promote all the assets across different stages. The supported assets are APIs, global policies, policy templates, applications, aliases, packages, plans, threat protection rules, administrative configurations, approval configurations, outbound proxies, URL aliases, keyStores, trustStores, JNDI provider aliases, JMS connection aliases, JMS triggers, webservice endpoint aliases, users, groups, access profiles and kerberos settings\n\nPromotion refers to moving API Gateway assets from the source stage to one or more\ntarget stages. For example, you might want to promote assets you have developed on\nservers in a Development stage (the source API Gateway instance) to servers in a QA or\nProduction stage (the target API Gateway instance).\n\nRollback is the process of restoring the asset's metadata in the target API Gateway instance to a previous state.\n\nStages should be configured in the source machine where we initiate the promotion process.",
-    "version" : "10.15",
+    "version" : "11.0",
     "title" : "API Assets Promotion Management"
   },
   "host" : "localhost:5555",
@@ -73,6 +73,22 @@
           "name" : "overwriteAlias",
           "in" : "query",
           "description" : "Option to overwrite the asset type 'alias' in the destination stage during asset promotion. The default value is 'false'. This parameter takes precedence over the 'overwrite' parameter.",
+          "required" : false,
+          "type" : "boolean",
+          "x-example" : true,
+          "enum" : [ "true", "false" ]
+        }, {
+            "name": "overwriteAssets",
+            "in": "query",
+            "description": "Comma separated list of asset overwrite options. You can specify one or more of the following: \n apis,policies,policyactions,applications,applications_base,application_apiKeys,application_strategies,application_strategy_credentials,aliases,plans,packages,subscriptions,administrator_settings,portal_gateway,assertions,configurations,outboundProxies,urlAliases,keyStores,trustStores,JNDIProviderAliases,JMSConnectionAliases,JMSTriggers,webserviceEndpointAliases,users,groups,accessProfiles,kerberosSetting,*",
+            "required": false,
+            "type": "string",
+            "x-example": true,
+            "enum": ["apis", "policies", "policyactions", "applications", "applications_base", "application_apiKeys", "application_strategies", "application_strategy_credentials", "aliases", "plans", "packages", "subscriptions", "administrator_settings", "portal_gateway", "assertions", "configurations", "outboundProxies", "urlAliases", "keyStores", "trustStores", "JNDIProviderAliases", "JMSConnectionAliases", "JMSTriggers", "webserviceEndpointAliases", "users", "groups", "accessProfiles", "kerberosSetting", "*"]
+          },{
+          "name" : "include-registered-applications",
+          "in" : "query",
+          "description" : "Option to include application registrations when promoting Apis. The default value is 'false'. This parameter takes precedence over the 'overwrite' parameter.",
           "required" : false,
           "type" : "boolean",
           "x-example" : true,
@@ -615,6 +631,11 @@
         },
         "id" : {
           "type" : "string",
+          "readOnly" : true
+        },
+        "includeRegisteredApplications" : {
+          "type" : "boolean",
+          "description" : "Whether RegisteredApplications are included",
           "readOnly" : true
         },
         "lastRollbackTime" : {

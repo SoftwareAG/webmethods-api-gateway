@@ -1,8 +1,8 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "API Gateway Administration Service provides interface for you to administer various functions of the API Gateway. The user needs to have different functional privileges to administer different functions. For example, in order to manage runtime transactions data of the API Gateway, the user needs to have 'Manage purge and restore runtime events' privilege. By default, the users who are part of API-Gateway-Administrators group will have all privileges. \n\nFollowing Administration functions are exposed using this API. \n\n1. Manage data- Archive, Purge and Restore API Gateway runtime events, audit logs & metrics data. \n\nThis function lets the users manage the API Gateway runtime events, audit logs & metrics data.   \n\nAPI Gateway generates different types of events in the runtime depending on the state of the API invocation. For example, an error event is generated when API Gateway encounters an error while processing the API request or the response.  API Metrics is an aggregated data computed from the different events that happen in the system. These metrics provides information about the key performance indicators of an API like its \"Availability\", \"Fault Count\" etc which are useful for monitoring & governing the service performance and service level agreements.  The API providers has a variety of options to choose from for storing these events and metrics. By default, API Gateway store will be used for storing this data.  Here are some details about different type of events.\n\nTransactional event: Provides a summary (request & response) of each runtime transaction in the system. It is generated when a Log Invocation policy is included for the API. For example, if an API has this policy attached to it, then for every invoke the system generates a transaction event.  \n\nError event: Provides details of an error that occurred during an API invoke. This event is generated whenever there is an error in the system during a runtime service invocation. \n\nMonitoring event: This event is generated based on the parameters configured in the API monitoring policies such as Monitor Service Level Agreements, Throttling etc. Monitoring could be done based on various parameters such as Total Request Count, Total Success Count, Response Time, Availability. Monitoring can be done at the consumer application level too so that each consumer can be tracked individually. \n \nPolicy violation event: Provides a summary of the policy violations that occurred in the system. When a policy attached to an API is violated, the system generates the policy violation event.\n\nLifeCycle event: Provides a summary of the life cycle of the API Gateway instance. Whenever the instance is started or stopped, a life cycle notification is generated.\n\nThreat protection events: Provides a summary of the threat protection filter and rule violations. When a filter or rule is violated, the system generates the threat protection violation event. \n\nThe Audit logging of API Gateway provides audit information for different categories of system transactions, events, and occurrences of specific events (for example, login attempts) over a period of time. You can use audit logs to view a detailed record of various auditable events that occurred on the API Gateway objects, user login and logout operations, and identify the users who are responsible for the changes. You can configure which audit events to log for a specific destination based on your auditing requirements.You can configure API Gateway to log the auditable events for following destinations:\nAPI Gateway\nDatabase\nDigital Event Services (DES)\nElasticsearch. \n\nThe following auditable events can be configured to write to the API Gateway audit logs:\n Access profile management events: Creation, modification, and deletion of an Access profile object. \n Alias management events: Creation, modification, and deletion of an Alias object. \n Analytics management events: Archiving, purging, and restoring of analytics data in the database. \n API management events: Creation, modification, deletion, activation and deactivation of an API object. \n Application management events: Creation, modification, and deletion of an Application object. \n Group management events: Creation, modification, and deletion of a Group object.\n Package management events: Creation, modification, and deletion of a Package object.\n Plan management events: Creation, modification, and deletion of a Plan object.\n Policy management: Creation, modification, and deletion of a global Policy object.Creation, modification, and deletion of an API level Policy object.Activation and deactivation of a global policy.\n  Activation and deactivation of an API level policy.\n Promotion management events: Creation, modification, and deletion of a Stage object.Promotion of an API stage.Rollback operation of an API stage.\n User management events: A user logs in or fails to log in to API Gateway.A user logs out of API Gateway.Creation, modification, and deletion of a User object.\n\nManaging the Events/Audit logs/Metrics Data\n\nPurge: The process of systematically deleting unwanted data from the database is called purging. You can purge events, audit logs and metrics from the API Gateway store by setting the required date or duration in the API Gateway. You must have the required functional privileges to purge the API analytics data.\n\nArchive: Moving data that is no longer actively used for long-term retention so that it can be used at a later time is called archiving. You can archive events, audit logs and metrics by setting the required date or duration per tenant in the API Gateway. You must have the required functional privileges to archive events, audit logs and metrics.\n\nRestore: You can restore the archived data as required. \n\n\n2.Transaction based license: \n\nAPI Gateway supports core as well as transaction-based licensing model. When API Gateway uses a transaction-based licensing model, then each service invocation is considered as a transaction and API Gateway keeps a track of these transactions. API Gateway transactions for the current month are compared with the maximum number of transactions allowed in a month.When the usage breaches, notification will be generated for the current month. Apart from this if the user wants to generate notifications before usage breach itself when usage reaches to some x% like 70% or 80% then the user has to add notification criteria at 70% or 80%. By default API Gateway will have two default notification criteria's at 90%, 100%.\n\n\n3.Destination configuration: \n\nAPI Gateway can publish events and performance metrics data to the configured destinations. You must have the API Gateway's manage destination configurations functional privilege assigned to configure the following destinations to which the event types and performance metrics data is published:\nAPI Gateway\nAPI Portal\nTransaction logger\nCentraSite\nDatabase\nDigital Events\nElasticsearch\nEmail\nSNMP\nCustom Destination - Please refer the resource /policyActions from the swagger file 'APIGatewayPolicyManagement.json'  \n\n\n4.Default API fault configuration: \n\n API provider can configure a global error handling behaviour. In case of the native service error, the provider may choose to either forward the native error as is or can choose to modify the error response. In case the provider chooses to provide a custom error response, he/she can use the default error template containing standard aliases. These alias values will be replaced with the request specific information before the response is sent to the client. The standard aliases like the error message, service, operation, date/time, IP address, user and consumer application can be used in the template. The custom error response configuration is applicable for the errors thrown by API Gateway also.\n\n\n5.Custom assertions: \n\nCustom assertions allow the API providers to extend and provide additional security policies that are not available by default in API Gateway. Kindly refer to Policy swagger documentation for information about these configurations. \n\n\n6.SAML Issuer: \n\nIf a native API is enforced with the SAML policy, API Gateway uses this configuration to communicate to STS (Security Token Service) to retrieve the SAMl token. This is internally stored as an alias, kindly refer Alias Swagger documentation for information about these configurations.\n\n\n7.OAuth 2.0: \n\nAPI Gateway allows the API provider to configure any 3rd party OAuth2 Authorization server. In this case API Gateway acts as Resource server. Use can refer to Alias Swagger documentation for information about configuring external Authorization server.\n\n\n8.OpenID Provider: \n\nAPI Gateway allows the API provider to configure any OpenID provider. In this case API Gateway acts as Relying Party. You can refer to Alias Swagger documentation for information about configuring OpenID provider.\n\n10. Load Balancer \n\nIf you cluster API Gateway instances, you must configure API Gateway with the load balancer URL. This is the URL to which the consumer applications sends the requests to. Also this URL will be used to generate the API endpoint during activation.\n\n11. API Portal Configuration Management \n\n This API is used for managing API Portal configurations in API Gateway.\n\nThe API Provider can define APIs in API Gateway, secure and monitor them and then may choose to publish these APIs to the API Portal. API Portal enables an organization to securely expose APIs to external developers, partners, and other consumers for use in building their own applications.\n\nAny user with 'Manage Destinations' functional privilege can configure API Portal connection in API Gateway.  APIs/Packages can be published from API Gateway to API Portal if and only if the API Portal configuration changes are done successfully.\n\n12. URL Alias Management\n\nAPI Gateway provides support for managing URL Aliases. A URL Alias is used to substitute a specific path of a HTTP/HTTPS endpoint of an API in API Gateway. URL Aliases allow for a level of indirection and helps to mask or shorten the API endpoint so that the actual endpoint can be subject to changes without having to affect the end consumers of the API. You need to have the Manage general administration configurations functional privilege inorder to manage URL Aliases in API Gateway.\n\n13. Outbound Proxy Management\n\nDefine proxy server aliases in API Gateway to route outbound requests from API Gateway through proxy servers. This is useful if the API Gateway is behind a firewall and outbound requests are sent to remote servers located outside the firewall. Outbound proxies are supported for the following types of protocols: HTTP, HTTPS, FTP and SOCKS. You need to have the Manage general administration configurations functional privilege inorder to manage outbound proxies in API Gateway.\n\n14. Kerberos Settings\n\nAPI Gateway provides support for Kerberos authentication for inbound and outbound service requests. Kerberos is an authentication protocol that uses symmetric encryption and a trusted third party system to validate the identity of clients. You need to have the Manage security configurations functional privilege inorder to configure Kerberos settings in API Gateway.\n\n15. Keystore Management\n\nAPI Gateway uses keystores to store SSL certificates and private keys. A keystore file contains one or more pairs of a private key and signed certificate for its corresponding public key. The keystore should be strongly protected with a password. You need to have the Manage security configurations functional privilege inorder to manage keystores in API Gateway.\n\n16. Truststore Management\n\nAPI Gateway uses truststores to manage the public keys for the signing Certificate Authoritites (CAs) for clients and partners. These are identified using aliases during any form of SSL authentication performed by API Gateway. You need to have the Manage security configurations functional privilege inorder to manage truststores in API Gateway.\n\n17. Configure Whitelisted IPs\n\nServer side request forgery is a vulnerability which allows an attacker to force a vulnerable application to issue malicious requests to third-party servers and or internal resources.The remote API importing functionallity allows specifying an URL which contains the API specification, this URL is not properly sanitized and allows to issue arbitrary requests to any service, including ones inside the internal network or on the local host. An attacker can exploit this issue to attack other internal and external services.\n\nTo solve this SSRF issue, API Gateway implemented a filter for URL which would disallow users to use IPs or hosts that resolve to internal network IP ranges and this filter included the following IP ranges: \n127.0.0.1 \n10.0.0.0/8 \n172.16.0.0/12 \n192.168.0.0/16\n\nTo provide a way to customers to allow API creation from internal IP addresses/hostnames, this rest resource introduces a configuration with whitelisting of IP addresses we have to pull resources from.\n\n18.Master Password Management\n\nAPI Gateway handles many secure strings as part of its normal operations. It protects these secure keys by encrypting them using Password-Based Encryption (PBE) technology, also known as PKCS5. This encryption method requires the use of an encryption key or master password that you specify.API Gateway provides a default master password and this can be changed at any point of time.\n\nFor greater security there is an expiration interval associated with the master password which is the duration after which the master password would expire. Customers can change this master password periodically. In case if the master password is lost, the same can be reset to the default value and it can be changed later to a secure value.\n\n19.Log Aggregation: \n\nAPI Gateway collects and stores logs from different sources such as API Gateway server logs, API Gateway UI logs, Internal Data Store logs, dashboard logs and platform logs. Each type of logged data comes from different components. API Gateway provides an easy way of configuring log settings to collate the logs from different sources at a single place in a common format. You also have an option to download these logs as an archive. This provides an easy access to logs collected from different sources when you have to look into the logs to troubleshoot any issues, such as error or performance problems.\n\n\n20.Service Registry: \n\nA service registry is essentially a catalog of services. API Gateway allows Administrators to configure service registries. API Gateway supports ServiceConsul and Eureka service registries. Both client side discovery and server side discovery of Service Registry are supported by API Gateway. You can refer to Alias Swagger documentation for information about configuring Service Registries. Also refer to API Gateway Service Management Swagger documentation for information about how to register/deregister API Gateway APIs to/from Service Registries..\n\n\n21.Clustering : \n\nA Clustering is an advanced feature that substantially extends the reliability, availability, and scalability of APIGateway. Clustering accomplishes this by providing the infrastructure and tools to use multiple APIGateway as if they were a single virtual server and to deliver applications that leverage that architecture.\n\n\n22.JMS Configuration Management\r\n\r\nAPI Gateway provides support for JMS and message protocols like AMQP, any REST or SOAP API can be exposed over JMS/AMQP and vice-versa.  \r\nBy exposing an API over JMS  we can achieve Interoperability in asychronous way across the Java platforms. By exposing an API over AMQP we can achieve Interoperability in asychronous way across multiple languages and platforms.\r\nAPI Gateway uses JMS configurations like JNDI, JMS Connection, Web service Provider/Consumer aliases, JMS Trigger to expose the APIs over JMS/AMQP.\r\n\r\nTo Expose the APIs over JMS/AMQP, \r\n     a) First, we need to create the JNDI \r\n     b) Create a JMS connection using the above created JNDI\r\n\t        -We can use this JMS connection alias to expose our REST APIs over JMS/AMQP and vice-versa\r\n  In case of SOAP \t\t\r\n     c) Create Web service Provider endpoint to expose our SOAP APIs over JMS/AMQP\r\n     d) Create Web service Consumer endpoint to expose our existing Message queue/topic over SOAP\t \r\n\t \r\nYou need to have the Manage General Administration functional privilege inorder to configure JMS in API Gateway.\n\n\n23.AWS configuration: \n\nThis holds AWS instance configuration details. This can be used in any custom policies for invoking a lambda service running in any AWS cloud instance.\n\n\n24.Rule Management (REST resource '/rule')\r\n\r\nRules are defined by specifying one or more asset based conditions, and by configuring the rule output if the conditions are met.\r\nThis API can be used to create, retrieve, update or delete a rule.\r\nWhen Teamwork feature is enabled, Global Team Assignment rules can be defined to automate the team assignment for the assets.\n\n\n25.Proxy Bypass (REST resource '/is/proxyBypass')\r\n\r\nIf you are using a proxy server for outbound HTTP, HTTPS requests, you can optionally route selected requests directly to their targets, bypassing the proxy. To do this, the User who has manage general administration priviliege can define a list of domains to which you want APIGateway Server to issue requests directly..\n\n\n26.Integration servers: \n\nThis holds webMethods Integration Server accounts details. This configuration will be used to create connection to the integration server when publishing APIs to an integration server for implementing the API.  You can refer to API Gateway Alias Swagger documentation for information about configuring Integration Server accounts. Also refer to API Gateway Service Management Swagger documentation for information about how to publish API Gateway APIs to/from Integration servers..\n\n\n27.Webhooks: \n\nThis holds webhook configuration details. These configurations are registered by client applications that are interested in certain events generated by API Gateway. When such an events occurs, API Gateway notifies those client applications by invoking the URLs provided by them in these configurations..\n\n\n28.Migration: \n\nThis executes migration actions. The supported migrations actions are clean, reindex and transform...\n\n\n29.Quiesce mode: \n\nThis enables or disables quiesce mode in API Gateway..\n\n\n30.Shutdown: \n\nThis shutdowns or restarts API Gateway server..",
-    "version" : "10.15",
+    "description" : "API Gateway Administration Service provides interface for you to administer various functions of the API Gateway. The user needs to have different functional privileges to administer different functions. For example, in order to manage runtime transactions data of the API Gateway, the user needs to have 'Manage purge and restore runtime events' privilege. By default, the users who are part of API-Gateway-Administrators group will have all privileges. \n\nFollowing Administration functions are exposed using this API. \n\n1. Manage data- Archive, Purge and Restore API Gateway runtime events, audit logs & metrics data. \n\nThis function lets the users manage the API Gateway runtime events, audit logs & metrics data.   \n\nAPI Gateway generates different types of events in the runtime depending on the state of the API invocation. For example, an error event is generated when API Gateway encounters an error while processing the API request or the response.  API Metrics is an aggregated data computed from the different events that happen in the system. These metrics provides information about the key performance indicators of an API like its \"Availability\", \"Fault Count\" etc which are useful for monitoring & governing the service performance and service level agreements.  The API providers has a variety of options to choose from for storing these events and metrics. By default, API Gateway store will be used for storing this data.  Here are some details about different type of events.\n\nTransactional event: Provides a summary (request & response) of each runtime transaction in the system. It is generated when a Log Invocation policy is included for the API. For example, if an API has this policy attached to it, then for every invoke the system generates a transaction event.  \n\nError event: Provides details of an error that occurred during an API invoke. This event is generated whenever there is an error in the system during a runtime service invocation. \n\nMonitoring event: This event is generated based on the parameters configured in the API monitoring policies such as Monitor Service Level Agreements, Throttling etc. Monitoring could be done based on various parameters such as Total Request Count, Total Success Count, Response Time, Availability. Monitoring can be done at the consumer application level too so that each consumer can be tracked individually. \n \nPolicy violation event: Provides a summary of the policy violations that occurred in the system. When a policy attached to an API is violated, the system generates the policy violation event.\n\nLifeCycle event: Provides a summary of the life cycle of the API Gateway instance. Whenever the instance is started or stopped, a life cycle notification is generated.\n\nThreat protection events: Provides a summary of the threat protection filter and rule violations. When a filter or rule is violated, the system generates the threat protection violation event. \n\nThe Audit logging of API Gateway provides audit information for different categories of system transactions, events, and occurrences of specific events (for example, login attempts) over a period of time. You can use audit logs to view a detailed record of various auditable events that occurred on the API Gateway objects, user login and logout operations, and identify the users who are responsible for the changes. You can configure which audit events to log for a specific destination based on your auditing requirements.You can configure API Gateway to log the auditable events for following destinations:\nAPI Gateway\nDatabase\nDigital Event Services (DES)\nElasticsearch. \n\nThe following auditable events can be configured to write to the API Gateway audit logs:\n Access profile management events: Creation, modification, and deletion of an Access profile object. \n Alias management events: Creation, modification, and deletion of an Alias object. \n Analytics management events: Archiving, purging, and restoring of analytics data in the database. \n API management events: Creation, modification, deletion, activation and deactivation of an API object. \n Application management events: Creation, modification, and deletion of an Application object. \n Group management events: Creation, modification, and deletion of a Group object.\n Package management events: Creation, modification, and deletion of a Package object.\n Plan management events: Creation, modification, and deletion of a Plan object.\n Policy management: Creation, modification, and deletion of a global Policy object.Creation, modification, and deletion of an API level Policy object.Activation and deactivation of a global policy.\n  Activation and deactivation of an API level policy.\n Promotion management events: Creation, modification, and deletion of a Stage object.Promotion of an API stage.Rollback operation of an API stage.\n User management events: A user logs in or fails to log in to API Gateway.A user logs out of API Gateway.Creation, modification, and deletion of a User object.\n\nManaging the Events/Audit logs/Metrics Data\n\nPurge: The process of systematically deleting unwanted data from the database is called purging. You can purge events, audit logs and metrics from the API Gateway store by setting the required date or duration in the API Gateway. You must have the required functional privileges to purge the API analytics data.\n\nArchive: Moving data that is no longer actively used for long-term retention so that it can be used at a later time is called archiving. You can archive events, audit logs and metrics by setting the required date or duration per tenant in the API Gateway. You must have the required functional privileges to archive events, audit logs and metrics.\n\nRestore: You can restore the archived data as required. \n\n\n2.Transaction based license: \n\nAPI Gateway supports core as well as transaction-based licensing model. When API Gateway uses a transaction-based licensing model, then each service invocation is considered as a transaction and API Gateway keeps a track of these transactions. API Gateway transactions for the current month are compared with the maximum number of transactions allowed in a month.When the usage breaches, notification will be generated for the current month. Apart from this if the user wants to generate notifications before usage breach itself when usage reaches to some x% like 70% or 80% then the user has to add notification criteria at 70% or 80%. By default API Gateway will have two default notification criteria's at 90%, 100%.\n\n\n3.Destination configuration: \n\nAPI Gateway can publish events and performance metrics data to the configured destinations. You must have the API Gateway's manage destination configurations functional privilege assigned to configure the following destinations to which the event types and performance metrics data is published:\nAPI Gateway\nAPI Portal\nAPI Control Plane\nTransaction logger\nCentraSite\nDatabase\nDigital Events\nElasticsearch\nEmail\nSNMP\nCustom Destination - Please refer the resource /policyActions from the swagger file 'APIGatewayPolicyManagement.json'  \n\n\n4.Default API fault configuration: \n\n API provider can configure a global error handling behaviour. In case of the native service error, the provider may choose to either forward the native error as is or can choose to modify the error response. In case the provider chooses to provide a custom error response, he/she can use the default error template containing standard aliases. These alias values will be replaced with the request specific information before the response is sent to the client. The standard aliases like the error message, service, operation, date/time, IP address, user and consumer application can be used in the template. The custom error response configuration is applicable for the errors thrown by API Gateway also.\n\n\n5.Custom assertions: \n\nCustom assertions allow the API providers to extend and provide additional security policies that are not available by default in API Gateway. Kindly refer to Policy swagger documentation for information about these configurations. \n\n\n6.SAML Issuer: \n\nIf a native API is enforced with the SAML policy, API Gateway uses this configuration to communicate to STS (Security Token Service) to retrieve the SAMl token. This is internally stored as an alias, kindly refer Alias Swagger documentation for information about these configurations.\n\n\n7.OAuth 2.0: \n\nAPI Gateway allows the API provider to configure any 3rd party OAuth2 Authorization server. In this case API Gateway acts as Resource server. Use can refer to Alias Swagger documentation for information about configuring external Authorization server.\n\n\n8.OpenID Provider: \n\nAPI Gateway allows the API provider to configure any OpenID provider. In this case API Gateway acts as Relying Party. You can refer to Alias Swagger documentation for information about configuring OpenID provider.\n\n10. Load Balancer \n\nIf you cluster API Gateway instances, you must configure API Gateway with the load balancer URL. This is the URL to which the consumer applications sends the requests to. Also this URL will be used to generate the API endpoint during activation.\n\n11. API Portal Configuration Management \n\n This API is used for managing API Portal configurations in API Gateway.\n\nThe API Provider can define APIs in API Gateway, secure and monitor them and then may choose to publish these APIs to the API Portal. API Portal enables an organization to securely expose APIs to external developers, partners, and other consumers for use in building their own applications.\n\nAny user with 'Manage Destinations' functional privilege can configure API Portal connection in API Gateway.  APIs/Packages can be published from API Gateway to API Portal if and only if the API Portal configuration changes are done successfully.\n\n12. URL Alias Management\n\nAPI Gateway provides support for managing URL Aliases. A URL Alias is used to substitute a specific path of a HTTP/HTTPS endpoint of an API in API Gateway. URL Aliases allow for a level of indirection and helps to mask or shorten the API endpoint so that the actual endpoint can be subject to changes without having to affect the end consumers of the API. You need to have the Manage general administration configurations functional privilege inorder to manage URL Aliases in API Gateway.\n\n13. Outbound Proxy Management\n\nDefine proxy server aliases in API Gateway to route outbound requests from API Gateway through proxy servers. This is useful if the API Gateway is behind a firewall and outbound requests are sent to remote servers located outside the firewall. Outbound proxies are supported for the following types of protocols: HTTP, HTTPS, FTP and SOCKS. You need to have the Manage general administration configurations functional privilege inorder to manage outbound proxies in API Gateway.\n\n14. Kerberos Settings\n\nAPI Gateway provides support for Kerberos authentication for inbound and outbound service requests. Kerberos is an authentication protocol that uses symmetric encryption and a trusted third party system to validate the identity of clients. You need to have the Manage security configurations functional privilege inorder to configure Kerberos settings in API Gateway.\n\n15. Keystore Management\n\nAPI Gateway uses keystores to store SSL certificates and private keys. A keystore file contains one or more pairs of a private key and signed certificate for its corresponding public key. The keystore should be strongly protected with a password. You need to have the Manage security configurations functional privilege inorder to manage keystores in API Gateway.\n\n16. Truststore Management\n\nAPI Gateway uses truststores to manage the public keys for the signing Certificate Authoritites (CAs) for clients and partners. These are identified using aliases during any form of SSL authentication performed by API Gateway. You need to have the Manage security configurations functional privilege inorder to manage truststores in API Gateway.\n\n17. Configure Whitelisted IPs\n\nServer side request forgery is a vulnerability which allows an attacker to force a vulnerable application to issue malicious requests to third-party servers and or internal resources.The remote API importing functionallity allows specifying an URL which contains the API specification, this URL is not properly sanitized and allows to issue arbitrary requests to any service, including ones inside the internal network or on the local host. An attacker can exploit this issue to attack other internal and external services.\n\nTo solve this SSRF issue, API Gateway implemented a filter for URL which would disallow users to use IPs or hosts that resolve to internal network IP ranges and this filter included the following IP ranges: \n127.0.0.1 \n10.0.0.0/8 \n172.16.0.0/12 \n192.168.0.0/16\n\nTo provide a way to customers to allow API creation from internal IP addresses/hostnames, this rest resource introduces a configuration with whitelisting of IP addresses we have to pull resources from.\n\n18.Master Password Management\n\nAPI Gateway handles many secure strings as part of its normal operations. It protects these secure keys by encrypting them using Password-Based Encryption (PBE) technology, also known as PKCS5. This encryption method requires the use of an encryption key or master password that you specify.API Gateway provides a default master password and this can be changed at any point of time.\n\nFor greater security there is an expiration interval associated with the master password which is the duration after which the master password would expire. Customers can change this master password periodically. In case if the master password is lost, the same can be reset to the default value and it can be changed later to a secure value.\n\n19.Log Aggregation: \n\nAPI Gateway collects and stores logs from different sources such as API Gateway server logs, API Gateway UI logs, Internal Data Store logs, dashboard logs and platform logs. Each type of logged data comes from different components. API Gateway provides an easy way of configuring log settings to collate the logs from different sources at a single place in a common format. You also have an option to download these logs as an archive. This provides an easy access to logs collected from different sources when you have to look into the logs to troubleshoot any issues, such as error or performance problems.\n\n\n20.Service Registry: \n\nA service registry is essentially a catalog of services. API Gateway allows Administrators to configure service registries. API Gateway supports ServiceConsul and Eureka service registries. Both client side discovery and server side discovery of Service Registry are supported by API Gateway. You can refer to Alias Swagger documentation for information about configuring Service Registries. Also refer to API Gateway Service Management Swagger documentation for information about how to register/deregister API Gateway APIs to/from Service Registries..\n\n\n21.Clustering : \n\nA Clustering is an advanced feature that substantially extends the reliability, availability, and scalability of APIGateway. Clustering accomplishes this by providing the infrastructure and tools to use multiple APIGateway as if they were a single virtual server and to deliver applications that leverage that architecture.\n\n\n22.JMS Configuration Management\r\n\r\nAPI Gateway provides support for JMS and message protocols like AMQP, any REST or SOAP API can be exposed over JMS/AMQP and vice-versa.  \r\nBy exposing an API over JMS  we can achieve Interoperability in asychronous way across the Java platforms. By exposing an API over AMQP we can achieve Interoperability in asychronous way across multiple languages and platforms.\r\nAPI Gateway uses JMS configurations like JNDI, JMS Connection, Web service Provider/Consumer aliases, JMS Trigger to expose the APIs over JMS/AMQP.\r\n\r\nTo Expose the APIs over JMS/AMQP, \r\n     a) First, we need to create the JNDI \r\n     b) Create a JMS connection using the above created JNDI\r\n\t        -We can use this JMS connection alias to expose our REST APIs over JMS/AMQP and vice-versa\r\n  In case of SOAP \t\t\r\n     c) Create Web service Provider endpoint to expose our SOAP APIs over JMS/AMQP\r\n     d) Create Web service Consumer endpoint to expose our existing Message queue/topic over SOAP\t \r\n\t \r\nYou need to have the Manage General Administration functional privilege inorder to configure JMS in API Gateway.\n\n\n23.AWS configuration: \n\nThis holds AWS instance configuration details. This can be used in any custom policies for invoking a lambda service running in any AWS cloud instance.\n\n\n24.Rule Management (REST resource '/rule')\r\n\r\nRules are defined by specifying one or more asset based conditions, and by configuring the rule output if the conditions are met.\r\nThis API can be used to create, retrieve, update or delete a rule.\r\nWhen Teamwork feature is enabled, Global Team Assignment rules can be defined to automate the team assignment for the assets.\n\n\n25.Proxy Bypass (REST resource '/is/proxyBypass')\r\n\r\nIf you are using a proxy server for outbound HTTP, HTTPS requests, you can optionally route selected requests directly to their targets, bypassing the proxy. To do this, the User who has manage general administration priviliege can define a list of domains to which you want APIGateway Server to issue requests directly..\n\n\n26.Integration servers: \n\nThis holds webMethods Integration Server accounts details. This configuration will be used to create connection to the integration server when publishing APIs to an integration server for implementing the API.  You can refer to API Gateway Alias Swagger documentation for information about configuring Integration Server accounts. Also refer to API Gateway Service Management Swagger documentation for information about how to publish API Gateway APIs to/from Integration servers..\n\n\n27.Webhooks: \n\nThis holds webhook configuration details. These configurations are registered by client applications that are interested in certain events generated by API Gateway. When such an events occurs, API Gateway notifies those client applications by invoking the URLs provided by them in these configurations..\n\n\n28.Migration: \n\nThis executes migration actions. The supported migrations actions are clean, reindex and transform...\n\n\n29.Quiesce mode: \n\nThis enables or disables quiesce mode in API Gateway..\n\n\n30.Shutdown: \n\nThis shutdowns or restarts API Gateway server..\n\n\n31. API Control Plane: \n\n This API is used for managing API Control Plane agent configuration in API Gateway UI.\n\n API Gateway provides the capability to configure, retrieve, update, and delete API Control Plane agent configuration using a REST API. \n\n Any user with 'Manage Destinations' functional privilege can configure API Control Plane agent in API Gateway. Data gets synchronized from API Gateway to API Control Plane only when API Control Plane agent is configured and a communication channel is established successfully.",
+    "version" : "11.0",
     "title" : "API Gateway Administration Service"
   },
   "host" : "localhost:5555",
@@ -1777,7 +1777,7 @@
           "200" : {
             "description" : "This status code indicates that the external log configuration is retrieved successfully.",
             "examples" : {
-              "application/json" : "{\"apigatewayLogger\": \"trace\",\"elasticSearchLogger\": \"info\",\"kibanaLogger\": \"verbose\",\"enableSessionLogger\": \"false\",\"enableSecurityLogger\": \"true\",\"sagOsgiLogger\": \"debug\",\"enableLogAggregation\": \"true\",\"logDestination\": \"INTERNAL\"}"
+              "application/json" : "{\"apigatewayLogger\": \"trace\",\"elasticSearchLogger\": \"info\",\"kibanaLogger\": \"verbose\",\"enableSessionLogger\": \"false\",\"enableSecurityLogger\": \"true\",\"sagOsgiLogger\": \"debug\"}"
             },
             "schema" : {
               "$ref" : "#/definitions/LogConfiguration"
@@ -1801,7 +1801,7 @@
           "200" : {
             "description" : "This status code indicates that the log configuration has been successfully updated in API Gateway, and the updated configuration is available in the response body.",
             "examples" : {
-              "application/json" : "{\"apigatewayLogger\": \"trace\",\"elasticSearchLogger\": \"info\",\"kibanaLogger\": \"verbose\",\"enableSessionLogger\": \"false\",\"enableSecurityLogger\": \"true\",\"sagOsgiLogger\": \"debug\",\"enableLogAggregation\": \"true\",\"logDestination\": \"INTERNAL\"}"
+              "application/json" : "{\"apigatewayLogger\": \"trace\",\"elasticSearchLogger\": \"info\",\"kibanaLogger\": \"verbose\",\"enableSessionLogger\": \"false\",\"enableSecurityLogger\": \"true\",\"sagOsgiLogger\": \"debug\"}"
             },
             "schema" : {
               "$ref" : "#/definitions/LogConfiguration"
@@ -2202,6 +2202,123 @@
           },
           "401" : {
             "description" : "This status code indicates that either user didn't provide right credentials or user doesn't have \"Manage General Administration\" functional privilege to access this API."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      }
+    },
+    "/controlplane/config" : {
+      "get" : {
+        "description" : "This API allows you to retrieve API Control Plane agent configuration in API Gateway.",
+        "operationId" : "getControlPlaneConfiguration",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "schema" : {
+              "$ref" : "#/definitions/AgentConfig"
+            }
+          },
+          "401" : {
+            "description" : "This status code indicates that either user provided incorrect credentials or the user does not have the required functional privilege to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the API Control Plane agent configuration is not present."
+          },
+          "500" : {
+            "description" : "This status code indicates that an error occurred while processing the information in API Gateway."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "post" : {
+        "description" : "This API configures API Control Plane agent.",
+        "operationId" : "createControlPlaneConfiguration",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Control plane configuration payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AgentConfig"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "This status code indicates that the API Control Plane agent configuration is created successfully.",
+            "schema" : {
+              "$ref" : "#/definitions/AgentConfig"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the user has not filled a few mandatory fields that are required to update API Control Plane agent configuration."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user provided incorrect credentials or the user does not have the required functional privilege to access this API."
+          },
+          "500" : {
+            "description" : "This status code indicates that an error occurred while processing the information in API Gateway or during communication with API Control Plane."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "put" : {
+        "description" : "This API modifies API Control Plane agent configuration with the updated values.",
+        "operationId" : "updateControlPlaneConfiguration",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Control Plane configuration payload",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/AgentConfig"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "schema" : {
+              "$ref" : "#/definitions/AgentConfig"
+            }
+          },
+          "400" : {
+            "description" : "This status code indicates that the user has not filled a few mandatory fields that are required to update API Control Plane agent configuration."
+          },
+          "401" : {
+            "description" : "This status code indicates that either user provided incorrect credentials or the user does not have the required functional privilege to access this API."
+          },
+          "404" : {
+            "description" : "This status code indicates that the API Control Plane agent configuration is not present."
+          },
+          "500" : {
+            "description" : "This status code indicates that an error occurred while processing the information in API Gateway or during communication with API Control Plane."
+          }
+        },
+        "security" : [ {
+          "Basic" : [ ]
+        } ]
+      },
+      "delete" : {
+        "description" : "This API allows you to delete an API Control Plane agent configuration in API Gateway.",
+        "operationId" : "deleteControlPlaneConfiguration",
+        "parameters" : [ ],
+        "responses" : {
+          "204" : {
+            "description" : "This status code indicates that either user provided incorrect credentials or the user does not have the required functional privilege to access this API."
+          },
+          "401" : {
+            "description" : "This status code indicates that the API Control Plane agent configuration is deleted successfully."
           }
         },
         "security" : [ {
@@ -5601,6 +5718,32 @@
         }
       }
     },
+    "AgentConfig" : {
+      "type" : "object",
+      "properties" : {
+        "controlPlaneConfig" : {
+          "$ref" : "#/definitions/ControlPlaneConfig"
+        },
+        "enabled" : {
+          "type" : "boolean",
+          "description" : "Denotes the communication between API Gateway and Control Plane"
+        },
+        "entityId" : {
+          "type" : "string"
+        },
+        "externalConfig" : {
+          "type" : "boolean"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "Agent configuration object ID in API Gateway."
+        },
+        "runtimeConfig" : {
+          "$ref" : "#/definitions/RuntimeConfig"
+        }
+      },
+      "description" : "This defines the Control Plane Agent configuration of API Gateway."
+    },
     "AnalyticsDataStoreDestination" : {
       "type" : "object",
       "properties" : {
@@ -5834,6 +5977,18 @@
       },
       "description" : "This defines the various extended settings that can be configured in API Gateway."
     },
+    "Capacity" : {
+      "type" : "object",
+      "properties" : {
+        "units" : {
+          "type" : "string",
+          "enum" : [ "per second", "per minute", "per hour", "per day", "per week", "per month", "per year" ]
+        },
+        "value" : {
+          "type" : "string"
+        }
+      }
+    },
     "ChangeOwnerRequest" : {
       "type" : "object",
       "properties" : {
@@ -5944,6 +6099,26 @@
         "tsaURLs" : {
           "type" : "string",
           "description" : "A comma separated list of the URLs for the Terracotta Server Array to be used with the cluster to which this APIGateway belongs."
+        }
+      }
+    },
+    "ControlPlaneConfig" : {
+      "type" : "object",
+      "properties" : {
+        "controlPlaneURL" : {
+          "type" : "string"
+        },
+        "cpToken" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        },
+        "retry" : {
+          "$ref" : "#/definitions/Retry"
+        },
+        "username" : {
+          "type" : "string"
         }
       }
     },
@@ -6059,9 +6234,24 @@
     "ElasticsearchConfig" : {
       "type" : "object",
       "properties" : {
+        "keystoreAlias" : {
+          "type" : "string"
+        },
+        "keystoreFilePath" : {
+          "type" : "string"
+        },
+        "keystorePassword" : {
+          "type" : "string"
+        },
         "password" : {
           "type" : "string",
           "description" : "The password required to authenticate if authentication is enabled for the source Elasticsearch instance."
+        },
+        "truststoreFilePath" : {
+          "type" : "string"
+        },
+        "truststorePassword" : {
+          "type" : "string"
         },
         "url" : {
           "type" : "string",
@@ -7091,10 +7281,6 @@
           "type" : "string",
           "description" : "The log setting of Internal Data Store.Possible values are off,info,debug,warn,error and fatal"
         },
-        "enableLogAggregation" : {
-          "type" : "string",
-          "description" : "Enabling log aggregation will collect logs from the different components and store in Internal Data Store or external Elasticsearch.The value can be true or false."
-        },
         "enableSecurityLogger" : {
           "type" : "string",
           "description" : "The log setting to enable APIGateway security logs.Possible values are true and false."
@@ -7103,41 +7289,13 @@
           "type" : "string",
           "description" : "The log setting enable APIGateway session logs.Possible values are off,trace,debug,info,warn,error and fatal"
         },
-        "hostName" : {
-          "type" : "string",
-          "description" : "Hostname of external elastic search used to send the logs."
-        },
-        "indexName" : {
-          "type" : "string",
-          "description" : "Indexname of external elastic search to store the accumulated logs."
-        },
         "kibanaLogger" : {
           "type" : "string",
           "description" : "The log setting of APIGateway dashboard.Possible values are silent,quiet and verbose"
         },
-        "logDestination" : {
-          "type" : "string",
-          "description" : "Specifies where to store the accumulated logs from different stores. Value can be EXTERNAL_ES or INTERNAL"
-        },
-        "password" : {
-          "type" : "string",
-          "description" : "Password that is used to communicate the external elastic search."
-        },
-        "port" : {
-          "type" : "string",
-          "description" : "Port to communicate the external elastic search."
-        },
-        "protocol" : {
-          "type" : "string",
-          "description" : "Protocol to communicate the external elastic search."
-        },
         "sagOsgiLogger" : {
           "type" : "string",
           "description" : "The log setting of OSGI platform.Possible values are true and false."
-        },
-        "userName" : {
-          "type" : "string",
-          "description" : "Username to communicate the external elastic search."
         }
       },
       "description" : "This contains log settings of various components used by APIGateway."
@@ -7242,6 +7400,9 @@
           "description" : "The type of migration action to be performed",
           "enum" : [ "clean", "reindex", "transform", "backup" ]
         },
+        "destinationElasticsearch" : {
+          "$ref" : "#/definitions/ElasticsearchConfig"
+        },
         "indicesType" : {
           "type" : "string",
           "description" : "The type of indices to be reindexed for reindex action",
@@ -7298,11 +7459,6 @@
         "password" : {
           "type" : "string",
           "description" : "The password required to authenticate if authentication is enabled for the proxy server."
-        },
-        "passwordHandle" : {
-          "type" : "string",
-          "description" : "The password handle which is used to store the password (if specified) in a secure manner in API Gateway.",
-          "readOnly" : true
         },
         "port" : {
           "type" : "string",
@@ -7457,6 +7613,10 @@
           "type" : "string",
           "description" : "API Portal configuration object ID in API Gateway."
         },
+        "isCloudDeployment" : {
+          "type" : "boolean",
+          "description" : "Specifies if the published portal instance is a cloud deployment"
+        },
         "published" : {
           "type" : "boolean"
         },
@@ -7604,6 +7764,19 @@
       },
       "description" : "This contains quiesce mode settings for APIGateway."
     },
+    "Retry" : {
+      "type" : "object",
+      "properties" : {
+        "maxAttempts" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "retryTimeIntervalInSeconds" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
     "Rule" : {
       "type" : "object",
       "discriminator" : "ruleType",
@@ -7664,6 +7837,50 @@
         },
         "operator" : {
           "type" : "string"
+        }
+      }
+    },
+    "RuntimeConfig" : {
+      "type" : "object",
+      "properties" : {
+        "assetSynchIntervalInSeconds" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "capacity" : {
+          "$ref" : "#/definitions/Capacity"
+        },
+        "deploymentType" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "heartBeatIntervalInSeconds" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "host" : {
+          "type" : "string"
+        },
+        "location" : {
+          "type" : "string"
+        },
+        "metricsSynchIntervalInSeconds" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "region" : {
+          "type" : "string"
+        },
+        "runtimeName" : {
+          "type" : "string"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         }
       }
     },

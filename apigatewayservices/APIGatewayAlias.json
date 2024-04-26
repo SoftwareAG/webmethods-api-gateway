@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API Gateway Alias Management Service allows you to manage aliases in the API Gateway. Any user with the 'Manage aliases' functional previlige can manage the aliases in API Gateway. By default, the users who are part of API-Gateway-Administrators group will have this privilege. \n\n An alias in API Gateway holds environment-specific property values that can be used in policy routing configurations. The aliases can be referred to in routing endpoints, routing rules, endpoint connection properties, outbound authentication tokens, and outbound HTTP headers instead of providing an actual value. The corresponding alias value based on the stage is obtained and is substituted in place of an alias name during run-time. Thus the same alias can be referred to in multiple policies and the change in a particular alias would affect all the policy properties in which it is being referred. \n\n There are mainly six types of alias \n 1. Simple alias - Holds a simple value \n 2. Endpoint alias - Holds the endpoint value along with additional properties such as connection timeout, read timeout, whether to pass security headers or not, keystore alias, key alias \n 3. HTTP Transport security alias - Contains the transport level security information required while accessing the native API. Used in the outbound policies \n 4. SOAP message security alias - Contains message level security information that is required to access the native API \n 5. webMethods Integration Server alias - Holds the ESB service value. Can be used in the Invoke webMethods IS policy for request and response processing.\n 6. Transformation alias - Holds a list of XSLT style sheets. Can be used in the XSLT Transformation policies for request and response processing.\n\n In addition to the above alias types, the configurations for \n SAML issuer - which holds the configuration to communicate to STS (Security Token Service) to retrieve the SAML token. Used in the Outbound policies, \n Authorization server - which holds configuration of authorization server(internal/external)for introspection/Dynamic client registration. Used in the token validation and OAuth2 client creation, \n Client metadata mapping - which holds the authorization service provider metadata information. Used in the Dynamic client registration for the authorization server alias and \n Service Registry- which holds registry endpoint and service paths information. Used in the client side and server side discovery \n are internally stored as aliases.\n AWS Configuration Alias- which holds AWS instance configuaration details. This can be configured in any custom policies for invoking a lambda service\n running in any AWS cloud instance.\n Integration servers - This holds webMethods Integration Server accounts details. This configuration will be used to create connection to the integration server when publishing APIs to an integration server for implementing the API. You can refer to API Gateway Service Management Swagger documentation for information about how to publish API Gateway APIs to Integration servers.",
-    "version" : "10.15",
+    "version" : "11.0",
     "title" : "API Gateway Alias Management Service"
   },
   "host" : "localhost:5555",
@@ -24,10 +24,7 @@
               "application/json" : "{\r\n\t\"id\": \"732c4526-db9a-4ef9-9782-edda1a6aa9bc\"\r\n\t\"endPointURI\": \"https://myDevstage:9090\",\r\n\t\"connectionTimeout\": \"23\",\r\n\t\"optimizationTechnique\": \"MTOM\",\r\n\t\"readTimeout\": \"36\",\r\n\t\"passSecurityHeaders\": true,\r\n\t\"keystoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\"keyAlias\": \"ssos\",\r\n\t\"name\": \"MystageEndpoint\",\r\n\t\"description\": \"Endpoint alias for myDevstage.\",\r\n\t\"type\": \"endpoint\"\r\n},\r\n{\r\n\t\"id\": \"842c4526-db9a-4ef9-9782-edda1a6ab84c\"\r\n\t\"authType\": \"WSS_USERNAME\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"wssCredentials\": {\r\n\t\t\"userName\": \"Administrator\",\r\n\t\t\"password\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"UsernameMessageAlias\",\r\n\t\"description\": \"WSS username message alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"652c4526-db8a-4ef9-9782-edda1a4gf9bc\"\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachineadfs20.sag.com\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"KerberosHttpTransportAlias\",\r\n\t\"description\": \"vmmachineadfs20 kerberos transport alias\",\r\n\t\"type\": \"httpTransportSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"422c4526-db9a-4ef9-9872-edda1a6aa9bc\"\r\n\t\"authType\": \"HTTP_BASIC\",\r\n\t\"httpAuthCredentials\": {\r\n\t\t\"domain\": \"localhost\",\r\n\t\t\"userName\": \"Administrator\",\r\n\t\t\"password\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"BasicHttpTransportAlias\",\r\n\t\"description\": \"Basic http transport alias\",\r\n\t\"type\": \"httpTransportSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"732c4526-db9a-5t46-9782-edda1a4ac9bc\"\r\n\t\"authType\": \"NTLM\",\r\n\t\"httpAuthCredentials\": {\r\n\t\t\"domain\": \"localhost\",\r\n\t\t\"userName\": \"Administrator\",\r\n\t\t\"password\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"NTLMTransportAlias\",\r\n\t\"description\": \"ntlm http transport alias\",\r\n\t\"type\": \"httpTransportSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"652c4526-db9a-4ef9-3265-edda1a6aa9bc\"\r\n\t\"authType\": \"OAUTH2\",\r\n\t\"oauth2Token\": \"T2F1dGgydG9rZW4=\",\r\n\t\"authMode\": \"NEW\",\r\n\t\"name\": \"OAuthTransportAlias\",\r\n\t\"description\": \"OAuth2 alias for outbound transport security\",\r\n\t\"type\": \"httpTransportSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"732c3265-db9a-4ef9-9782-edda1a6aa9bc\"\r\n\t\"authType\": \"KERBEROS\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"DEFAULT_IS_KEYSTORE\",\r\n\t\t\"keyAlias\": \"ssos\",\r\n\t\t\"certificateAlias\": \"ssos\",\r\n\t\t\"truststoreAlias\": \"DEFAULT_IS_TRUSTSTORE\"\r\n\t},\r\n\t\"kerberosCredentials\": {\r\n\t\t\"servicePrincipal\": \"vmmachine01.sag.com/adfs\",\r\n\t\t\"servicePrincipalNameForm\": \"username\",\r\n\t\t\"clientPrincipal\": \"Administrator\",\r\n\t\t\"clientPassword\": \"bWFuYWdl\"\r\n\t},\r\n\t\"authMode\": \"DELEGATE_INCOMING\",\r\n\t\"name\": \"KerberosMessageAlias\",\r\n\t\"description\": \"Kerberos outbound message secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n},\r\n{\r\n\t\"id\": \"12c4526-db9a-5ef9-9845-edda1a7ba9bc\"\r\n\t\"authType\": \"SAML\",\r\n\t\"signAndEncryptConfig\": {\r\n\t\t\"keyStoreAlias\": \"\",\r\n\t\t\"keyAlias\": null,\r\n\t\t\"certificateAlias\": null,\r\n\t\t\"truststoreAlias\": \"\"\r\n\t},\r\n\t\"samlIssuerConfig\": \"${SAMLIssuer1}\",\r\n\t\"name\": \"SAMLAlias\",\r\n\t\"description\": \"SAML secure alias\",\r\n\t\"type\": \"soapMessageSecurityAlias\"\r\n}\r\n"
             },
             "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Alias"
-              }
+              "$ref" : "#/definitions/AliasResponseModel"
             }
           },
           "401" : {
@@ -268,6 +265,19 @@
         }
       }
     },
+    "AliasResponseModel" : {
+      "type" : "object",
+      "properties" : {
+        "alias" : {
+          "type" : "array",
+          "description" : "List of aliases",
+          "items" : {
+            "$ref" : "#/definitions/Alias"
+          }
+        }
+      },
+      "description" : "This model contains the basics details of all Alias."
+    },
     "AuthInfo" : {
       "type" : "object",
       "discriminator" : "type"
@@ -285,6 +295,10 @@
           },
           "dcrEndpoint" : {
             "$ref" : "#/definitions/DynamicClientRegistrationEndpoint"
+          },
+          "discoveryURL" : {
+            "type" : "string",
+            "description" : "Discovery URL of the authorization server"
           },
           "localIntrospectionConfig" : {
             "$ref" : "#/definitions/LocalIntrospectionConfig"
@@ -623,8 +637,9 @@
           "description" : "Select the certificate from the truststore that is used to validate the token."
         },
         "description" : {
-          "type" : "string",
-          "description" : "Third party issuer description"
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "Specifies the clock skew in seconds to validate JWT"
         },
         "issuer" : {
           "type" : "string",
@@ -637,6 +652,10 @@
         "trustStoreAlias" : {
           "type" : "string",
           "description" : "The truststore to be used by API Gateway when validating the token issued by the authorization server. Truststore is a repository that holds all the trusted public certificates"
+        },
+        "useLocalClockSkew" : {
+          "type" : "boolean",
+          "description" : "Specifies whether to use the local clock skew for validating JWT."
         }
       }
     },

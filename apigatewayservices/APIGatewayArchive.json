@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "The API Gateway archive service exposes the interface to the API Gateway export archives. An API Gateway export archive is a ZIP file that contains APIs, policies, global policies, users, groups, access profiles, aliases, keystores, trustores, ports, JMS connections, JMS providers, JMS triggers, service registries, various administrative configurations like approval configurations, keystore/trustore configurations, cache configurations, log configurations, LDAP configurations, user account settings and all the other assets in API Gateway. You can use this service to export/import all type of assets into API Gateway. \n\n In general, for any asset being exported, all the dependent assets are automatically exported. For example, when exporting APIs,  the export archive contains the APIs, the API level policies, the policy actions associated with the API level policies, and the aliases referenced by the policy actions. Additionally, the archive may also contain the applications registered to the exported APIs.\n When exporting global policy the archive contains the global policies, the policy actions associated with the global policies, and the aliases referenced to the policy actions.\n When exporting approval configuration the archive contains the approval configuration and the access profile associated with the approval configuration. \n When exporting port the archive contains the port, the keystore and trustore associated with the port. \n When exporting LDAP configuration the archive contains the LDAP configuration, the group associated with the LDAP configuration. \n\nEach artifact in an archive is associated with a universally unique identifier (UUID) across all API Gateway installations. When importing an archive, the UUID helps in determining whether the corresponding artifact is already available in API Gateway. In such a situation, you can specify whether to overwrite an already existing artifact during the import process. \n\n Any user with the 'Export assets' functional privilege can export  archives in API Gateway and any user with the 'Import assets' privilege can import the archives. By default, the users who are part of API-Gateway-Administrators group will have these privileges.",
-    "version" : "10.15",
+    "version" : "11.0",
     "title" : "API Gateway Archive Service"
   },
   "host" : "localhost:5555",
@@ -282,7 +282,7 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ "loadBalancer", "keystore", "mobileApp", "extended", "samlsso", "misc", "dashboard", "customContentTypes", "errorProcessing", "auditlogDestinationConfig", "gatewayDestinationConfig", "jdbcDestinationConfig", "desDestinationConfig", "elasticsearchDestinationConfig", "snmpDestinationConfig", "emailDestinationConfig", "apiPortalDestinationConfig", "samlIssuer", "logConfig", "passwordRestrictions", "passwordExpiry", "accountLockSettings", "ldapConfig", "settings", "cache", "apiCallBackSettings" ]
+            "enum" : [ "loadBalancer", "keystore", "mobileApp", "extended", "samlsso", "misc", "dashboard", "customContentTypes", "errorProcessing", "auditlogDestinationConfig", "gatewayDestinationConfig", "jdbcDestinationConfig", "desDestinationConfig", "elasticsearchDestinationConfig", "snmpDestinationConfig", "emailDestinationConfig", "apiPortalDestinationConfig", "controlPlaneDestinationConfig", "samlIssuer", "logConfig", "passwordRestrictions", "passwordExpiry", "accountLockSettings", "ldapConfig", "settings", "cache", "apiCallBackSettings" ]
           },
           "collectionFormat" : "multi",
           "x-example" : "configurations=loadBalancer,customContentTypes"
@@ -324,10 +324,10 @@
         "parameters" : [ {
           "name" : "overwrite",
           "in" : "query",
-          "description" : "This parameter specifies the import option to define the artifact types that can be overwritten during import. The parameter enables you to specify overwriting of APIs, policies, policy actions, aliases, applications, configurations, approval configurations, outbound proxies, URL aliases, keyStores, trustStores, JNDI provider aliases, JMS connection aliases, JMS triggers, webservice endpoint aliases, users, groups, teams, kerberos settings, plans and packages.   \nThe wildcard \"*\" enables you to specify all types.\nFor example, the following request enables you to overwrite APIs during import:\nPOST /rest/apigateway/archive?overwrite=apis\nWhereas, overwriting all asset types during import can be specified as follows:\nPOST /rest/apigateway/archive?overwrite=*",
+          "description" : "This parameter specifies the import option to define the artifact types that can be overwritten during import. The parameter enables you to specify overwriting of APIs, policies, policy actions, aliases, applications, application_apiKeys, application_strategies, application_strategy_credentials, configurations, approval configurations, outbound proxies, URL aliases, keyStores, trustStores, JNDI provider aliases, JMS connection aliases, JMS triggers, webservice endpoint aliases, users, groups, teams, kerberos settings, plans and packages. \n Certain artifacts can only be overwritten if their parent artifact is also overwritten. E.g. you can't overwrite application_apiKeys without overwriting applications. \n The wildcard \"*\" enables you to specify all types.\nFor example, the following request enables you to overwrite APIs during import:\nPOST /rest/apigateway/archive?overwrite=apis\nWhereas, overwriting all asset types during import can be specified as follows:\nPOST /rest/apigateway/archive?overwrite=*",
           "required" : false,
           "type" : "string",
-          "enum" : [ "apis", "policies", "policyactions", "applications", "aliases", "plans", "packages", "subscriptions", "administrator_settings", "portal_gateway", "assertions", "configurations", "outboundProxies", "urlAliases", "keyStores", "trustStores", "JNDIProviderAliases", "JMSConnectionAliases", "JMSTriggers", "webserviceEndpointAliases", "users", "groups", "accessProfiles", "kerberosSetting", "*" ]
+          "enum" : [ "apis", "policies", "policyactions", "applications", "applications_base", "application_apiKeys", "application_strategies", "application_strategy_credentials", "aliases", "plans", "packages", "subscriptions", "administrator_settings", "portal_gateway", "assertions", "configurations", "outboundProxies", "urlAliases", "keyStores", "trustStores", "JNDIProviderAliases", "JMSConnectionAliases", "JMSTriggers", "webserviceEndpointAliases", "users", "groups", "accessProfiles", "kerberosSetting", "*" ]
         }, {
           "name" : "fixingMissingVersions",
           "in" : "query",
@@ -556,7 +556,7 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ "loadBalancer", "keystore", "mobileApp", "extended", "samlsso", "misc", "dashboard", "customContentTypes", "errorProcessing", "auditlogDestinationConfig", "gatewayDestinationConfig", "jdbcDestinationConfig", "desDestinationConfig", "elasticsearchDestinationConfig", "snmpDestinationConfig", "emailDestinationConfig", "apiPortalDestinationConfig", "samlIssuer", "logConfig", "passwordRestrictions", "passwordExpiry", "accountLockSettings", "ldapConfig", "settings", "cache", "apiCallBackSettings" ]
+            "enum" : [ "loadBalancer", "keystore", "mobileApp", "extended", "samlsso", "misc", "dashboard", "customContentTypes", "errorProcessing", "auditlogDestinationConfig", "gatewayDestinationConfig", "jdbcDestinationConfig", "desDestinationConfig", "elasticsearchDestinationConfig", "snmpDestinationConfig", "emailDestinationConfig", "apiPortalDestinationConfig", "controlPlaneDestinationConfig", "samlIssuer", "logConfig", "passwordRestrictions", "passwordExpiry", "accountLockSettings", "ldapConfig", "settings", "cache", "apiCallBackSettings" ]
           },
           "collectionFormat" : "multi",
           "x-example" : "configurations=loadBalancer,customContentTypes"
@@ -660,7 +660,10 @@
       "required" : [ "types" ],
       "properties" : {
         "aggregations" : {
-          "$ref" : "#/definitions/IAggregation"
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/IAggregation"
+          }
         },
         "condition" : {
           "type" : "string",
@@ -687,7 +690,10 @@
           }
         },
         "scope" : {
-          "$ref" : "#/definitions/SearchField"
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SearchField"
+          }
         },
         "size" : {
           "type" : "integer",
@@ -711,9 +717,12 @@
           }
         },
         "types" : {
-          "type" : "string",
+          "type" : "array",
           "description" : "List of allowed types that can be searched across API Gateway.",
-          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS", "GATEWAY_SCOPE", "OAUTH2MATERIALIZEDTOKEN", "TRANSACTION_EVENTS", "LIFECYCLE_EVENTS", "POLICYVIOLATION_EVENTS", "MONITOR_EVENTS", "ERROR_EVENTS", "THREATPROTECTION_EVENTS", "PERFORMANCE_METRICS", "QUOTA_USAGE", "DASHBOARD", "AUDIT_LOG", "REQUEST_RESPONSE_TRACE_SPANS", "APPLICATION_LOG", "MEDIATOR_TRACE_SPANS", "SERVER_LOG_TRACE_SPANS" ]
+          "items" : {
+            "type" : "string",
+            "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "REGISTERED_APPLICATION", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "CONTROL_PLANE", "OAUTH2_SCOPE_DATA", "OAUTH2_SCOPE", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS", "GATEWAY_SCOPE", "OAUTH2MATERIALIZEDTOKEN", "TRANSACTION_EVENTS", "LIFECYCLE_EVENTS", "POLICYVIOLATION_EVENTS", "MONITOR_EVENTS", "ERROR_EVENTS", "THREATPROTECTION_EVENTS", "PERFORMANCE_METRICS", "QUOTA_USAGE", "DASHBOARD", "AUDIT_LOG", "REQUEST_RESPONSE_TRACE_SPANS", "APPLICATION_LOG", "MEDIATOR_TRACE_SPANS", "SERVER_LOG_TRACE_SPANS" ]
+          }
         }
       },
       "description" : "This defines the request structure to export the specific assets across API Gateway"

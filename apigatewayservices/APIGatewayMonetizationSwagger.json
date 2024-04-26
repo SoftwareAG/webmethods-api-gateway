@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "API gateway monetization service allows API Providers to create plans & packages and associate the packages to different plans. The providers can either publish the packages to API Portal to allow creating subscriptions from portal or directly use the subscriptions APIs in the API Gateway to create and manage subscriptions. Note: It is important to enable the log invocation policy to all the APIs that are used in package to track the transactions usage. Alternatively global policy can be used to associate the log invocation to all the APIs. For more details on the API Monetization, please refer to the API Gateway User Guide",
-    "version" : "10.15",
+    "version" : "11.0",
     "title" : "API Gateway Monetization Service"
   },
   "host" : "localhost:5555",
@@ -1313,6 +1313,12 @@
       }, {
         "type" : "object",
         "properties" : {
+          "enum" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          },
           "exclusiveMaximum" : {
             "type" : "boolean"
           },
@@ -1725,6 +1731,12 @@
       }, {
         "type" : "object",
         "properties" : {
+          "enum" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          },
           "exclusiveMaximum" : {
             "type" : "boolean"
           },
@@ -1948,9 +1960,6 @@
         "type" : "object",
         "properties" : {
           "schema" : {
-            "type" : "string"
-          },
-          "type" : {
             "type" : "string"
           }
         }
@@ -3746,6 +3755,9 @@
       }, {
         "type" : "object",
         "properties" : {
+          "additionalProperties" : {
+            "type" : "object"
+          },
           "properties" : {
             "type" : "object",
             "additionalProperties" : {
@@ -4497,6 +4509,9 @@
         "name" : {
           "type" : "string"
         },
+        "nullable" : {
+          "type" : "boolean"
+        },
         "position" : {
           "type" : "integer",
           "format" : "int32"
@@ -4962,6 +4977,9 @@
           "baseWsdlUri" : {
             "type" : "string"
           },
+          "differentBindings" : {
+            "type" : "boolean"
+          },
           "isRESTInvokeEnabled" : {
             "type" : "boolean"
           },
@@ -4986,6 +5004,9 @@
             }
           },
           "rootFileFolder" : {
+            "type" : "string"
+          },
+          "selectedNativeEndpoint" : {
             "type" : "string"
           },
           "serviceName" : {
@@ -5606,6 +5627,11 @@
           "description" : "Application name of the subscription",
           "readOnly" : true
         },
+        "configuredQuota" : {
+          "type" : "string",
+          "description" : "Quota (number of invokes) of the subscription as text for the current interval",
+          "readOnly" : true
+        },
         "endTime" : {
           "type" : "integer",
           "format" : "int64",
@@ -5646,11 +5672,6 @@
         "planName" : {
           "type" : "string",
           "description" : "Plan name of the subscription",
-          "readOnly" : true
-        },
-        "quota" : {
-          "type" : "string",
-          "description" : "Quota (number of invokes) of the subscription as text for the current interval",
           "readOnly" : true
         },
         "quotaAllowed" : {
