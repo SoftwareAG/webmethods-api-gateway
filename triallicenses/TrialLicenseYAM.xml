@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<SoftwareAG_License>
+<Component Id="SalesInfo">
+<SerialNumber>0000035080</SerialNumber>
+<LicenseKey>9FACCB7D58AAB9B7FA099E3E941CF194</LicenseKey>
+<CustomerID>1</CustomerID>
+<CustomerName>Free trial only</CustomerName>
+<ContractDetails>1</ContractDetails>
+<ContractPosNumber>1</ContractPosNumber>
+<LicenseTypeDetails>External</LicenseTypeDetails>
+<AutoCallHome/>
+</Component>
+<Component Id="ProductInfo">
+<ExpirationDate>2024/11/16</ExpirationDate>
+<OS>Linux</OS>
+<ProductCode>YAM</ProductCode>
+<ProductID/>
+<ProductName>webMethods Microgateway</ProductName>
+<ProductVersion>11.0</ProductVersion>
+<Usage/>
+<RenewalDate/>
+<HigherLevPosNr/>
+<HigherLevProdCode/>
+<HigherLevProdName/>
+</Component>
+<Component Id="LicenseInfo">
+<PriceUnit>ST</PriceUnit>
+<PriceQuantity>16</PriceQuantity>
+<TypeOfInstallation/>
+<LicenseType/>
+<ExtendedRights/>
+<LicenseVersion>1.2</LicenseVersion>
+<Metering/>
+</Component>
+</SoftwareAG_License>
