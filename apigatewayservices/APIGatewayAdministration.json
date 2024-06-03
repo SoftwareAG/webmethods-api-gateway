@@ -2336,7 +2336,7 @@
           "200" : {
             "description" : "This status code indicates that the cluster setting has been successfully retrieved from API Gateway.",
             "examples" : {
-              "application/json" : "{\r\n\t\"clusterAware\":true,\r\n\t\"pendingRestart\":false,\r\n\t\"currentlyClustered\":false,\r\n\t\"clusterSessTimeout\":\"60\",\r\n\t\"clusterName\":\"devCluster\",\r\n\t\"actionOnStartupError\":\"standalone\",\r\n\t\"tsaURLs\":\"bluebird:9510\"\r\n}"
+              "application/json" : "{\r\n\t\"clusterAware\":true,\r\n\t\"pendingRestart\":false,\r\n\t\"currentlyClustered\":false,\r\n\t\"clusterSessTimeout\":\"60\",\r\n\t\"clusterName\":\"devCluster\",\r\n\t\"actionOnStartupError\":\"standalone\",\r\n\t\"Ignite\":{\r\n\t\t\"portRange\":0,\r\n\t\t\"discoveryPort\":\"10100\",\r\n\t\t\"communicationPort\":\"10200\",\r\n\t\t\"hostnames\":\"bluebird01,bluebird02,bluebird03\",\r\n\t\t\"k8sNamespace\":null,\r\n\t\t\"k8sServiceName\":null\r\n\t},\r\n\t\"tsaURLs\":\"bluebird:9510\"\r\n}"
             },
             "schema" : {
               "$ref" : "#/definitions/ClusterInfo"
@@ -2376,14 +2376,14 @@
             "$ref" : "#/definitions/ClusterInfo"
           },
           "x-examples" : {
-            "application/json" : "{\r\n\t\"clusterAware\":true,\r\n\t\"pendingRestart\":false,\r\n\t\"currentlyClustered\":false,\r\n\t\"clusterSessTimeout\":\"60\",\r\n\t\"clusterName\":\"devCluster\",\r\n\t\"actionOnStartupError\":\"standalone\",\r\n\t\"tsaURLs\":\"bluebird:9510\"\r\n}"
+            "application/json" : "{\r\n\t\"clusterAware\":true,\r\n\t\"pendingRestart\":false,\r\n\t\"currentlyClustered\":false,\r\n\t\"clusterSessTimeout\":\"60\",\r\n\t\"clusterName\":\"devCluster\",\r\n\t\"actionOnStartupError\":\"standalone\",\r\n\t\"Ignite\":{\r\n\t\t\"portRange\":0,\r\n\t\t\"discoveryPort\":\"10100\",\r\n\t\t\"communicationPort\":\"10200\",\r\n\t\t\"hostnames\":\"bluebird01,bluebird02,bluebird03\",\r\n\t\t\"k8sNamespace\":null,\r\n\t\t\"k8sServiceName\":null\r\n\t},\r\n\t\"tsaURLs\":\"bluebird:9510\"\r\n}"
           }
         } ],
         "responses" : {
           "200" : {
             "description" : "This status code indicates that the configured cluster settings have been successfully persisted in API Gateway.",
             "examples" : {
-              "application/json" : "{\r\n\t\"clusterAware\":true,\r\n\t\"pendingRestart\":false,\r\n\t\"currentlyClustered\":false,\r\n\t\"clusterSessTimeout\":\"60\",\r\n\t\"clusterName\":\"devCluster\",\r\n\t\"actionOnStartupError\":\"standalone\",\r\n\t\"tsaURLs\":\"bluebird:9510\"\r\n}"
+              "application/json" : "{\r\n\t\"clusterAware\":true,\r\n\t\"pendingRestart\":false,\r\n\t\"currentlyClustered\":false,\r\n\t\"clusterSessTimeout\":\"60\",\r\n\t\"clusterName\":\"devCluster\",\r\n\t\"actionOnStartupError\":\"standalone\",\r\n\t\"Ignite\":{\r\n\t\t\"portRange\":0,\r\n\t\t\"discoveryPort\":\"10100\",\r\n\t\t\"communicationPort\":\"10200\",\r\n\t\t\"hostnames\":\"bluebird01,bluebird02,bluebird03\",\r\n\t\t\"k8sNamespace\":null,\r\n\t\t\"k8sServiceName\":null\r\n\t},\r\n\t\"tsaURLs\":\"bluebird:9510\"\r\n}"
             },
             "schema" : {
               "$ref" : "#/definitions/ClusterInfo"
@@ -6060,6 +6060,9 @@
     "ClusterInfo" : {
       "type" : "object",
       "properties" : {
+        "Ignite" : {
+          "$ref" : "#/definitions/Ignite"
+        },
         "actionOnStartupError" : {
           "type" : "string",
           "description" : "How APIGateway responds when an error at start up prevents APIGateway from joining the cluster."
@@ -6558,6 +6561,41 @@
           }
         }
       }
+    },
+    "Ignite" : {
+      "type" : "object",
+      "properties" : {
+        "communicationPort" : {
+          "type" : "string",
+          "description" : "the communication port for Ignite clustering"
+        },
+        "discoveryPort" : {
+          "type" : "string",
+          "description" : "the discovery port for Ignite clustering"
+        },
+        "hostNames" : {
+          "type" : "string",
+          "description" : "comma-separated list of host names for Ignite clustering"
+        },
+        "k8sDiscoveryMode" : {
+          "type" : "string",
+          "description" : "the Kubernetes discovery mode for ignite clustering"
+        },
+        "k8sNamespace" : {
+          "type" : "string",
+          "description" : "the Kubernetes namespace name for Ignite clustering"
+        },
+        "k8sServiceName" : {
+          "type" : "string",
+          "description" : "the Kubernetes service name for Ignite clustering"
+        },
+        "portRange" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "the size of the port ranges for Ignite clustering"
+        }
+      },
+      "description" : "Used to hold the information about the Ignite settings of an API Gateway cluster"
     },
     "InputLdapConfiguration" : {
       "type" : "object",
