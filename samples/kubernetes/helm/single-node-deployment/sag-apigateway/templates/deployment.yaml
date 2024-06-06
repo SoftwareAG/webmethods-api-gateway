@@ -20,6 +20,15 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+      initContainers:
+      - command:
+          - sh
+          - -c
+          - sysctl -w vm.max_map_count=262144
+        name: sysctl
+        image: busybox:1.28
+        securityContext:
+          privileged: true
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -27,7 +36,7 @@ spec:
         env:
         {{ if .Values.elasticsearch_external }}
         - name: "apigw_elasticsearch_hosts"
-          value: "{{ .Values.elasticsearch_external.host }}"
+          value: "{{ .Values.elasticsearch_external.host }}:{{ .Values.elasticsearch_external.port }}"
         - name: "apigw_elasticsearch_https_enabled"
           value: "{{ .Values.elasticsearch_external.https }}"
         - name: "apigw_elasticsearch_http_username"
@@ -57,26 +66,26 @@ spec:
           - containerPort: {{ .Values.apigateway.port }}
             name: "{{ .Values.apigateway.port }}tcp"
             protocol: TCP 
-          {{ if and (not .Values.elasticsearch_external) (not .Values.elasticsearch_sidecar) }}
+          {{ if .Values.elasticsearch_embedded }}
           - containerPort: {{ .Values.elasticsearch_embedded.port }}
             name: "{{ .Values.elasticsearch_embedded.port }}tcp"
             protocol: TCP
           {{ end }}
         livenessProbe:
-          failureThreshold: 4
-          initialDelaySeconds: 30
+          failureThreshold: 10
+          initialDelaySeconds: 60
           periodSeconds: 10
           successThreshold: 1
           tcpSocket:
             port: {{ .Values.is.port }}
           timeoutSeconds: 2
         readinessProbe:
-          failureThreshold: 3
+          failureThreshold: 12
           httpGet:
             path: /rest/apigateway/health
             port: {{ .Values.is.port }}
             scheme: HTTP
-          initialDelaySeconds: 60
+          initialDelaySeconds: 90
           periodSeconds: 10
           successThreshold: 2
           timeoutSeconds: 2
@@ -98,7 +107,7 @@ spec:
           name: "9200tcp"
           protocol: TCP
         livenessProbe:
-          failureThreshold: 3
+          failureThreshold: 20
           initialDelaySeconds: 10
           periodSeconds: 2
           successThreshold: 1
@@ -106,7 +115,7 @@ spec:
             port: 9200
           timeoutSeconds: 2
         readinessProbe:
-          failureThreshold: 3
+          failureThreshold: 20
           initialDelaySeconds: 10
           periodSeconds: 2
           successThreshold: 2

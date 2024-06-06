@@ -26,8 +26,8 @@ global:
 
 apigwClusterSize:   1
 
-apigwImage:            "store/softwareag/apigateway-trial"
-apigwTag:              "10.11"
+apigwImage:            "sagcr.azurecr.io/apigateway"
+apigwTag:              "11.0"
 
 apigwUiService:        "apigw-ui-svc"
 apigwRtService:        "apigw-rt-svc"

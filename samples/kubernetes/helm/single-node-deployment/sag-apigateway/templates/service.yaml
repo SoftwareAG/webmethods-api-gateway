@@ -22,10 +22,12 @@ spec:
       targetPort: 9200
       protocol: TCP
     {{else }}
+    {{ if .Values.elasticsearch_embedded }}
     - name: http3  
       port: {{ .Values.elasticsearch_embedded.port}}
       targetPort: {{ .Values.elasticsearch_embedded.port}}
       protocol: TCP
+    {{end}}
     {{end}}
     {{end}}
   selector:
