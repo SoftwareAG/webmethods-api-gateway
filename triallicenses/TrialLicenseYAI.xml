@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<SoftwareAG_License>
+<Component Id="SalesInfo">
+<SerialNumber>0000037899</SerialNumber>
+<LicenseKey>4196C28DBB01B0961CE1010FBB684B14</LicenseKey>
+<CustomerID>1</CustomerID>
+<CustomerName>Free trial only</CustomerName>
+<ContractDetails>1</ContractDetails>
+<ContractPosNumber>1</ContractPosNumber>
+<LicenseTypeDetails>External</LicenseTypeDetails>
+<AutoCallHome>No</AutoCallHome>
+</Component>
+<Component Id="ProductInfo">
+<ExpirationDate>2025/01/31</ExpirationDate>
+<OS>Linux</OS>
+<ProductCode>YAIAA</ProductCode>
+<ProductID/>
+<ProductName>API Gateway Advanced Edition</ProductName>
+<ProductVersion>10.7</ProductVersion>
+<Usage/>
+<RenewalDate/>
+<HigherLevPosNr/>
+<HigherLevProdCode/>
+<HigherLevProdName/>
+</Component>
+<Component Id="Integration Server">
+<ProductCode>YAI</ProductCode>
+<ProductVersion>10.7</ProductVersion>
+<ConcurrentSessions>Unlimited</ConcurrentSessions>
+<Clustering>yes</Clustering>
+<PubSub>no</PubSub>
+<ART>no</ART>
+<RemoteInvoke>yes</RemoteInvoke>
+<GuaranteedDelivery>no</GuaranteedDelivery>
+<SecurityAuditing>yes</SecurityAuditing>
+<DistributedCache>yes</DistributedCache>
+<EnterpriseGateway>yes</EnterpriseGateway>
+<Microservices>yes</Microservices>
+</Component>
+<Component Id="APIGateway">
+<PolicyManagementThreatProtection>yes</PolicyManagementThreatProtection>
+<PolicyManagementGateway>yes</PolicyManagementGateway>
+<ApplicationManagement>yes</ApplicationManagement>
+<APIManagement>yes</APIManagement>
+<AppMesh>yes</AppMesh>
+</Component>
+<Component Id="LicenseInfo">
+<PriceUnit>TXN</PriceUnit>
+<PriceQuantity>1</PriceQuantity>
+<TypeOfInstallation/>
+<LicenseType/>
+<ExtendedRights/>
+<LicenseVersion>1.2</LicenseVersion>
+<Metering>MNO</Metering>
+</Component>
+</SoftwareAG_License>
