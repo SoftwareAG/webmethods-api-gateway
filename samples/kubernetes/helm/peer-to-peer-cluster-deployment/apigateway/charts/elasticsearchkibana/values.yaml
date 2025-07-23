@@ -33,8 +33,8 @@ kibanaConfigmap:                "kibana-config"
 
 elasticImage:                   "docker.elastic.co/elasticsearch/elasticsearch"
 kibanaImage:                    "docker.elastic.co/kibana/kibana"
-elasticTag:                     "7.13.0"
-kibanaTag:                      "7.13.0"
+elasticTag:                     "8.3.2"
+kibanaTag:                      "8.3.2"
 
 
 clusterSize:                    3
