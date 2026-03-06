@@ -46,6 +46,20 @@
           "type" : "string",
           "x-example" : "include-truststores=true"
         }, {
+          "name" : "exclude-truststores",
+          "in" : "query",
+          "description" : "This parameter indicates whether truststores associated with other objects should be excluded from the export",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "exclude-truststores=true"
+        }, {
+          "name" : "exclude-keystores",
+          "in" : "query",
+          "description" : "This parameter indicates whether keystores associated with other objects should be excluded from the export",
+          "required" : false,
+          "type" : "string",
+          "x-example" : "exclude-keystores=true"
+        }, {
           "name" : "policies",
           "in" : "query",
           "description" : "This parameter identifies the policies to be exported. The wildcard \"*\" selects all the policies. \nFor example a single policy can be exported with its id using the following request:\nGET /rest/apigateway/archive?policies=07b8d7b7-20b7-422e-8464-4b19d405c41a\n\nWhereas, all the policies can be exported using the following request:\nGET /rest/apigateway/archive?policies=*",
@@ -282,7 +296,7 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ "loadBalancer", "keystore", "mobileApp", "extended", "samlsso", "misc", "dashboard", "customContentTypes", "errorProcessing", "auditlogDestinationConfig", "gatewayDestinationConfig", "jdbcDestinationConfig", "desDestinationConfig", "elasticsearchDestinationConfig", "snmpDestinationConfig", "emailDestinationConfig", "apiPortalDestinationConfig", "samlIssuer", "logConfig", "passwordRestrictions", "passwordExpiry", "accountLockSettings", "ldapConfig", "settings", "cache", "apiCallBackSettings" ]
+            "enum" : [ "loadBalancer", "keystore", "mobileApp", "extended", "samlsso", "misc", "dashboard", "customContentTypes", "errorProcessing", "auditlogDestinationConfig", "gatewayDestinationConfig", "jdbcDestinationConfig", "desDestinationConfig", "elasticsearchDestinationConfig", "snmpDestinationConfig", "emailDestinationConfig", "apiPortalDestinationConfig", "controlPlaneDestinationConfig", "samlIssuer", "logConfig", "passwordRestrictions", "passwordExpiry", "accountLockSettings", "ldapConfig", "settings", "cache", "apiCallBackSettings" ]
           },
           "collectionFormat" : "multi",
           "x-example" : "configurations=loadBalancer,customContentTypes"
@@ -324,10 +338,17 @@
         "parameters" : [ {
           "name" : "overwrite",
           "in" : "query",
-          "description" : "This parameter specifies the import option to define the artifact types that can be overwritten during import. The parameter enables you to specify overwriting of APIs, policies, policy actions, aliases, applications, configurations, approval configurations, outbound proxies, URL aliases, keyStores, trustStores, JNDI provider aliases, JMS connection aliases, JMS triggers, webservice endpoint aliases, users, groups, teams, kerberos settings, plans and packages.   \nThe wildcard \"*\" enables you to specify all types.\nFor example, the following request enables you to overwrite APIs during import:\nPOST /rest/apigateway/archive?overwrite=apis\nWhereas, overwriting all asset types during import can be specified as follows:\nPOST /rest/apigateway/archive?overwrite=*",
+          "description" : "This parameter specifies the import option to define the artifact types that can be overwritten during import. The parameter enables you to specify overwriting of APIs, policies, policy actions, aliases, applications, applications_base, application_apiKeys, application_strategies, application_strategy_credentials, configurations, approval configurations, outbound proxies, URL aliases, keyStores, trustStores, JNDI provider aliases, JMS connection aliases, JMS triggers, webservice endpoint aliases, users, groups, teams, kerberos settings, plans and packages. \n Certain artifacts can only be overwritten if their parent artifact is also overwritten. E.g. you can't overwrite application_apiKeys without overwriting applications_base. The parameter applications will also overwrite application_apiKeys, application_strategies and application_strategy_credentials, wheras the parameter applications_base will only overwrite the Application itself. \n The wildcard \"*\" enables you to specify all types.\nFor example, the following request enables you to overwrite APIs during import:\nPOST /rest/apigateway/archive?overwrite=apis\nWhereas, overwriting all asset types during import can be specified as follows:\nPOST /rest/apigateway/archive?overwrite=*",
           "required" : false,
           "type" : "string",
-          "enum" : [ "apis", "policies", "policyactions", "applications", "aliases", "plans", "packages", "subscriptions", "administrator_settings", "portal_gateway", "assertions", "configurations", "outboundProxies", "urlAliases", "keyStores", "trustStores", "JNDIProviderAliases", "JMSConnectionAliases", "JMSTriggers", "webserviceEndpointAliases", "users", "groups", "accessProfiles", "kerberosSetting", "*" ]
+          "enum" : [ "apis", "policies", "policyactions", "applications", "applications_base", "application_apiKeys", "application_strategies", "application_strategy_credentials", "registered_applications", "aliases", "plans", "packages", "subscriptions", "administrator_settings", "portal_gateway", "control_plane", "assertions", "approval_configurations", "outbound_proxies", "url_aliases", "keystores", "truststores", "jndi", "jms", "jms_triggers", "web_services", "users", "groups", "access_profiles", "kerberos_settings", "rule", "gatewayscopes", "*" ]
+        }, {
+          "name" : "excludeOverwrite",
+          "in" : "query",
+          "description" : "This parameter specifies the import option used to define artifact types that should not be overwritten during import. In combination with the overwrite parameter, it allows you to prevent keystores or truststores from being overwritten. To overwrite all artifacts except keystores and truststores, specify the parameters as follows:\nPOST /rest/apigateway/archive?overwrite=*,excludeOverwrite=keystores,truststores",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "keystores", "truststores" ]
         }, {
           "name" : "fixingMissingVersions",
           "in" : "query",
@@ -556,7 +577,7 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ "loadBalancer", "keystore", "mobileApp", "extended", "samlsso", "misc", "dashboard", "customContentTypes", "errorProcessing", "auditlogDestinationConfig", "gatewayDestinationConfig", "jdbcDestinationConfig", "desDestinationConfig", "elasticsearchDestinationConfig", "snmpDestinationConfig", "emailDestinationConfig", "apiPortalDestinationConfig", "samlIssuer", "logConfig", "passwordRestrictions", "passwordExpiry", "accountLockSettings", "ldapConfig", "settings", "cache", "apiCallBackSettings" ]
+            "enum" : [ "loadBalancer", "keystore", "mobileApp", "extended", "samlsso", "misc", "dashboard", "customContentTypes", "errorProcessing", "auditlogDestinationConfig", "gatewayDestinationConfig", "jdbcDestinationConfig", "desDestinationConfig", "elasticsearchDestinationConfig", "snmpDestinationConfig", "emailDestinationConfig", "apiPortalDestinationConfig", "controlPlaneDestinationConfig", "samlIssuer", "logConfig", "passwordRestrictions", "passwordExpiry", "accountLockSettings", "ldapConfig", "settings", "cache", "apiCallBackSettings" ]
           },
           "collectionFormat" : "multi",
           "x-example" : "configurations=loadBalancer,customContentTypes"
@@ -655,12 +676,29 @@
         }
       }
     },
+    "ExcludeOptions" : {
+      "type" : "object",
+      "properties" : {
+        "excludeKeystores" : {
+          "type" : "boolean",
+          "description" : "Exclude keystores as dependent assets for asset type specified if applicable"
+        },
+        "excludeTruststores" : {
+          "type" : "boolean",
+          "description" : "Exclude truststores as dependent assets for asset type specified if applicable"
+        }
+      },
+      "description" : "It is used to specify the exclusion of dependent assets"
+    },
     "ExportContext" : {
       "type" : "object",
       "required" : [ "types" ],
       "properties" : {
         "aggregations" : {
-          "$ref" : "#/definitions/IAggregation"
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/IAggregation"
+          }
         },
         "condition" : {
           "type" : "string",
@@ -670,6 +708,9 @@
         "deploymentFilter" : {
           "type" : "string",
           "description" : "This filter is used for deployment types."
+        },
+        "excludeOptions" : {
+          "$ref" : "#/definitions/ExcludeOptions"
         },
         "from" : {
           "type" : "integer",
@@ -687,7 +728,10 @@
           }
         },
         "scope" : {
-          "$ref" : "#/definitions/SearchField"
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SearchField"
+          }
         },
         "size" : {
           "type" : "integer",
@@ -711,9 +755,12 @@
           }
         },
         "types" : {
-          "type" : "string",
+          "type" : "array",
           "description" : "List of allowed types that can be searched across API Gateway.",
-          "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "ALIAS", "POLICY", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS", "GATEWAY_SCOPE", "OAUTH2MATERIALIZEDTOKEN", "TRANSACTION_EVENTS", "LIFECYCLE_EVENTS", "POLICYVIOLATION_EVENTS", "MONITOR_EVENTS", "ERROR_EVENTS", "THREATPROTECTION_EVENTS", "PERFORMANCE_METRICS", "QUOTA_USAGE", "DASHBOARD", "AUDIT_LOG", "REQUEST_RESPONSE_TRACE_SPANS", "APPLICATION_LOG", "MEDIATOR_TRACE_SPANS", "SERVER_LOG_TRACE_SPANS" ]
+          "items" : {
+            "type" : "string",
+            "enum" : [ "USER", "GROUP", "USERS", "GROUPS", "ACCESSPROFILES", "LDAPGROUPS", "CDSGROUPS", "ASSERTION", "APPLICATION", "API", "REGISTERED_APPLICATION", "ALIAS", "POLICY", "GLOBAL_POLICY", "POLICY_TEMPLATE", "POLICY_ACTION", "PLAN", "PACKAGE", "ADMINISTRATOR_SETTING", "PORTAL_GATEWAY", "CONTROL_PLANE", "OAUTH2_SCOPE_DATA", "SUBSCRIPTION", "API_DOCUMENT", "APPROVAL_CONFIGURATION", "OUTBOUND_PROXY", "PROXY_BYPASS", "URL_ALIAS", "KEYSTORE", "TRUSTSTORE", "KERBEROS_SETTING", "JNDI_PROVIDER_ALIAS", "JMS_CONNECTION_ALIAS", "JMS_TRIGGER", "WEB_SERVICE_ENDPOINT_ALIAS", "ACCESS_CONTROL_LIST", "RULE", "MICROGATEWAY_GROUPS", "GATEWAY_SCOPE", "OAUTH2MATERIALIZEDTOKEN", "TRANSACTION_EVENTS", "LIFECYCLE_EVENTS", "POLICYVIOLATION_EVENTS", "MONITOR_EVENTS", "ERROR_EVENTS", "THREATPROTECTION_EVENTS", "PERFORMANCE_METRICS", "QUOTA_USAGE", "DASHBOARD", "AUDIT_LOG", "REQUEST_RESPONSE_TRACE_SPANS", "APPLICATION_LOG", "MEDIATOR_TRACE_SPANS", "SERVER_LOG_TRACE_SPANS" ]
+          }
         }
       },
       "description" : "This defines the request structure to export the specific assets across API Gateway"
